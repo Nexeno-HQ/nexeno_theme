@@ -1,0 +1,56 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin security {
+    &.security{
+        #app-tokens-table{
+            .action-item__menutoggle{
+                &:hover,
+                &:focus-visible,
+                &:active,
+                &[aria-expanded="true"]{
+                    background-color: transparent !important;
+                }
+            }
+        }
+        #groupfolders-settings-section,
+        #password_policy-settings{
+            > .settings-section{
+                padding-block: 20px !important;
+                border-bottom: 1px solid $theme-divider;
+            }
+        }
+        #two-factor-auth{
+            li{
+                > div{
+                    margin-inline-start: 0;
+                }
+            }
+        }
+        #twofactor-backupcodes-settings{
+            .button-vue--primary{
+                @include primary-button;
+            }
+        }
+        #generate-app-token-section{
+            .input-field{
+                @include input;
+                input{
+                    color: $colour-forground !important;
+                    &::placeholder{
+                        opacity: 0 !important;
+                    }
+                }
+            }
+            > button{
+                @include primary-button;
+                justify-content: center;
+            }
+        }
+    }
+}

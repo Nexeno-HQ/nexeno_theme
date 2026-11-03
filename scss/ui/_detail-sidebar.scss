@@ -1,0 +1,1445 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin sidebar-tabs{
+	margin: 0;
+	padding-bottom: 0;
+	gap: 8px;
+	flex-flow: wrap;
+	border-bottom: 0;
+	.checkbox-radio-switch-button{
+		padding: 6px 12px;
+		border-radius: $rounded-8 !important;
+		background-color: $colour-gray-100 !important;
+		border: 1px solid $colour-gray-100 !important;
+		min-width: unset;
+		display: flex;
+		flex: auto;
+    	flex-grow: 0;
+		cursor: pointer;
+		.checkbox-content{
+			padding: 0;
+			display: flex;
+			flex-direction: row;
+			gap: 8px;
+			justify-content: start;
+			height: auto;
+			min-height: unset;
+			.checkbox-content__icon{
+				width: 16px;
+				height: 16px;
+				min-height: unset;
+				min-width: unset;
+				.icon-vue{
+					width: 16px;
+					height: 16px;
+					min-height: unset;
+					min-width: unset;
+					svg{
+						width: 16px;
+						height: 16px;
+						min-height: unset;
+						min-width: unset;
+					}
+				}
+			}
+			.app-sidebar-tabs__tab-caption{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				text-transform: capitalize;
+			}
+			.checkbox-content__wrapper{
+				flex: 0;
+			}
+		}
+		&::after{
+			display: none;
+		}
+		.checkbox-radio-switch__content{
+			background-color: transparent;
+			&:hover{
+				background-color: transparent;
+			}
+		}
+		&:hover,
+		&.checkbox-radio-switch--checked{
+			background-color: $colour-blue-600 !important;
+			border: 1px solid $colour-blue-600 !important;
+			.checkbox-content__icon{
+				.icon-vue{
+					svg{
+						fill: $colour-forground-white;
+					}
+				}
+			}
+			.app-sidebar-tabs__tab-caption{
+				color: $colour-forground-white;
+			}
+			.checkbox-radio-switch__content{
+				background-color: transparent;
+			}
+		}
+	}
+}
+
+@mixin sidebar-tabs-module{
+	.app-sidebar-tabs__tab{
+		flex: 0 1 auto;
+	}
+	#{css-module('sidebarTabsButton')}{
+		flex-direction: row;
+		align-items: center;
+		gap: 8px;
+		min-width: unset;
+		padding: 6px 12px;
+		border-radius: $rounded-8;
+		background-color: $colour-gray-100;
+		border: 1px solid $colour-gray-100;
+		color: $colour-forground;
+		&::after{
+			display: none;
+		}
+		#{css-module('sidebarTabsButton__icon')}{
+			width: 16px;
+			height: 16px;
+			svg{
+				width: 16px;
+				height: 16px;
+				fill: currentColor;
+			}
+		}
+		#{css-module('sidebarTabsButton__name')}{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: inherit;
+		}
+		&:hover,
+		&#{css-module('sidebarTabsButton_selected')}{
+			background-color: $colour-blue-600;
+			border-color: $colour-blue-600;
+			color: $colour-forground-white;
+		}
+	}
+}
+
+@mixin share-select-pill{
+	button{
+		padding: 2px 6px;
+		border-radius: $rounded-full;
+		background-color: $colour-primary-50;
+		border: 1px solid $colour-primary-50;
+		.button-vue__wrapper{
+			gap: 2px;
+		}
+		.button-vue__text{
+			font-size: $text-12;
+			line-height: $leading-16;
+			font-weight: $font-medium;
+			color: $colour-blue-600;
+			margin-bottom: 0;
+			padding: 0;
+		}
+		.button-vue__icon{
+			width: 14px !important;
+			height: 14px !important;
+			min-height: unset !important;
+			min-width: unset !important;
+			.material-design-icon{
+				width: 14px;
+				height: 14px;
+				svg{
+					fill: $colour-blue-600;
+				}
+			}
+		}
+	}
+}
+
+@mixin detail-sidebar {
+	aside{
+		&.app-sidebar:not(.modal__card *){
+			position: absolute;
+			top: 0;
+			right: 0;
+			transition: all ease-in-out 300ms;
+			height: 100%;
+			background-color: $colour-background;
+			box-shadow: $box-shadow-3;
+			width: 100%;
+			max-width: 388px;
+			padding: 16px;
+			@media (max-width: $bp-576) {
+				max-width: 100%;
+			}
+
+			.app-sidebar-header{
+				position: relative;
+				.app-sidebar-header__desc{
+					padding: 0 !important;
+					.app-sidebar-header__name-container{
+						.app-sidebar-header__subname{
+							font-size: $text-12;
+							line-height: $leading-16;
+							color: $colour-forground-1;
+						}
+					}
+				}
+				.app-sidebar__close{
+					position: absolute;
+					top: 0;
+					right: 0;
+					@include outline-button;
+					background-color: $colour-background;
+				}
+				.app-sidebar-header__mainname-container{
+					min-height: unset !important;
+					position: relative;
+					.app-sidebar-header__mainname{
+						font-size: $text-heading-2;
+						line-height: $leading-24;
+						font-weight: $font-bold;
+						color: $colour-forground;
+						display: block;
+						max-width: 77%;
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+						text-transform: capitalize;
+					}
+					.app-sidebar-header__menu{
+						position: absolute;
+						right: 38px;
+						top: 0;
+						margin-left: 0 !important;
+						button{
+							@include outline-button;
+						}
+					}
+				}
+				.app-sidebar-header__subname{
+					#{css-module("filesSidebarSubname")}{
+						gap: 7px;
+						span{
+							&.icon-vue{
+								svg{
+									width: 16px;
+									height: 16px;
+									fill: $colour-yellow;
+								}
+							}
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							color: $colour-forground-1;
+							font-weight: $font-normal;
+						}
+					}
+					.user-bubble__content{
+						gap: 4px;
+						background-color: $colour-gray-100;
+						align-items: center;
+						.user-bubble__name{
+							color: $colour-forground;
+							font-size: $text-12;
+							line-height: $leading-16;
+							text-transform: capitalize;
+							font-weight: $font-medium;
+						}
+					}
+				}
+			}
+
+			.app-sidebar-tabs{
+				padding-top:16px;
+				margin-top: 16px;
+				border-top: 1px solid $theme-divider;
+				.app-sidebar-tabs__nav{
+					@include sidebar-tabs;
+					@include sidebar-tabs-module;
+				}
+			}
+
+			.app-sidebar-tabs__content{
+				margin-top: 16px;
+				.app-sidebar__tab{
+					padding: 10px 0;
+					box-shadow: none !important;
+					.sharingTab{
+						.sharingTab__content{
+							padding: 0;
+							section{
+								padding-block: 16px;
+								border-bottom: 1px solid $theme-divider;
+								&:first-of-type{
+									padding-top: 0;
+								}
+								.sharing-tab-external-section-legacy{
+									border-top: 1px solid $theme-divider;
+									margin-top: 16px;
+									padding-top: 16px;
+									.resource{
+										margin-top: 18px;
+										.button-vue__wrapper{
+											gap: 8px;
+										}
+										a{
+											&:hover{
+												background-color: transparent;
+											}
+										}
+										.button-vue__icon{
+											width: 32px;
+											height: 32px;
+											.resource__icon{
+												width: 32px;
+												height: 32px;
+											}
+										}
+										.button-vue__text{
+											font-size: $text-heading-5;
+											line-height: $leading-20;
+											color: $colour-forground;
+											font-weight: $font-medium;
+											padding: 0;
+											margin: 0 !important;
+										}
+									}
+									h5{
+										margin-top: 0;
+										font-size: $text-heading-3;
+										line-height: $leading-16;
+										color: $colour-forground;
+										font-weight: $font-semibold;	
+										margin-bottom: 6px;
+									}
+									p{
+										font-size: $text-12;
+										line-height: $leading-16;
+										font-weight: $font-normal;
+										color: $colour-forground-1;
+									}
+								}
+								&:last-of-type{
+									padding-bottom: 0;
+									border-bottom: 0;
+								}
+							}
+							.section-header{
+								padding: 0;
+								margin: 0;
+								gap: 6px;
+								align-items: center;
+								h4{
+									font-size: $text-heading-4;
+									line-height: $leading-24;
+									color: $colour-forground;
+									font-weight: $font-semibold;
+								}
+								.v-popper{
+									width: 16px;
+									height: 16px;
+									.button-vue__icon,
+									.button-vue__wrapper{
+										width: 16px;
+										height: 16px;
+										min-height: unset;
+										min-width: unset;
+									}
+									button{
+										padding: 0;
+										width: 16px !important;
+										height: 16px;
+										min-height: unset;
+										min-width: unset;
+									}
+									svg{
+										width: 16px;
+										height: 16px;
+										fill: $colour-forground;
+									}
+								}
+							}
+							.sharing-search{
+								margin-top: 12px;
+								margin-bottom: 0;
+								.v-select{
+									@include select-field;
+									@include select-box;
+									.vs__selected{
+										border: 0 !important;
+									}
+									.vs__dropdown-toggle{
+										overflow: hidden;
+									}
+								}
+							}
+							ul{
+								margin-top: 14px;
+								&:first-of-type{
+									margin-top: 0;
+								}
+								li{
+									gap: 8px;
+									.sharing-entry__summary{
+										padding: 0;
+										gap: 2px;
+										.share-select{
+											@include share-select-pill;
+										}
+									}
+									.avatar-link-share{
+										background-size: 16px;
+										background-color: $colour-blue-600;
+									}
+									.avatar-external.icon-external-white{
+										background-size: 16px;
+									}
+									.sharing-entry__desc{
+										padding: 0;
+										gap: 2px;
+										.sharing-entry__title{
+											font-size: $text-heading-5;
+											line-height: $leading-20;
+											color: $colour-forground;
+											font-weight: $font-medium;
+										}
+										p{
+											font-size: $text-12;
+											line-height: $leading-16;
+											font-weight: $font-normal;
+											color: $colour-forground-1;
+										}
+									}
+									.sharing-entry__actions{
+										@include outline-button;
+										&:has(> div:empty){
+											display: none;
+										}
+										> div:empty{
+											display: none;
+										}
+										&:has(.action-item__menutoggle),
+										&:has(.sharing-entry__copy){
+											padding: 0;
+											button,
+											a{
+												background-color: transparent;
+												&:hover{
+													background-color: transparent;
+												}
+											}
+										}
+										&:has(.sharing-entry__copy){
+											height: 34px;
+										}
+									}
+									&.sharing-entry--share{
+										.sharing-entry__summary{
+											align-items: center;
+										}
+										margin-bottom: 12px;
+										&:last-child{
+											margin-bottom: 0;
+										}
+									}
+									.icon-external-white,
+									.avatar-shared{
+										background-size: 12px;
+									}
+								}
+							}
+							.sharing-sharee-list{
+								&:empty{
+									margin: 0;
+									display: none;
+								}
+								li{
+									height: auto;
+									&.sharing-entry{
+										.avatar-link-share.icon-mail-white{
+											background-size: 16px !important;
+										}
+										.sharing-entry__summary{
+											padding: 0;
+											gap: 2px;
+											.share-select{
+												@include share-select-pill;
+											}
+										}
+										.button-vue--tertiary{
+											@include outline-button;
+										}
+										.sharing-entry__summary__desc{
+											span{
+												font-size: $text-heading-5;
+												line-height: $leading-20;
+												color: $colour-forground;
+												font-weight: $font-medium;
+											}
+										}
+									}
+								}
+							}
+							.sharingTab__additionalContent{
+								margin: 0;
+							}
+						}
+						.sharingTabDetailsView{
+							.sharingTabDetailsView__header{
+								margin: 0;
+								gap: 8px;
+								.material-design-icon{
+									width: 32px;
+									height: 32px;
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									background-color: $colour-forground-1;
+									border-radius: $rounded-full;
+									flex-shrink: 0;
+									svg{
+										width: 16px;
+										height: 16px;
+										fill: $colour-forground-white;
+										margin-bottom: 3px;
+									}
+								}
+								span{
+									h1{
+										font-size: $text-heading-5;
+										line-height: $leading-20;
+										font-weight: $font-medium;
+										color: $colour-forground;
+										padding-left: 0;
+									}
+								}
+							}
+							.sharingTabDetailsView__wrapper{
+								margin-top: 16px;
+								padding: 0;
+								.sharingTabDetailsView__quick-permissions{
+									padding: 8px;
+									border: 1px solid $theme-divider;
+									border-radius: $rounded-6;
+									> div{
+										display: flex;
+										flex-direction: column;
+										gap: 6px;
+										>span{
+											border: 0;
+											border-radius: 6px;
+										}
+									}
+									span{
+										&.checkbox-radio-switch__content{
+											margin: 0;
+											padding: 9px 12px;
+											border-radius: $rounded-6;
+											background-color: transparent;
+											gap: 12px;
+											transition: all ease-in-out 300ms;
+										}
+										&.checkbox-radio-switch--checked,
+										&:hover{
+											background-color: $colour-gray-100;
+										}
+										.checkbox-content__icon{
+											width: 16px;
+											height: 16px;
+											.material-design-icon{
+												padding: 0;
+												width: 16px;
+												height: 16px;
+												svg{
+													width: 16px;
+													height: 16px;
+													fill: $colour-forground;
+												}
+											}
+										}
+										.checkbox-content__wrapper{
+											
+											.checkbox-content__text{
+												color: $colour-forground;
+												font-size: $text-heading-5;
+												line-height: $leading-20;
+												font-weight: $font-medium;
+												display: flex;
+												flex-direction: column;
+												gap: 2px;
+												small{
+													font-size: $text-12;
+													line-height: $leading-16;
+													color: $colour-forground-1;
+													font-weight: $font-normal;
+												}
+											}
+										}
+									}
+								}
+								.sharingTabDetailsView__advanced-control{
+									margin-top: 16px;
+									button{
+										margin-top: 0;
+										@include outline-button;
+									}
+								}
+								.sharingTabDetailsView__advanced{
+									margin-top: 16px;
+									.checkbox-content__icon{
+										position: relative;
+										width: 16px;
+										height: 16px;
+										min-width: unset;
+										min-height: unset;
+										margin: 0;
+										.material-design-icon{
+											display: none;
+										}
+										&::before{
+											content: '';
+											position: absolute;
+											inset: 0;
+											border: 1px solid $theme-divider;
+											border-radius: $rounded-4;
+											background-position: center;
+											background-repeat: no-repeat;
+										}
+									}
+									.checkbox-radio-switch--checked .checkbox-content__icon::before{
+										border-color: $colour-blue-600;
+										background-color: $colour-blue-600;
+										background-image: url(../img/checkbox-mark.svg);
+										background-size: 14px;
+									}
+									.checkbox-content{
+										gap: 8px;
+										&.checkbox-content--has-text{
+											padding-right: 0;
+										}
+										.checkbox-content__text{
+											font-size: $text-heading-5;
+											line-height: $leading-20;
+											color: $colour-forground;
+										}
+									}
+									.checkbox-radio-switch{
+										&:not(.checkbox-radio-switch--disabled):hover,
+										&:not(.checkbox-radio-switch--disabled):focus-within{
+											.checkbox-radio-switch__content{
+												background-color: transparent;
+											}
+										}
+									}
+									input[type="date"]{
+										@include datepicker;
+									}
+									.textarea{
+										@include textarea-field;
+										margin-top: 8px;
+										.textarea__input{
+											box-sizing: border-box;
+											width: 83% !important;
+										}
+									}
+								}
+							}
+							.sharingTabDetailsView__footer{
+								.button-group{
+									.button-vue--vue-secondary{
+										@include outline-button;
+									}
+									.button-vue--vue-primary{
+										@include primary-button;
+										margin: 0;
+									}
+									.button-vue--tertiary{
+										@include error-outline-button;
+									}
+								}
+							}
+						}
+					}
+					.activity__list{
+						padding-bottom: 0;
+						overflow-x: hidden;
+						overflow-y: auto;
+						display: flex;
+						flex-direction: column;
+						li{
+							flex-shrink: 0;
+							padding-block: 8px;
+							border-bottom: 1px solid $theme-divider;
+							gap: 4px;
+							&:last-child{
+								padding-bottom: 0;
+								border-bottom: 0;
+							}
+							&:first-child{
+								padding-top: 0;
+							}
+							.rich-text--wrapper{
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								color: $colour-forground-1;
+								font-weight: $font-normal;
+								a{
+									font-weight: $font-medium;
+									text-decoration: underline;
+									&:hover{
+										color: $colour-blue-600;
+										opacity: 100%;
+									}
+								}
+								strong{
+									font-weight: $font-medium;
+								}
+							}
+							.activity-entry__date{
+								margin-left: 0;
+								font-size: $text-12;
+								line-height: $leading-16;
+								color: $colour-forground-1;
+							}
+							.activity-icon {
+								width: 16px;
+								height: 16px;
+								flex-shrink: 0;
+								opacity: 100%;
+								img{
+									width: 16px;
+									height: 16px;
+								}
+							}
+							.user-bubble__wrapper{
+								vertical-align: top;
+							}
+							.user-bubble__content{
+								vertical-align: top;
+								padding: 2px 6px 2px 2px;
+								border-radius: $rounded-full;
+								background-color: $colour-gray-100;
+								gap: 5px;
+								height: auto !important;
+								align-items: center;
+								.avatardiv{
+									border-radius: $rounded-full;
+									margin-left: 0;
+								}
+								.user-bubble__name{
+									font-size: $text-12;
+									line-height: $leading-16;
+									color: $colour-forground;
+									font-weight: $font-medium;
+									padding-inline: 0;
+								}
+							}
+						}						
+					}
+					.versions-tab__container{
+						ul{
+							li{
+								&.list-item__wrapper{
+									padding: 0;
+									.list-item{
+										padding: 0;
+										&:hover,
+										&:focus,
+										&:focus-visible{
+											background-color: transparent;
+										}
+									}
+									.list-item__anchor{
+										gap: 12px;
+									}
+									.list-item-content{
+										padding-left: 0;
+									}
+									.version__image{
+										border: 0;
+										width: 44px;
+										height: 44px;
+										border-radius: $rounded-6;
+									}
+									.list-item-content__main{
+										display: flex;
+										flex-direction: column;
+										gap: 2px;
+										.version__info{
+											font-size: $text-heading-5;
+											line-height: $leading-20;
+											color: $colour-forground-1;
+											font-weight: $font-normal;
+											gap: 4px;
+										}
+									}
+									.list-item-content__actions{
+										.button-vue--tertiary{
+											@include outline-button;
+										}
+									}
+									.version__info{
+										.version__info__label{
+											font-size: $text-heading-5;
+											line-height: $leading-20;
+											color: $colour-forground;
+											font-weight: $font-medium;
+										}
+										.version__info{
+											gap: 5px;
+											padding: 4px 6px;
+											border-radius: $rounded-full;
+											background-color: $colour-gray-100;
+											align-items: center;
+											width: fit-content;
+											> span{
+												&:first-of-type{
+													display: none;
+												}
+											}
+											.version__info__author_name{
+												font-size: $text-12;
+												line-height: $leading-16;
+												color: $colour-forground;
+												font-weight: $font-medium;
+											}
+											.avatardiv{
+												--avatar-size: 16px !important;
+												width: 16px !important;
+												height: 16px !important;
+												line-height: 16px !important;
+												img{
+													width: 16px !important;
+													height: 16px !important;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.app-sidebar-header__info{
+				.app-sidebar-header__figure{
+					background-size: cover;
+					border-radius: $rounded-6;
+				}
+			}
+
+			&:has(.app-sidebar-header__figure){
+				.app-sidebar-header__menu{
+					position: static !important;
+				}
+				.app-sidebar-header__mainname-container{
+					align-items: center;
+				}
+				h2{
+					height: auto;
+					min-height: unset;
+				}
+				&:not(:has(.app-sidebar-header__figure:has(svg))){
+					.app-sidebar__close{
+						top: 8px;
+						right: 8px;
+					}
+				}
+				&:has(.app-sidebar-header__figure:has(svg)){
+					.app-sidebar__close{
+						top: 0;
+						right: 0;
+					}
+				}
+			}
+		}
+
+		&.appstore-sidebar{
+			.app-sidebar-header{
+				.app-sidebar-header__info{
+					gap: 8px;
+					.app-sidebar-header__figure{
+						&:has(svg){
+							width: 28px;
+							height: 28px;
+							margin: 0;
+							.icon-vue{
+								width: 28px;
+								height: 28px;
+								min-width: 28px;
+								min-height: 28px;
+								svg{
+									width: 28px;
+									height: 28px;
+								}
+							}
+						}
+					}
+					.app-sidebar-header__desc{
+						margin-top: 0;
+					}
+					.app-sidebar-header__mainname{
+						min-height: unset;
+						height: auto;
+					}
+				}
+				.app-sidebar-header__description{
+					margin: 8px 0;
+					#{css-module("appActions")}{
+						button,
+						a{
+							@include outline-button;
+						}
+					}
+				}
+			}
+			.app-sidebar-tabs{
+				.app-sidebar-tabs__nav{
+					gap: 6px;
+					button{
+						flex: none;
+						padding: 6px 12px;
+						background-color: $colour-gray-100;
+						border-radius: $rounded-6;
+						flex-direction: row;
+						height: 34px;
+						align-items: center;
+						justify-content: center;
+						#{css-module("sidebarTabsButton__icon")}{
+							width: 16px;
+							height: 16px;
+							min-height: unset;
+							min-width: unset;
+							.icon-vue{
+								width: 16px;
+								height: 16px;
+								min-height: unset;
+								min-width: unset;
+								svg{
+									width: 16px;
+									height: 16px;
+									min-height: unset;
+									min-width: unset;
+								}
+							}
+						}
+						#{css-module("sidebarTabsButton__icon")}{
+							svg{
+								fill: $colour-forground;
+							}
+						}
+						#{css-module("sidebarTabsButton__name")}{
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							color: $colour-forground;
+							font-weight: $font-medium;
+						}
+						&#{css-module("sidebarTabsButton_selected")}{
+							background-color: $colour-blue-600;
+							#{css-module("sidebarTabsButton__icon")}{
+								svg{
+									fill: $colour-forground-white;
+								}
+							}
+							#{css-module("sidebarTabsButton__name")}{
+								color: $colour-forground-white;
+							}
+						}
+						&::after{
+							display: none;
+						}
+					}
+				}
+				.app-sidebar__tab{
+					h3{
+						margin-top: 12px;
+						font-size: $text-heading-3;
+						line-height: $leading-24;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+				}
+				#{css-module("appDescriptionTab")},
+				.app-details{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+					#{css-module("appstoreDetailsTab__section")}{
+						h4{
+							margin-top: 12px;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-semibold;
+							color: $colour-forground;
+						}
+						ul{
+							li{
+								a{
+									color: $colour-forground;
+									transition: all ease-in-out 300ms;
+									&:hover{
+										color: $colour-blue-600;
+									}
+								}
+							}
+						}
+					}
+					#{css-module("appstoreDetailsTab__badges")}{
+						#{css-module('badgeAppScore')}{
+                            svg{
+                                fill: $colour-yellow;
+                            }
+                        }
+						#{css-module('appLevelBadge')}{
+                            padding: 6px 12px;
+                            border: 1px solid $theme-divider;
+                            border-radius: $rounded-8;
+                            align-items: center;
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            font-weight: $font-medium;
+                            color: $colour-forground-1;
+                            svg,
+                            .icon-vue{
+                                width: 16px;
+                                height: 16px;
+                            }
+                        }
+					}
+				}
+				#{css-module("appDescriptionTab")}{
+					padding: 0;
+				}
+			}
+		}
+	}
+
+	&:has(.app-collectives) aside.app-sidebar:not(.modal__card *){
+		.app-sidebar-header{
+			.app-sidebar-header__mainname-container{
+				.app-sidebar-header__mainname{
+					display: flex;
+					align-items: center;
+				}
+			}
+		}
+		.attachments-container{
+			.upload-area{
+				button{
+					@include outline-button;
+				}
+			}
+		}
+		.sharing-list-item__header{
+			gap: 6px;
+		}
+		.hint-icon{
+			width: 20px !important;
+			height: 20px !important;
+			min-width: unset !important;
+			min-height: unset !important;
+			padding: 0;
+			.button-vue__icon,
+			.material-design-icon{
+				width: 20px;
+				height: 20px;
+				min-width: unset;
+				min-height: unset;
+			}
+			svg{
+				width: 16px;
+				height: 16px;
+				fill: $colour-forground;
+			}
+			&:hover,
+			&:focus,
+			&:focus-visible,
+			&:active{
+				background-color: transparent !important;
+			}
+		}
+		.sharing-entry{
+			.button-vue{
+				&:hover,
+				&:focus,
+				&:focus-visible,
+				&:active{
+					background-color: transparent !important;
+				}
+			}
+		}
+		.sharing-list-item{
+			.button-vue--secondary{
+				@include outline-button;
+				width: 100%;
+				justify-content: flex-start;
+			}
+		}
+		.list-item__wrapper{
+			.list-item{
+				padding: 6px 8px;
+				height: auto;
+				border-radius: $rounded-6;
+				&::before{
+					display: none;
+				}
+				.list-item-content__name{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.list-item-content__subname{
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-normal;
+					color: $colour-forground-1;
+				}
+				.list-item-content__actions,
+				.action-item{
+					--open-background-color: transparent;
+					button{
+						&:hover,
+						&:focus,
+						&:focus-visible,
+						&:active{
+							background-color: transparent !important;
+						}
+						svg{
+							fill: $colour-forground-1;
+						}
+					}
+				}
+				&:hover,
+				&:focus,
+				&:focus-within,
+				&.active{
+					background-color: $colour-sidebar-link-bg !important;
+					color: $colour-forground !important;
+				}
+			}
+			&--active,
+			&.active{
+				.list-item{
+					background-color: $colour-sidebar-link-bg !important;
+					color: $colour-forground !important;
+				}
+			}
+		}
+	}
+
+	&:has(.app-forms) aside.app-sidebar:not(.modal__card *){
+		.app-sidebar-header{
+			.app-sidebar-header__mainname{
+				display: flex;
+				align-items: center;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+		}
+		.app-sidebar-tabs{
+			padding-top: 16px;
+			margin-top: 16px;
+			border-top: 1px solid $theme-divider;
+			.app-sidebar-tabs__nav{
+				margin: 0;
+				padding: 0;
+				gap: 8px;
+				flex-flow: wrap;
+				border-bottom: 0;
+				@include sidebar-tabs-module;
+				.checkbox-radio-switch--button-variant{
+					background-color: $colour-gray-100;
+					border: 1px solid $colour-gray-100;
+					border-radius: $rounded-8;
+					overflow: hidden;
+					.checkbox-radio-switch__content{
+						padding: 6px 12px;
+						min-height: unset;
+						gap: 8px;
+						background-color: transparent;
+						border-radius: $rounded-8;
+						&:hover{
+							background-color: transparent;
+						}
+					}
+					.checkbox-content__icon{
+						width: 16px;
+						height: 16px;
+						min-width: unset;
+						min-height: unset;
+						margin: 0;
+						> *{
+							width: 16px;
+							height: 16px;
+							color: $colour-forground;
+						}
+						svg{
+							width: 16px;
+							height: 16px;
+							fill: currentColor;
+						}
+					}
+					.checkbox-content__text,
+					.checkbox-radio-switch__text{
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					&:hover,
+					&.checkbox-radio-switch--checked{
+						background-color: $colour-blue-600;
+						border-color: $colour-blue-600;
+						.checkbox-radio-switch__content{
+							background-color: transparent;
+							color: $colour-forground-white;
+						}
+						.checkbox-content__icon > *{
+							color: $colour-forground-white;
+						}
+						.checkbox-content__text,
+						.checkbox-radio-switch__text{
+							color: $colour-forground-white;
+						}
+					}
+				}
+			}
+		}
+		.app-sidebar-tabs__content{
+			margin-top: 16px;
+			.app-sidebar__tab{
+				padding: 10px 0;
+				box-shadow: none !important;
+			}
+		}
+		.nc-select-users,
+		.v-select{
+			@include select-field;
+		}
+		.share-div{
+			gap: 8px;
+			min-height: unset;
+			padding-block: 8px;
+			.share-div__avatar{
+				width: 32px;
+				height: 32px;
+				background-color: $colour-gray-100;
+				justify-content: center;
+				svg{
+					width: 18px;
+					height: 18px;
+					fill: $colour-forground-1;
+				}
+			}
+			&.share-div--link,
+			&.share-div--embeddable{
+				.share-div__avatar{
+					background-color: $colour-primary-50;
+					svg{
+						fill: $colour-blue-600;
+					}
+				}
+			}
+			.share-div__desc{
+				padding: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				&.share-div__desc--twoline{
+					span:last-child{
+						font-size: $text-12;
+						line-height: $leading-16;
+						font-weight: $font-normal;
+						color: $colour-forground-1;
+					}
+				}
+			}
+			button{
+				svg{
+					fill: $colour-forground-1;
+				}
+				&:hover,
+				&:focus,
+				&:focus-visible,
+				&:active{
+					background-color: transparent;
+				}
+			}
+		}
+		.settings-hint{
+			padding-inline-start: 0;
+			font-size: $text-12;
+			line-height: $leading-16;
+			font-weight: $font-normal;
+			color: $colour-forground-1;
+		}
+		.settings-div--indent,
+		.share-div--indent{
+			margin-inline-start: 40px;
+		}
+		.checkbox-radio-switch:not(.checkbox-radio-switch--button-variant){
+			@include checkbox-radio-switch;
+			margin-block: 4px;
+		}
+		.transfer-button{
+			@include error-outline-button;
+			width: 100%;
+			margin-top: 16px;
+			.button-vue__wrapper{
+				justify-content: center;
+			}
+			.transfer-button__text{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-red-600;
+			}
+			&:hover{
+				.transfer-button__text{
+					color: $colour-forground-white;
+				}
+			}
+		}
+	}
+	.app-sidebar-tabs__content{
+		.activity__actions{
+			padding-bottom: 16px;
+			margin-bottom: 10px;
+			border-bottom: 1px solid $theme-divider;
+		}
+		.comment{
+			gap: 10px;
+			padding: 0;
+			align-items: flex-start;
+			.comment__side{
+				flex-shrink: 0;
+				width: 32px;
+				padding-top: 0;
+				.comment__avatar{
+					border-radius: $rounded-full;
+					img{
+						border-radius: $rounded-full;
+					}
+				}
+			}
+			.comment__body{
+				gap: 10px;
+				.comment__header{
+					min-height: unset;
+					.comment__author{
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+						font-weight: $font-medium;
+					}
+					.comment__actions{
+						margin-inline-start: 0 !important;
+						.button-vue--tertiary{
+							@include outline-button;
+						}
+					}
+					.comment__timestamp{
+						font-size: $text-12;
+						line-height: $leading-16;
+						color: $colour-forground-1;
+					}
+				}
+				.comment__editor-group{
+					.rich-contenteditable__input{
+						min-height: 34px;
+						margin-top: 0;
+						padding: 6px 36px 6px 10px;
+						border-radius: $rounded-6;
+						border: 1px solid $theme-divider;
+						box-shadow: none;
+						background-color: transparent;
+						outline: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+						font-weight: $font-normal;
+						&::before{
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							color: $colour-forground-1;
+							font-weight: $font-normal;
+						}
+						&:hover{
+							border-color: $theme-divider;
+						}
+						&:focus,
+						&:focus-visible{
+							background-color: $colour-background;
+							border-color: $colour-blue-600;
+							box-shadow: none;
+						}
+						&--empty:not(:focus) + .rich-contenteditable__label{
+							inset-block-start: 7px;
+							margin-inline: 11px;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							color: $colour-forground-1;
+							font-weight: $font-normal;
+						}
+					}
+					.comment__submit{
+						bottom: 3px;
+						inset-inline-end: 3px;
+						button{
+							--button-size: 28px;
+							border-radius: $rounded-6;
+							background-color: transparent;
+							&:hover:not(:disabled){
+								background-color: $colour-gray-100;
+							}
+							svg{
+								width: 18px;
+								height: 18px;
+								fill: $colour-blue-600;
+							}
+							&:disabled svg{
+								fill: $colour-forground-1;
+							}
+						}
+					}
+				}
+				.comment__editor-description{
+					padding-block: 0;
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+					margin-top: 4px;
+				}
+				.comment__message{
+					margin-top: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground;
+				}
+			}
+		}
+	}
+	.app-sidebar-header__info{
+		&:has(.app-sidebar-header__figure){
+			.app-sidebar-header__desc{
+				margin-top: 10px;
+				.app-sidebar-header__mainname-container{
+					justify-content: space-between;
+				}
+			}
+		}
+	}
+}

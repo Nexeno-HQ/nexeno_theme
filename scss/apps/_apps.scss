@@ -1,0 +1,862 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+
+@mixin apps {
+    main{
+        @include module-scrollbar;
+        padding-right: 0;
+        overflow-x: hidden;
+        &#{css-module('appstoreApp__content')}{
+            h2{
+                font-size: $text-heading-3;
+                font-weight: $font-semibold;
+                line-height: $leading-22;
+                color: $colour-forground;
+                margin: 0;
+                padding-block: 16px;
+                border-bottom: 1px solid $theme-divider;
+                position: sticky;
+                top: 0;
+                left: 0;
+                z-index: 10;
+                background-color: $colour-background;
+                padding-left: 47px;
+                min-height: 53px;
+            }
+            .loading-icon{
+                width: 32px;
+                height: 32px;
+                svg{
+                    width: 32px;
+                    height: 32px;
+                }
+            }
+            .button-vue__text{
+                .text-arrow-icon{
+                    display: inline-block;
+                    margin-left: 4px;
+                    font-weight: $font-normal;
+                }
+            }
+		}
+        #{css-module('appToolbar')}{
+            right: 16px;
+            margin-top: 2px;
+            button{
+                border-radius: $rounded-8;
+                border: 1px solid $theme-divider;
+                background-color: $colour-background;
+                padding: 6px;
+                width: auto;
+                height: auto;
+                transition: all ease-in-out 300ms;
+                .icon-vue,
+                .button-vue__icon{
+                    width: 20px;
+                    height: 20px;
+                    min-width: unset;
+                    min-height: unset;
+                }
+                svg{
+                    width: 20px;
+                    height: 20px;
+                    flex-shrink: 0;
+                    filter: $filter-forground;
+                }
+                &:hover{
+                    background-color: $colour-sidebar-link-bg !important;
+                }
+            }
+        }
+        section{
+            &.table-wrapper-section{
+                padding: 16px;
+                border-bottom: 1px solid $theme-divider;
+                .table-wrapper{
+                    padding: 16px 0 0;
+                    table{
+                        margin-bottom: 0;
+                    }
+                }
+                h3{
+                    margin: 0;
+                }
+                #{css-module('appstoreBundles__header')}{
+                    padding-inline: 0;
+                    align-items: center;
+                    h3{
+                        font-size: $text-heading-3;
+                        line-height: $leading-22;
+                        font-weight: $font-bold;
+                        color: $filter-forground;
+                    }
+                    button{
+                        padding: 6px 12px;
+                        margin: 0;
+                        border-radius: $rounded-8;
+                        transition: all ease-in-out 300ms;
+                        margin: 0;
+                        box-shadow: none;
+                        border: 1px solid;
+                        min-width: 100px;
+                        @media (max-width: $bp-992) {
+                            min-width: 34px;
+                        }
+                        .button-vue__wrapper{
+                            gap: 6px;
+                            .button-vue__icon,
+                            .icon-vue {
+                                width: 16px;
+                                height: 16px;
+                                min-width: unset;
+                                min-height: unset;
+
+                                svg {
+                                    width: 16px;
+                                    height: 16px;
+                                }
+                            }
+                            .button-vue__text{
+                                padding: 0;
+                                margin: 0;
+                                font-size: $text-heading-5;
+                                line-height: $leading-20;
+                            }
+                        }
+                        &.button-vue--primary{
+                            border-color: $colour-blue-600;
+                            background-color: $colour-blue-600;
+                            .button-vue__text{
+                                color: $colour-forground-white;
+                            }
+                            &:hover{
+                                background-color: $colour-background;
+                                .button-vue__icon,
+                                .icon-vue {
+                                    svg {
+                                        fill: $colour-blue-600;
+                                    }
+                                }
+                                .button-vue__text{
+                                    color: $colour-blue-600;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            &#{css-module('officeSuiteSwitcher')}{
+                margin-bottom: 0;
+                h3{
+                    font-size: $text-heading-3;
+                    line-height: $leading-22;
+                    font-weight: $font-bold;
+                    color: $filter-forground;
+                }
+                p{
+                    margin-top: 4px;
+                    margin-bottom: 0;
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    color: $colour-forground-1;
+                }
+                fieldset{
+                    margin-top: 16px;
+                    gap: 16px;
+                    .checkbox-radio-switch{
+                        display: none;
+                    }
+                    #{css-module('officeSuiteSwitcherItem')}{
+                        border: 1px solid $theme-divider;
+                        background: transparent;
+                        border-radius: $rounded-6;
+                        #{css-module('officeSuiteSwitcherItem__features')}{
+                            list-style-position: inside;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 8px;
+                            margin-bottom: 16px;
+                            li{
+                                padding:0;
+                                font-size: $text-heading-5;
+                                line-height: $leading-20;
+                                color: $colour-forground-1;
+                            }
+                        }
+                        a{
+                            padding: 6px 12px;
+                            margin: 0;
+                            border-radius: $rounded-8;
+                            transition: all ease-in-out 300ms;
+                            margin: 0;
+                            box-shadow: none;
+                            border: 1px solid;
+                            min-width: 100px;
+                            @media (max-width: $bp-992) {
+                                min-width: 34px;
+                            }
+                            .button-vue__wrapper{
+                                gap: 6px;
+                                .button-vue__icon,
+                                .icon-vue {
+                                    width: 16px;
+                                    height: 16px;
+                                    min-width: unset;
+                                    min-height: unset;
+
+                                    svg {
+                                        width: 16px;
+                                        height: 16px;
+                                    }
+                                }
+                                .button-vue__text{
+                                    padding: 0;
+                                    margin: 0;
+                                    font-size: $text-heading-5;
+                                    line-height: $leading-20;
+                                }
+                            }
+                            &.action-item__menutoggle{
+                                min-width: unset;
+                            }
+                            &.button-vue--secondary,
+                            &.button-vue--tertiary{
+                                border-color: $theme-divider;
+                                background-color: transparent;
+                                .button-vue__icon,
+                                .icon-vue {
+                                    svg {
+                                        fill: $colour-forground;
+                                    }
+                                }
+                                .button-vue__text{
+                                    color: $colour-forground;
+                                }
+                                &:hover{
+                                    background-color: $colour-primary-50;
+                                    border-color: $colour-blue-600;
+                                    .button-vue__icon,
+                                    .icon-vue {
+                                        svg {
+                                            fill: $colour-blue-600;
+                                        }
+                                    }
+                                    .button-vue__text{
+                                        color: $colour-blue-600;
+                                    }
+                                }
+                            }
+                        }
+                        &:hover{
+                            box-shadow: none;
+                        }
+                        &#{css-module('officeSuiteSwitcherItem_selected')}{
+                            border-color: $colour-blue-600;
+                            h3{
+                                color: $colour-blue-600;
+                            }
+                            li{
+                                color: $colour-forground;
+                            }
+                        }
+                    }
+                }
+                #{css-module('officeSuiteSwitcher__actions')}{
+                    button{
+                        padding: 6px 12px;
+                        margin: 0;
+                        border-radius: $rounded-8;
+                        transition: all ease-in-out 300ms;
+                        margin: 0;
+                        box-shadow: none;
+                        border: 1px solid;
+                        min-width: 100px;
+                        @media (max-width: $bp-992) {
+                            min-width: 34px;
+                        }
+                        .button-vue__wrapper{
+                            gap: 6px;
+                            .button-vue__icon,
+                            .icon-vue {
+                                width: 16px;
+                                height: 16px;
+                                min-width: unset;
+                                min-height: unset;
+
+                                svg {
+                                    width: 16px;
+                                    height: 16px;
+                                }
+                            }
+                            .button-vue__text{
+                                padding: 0;
+                                margin: 0;
+                                font-size: $text-heading-5;
+                                line-height: $leading-20;
+                            }
+                        }
+                        &.action-item__menutoggle{
+                            min-width: unset;
+                        }
+                        &.button-vue--secondary,
+                        &.button-vue--tertiary{
+                            border-color: $theme-divider;
+                            background-color: transparent;
+                            .button-vue__icon,
+                            .icon-vue {
+                                svg {
+                                    fill: $colour-forground;
+                                }
+                            }
+                            .button-vue__text{
+                                color: $colour-forground;
+                            }
+                            &:hover{
+                                background-color: $colour-primary-50;
+                                border-color: $colour-blue-600;
+                                .button-vue__icon,
+                                .icon-vue {
+                                    svg {
+                                        fill: $colour-blue-600;
+                                    }
+                                }
+                                .button-vue__text{
+                                    color: $colour-blue-600;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .table-wrapper{
+            padding: 16px;
+            table{
+                width: 100%;
+                border-collapse: collapse;
+                tbody{
+                    tr{
+                        height: 44px;
+                        border-bottom: 1px solid $theme-divider;
+                        #{css-module('appLevelBadge')}{
+                            padding: 6px 12px;
+                            border: 1px solid $theme-divider;
+                            border-radius: $rounded-8;
+                            align-items: center;
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            font-weight: $font-medium;
+                            color: $colour-forground-1;
+                            svg,
+                            .icon-vue{
+                                width: 16px;
+                                height: 16px;
+                            }
+                        }
+                        &:last-child{
+                            border-bottom: 0;
+                        }
+                        td{
+                            padding: 0;
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            font-weight: $font-medium;
+                            color: $colour-forground-1;
+                            &:first-child{
+                                padding-left: 16px;
+                            }
+                            &:last-child{
+                                padding-right: 16px;
+                            }
+                            a{
+                                padding: 0;
+                                border: 0;
+                                margin: 0;
+                                .button-vue__wrapper{
+                                    gap: 16px;
+                                    @media (max-width: $bp-992) {
+                                        gap: 8px;
+                                    }
+                                    align-items: center;
+                                    .button-vue__icon,
+                                    .icon-vue{
+                                        width: 18px;
+                                        height: 18px;
+                                        min-width: unset;
+                                        min-height: unset;
+                                        span{
+                                            display: flex;
+                                        }
+                                        svg{
+                                            width: 18px;
+                                            height: 18px;
+                                            flex-shrink: 0;
+                                            fill: $colour-forground;
+                                        }
+                                    }
+                                    .button-vue__text{
+                                        font-size: $text-heading-5;
+                                        line-height: $leading-20;
+                                        font-weight: $font-medium;
+                                        color: $colour-forground;
+                                        margin: 0;
+                                        padding: 0;
+                                    }
+                                }
+                                &:hover{
+                                    background-color: transparent !important;
+                                }
+                            }
+                        }
+                        #{css-module('appActions')}{
+                            gap: 16px;
+                            @media (max-width: $bp-992) {
+                                gap: 8px;
+                            }
+                            button{
+                                padding: 6px 12px;
+                                margin: 0;
+                                border-radius: $rounded-8;
+                                transition: all ease-in-out 300ms;
+                                margin: 0;
+                                box-shadow: none;
+                                border: 1px solid;
+                                min-width: 100px;
+                                @media (max-width: $bp-992) {
+                                    min-width: 34px;
+                                }
+                                .button-vue__wrapper{
+                                    gap: 6px;
+                                    .button-vue__icon,
+                                    .icon-vue {
+                                        width: 16px;
+                                        height: 16px;
+                                        min-width: unset;
+                                        min-height: unset;
+    
+                                        svg {
+                                            width: 16px;
+                                            height: 16px;
+                                        }
+                                    }
+                                    .button-vue__text{
+                                        padding: 0;
+                                        margin: 0;
+                                        font-size: $text-heading-5;
+                                        line-height: $leading-20;
+                                    }
+                                }
+                                &.action-item__menutoggle{
+                                    min-width: unset;
+                                }
+                                &.button-vue--secondary,
+                                &.button-vue--tertiary{
+                                    border-color: $theme-divider;
+                                    background-color: transparent;
+                                    .button-vue__icon,
+                                    .icon-vue {
+                                        svg {
+                                            fill: $colour-forground;
+                                        }
+                                    }
+                                    .button-vue__text{
+                                        color: $colour-forground;
+                                    }
+                                    &:hover{
+                                        background-color: $colour-primary-50;
+                                        border-color: $colour-blue-600;
+                                        .button-vue__icon,
+                                        .icon-vue {
+                                            svg {
+                                                fill: $colour-blue-600;
+                                            }
+                                        }
+                                        .button-vue__text{
+                                            color: $colour-blue-600;
+                                        }
+                                    }
+                                }
+                                &.button-vue--primary{
+                                    border-color: $colour-blue-600;
+                                    background-color: $colour-blue-600;
+                                    .button-vue__text{
+                                        color: $colour-forground-white;
+                                    }
+                                    &:hover{
+                                        background-color: $colour-background;
+                                        .button-vue__icon,
+                                        .icon-vue {
+                                            svg {
+                                                fill: $colour-blue-600;
+                                            }
+                                        }
+                                        .button-vue__text{
+                                            color: $colour-blue-600;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        &:hover{
+                            background-color: $colour-gray-100;
+                        }
+                    }
+                }
+            }
+        }
+        #{css-module('appGrid')}{
+            padding: 16px;
+            li{
+                padding: 8px;
+                border: 1px solid $theme-divider;
+                border-radius: $rounded-6;
+                background-color: transparent;
+                gap: 6px;
+                transition: all ease-in-out 300ms;
+                a{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                    img{
+                        border-radius: $rounded-6;
+                    }
+                    #{css-module('appImage')}{
+                        svg{
+                            width: 60px;
+                            height: 60px;
+                            fill: $colour-forground-1;
+                        }
+                    }
+                    #{css-module('appGridItem__content')}{
+                        padding: 0;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 6px;
+                        h3{
+                            margin: 0;
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            color: $colour-forground;
+                        }
+                        p{
+                            font-size: $text-12;
+                            line-height: $leading-16;
+                            color: $colour-forground-1;
+                        }
+                    }
+                }
+                &:hover{
+                    border-color: $colour-blue-600;
+                    #{css-module('appGridItem__content')}{
+                        h3{
+                            color: $colour-blue-600;
+                            transition: all ease-in-out 300ms;
+                        }
+                    }
+                }
+                #{css-module('appGridItem__badges')}{
+                    padding: 0;
+                    margin-top: 8px;
+                    #{css-module('appLevelBadge')}{
+                        padding: 6px 12px;
+                        border: 1px solid $theme-divider;
+                        border-radius: $rounded-8;
+                        align-items: center;
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        font-weight: $font-medium;
+                        color: $colour-forground-1;
+                        svg,
+                        .icon-vue{
+                            width: 16px;
+                            height: 16px;
+                        }
+                    }
+                    #{css-module('badgeAppScore')}{
+                        svg{
+                            fill: $colour-yellow;
+                        }
+                    }
+                }
+            }
+            &.small-view{
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 16px;
+                @media (max-width: $bp-1440) {
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                }
+                @media (max-width: $bp-1199) {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+                @media (max-width: $bp-1023) {
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                }
+                @media (max-width: $bp-768) {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+                @media (max-width: $bp-576) {
+                    grid-template-columns: repeat(1, minmax(0, 1fr));
+                }
+            }
+            &.medium-view,
+            &.large-view{
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 16px;
+                @media (max-width: $bp-1199) {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+                @media (max-width: $bp-1023) {
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                }
+                @media (max-width: $bp-768) {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+                @media (max-width: $bp-576) {
+                    grid-template-columns: repeat(1, minmax(0, 1fr));
+                }
+            }
+        }
+        .app-discover{
+            padding: 16px;
+            gap: 24px;
+            @media (max-width: $bp-1199) {
+                gap: 16px;
+            }
+            article{
+                border-radius: $rounded-8;
+                background-color: transparent;
+                border: 1px solid $theme-divider;
+                video{
+                    border-radius: $rounded-8;
+                }
+                .app-discover-post__media{
+                    display: flex;
+                    &:has(video){
+                        border-radius: $rounded-8;
+                    }
+                }
+            }
+            .app-discover-post--reverse{
+                @media (max-width: $bp-992) {
+                    flex-direction: column-reverse;
+                    max-height: unset;
+                    gap: 0;
+                }
+                .app-discover-post__media{
+                    border-top-left-radius: $rounded-8;
+                    border-bottom-left-radius: $rounded-8;
+                    @media (max-width: $bp-992) {
+                        max-width: 100%;
+                        border-top-right-radius: $rounded-8;
+                        border-bottom-left-radius: 0;
+                    }
+                    picture{
+                        display: flex;
+                    }
+                }
+                .app-discover-post__text{
+                    border-top-right-radius: $rounded-8;
+                    border-bottom-right-radius: $rounded-8;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    padding-block: 16px;
+                    gap: 16px;
+                    @media (max-width: $bp-992) {
+                        padding: 16px;
+                    }
+                    h3{
+                        font-size: $text-heading-3;
+                        line-height: $leading-22;
+                        color: $colour-forground;
+                        font-weight: $font-semibold;
+                        margin-bottom: 0;
+                    }
+                    p{
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground-1;
+                        font-weight: $font-normal;
+                    }
+                }
+            }
+            .app-discover-post__play-icon{
+                display: none;
+            }
+            &:has(.app-discover-showcase) section{
+                padding: 0 !important;
+                border-bottom: 0;
+                h3{
+                    font-size: $text-heading-3;
+                    line-height: $leading-22;
+                    color: $colour-forground;
+                    font-weight: $font-semibold;
+                }
+            }
+            .app-discover-showcase__list,
+            .app-discover-carousel__wrapper{
+                margin-top: 16px;
+            }
+            .app-discover-carousel__wrapper{
+                .app-discover-post__media{
+                    width: 100%;
+                    @media (max-width: $bp-992) {
+                        max-width: 100%;
+                    }
+                }
+                .app-discover-post__text{
+                    border-top-right-radius: $rounded-8;
+                    border-bottom-right-radius: $rounded-8;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    padding-block: 16px;
+                    gap: 8px;
+                    border-radius: $rounded-6;
+                    @media (max-width: $bp-992) {
+                        padding: 16px;
+                    }
+                    h4{
+                        font-size: $text-heading-3;
+                        line-height: $leading-22;
+                        color: $colour-forground;
+                        font-weight: $font-semibold;
+                        margin-bottom: 0;
+                    }
+                    p{
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground-1;
+                        font-weight: $font-normal;
+                    }
+                }
+                .app-discover-carousel__button{
+                    top: 50%;
+                    transform: translateY(-50%);
+                    display: none;
+                    @media (min-width: $bp-1440) {
+                        display: block;
+                    }
+                    svg{
+                        fill: $colour-forground-1;
+                    }
+                    &:hover{
+                        background-color: transparent;
+                        svg{
+                            fill: $colour-blue-600;
+                        }
+                    }
+                }
+            }
+            .app-discover-carousel__tabs{
+                margin-top: 16px !important;
+                button{
+                    width: 22px !important;
+                    height: 22px;
+                    min-width: unset;
+                    min-height: unset;
+                    .button-vue__icon{
+                        width: 14px !important;
+                        height: 14px;
+                        min-width: unset;
+                        min-height: unset;
+                        svg{
+                            width: 14px;
+                            height: 14px;
+                            fill: $colour-forground-1;
+                        }
+                    }
+                    &:hover{
+                        background-color: transparent;
+                    }
+                }
+            }
+            .app-discover-showcase__list{
+                display: grid;
+                gap: 16px;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                @media (max-width: $bp-1199) {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+                @media (max-width: $bp-1023) {
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                }
+                @media (max-width: $bp-768) {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+                @media (max-width: $bp-576) {
+                    grid-template-columns: repeat(1, minmax(0, 1fr));
+                }
+                li{
+                    padding: 8px;
+                    border: 1px solid $theme-divider;
+                    border-radius: $rounded-6;
+                    width: 100%;
+                    transition: all ease-in-out 300ms;
+                    article{
+                        border: 0;
+                        gap: 12px;
+                        .app-discover-app__image{
+                            height: auto;
+                            aspect-ratio: 16 / 9;
+                            border-radius: $rounded-6;
+                            img{
+                                border-radius: $rounded-6;
+                            }
+                            cursor: pointer;
+                        }
+                        .app-discover-app__wrapper{
+                            padding: 0;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 6px;
+                            cursor: pointer;
+                            h3{
+                                a{
+                                    margin: 0;
+                                    font-size: $text-heading-5;
+                                    line-height: $leading-20;
+                                    color: $colour-forground;
+                                }
+                            }
+                            p{
+                                font-size: $text-12;
+                                line-height: $leading-16;
+                                color: $colour-forground-1;
+                            }
+                        }
+                        #{css-module('badgeAppScore')}{
+                            svg{
+                                fill: $colour-yellow;
+                            }
+                        }
+                    }
+                    &:hover{
+                        border-color: $colour-blue-600;
+                        .app-discover-app__wrapper{
+                            h3{
+                                color: $colour-blue-600;
+                                transition: all ease-in-out 300ms;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .empty-content{
+            .empty-content__action{
+                .input-field{
+                    @include input;
+                }
+            }
+        }
+    }
+}

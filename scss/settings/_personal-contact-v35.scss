@@ -1,0 +1,346 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin form-box-row {
+    padding: 10px 0;
+    border: 0;
+    border-bottom: 1px solid $theme-divider;
+    border-radius: 0 !important;
+    background-color: transparent;
+    #{css-module('formBoxItem__content')}{
+        padding: 0;
+    }
+    label,
+    a,
+    button{
+        font-size: $text-heading-5;
+        line-height: $leading-20;
+        color: $colour-forground;
+        font-weight: $font-medium;
+    }
+    &:hover{
+        background-color: transparent;
+    }
+}
+
+@mixin personal-contact {
+    &.profile-contact{
+        .property__scope{
+            position: static;
+        }
+        .profile-section{
+            padding: 0;
+            gap: 16px;
+            .preview-card{
+                border: 1px solid $theme-divider;
+                border-radius: $rounded-6;
+                .preview-card__banner{
+                    background-color: $colour-semilight;
+                    border-top-left-radius: $rounded-6;
+                    border-top-right-radius: $rounded-6;
+                }
+                .preview-card__text{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                    .preview-card__name{
+                        font-size: $text-heading-3;
+                        line-height: $leading-22;
+                        color: $colour-forground;
+                    }
+                    .preview-card__secondary{
+                        font-size: $text-12;
+                        line-height: $leading-16;
+                        font-weight: $font-medium;
+                    }
+                }
+            }
+            #{css-module('ncFormBox')}{
+                gap: 8px;
+                #{css-module('formBoxItem')}{
+                    @include form-box-row;
+                }
+            }
+        }
+        .avatar-section{
+            padding: 4px 0;
+            .avatar-section__buttons{
+                #{css-module('formBoxItem')}{
+                    @include form-box-row;
+                }
+            }
+            .avatar-section__cropper-buttons{
+                button{
+                    &:first-child{
+                        @include outline-button;
+                    }
+                    &:last-child{
+                        @include primary-button;
+                    }
+                }
+            }
+            .avatar-section__actions{
+                .v-popper{
+                    button{
+                        @include outline-button;
+                    }
+                }
+            }
+            .avatar-section__hint{
+                margin-block: 10px;
+                font-size: $text-12;
+                line-height: $leading-16;
+                color: $colour-forground-1;
+            }
+        }
+        .property-section{
+            .input-field{
+                @include input;
+                input{
+                    color: $colour-forground !important;
+                    &::placeholder{
+                        opacity: 0;
+                    }
+                }
+            }
+            .textarea{
+                @include textarea-field;
+                margin-top: 0;
+                .textarea__main-wrapper{
+                    display: flex;
+                }
+            }
+            .v-popper{
+                button{
+                    @include outline-button;
+                }
+            }
+            .property{
+                display: flex;
+                align-items: end;
+                gap: 10px;
+                > button.property__scope{
+                    @include outline-button;
+                }
+                .native-datetime-picker{
+                    label{
+                        font-size: $text-12;
+                        line-height: $leading-16;
+                        color: $colour-forground-1;
+                        font-weight: $font-medium;
+                    }
+                    input{
+                        @include datepicker;
+                    }
+                }
+                .federation-actions{
+                    left: 0;
+                }
+            }
+        }
+        .details-section__block{
+            #{css-module('ncFormBox')}{
+                gap: 8px;
+                margin-inline-end: 0;
+                #{css-module('formBoxItem')}{
+                    @include form-box-row;
+                }
+            }
+            .details-section__quota{
+                font-size: $text-12;
+                line-height: $leading-16;
+                color: $colour-forground-1;
+                font-weight: $font-normal;
+                strong{
+                    font-size: $font-medium;
+                    color: $colour-forground;
+                }
+            }
+        }
+        .progress-bar{
+            border-radius: $rounded-full;
+            &::-webkit-progress-value{
+                border-radius: $rounded-full;
+                background: $colour-blue-600;
+            }
+        }
+        .development-notice{
+            @include development-notice;
+        }
+        .section-emails__add{
+            #{css-module('formBoxItem')}{
+                @include form-box-row;
+            }
+        }
+        .profile-contact-settings{
+            width: 100%;
+            max-width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        .profile-contact-settings__subheading,
+        .details-section__heading{
+            padding: 0;
+            font-size: $text-heading-4;
+            line-height: $leading-22;
+            color: $colour-forground;
+            font-weight: $font-semibold;
+            margin-bottom: 8px;
+        }
+        .profile-contact-settings__hint{
+            padding: 0;
+            font-size: $text-12;
+            line-height: $leading-16;
+            color: $colour-forground-1;
+            margin: 0;
+        }
+    }
+}
+
+@mixin personal-contact-popover {
+    .v-popper__popper:has(.visibility-scope){
+        .v-popper__inner{
+            border: 1px solid $theme-divider;
+            border-radius: $rounded-12;
+            background-color: $colour-background;
+            box-shadow: $box-shadow-3;
+        }
+        .visibility-scope{
+            gap: 16px;
+            padding: 16px;
+            .visibility-scope__heading{
+                margin: 0;
+                font-size: $text-heading-4;
+                line-height: $leading-24;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+            }
+            .visibility-scope__description{
+                margin: 0;
+                font-size: $text-12;
+                line-height: $leading-16;
+                color: $colour-forground-1;
+            }
+            .v-select.select{
+                min-width: unset;
+                margin: 0;
+                .vs__dropdown-toggle{
+                    height: 36px;
+                    min-height: unset;
+                    padding: 0 8px;
+                    border: 1px solid $theme-divider;
+                    border-radius: $rounded-6;
+                    box-shadow: none;
+                    outline: 0 !important;
+                    transition: border-color ease-in-out 300ms;
+                    &:hover{
+                        border-color: $colour-blue-600;
+                    }
+                }
+                .vs__selected-options{
+                    padding: 0;
+                }
+                .vs__selected{
+                    margin: 0 !important;
+                    padding: 0;
+                    border: 0 !important;
+                    border-radius: 0;
+                    background-color: transparent;
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    font-weight: $font-medium;
+                    color: $colour-forground;
+                    .option{
+                        gap: 8px;
+                    }
+                    .icon-vue{
+                        width: 16px;
+                        height: 16px;
+                        min-width: unset;
+                        min-height: unset;
+                    }
+                }
+                .vs__search{
+                    margin: 0;
+                    padding: 0;
+                }
+                svg{
+                    width: 16px;
+                    height: 16px;
+                    fill: $colour-forground-1;
+                }
+                .vs__actions{
+                    padding: 0;
+                    button{
+                        width: 20px;
+                        height: 20px;
+                        min-width: unset;
+                        min-height: unset;
+                        padding: 0;
+                        border: 0;
+                        background-color: transparent;
+                        box-shadow: none;
+                    }
+                }
+                &.vs--open{
+                    .vs__dropdown-toggle{
+                        border-color: $colour-blue-600;
+                    }
+                    .vs__actions svg{
+                        fill: $colour-blue-600;
+                    }
+                }
+            }
+            > button{
+                @include primary-button;
+                justify-content: center;
+            }
+        }
+    }
+    body:has(.visibility-scope) .vs__dropdown-menu{
+        margin-top: 4px;
+        padding: 6px !important;
+        border: 1px solid $theme-divider !important;
+        border-radius: $rounded-6;
+        box-shadow: $box-shadow-3 !important;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        li{
+            padding: 6px 10px;
+            border-radius: $rounded-6;
+            font-size: $text-heading-5;
+            line-height: $leading-20;
+            color: $colour-forground;
+            .option{
+                gap: 8px;
+            }
+            .icon-vue{
+                width: 16px;
+                height: 16px;
+                min-width: unset;
+                min-height: unset;
+            }
+            svg{
+                width: 16px;
+                height: 16px;
+                fill: $colour-forground-1;
+            }
+            &:hover,
+            &.vs__dropdown-option--highlight{
+                background-color: $colour-gray-100;
+            }
+            &.vs__dropdown-option--selected{
+                color: $colour-blue-600;
+                svg{
+                    fill: $colour-blue-600;
+                }
+            }
+        }
+    }
+}

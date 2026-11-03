@@ -1,0 +1,2398 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin mail-icon-button {
+	@include outline-button;
+	width: 32px;
+	height: 32px;
+	min-width: 32px;
+	min-height: 32px;
+	--button-size: 32px;
+	padding: 0;
+	.button-vue__wrapper{
+		justify-content: center;
+	}
+}
+
+@mixin mail-recipient-chip {
+	gap: 4px;
+	height: 26px;
+	padding: 0 4px 0 2px !important;
+	.option{
+		gap: 6px;
+		align-items: center;
+	}
+	.option__avatar{
+		width: 20px !important;
+		height: 20px !important;
+		.avatardiv__initials-wrapper,
+		.avatardiv__initials{
+			width: 20px !important;
+			height: 20px !important;
+			line-height: 20px;
+		}
+	}
+	.option__lineone{
+		font-size: $text-12;
+		line-height: $leading-16;
+		font-weight: $font-medium;
+		color: $colour-forground;
+	}
+	.delete-recipient{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 18px;
+		height: 18px;
+		border-radius: $rounded-full;
+		cursor: pointer;
+		svg{
+			width: 14px;
+			height: 14px;
+			fill: $colour-forground-1;
+		}
+		&:hover{
+			background-color: $theme-divider;
+			svg{
+				fill: $colour-forground;
+			}
+		}
+	}
+}
+
+@mixin mail-native-input {
+	height: 36px;
+	min-height: unset;
+	margin: 0;
+	padding: 0 10px;
+	border-radius: $rounded-6;
+	border: 1px solid $theme-divider;
+	background-color: transparent;
+	box-shadow: none;
+	outline: 0;
+	font-size: $text-heading-5;
+	line-height: $leading-20;
+	font-weight: $font-medium;
+	color: $colour-forground;
+	&::placeholder{
+		color: $colour-forground-1;
+	}
+	&:hover{
+		border-color: $theme-divider;
+	}
+	&:focus,
+	&:focus-visible{
+		border-color: $colour-blue-600;
+		background-color: $colour-background;
+		box-shadow: none;
+		outline: 0;
+	}
+}
+
+@mixin mail-account-settings {
+	.modal-container.general-popup:has(#settings-section_alias-settings){
+		.app-settings__content{
+			.app-settings-section__content{
+				> p,
+				.settings-hint{
+					margin: 0 0 12px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+				}
+				h4{
+					margin: 16px 0 8px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				label{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				input:not(.input-field__input, .vue-treeselect__input):is([type="text"], [type="email"], [type="number"]){
+					@include mail-native-input;
+				}
+				input + p{
+					margin-top: 8px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+				}
+				p + .button-vue{
+					margin-top: 12px;
+				}
+				.button-vue--vue-primary{
+					@include primary-button;
+				}
+				.button-vue--vue-secondary{
+					@include outline-button;
+				}
+				.mail-button-row{
+					display: flex;
+					flex-wrap: wrap;
+					gap: 8px;
+					margin-top: 12px;
+					.button-vue--vue-tertiary-no-background{
+						@include outline-button;
+					}
+				}
+				.notecard{
+					@include notecard;
+				}
+				.input-field{
+					@include input;
+					.input-field__main-wrapper{
+						height: 36px;
+						input{
+							padding: 0 10px;
+						}
+					}
+				}
+				.v-select{
+					@include single-select(false);
+					width: 100%;
+				}
+				p:has(+ .vue-treeselect){
+					margin: 0 0 6px;
+					color: $colour-forground;
+				}
+				.vue-treeselect{
+					margin-bottom: 16px;
+					.vue-treeselect__control{
+						display: flex;
+						align-items: center;
+						width: 100%;
+						height: 36px;
+						padding: 0;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						background-color: transparent;
+						box-shadow: none;
+						transition: all ease-in-out 300ms;
+					}
+					.vue-treeselect__value-container{
+						position: relative;
+						flex: 1 1 auto;
+						height: 100%;
+					}
+					.vue-treeselect__placeholder,
+					.vue-treeselect__single-value{
+						padding: 0 12px;
+						font-size: $text-heading-5;
+						line-height: 34px;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					.vue-treeselect__placeholder{
+						color: $colour-forground-1;
+					}
+					.vue-treeselect__input-container{
+						height: 100%;
+						padding: 0;
+						background-color: transparent;
+					}
+					input.vue-treeselect__input{
+						height: 100%;
+						padding: 0 12px;
+						border: 0 !important;
+						background-color: transparent;
+						box-shadow: none;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					.vue-treeselect__control-arrow-container{
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 36px;
+						height: 100%;
+						.vue-treeselect__control-arrow{
+							width: 10px;
+							height: 10px;
+							fill: $colour-forground-1;
+						}
+					}
+					.vue-treeselect__menu{
+						margin-top: 4px;
+						padding: 6px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						background-color: $colour-background;
+						box-shadow: $box-shadow-2;
+					}
+					.vue-treeselect__option{
+						padding: 6px 10px;
+						border-radius: $rounded-6;
+						&.vue-treeselect__option--highlight{
+							background-color: $colour-gray-100;
+						}
+						&.vue-treeselect__option--selected{
+							background-color: $colour-primary-50;
+						}
+					}
+					.vue-treeselect__label{
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					&.vue-treeselect--focused,
+					&.vue-treeselect--open{
+						.vue-treeselect__control{
+							border-color: $colour-blue-600;
+						}
+						.vue-treeselect__control-arrow{
+							fill: $colour-blue-600;
+						}
+					}
+				}
+				.flex-row:has(.checkbox-radio-switch--button-variant){
+					display: inline-flex;
+					align-items: center;
+					margin-bottom: 16px;
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-6;
+					overflow: hidden;
+				}
+				.checkbox-radio-switch--button-variant{
+					height: auto;
+					padding: 0;
+					border: 0;
+					border-radius: 0;
+					background-color: transparent;
+					& + .checkbox-radio-switch--button-variant{
+						border-inline-start: 1px solid $theme-divider;
+					}
+					.checkbox-radio-switch__content,
+					.checkbox-content{
+						flex-direction: row;
+						min-height: unset;
+						width: auto;
+						padding: 6px 12px;
+						border-radius: 0;
+						background-color: transparent;
+						transition: all ease-in-out 300ms;
+					}
+					.checkbox-content__icon{
+						display: none;
+					}
+					.checkbox-content__text,
+					.checkbox-radio-switch__text,
+					.checkbox-content__wrapper span{
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					.checkbox-radio-switch__content,
+					.checkbox-content{
+						align-items: center;
+						height: 100%;
+					}
+					&:hover{
+						.checkbox-radio-switch__content,
+						.checkbox-content{
+							background-color: $colour-gray-100;
+						}
+					}
+					&.checkbox-radio-switch--checked{
+						.checkbox-radio-switch__content,
+						.checkbox-content{
+							background-color: $colour-blue-600;
+						}
+						.checkbox-content__text,
+						.checkbox-radio-switch__text,
+						.checkbox-content__wrapper span{
+							color: $colour-forground-white;
+						}
+					}
+				}
+				div:has(> input[type="checkbox"]:not(.checkbox)){
+					display: flex;
+					flex-direction: row-reverse;
+					align-items: center;
+					justify-content: flex-end;
+					gap: 8px;
+					width: fit-content;
+					input[type="checkbox"]{
+						width: 16px;
+						height: 16px;
+						margin: 0;
+						accent-color: $colour-blue-600;
+						cursor: pointer;
+					}
+					label{
+						cursor: pointer;
+					}
+				}
+				#sieve-form{
+					.checkbox-radio-switch:not(.checkbox-radio-switch--button-variant){
+						width: fit-content;
+						border-bottom: 0;
+						.checkbox-content{
+							width: auto;
+							justify-content: flex-start;
+						}
+					}
+				}
+				.tabs-component-tabs{
+					display: inline-flex;
+					align-items: center;
+					margin: 0 0 16px;
+					padding: 0;
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-6;
+					overflow: hidden;
+					.tabs-component-tab{
+						flex-grow: 0;
+						margin: 0;
+						border: 0;
+						font-weight: $font-medium;
+						& + .tabs-component-tab{
+							border-inline-start: 1px solid $theme-divider;
+						}
+						a{
+							display: block;
+							padding: 6px 12px;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground;
+							transition: all ease-in-out 300ms;
+						}
+						&:hover a{
+							background-color: $colour-gray-100;
+						}
+						&.is-active{
+							border-bottom: 0;
+							a{
+								background-color: $colour-blue-600;
+								color: $colour-forground-white;
+							}
+						}
+					}
+				}
+				.tabs-component-panels{
+					margin-top: 0;
+					padding-top: 0;
+				}
+				.account-form__submit-buttons{
+					justify-content: flex-start;
+					margin-top: 16px;
+				}
+				.quick-actions-settings{
+					display: flex;
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 12px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+				}
+			}
+			.aliases-list{
+				li{
+					padding-block: 10px;
+					border-bottom: 1px solid $theme-divider;
+					&:first-child{
+						padding-top: 0;
+					}
+				}
+				.alias-form{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+					strong{
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+				}
+				.alias-form__actions{
+					gap: 8px;
+					.button-vue{
+						@include mail-icon-button;
+					}
+				}
+			}
+			.certificate-settings{
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 12px;
+			}
+			.signature-editor-wrapper{
+				margin-top: 12px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				background-color: transparent;
+				&:focus-within{
+					border-color: $colour-blue-600;
+					box-shadow: none;
+				}
+			}
+			#{css-module('appSettingsDialogVersion__legacy')}{
+				margin: 0;
+				padding-block: 16px;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.form__fieldset{
+				label{
+					color: $colour-forground;
+				}
+				.form__fieldset__description{
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+			}
+		}
+	}
+}
+
+@mixin mail-dialog-actions {
+	.dialog__actions{
+		gap: 8px;
+		margin: 0;
+		padding: 12px 16px;
+		border-top: 1px solid $theme-divider;
+		.button-vue--vue-primary{
+			@include primary-button;
+		}
+		.button-vue--vue-error{
+			@include error-button;
+		}
+		.button-vue--vue-secondary,
+		.button-vue--vue-tertiary{
+			@include outline-button;
+		}
+	}
+}
+
+@mixin mail-settings {
+	.modal-container.general-popup:has(#settings-section_about-settings):has(#settings-section_privacy){
+		.app-settings__content{
+			.button-vue--vue-secondary{
+				@include outline-button;
+				.button-vue__wrapper{
+					justify-content: center;
+				}
+			}
+			.button-vue--vue-primary{
+				@include primary-button;
+			}
+			.privacy-section,
+			.security-section{
+				#{css-module('formBoxItem')}{
+					margin: 0;
+					padding: 10px 0;
+					border: 0;
+					border-radius: 0 !important;
+					box-shadow: none;
+					background-color: transparent;
+					&:hover{
+						background-color: transparent;
+					}
+				}
+				#{css-module('formBoxItem__content')}{
+					gap: 2px;
+					padding-block: 0;
+					label{
+						padding: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+				}
+				#{css-module('formBoxItem__description')}{
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+				}
+			}
+			.about-settings-section{
+				#{css-module('formGroup__label')}{
+					margin: 0 0 8px;
+					padding: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				#{css-module('formGroup__description')}{
+					margin: 0;
+					padding: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+				}
+			}
+			#{css-module('appSettingsDialogVersion')}{
+				margin: 0;
+				padding-block: 16px;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			#{css-module('radioGroupButton')}{
+				height: auto;
+				min-height: unset;
+				padding: 6px 12px;
+				border-radius: $rounded-6 !important;
+				#{css-module('radioGroupButton__icon')},
+				.icon-vue{
+					width: 16px;
+					height: 16px;
+				}
+				#{css-module('radioGroupButton__label')}{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					white-space: nowrap;
+				}
+			}
+			h6{
+				margin: 16px 0 8px;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+		}
+	}
+	.modal-container.general-popup:has(.text-block-buttons){
+		.dialog__content{
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			padding: 16px;
+		}
+		.input-field{
+			@include input;
+			.input-field__main-wrapper{
+				height: 36px;
+				input{
+					padding: 0 10px;
+				}
+			}
+		}
+		.text-block-buttons{
+			display: flex;
+			justify-content: flex-end;
+			gap: 8px;
+			.button-vue--vue-tertiary{
+				@include outline-button;
+			}
+			.button-vue--vue-primary{
+				@include primary-button;
+			}
+		}
+	}
+}
+
+@mixin mail-dialogs {
+	.modal-container:has(.modal__content .headers-list){
+		border-radius: $rounded-12;
+		background-color: $colour-background;
+		.modal__content{
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			margin: 0;
+			padding: 0 0 16px;
+			h2{
+				margin: 0;
+				padding: 16px 56px 16px 16px;
+				border-bottom: 1px solid $theme-divider;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.intro-text{
+				margin: 0;
+				padding: 0 16px;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.headers-list{
+				display: flex;
+				flex-direction: column;
+				margin: 0 16px;
+				padding: 4px 12px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-8;
+			}
+			.checkbox-radio-switch{
+				padding-block: 6px;
+				border-bottom: 1px solid $theme-divider;
+				&:last-child{
+					border-bottom: 0;
+				}
+				.checkbox-content{
+					padding: 0;
+					gap: 8px;
+					background-color: transparent !important;
+				}
+				.checkbox-content__text{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+			}
+			> .button-vue--vue-primary{
+				@include primary-button;
+				align-self: flex-end;
+				margin-inline-end: 16px;
+			}
+		}
+	}
+	.modal-mask:has(.message-source){
+		.modal-container{
+			width: min(900px, 90vw) !important;
+			height: min(85vh, 900px) !important;
+			border-radius: $rounded-12;
+			background-color: $colour-background;
+			@media (max-width: $bp-640){
+				width: 100vw !important;
+				height: 100dvh !important;
+				border-radius: 0;
+			}
+		}
+		.modal-container__content{
+			height: 100%;
+		}
+		.message-source{
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			padding: 0;
+			h2{
+				margin: 0;
+				padding: 16px 56px 16px 16px;
+				border-bottom: 1px solid $theme-divider;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			pre{
+				flex: 1 1 auto;
+				min-height: 0;
+				margin: 16px;
+				padding: 12px 16px;
+				overflow: auto;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-8;
+				background-color: $colour-gray-100;
+				font-size: $text-12;
+				line-height: $leading-20;
+				color: $colour-forground;
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			}
+		}
+	}
+	.modal-container:has(.modal-content .tag-title){
+		width: 400px !important;
+		max-width: 90vw;
+		border-radius: $rounded-12;
+		background-color: $colour-background;
+		.modal-content{
+			padding: 0 0 16px;
+		}
+		.tag-title{
+			margin: 0;
+			padding: 16px 16px 8px;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+			&:first-of-type{
+				margin-bottom: 8px;
+				padding: 16px 56px 16px 16px;
+				border-bottom: 1px solid $theme-divider;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+			}
+		}
+		.tag-group{
+			margin: 0 16px;
+			padding: 6px 10px;
+			border-radius: $rounded-6;
+			&:hover{
+				background-color: $colour-gray-100;
+			}
+		}
+		.create-tag{
+			margin: 0;
+			padding: 0 16px;
+		}
+		.tagButton{
+			@include outline-button;
+			margin: 0;
+		}
+	}
+	&:has(.app-mail) .modal-container.general-popup:has(.dialog__content > .input-field){
+		.dialog__content{
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			padding: 16px;
+		}
+		.input-field{
+			@include input;
+			margin: 0;
+			.input-field__main-wrapper{
+				height: 36px;
+				input{
+					padding: 0 10px;
+				}
+			}
+		}
+		.breadcrumb{
+			height: auto;
+			min-height: unset;
+			margin: 0;
+			nav{
+				flex: none;
+				padding: 0;
+				background-color: transparent;
+			}
+			.vue-crumb{
+				.button-vue{
+					background-color: transparent;
+					&:hover{
+						background-color: $colour-gray-100;
+					}
+				}
+			}
+		}
+		ul{
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+		}
+		.list-item{
+			padding: 6px 10px;
+			border-radius: $rounded-6;
+			background-color: transparent;
+			&::before{
+				display: none;
+			}
+			&:hover{
+				background-color: $colour-gray-100;
+			}
+		}
+		.list-item-content__name{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground;
+		}
+		@include mail-dialog-actions;
+		.dialog__actions{
+			justify-content: flex-end;
+			.button-vue{
+				flex: 0 0 auto;
+				width: auto;
+			}
+		}
+	}
+	&:has(.app-mail) .modal-container:has(.file-picker){
+		.dialog__actions{
+			justify-content: flex-end;
+			padding: 12px 16px;
+			border-top: 1px solid $theme-divider;
+			.button-vue{
+				flex: 0 0 auto;
+				width: auto;
+			}
+		}
+	}
+	.modal-mask.search-modal{
+		.dialog__content{
+			padding-inline-end: 0;
+		}
+		.modal-inner--content{
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			box-sizing: border-box;
+			width: 100%;
+			padding: 16px;
+			overflow-x: hidden;
+			overflow-y: auto;
+			@include scrollbar($thumb-colour: $colour-scrollbar-main);
+		}
+		.modal-inner--field{
+			margin: 0;
+			padding: 0;
+		}
+		.modal-inner--label{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground;
+		}
+		label{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground-1;
+		}
+		.search-input{
+			@include mail-native-input;
+			width: 100%;
+		}
+		.native-datetime-picker{
+			input{
+				@include mail-native-input;
+				width: 100%;
+			}
+		}
+		.v-select{
+			.vs__dropdown-toggle{
+				min-height: 36px;
+				border: 1px solid $theme-divider !important;
+				border-radius: $rounded-6;
+				box-shadow: none !important;
+			}
+			&.vs--open .vs__dropdown-toggle{
+				border-color: $colour-blue-600 !important;
+			}
+			.vs__search,
+			.vs__search::placeholder{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.vs__actions{
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+			}
+			&.vs--open .vs__actions svg{
+				fill: $colour-blue-600;
+			}
+		}
+		.checkbox-radio-switch{
+			@include checkbox-radio-switch;
+			.checkbox-content{
+				align-items: center;
+				gap: 6px;
+				padding: 2px 0;
+			}
+			.checkbox-content__icon{
+				display: flex;
+				width: 20px;
+				height: 20px;
+				margin: 0;
+				svg{
+					width: 20px;
+					height: 20px;
+					fill: $colour-forground-1;
+				}
+			}
+			.checkbox-content__text{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			&.checkbox-radio-switch--checked .checkbox-content__icon svg{
+				fill: $colour-blue-600;
+			}
+		}
+		.dialog__actions{
+			justify-content: flex-end;
+			gap: 8px;
+			margin: 0;
+			padding: 12px 16px;
+			border-top: 1px solid $theme-divider;
+			.button-vue{
+				flex: 0 0 auto;
+				width: auto;
+			}
+			.button-vue:first-child{
+				@include outline-button;
+			}
+			.button-vue:last-child{
+				@include primary-button;
+			}
+		}
+	}
+	.modal-container:has(.quick-actions-settings):not(:has(#settings-section_alias-settings)){
+		.dialog__content{
+			padding: 16px;
+		}
+		.quick-actions-settings{
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 12px;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground-1;
+			.list-item__wrapper{
+				width: 100%;
+			}
+			.list-item{
+				padding: 8px 10px;
+				border-radius: $rounded-6;
+				&:hover{
+					background-color: $colour-gray-100;
+				}
+			}
+			.list-item-content__name{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.add-quick-action{
+				@include primary-button;
+				padding: 6px 12px !important;
+			}
+		}
+	}
+	.modal-mask:has(.modal-content .eventTitle){
+		.modal-header{
+			display: none !important;
+		}
+		.modal-container{
+			height: auto !important;
+			border-radius: $rounded-12;
+			background-color: $colour-background;
+		}
+		.modal-content{
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			padding: 0 0 16px !important;
+			> *:not(h2){
+				margin-inline: 16px;
+			}
+			> br{
+				display: none;
+			}
+			h2{
+				margin: 0;
+				padding: 16px 56px 16px 16px;
+				border-bottom: 1px solid $theme-divider;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			label{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+		}
+		.eventTitle,
+		.attendees-field{
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			margin-bottom: 0;
+			padding-bottom: 0;
+		}
+		#eventTitle{
+			@include mail-native-input;
+			width: 100%;
+			padding: 0 10px !important;
+		}
+		.dateTimePicker{
+			display: flex;
+			gap: 8px;
+			.mx-datepicker{
+				flex: 1 1 0;
+				width: auto;
+			}
+			.mx-input{
+				@include datepicker;
+				height: 36px !important;
+				max-height: unset;
+				padding: 0 36px 0 10px !important;
+			}
+		}
+		.all-day{
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			margin-block: 0;
+			input[type="checkbox"]{
+				width: 16px;
+				height: 16px;
+				margin: 0;
+				accent-color: $colour-blue-600;
+			}
+		}
+		.attendees-disabled-msg{
+			font-size: $text-12;
+			line-height: $leading-16;
+			font-weight: $font-medium;
+			color: $colour-forground-1;
+		}
+		.select-users{
+			.vs__dropdown-toggle{
+				min-height: 36px;
+				padding: 4px 6px;
+				border: 1px solid $theme-divider !important;
+				border-radius: $rounded-6;
+				box-shadow: none !important;
+			}
+			.vs__selected-options{
+				gap: 4px;
+				align-items: center;
+			}
+			.vs__selected{
+				@include mail-recipient-chip;
+				margin: 0;
+				border: 1px solid $theme-divider !important;
+				border-radius: $rounded-full !important;
+				background-color: $colour-gray-100;
+			}
+			.vs__search,
+			.vs__search::placeholder{
+				font-size: $text-heading-5;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.vs__actions svg{
+				width: 16px;
+				height: 16px;
+				fill: $colour-forground-1;
+			}
+		}
+		.modal-content__calendar-picker{
+			@include single-select(false);
+			width: auto;
+		}
+		.modal-content__description-input{
+			@include mail-native-input;
+			width: auto;
+			height: auto;
+			min-height: 120px;
+			padding: 10px;
+		}
+		button.primary{
+			align-self: flex-end;
+			float: none;
+			margin: 0 16px 0 0;
+			padding: 6px 12px;
+			border: 1px solid $colour-blue-600;
+			border-radius: $rounded-6;
+			background-color: $colour-blue-600;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground-white;
+			transition: all ease-in-out 300ms;
+			&:hover{
+				background-color: transparent;
+				color: $colour-blue-600;
+			}
+		}
+	}
+	.modal-container:has(.delegation-modal){
+		.delegation-modal{
+			padding: 0;
+			h2{
+				margin: 0;
+				padding: 16px 56px 16px 16px;
+				border-bottom: 1px solid $theme-divider;
+				text-align: start;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+		}
+		.delegation-modal__section{
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			margin: 0;
+			padding: 16px;
+			ul{
+				&:empty{
+					display: none;
+				}
+			}
+			.list-item{
+				padding: 8px 10px;
+				border-radius: $rounded-6;
+				&:hover{
+					background-color: $colour-gray-100;
+				}
+			}
+			.list-item-content__name{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.list-item__extra-actions{
+				.button-vue{
+					@include mail-icon-button;
+				}
+			}
+			> .button-vue--vue-secondary{
+				@include primary-button;
+				.button-vue__wrapper{
+					justify-content: center;
+				}
+			}
+		}
+		.delegation-modal__description{
+			margin: 0;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground-1;
+		}
+	}
+	.modal-container.general-popup:has(.add-delegates-dialog__select){
+		.dialog__content{
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			padding: 16px;
+		}
+		.v-select{
+			@include single-select(false);
+			width: 100%;
+		}
+		.add-delegates-dialog__description{
+			margin: 0;
+			padding: 0;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground-1;
+		}
+		@include mail-dialog-actions;
+	}
+	.modal-container.general-popup:has(.revoke-dialog__text){
+		.dialog__content{
+			padding: 16px;
+		}
+		.revoke-dialog__text{
+			margin: 0;
+			padding: 0;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground-1;
+		}
+		@include mail-dialog-actions;
+	}
+}
+
+@mixin mail-popovers {
+	&:has(.app-mail) .v-popper__inner{
+		li.action{
+			&:has(.action-text, .action-checkbox, .action-input){
+				&:hover,
+				&:focus-within{
+					background-color: transparent !important;
+				}
+			}
+			&:has(.action-text){
+				border-radius: 0;
+				margin-bottom: 4px;
+				padding-bottom: 4px;
+				border-bottom: 1px solid $theme-divider;
+				&:has(+ .action-separator){
+					margin-bottom: 0;
+					border-bottom: 0;
+				}
+			}
+			&.action-separator{
+				margin: 4px 0;
+				border-bottom-color: $theme-divider;
+			}
+		}
+		.list-item-content__actions--primary{
+			display: flex;
+			gap: 4px;
+			margin-bottom: 4px;
+			padding-bottom: 4px;
+			border-bottom: 1px solid $theme-divider;
+			li.action--primary{
+				flex: 1 1 0;
+				background-color: transparent !important;
+			}
+			.action-button{
+				flex-direction: column;
+				justify-content: center;
+				gap: 4px;
+				width: 100%;
+				height: auto;
+				padding: 6px 8px;
+				border-radius: $rounded-6;
+				transition: background-color ease-in-out 300ms;
+				&:hover{
+					background-color: $colour-gray-100;
+				}
+				.material-design-icon{
+					width: 16px;
+					height: 16px;
+					margin: 0;
+					svg{
+						width: 16px;
+						height: 16px;
+					}
+				}
+			}
+		}
+		.action-text{
+			display: flex;
+			align-items: center;
+			cursor: default;
+			.material-design-icon svg{
+				fill: $colour-forground-1;
+			}
+			.action-text__name{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.action-text__longtext,
+			p{
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+		}
+		.action-button__name,
+		.action-button__longtext{
+			font-weight: $font-normal;
+		}
+		.action-checkbox{
+			.action-checkbox__icon{
+				width: 36px;
+				min-width: 36px;
+				margin-inline-start: 3px;
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+			}
+			.action-checkbox__text{
+				font-size: $text-heading-5;
+				font-weight: $font-normal;
+				color: $colour-forground;
+			}
+			&[aria-checked="true"] .action-checkbox__icon svg{
+				fill: $colour-blue-600;
+			}
+		}
+		.action-input{
+			.input-field__main-wrapper{
+				input{
+					background-color: transparent;
+				}
+			}
+		}
+	}
+}
+
+@mixin mail-main {
+	.content.app-mail{
+		main.app-content{
+			background-color: $main-page-bg;
+			.splitpanes__splitter{
+				border-left: 1px solid $theme-divider;
+				background-color: $main-page-bg;
+			}
+		}
+		.search-messages{
+			border-bottom: 1px solid $theme-divider;
+			background-color: $main-page-bg;
+		}
+		.search-messages__input{
+			gap: 8px;
+			min-height: 53px;
+			padding-block: 8px;
+			padding-inline-end: 12px;
+			.search-messages--input{
+				@include mail-native-input;
+				flex: 1 1 auto;
+				padding-inline-end: 64px;
+				&::placeholder{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+				}
+			}
+			.search-messages--filter{
+				inset-inline-end: 16px;
+			}
+			.search-messages--close{
+				inset-inline-end: 44px;
+			}
+			.search-messages--filter,
+			.search-messages--close{
+				--button-size: 28px;
+				width: 28px;
+				height: 28px;
+				min-width: 28px;
+				min-height: 28px;
+				border-radius: $rounded-6;
+				background-color: transparent;
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+				&:hover{
+					background-color: $colour-gray-100;
+				}
+			}
+		}
+		.filter-buttons{
+			display: flex;
+			flex-wrap: wrap;
+			gap: 6px;
+			padding: 8px 12px;
+			border-bottom: 1px solid $theme-divider;
+			.nc-chip{
+				height: 24px;
+				padding: 2px 10px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-full;
+				background-color: transparent;
+				cursor: pointer;
+				transition: all ease-in-out 300ms;
+				&:hover{
+					background-color: $colour-gray-100;
+				}
+				&.nc-chip--primary{
+					border-color: $colour-blue-600;
+					background-color: $colour-blue-600;
+					.nc-chip__text{
+						color: $colour-forground-white;
+					}
+				}
+			}
+			.nc-chip__text{
+				padding: 0;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+		}
+		.envelope-list{
+			padding: 6px 8px;
+			background-color: $main-page-bg;
+			@include scrollbar($thumb-colour: $colour-scrollbar-main);
+		}
+		.section-title{
+			.app-content-list-item{
+				height: auto;
+				min-height: unset;
+				padding: 0;
+			}
+			h2{
+				margin: 0;
+				padding: 12px 10px 4px;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-semibold;
+				color: $colour-forground-1;
+			}
+		}
+		.section-header-info{
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+		.envelope{
+			&.list-item__wrapper{
+				padding: 2px 0;
+			}
+			.list-item{
+				padding: 8px 10px;
+				border-radius: $rounded-6;
+				background-color: transparent;
+				transition: background-color ease-in-out 300ms;
+				&::before{
+					display: none;
+				}
+				&:hover{
+					background-color: $colour-gray-100;
+				}
+			}
+			.list-item-content__name{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.list-item-content__inner__subname,
+			.list-item-content__inner__details__details{
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.list-item-content__inner__details__extra__indicator{
+				display: flex;
+				align-items: center;
+				.material-design-icon,
+				svg{
+					width: 10px;
+					height: 10px;
+				}
+				svg{
+					fill: $colour-blue-600;
+				}
+			}
+			.list-item-content__inner__tags{
+				margin-top: 6px;
+			}
+			.attachment-tag{
+				gap: 4px;
+				height: 24px;
+				margin-inline-end: 6px;
+				padding: 0 8px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				background-color: $colour-background;
+			}
+			.attachment-tag__icon{
+				width: 14px;
+				height: 14px;
+			}
+			.attachment-tag__filename{
+				margin: 0;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.check-icon{
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-blue-600;
+				}
+			}
+			.list-item__hoverable{
+				gap: 2px;
+				height: auto;
+				padding: 4px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				background-color: $colour-background;
+				box-shadow: $box-shadow-1;
+				.button-vue{
+					--button-size: 28px;
+					width: 28px;
+					height: 28px;
+					min-width: 28px;
+					min-height: 28px;
+					border-radius: $rounded-6;
+					background-color: transparent;
+					&:hover{
+						background-color: $colour-gray-100;
+					}
+				}
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1 !important;
+				}
+			}
+			.list-item__actions{
+				.button-vue{
+					--button-size: 28px;
+					width: 28px;
+					height: 28px;
+					min-width: 28px;
+					min-height: 28px;
+					border-radius: $rounded-6;
+					background-color: transparent;
+					svg{
+						width: 16px;
+						height: 16px;
+						fill: $colour-forground-1;
+					}
+				}
+			}
+			&:not(.seen){
+				.list-item-content__name,
+				.list-item-content__inner__subname{
+					font-weight: $font-medium;
+				}
+			}
+			.list-item-content__inner__subname--bold{
+				font-weight: $font-medium;
+			}
+			&.list-item__wrapper--active,
+			&.selected{
+				.list-item{
+					background-color: $colour-gray-100;
+				}
+				.list-item-content__name{
+					&,
+					div{
+						color: $colour-forground !important;
+					}
+				}
+				.list-item-content__inner__subname,
+				.list-item-content__inner__details__details{
+					&,
+					div{
+						color: $colour-forground-1 !important;
+					}
+				}
+			}
+		}
+		.multiselect-header{
+			.action-buttons{
+				gap: 4px;
+				.button-vue{
+					@include mail-icon-button;
+				}
+			}
+		}
+		.load-more{
+			.list-item-content__name{
+				color: $colour-blue-600;
+			}
+		}
+		.no-message-selected{
+			gap: 12px;
+			padding-inline-start: 48px;
+			background: $main-page-bg;
+			@media (max-width: $bp-640){
+				padding-inline: 16px;
+			}
+			.no-message-selected__heading{
+				font-size: $text-heading-2;
+				line-height: $leading-28;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.no-message-selected__text{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.no-message-selected__action{
+				.header{
+					padding: 0;
+				}
+				.button-vue--vue-secondary{
+					@include primary-button;
+					box-shadow: none;
+				}
+			}
+		}
+	}
+}
+
+@mixin mail-composer {
+	.content.app-mail .composer-session{
+		gap: 8px;
+		height: 44px;
+		padding: 0 8px 0 12px;
+		border: 1px solid $theme-divider;
+		border-radius: $rounded-8;
+		background-color: $colour-background;
+		box-shadow: $box-shadow-3;
+		.composer-session__icon{
+			display: flex;
+			width: auto;
+			svg{
+				width: 16px;
+				height: 16px;
+				fill: $colour-forground-1;
+			}
+		}
+		.composer-session__text{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+		.composer-session__actions{
+			display: flex;
+			align-items: center;
+			gap: 4px;
+			.button-vue{
+				--button-size: 28px;
+				width: 28px;
+				height: 28px;
+				min-width: 28px;
+				min-height: 28px;
+				border-radius: $rounded-6;
+				background-color: transparent;
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+				&:hover{
+					background-color: $colour-gray-100;
+				}
+			}
+		}
+	}
+	.content.app-mail .floating-composer{
+		border: 1px solid $theme-divider;
+		border-radius: $rounded-12;
+		background-color: $colour-background;
+		box-shadow: $box-shadow-3;
+		.floating-composer__header{
+			padding: 12px 16px;
+			border-bottom: 1px solid $theme-divider;
+			border-radius: $rounded-12 $rounded-12 0 0;
+			background-color: $colour-background;
+		}
+		.floating-composer__title{
+			margin: 0;
+			font-size: $text-heading-4;
+			line-height: $leading-20;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+		.floating-composer__actions{
+			gap: 4px;
+			.button-vue{
+				--button-size: 28px;
+				width: 28px;
+				height: 28px;
+				min-width: 28px;
+				min-height: 28px;
+				border-radius: $rounded-6;
+				background-color: transparent;
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+				&:hover{
+					background-color: $colour-gray-100;
+				}
+			}
+		}
+		.composer-fields{
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 6px 16px;
+			label{
+				flex: 0 0 40px;
+				padding: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.composer-fields--custom{
+				flex: 1 1 auto;
+				min-width: 0;
+				padding: 0;
+			}
+			.vs__dropdown-toggle{
+				min-height: 36px;
+				border: 1px solid $theme-divider !important;
+				border-radius: $rounded-6;
+				background-color: transparent;
+				box-shadow: none !important;
+			}
+			.vs--open .vs__dropdown-toggle{
+				border-color: $colour-blue-600 !important;
+			}
+			.vs__selected-options{
+				align-items: center;
+				@include noscrollbar;
+			}
+			.vs__search,
+			.vs__selected{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.vs__search::placeholder{
+				font-size: $text-heading-5;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.vs__selected{
+				height: 26px;
+				margin: 0;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-full;
+				background-color: $colour-gray-100;
+			}
+			.copy-toggle{
+				top: 50%;
+				transform: translateY(-50%);
+				--button-size: 24px;
+				height: 24px;
+				min-height: 24px;
+				margin-inline-end: 4px;
+				padding: 0 8px;
+				border-radius: $rounded-6;
+				background-color: transparent;
+				.button-vue__text{
+					margin: 0;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+					color: $colour-blue-600;
+				}
+				&:hover,
+				&:focus-visible{
+					background-color: $colour-primary-50;
+				}
+			}
+			.subject{
+				width: 100%;
+				padding: 10px 0;
+				border: 0;
+				border-bottom: 1px solid $theme-divider;
+				border-radius: 0;
+				background-color: transparent;
+				box-shadow: none;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+				&::placeholder{
+					font-size: $text-heading-5;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+				}
+			}
+		}
+		.ncselect__tag--recipient{
+			@include mail-recipient-chip;
+		}
+		.recipient-overflow{
+			--button-size: 26px;
+			height: 26px;
+			min-height: 26px;
+			padding: 0 10px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-full;
+			background-color: $colour-gray-100;
+			.button-vue__text{
+				margin: 0;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			&:hover{
+				border-color: $colour-blue-600;
+				background-color: $colour-primary-50;
+			}
+		}
+		.recipient-pane{
+			padding: 16px;
+			border-inline-end: 1px solid $theme-divider;
+			background-color: $main-page-bg;
+		}
+		.recipient-pane__close{
+			--button-size: 28px;
+			top: 24px;
+			inset-inline-end: 24px;
+			width: 28px;
+			height: 28px;
+			min-width: 28px;
+			min-height: 28px;
+			border-radius: $rounded-6;
+			svg{
+				width: 16px;
+				height: 16px;
+				fill: $colour-forground-1;
+			}
+			&:hover{
+				background-color: $colour-gray-100;
+			}
+		}
+		.recipient-info__single{
+			padding: 12px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-8;
+			background-color: $colour-background;
+		}
+		.recipient-info__header{
+			justify-content: flex-start;
+			gap: 12px;
+			width: 100%;
+			padding-inline-end: 32px;
+		}
+		.recipient-info__avatar{
+			flex: none;
+		}
+		.recipient-info__contact{
+			display: flex;
+			flex-direction: column;
+			min-width: 0;
+		}
+		.recipient-info__contact-name{
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+		.recipient-info__contact-email{
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			font-size: $text-12;
+			line-height: $leading-16;
+			font-weight: $font-medium;
+			color: $colour-forground-1;
+		}
+		.recipient-info__details{
+			&:has(div:not(:empty)){
+				margin-top: 8px;
+			}
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+		.composer-fields__from{
+			.vs__selected{
+				height: auto;
+				padding: 0 0 0 7px;
+				border: 0 !important;
+				border-radius: 0 !important;
+				background-color: transparent;
+			}
+		}
+		.new-message-attachments{
+			padding: 0 16px;
+		}
+		.new-message-attachments--counter{
+			font-size: $text-12;
+			line-height: $leading-16;
+			font-weight: $font-medium;
+			color: $colour-forground-1;
+		}
+		.new-message-attachments--list{
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			margin: 8px 0;
+			padding: 0;
+		}
+		.composer-attachment{
+			align-items: center;
+			gap: 10px;
+			width: calc(50% - 4px);
+			margin: 0;
+			padding: 8px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-8;
+			background-color: $colour-background;
+			flex-wrap: nowrap;
+			@media (max-width: $bp-640){
+				width: 100%;
+			}
+			.attachment-preview{
+				flex: none;
+				width: 36px;
+				height: 36px;
+				border-radius: $rounded-6;
+				background-color: $colour-gray-100;
+				img{
+					min-width: 36px;
+					min-height: 36px;
+				}
+			}
+			.attachment-inner{
+				flex: 1 1 auto;
+				min-width: 0;
+				display: flex;
+				flex-direction: column;
+			}
+			.new-message-attachment-name{
+				display: block;
+				width: auto;
+				max-width: 100%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.new-message-attachment-size{
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			.attachments-upload-progress{
+				height: 4px;
+				background-color: $colour-gray-100;
+			}
+			.attachments-upload-progress--bar{
+				background-color: $colour-blue-600;
+			}
+			button{
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex: none;
+				width: 28px;
+				height: 28px;
+				margin: 0;
+				border-radius: $rounded-6;
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+				&:hover{
+					background-color: $colour-gray-100;
+				}
+			}
+			&.composer-attachment--with-error{
+				border-color: $colour-red-600;
+				.new-message-attachment-name{
+					color: $colour-red-600;
+				}
+			}
+		}
+		.composer-fields__helper-text{
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+		.message-body{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			color: $colour-forground;
+		}
+		.draft-status{
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+		.composer-actions--secondary-actions{
+			align-items: center;
+			gap: 8px;
+			> .button-vue--vue-tertiary,
+			.action-item__menutoggle{
+				@include mail-icon-button;
+			}
+			> .button-vue--vue-primary{
+				@include primary-button;
+				&:disabled{
+					opacity: 0.5;
+				}
+			}
+		}
+	}
+}
+
+@mixin mail-thread {
+	.content.app-mail #mail-message{
+		background-color: $main-page-bg;
+		#mail-thread-header{
+			margin: 0;
+			padding: 12px 16px;
+			border-bottom: 1px solid $theme-divider;
+			background-color: $main-page-bg;
+			&::before{
+				border-bottom: 0;
+				background-color: $main-page-bg;
+			}
+		}
+		#mail-thread-header-fields{
+			margin: 0;
+			padding-inline-start: 0;
+			@media (max-width: $bp-1024){
+				padding-inline-start: 40px;
+			}
+			h2{
+				margin: 0;
+				padding: 0;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+		}
+		.envelope{
+			margin: 12px 16px;
+			padding: 0;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-8;
+			background-color: $colour-background;
+			box-shadow: none;
+			@media (max-width: $bp-640){
+				margin-inline: 12px;
+			}
+		}
+		.envelope__header{
+			gap: 10px;
+			padding: 12px 16px;
+			.left{
+				margin: 0;
+				padding: 0;
+			}
+			.sender{
+				margin: 0;
+				padding-inline: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.sender__email{
+				--button-size: 24px;
+				min-height: unset;
+				margin: 0;
+				padding: 0;
+				background-color: transparent;
+				.button-vue__text{
+					margin: 0;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+				}
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+			}
+			.subline,
+			.preview{
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			.right{
+				gap: 8px;
+			}
+			.timestamp{
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.action-items{
+				gap: 6px;
+				.button-vue{
+					@include mail-icon-button;
+				}
+			}
+		}
+		.envelope__recipients{
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			padding: 0 16px 12px 66px;
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground;
+			.recipients{
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
+			.recipients__label{
+				flex: 0 0 36px;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.recipients__list{
+				display: flex;
+				flex-wrap: wrap;
+				gap: 6px;
+			}
+			.user-bubble__content{
+				height: 24px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-full;
+				background-color: $colour-gray-100;
+			}
+			.user-bubble__name{
+				padding: 0 8px 0 4px;
+				font-size: $text-12;
+				line-height: 22px;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+		}
+		.tag-group__label{
+			font-size: $text-12;
+			line-height: $leading-16;
+			font-weight: $font-medium;
+		}
+		.mail-message-body{
+			padding: 16px;
+			border-top: 1px solid $theme-divider;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			color: $colour-forground;
+			#mail-content,
+			.message-imip{
+				margin: 0;
+			}
+			#message-container{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground;
+				word-break: break-word;
+			}
+			.quoted-text{
+				margin-top: 8px;
+				padding-inline-start: 10px;
+				border-inline-start: 2px solid $theme-divider;
+				color: $colour-forground-1;
+				summary{
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+					cursor: pointer;
+					&:hover{
+						color: $colour-blue-600;
+					}
+				}
+			}
+		}
+		.message-imip{
+			padding: 0;
+			margin-bottom: 12px;
+			.imip{
+				padding: 16px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-8;
+				background-color: $colour-background;
+				box-shadow: none;
+			}
+			.event-data{
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+			.event-data__heading{
+				margin: 0 0 4px;
+				font-size: $text-heading-4;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.event-data__row{
+				gap: 8px;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground;
+				ul{
+					margin: 0;
+				}
+			}
+			.event-data__row__icon{
+				padding-top: 2px;
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+			}
+			.muted{
+				color: $colour-forground-1;
+			}
+			.imip__actions{
+				margin-top: 12px;
+				gap: 8px;
+				.button-vue--vue-primary{
+					@include primary-button;
+				}
+				.button-vue--vue-secondary,
+				.button-vue--vue-tertiary{
+					@include outline-button;
+				}
+			}
+			.imip__actions--hint{
+				padding-top: 12px;
+				border-top: 1px solid $theme-divider;
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+		}
+		.mail-message-attachments{
+			padding: 12px 0 0;
+			.mail-message-attachments--wrapper.hide{
+				max-height: 54px;
+				overflow: hidden;
+			}
+			.attachments{
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+				gap: 8px;
+				margin: 0;
+			}
+			.attachment{
+				gap: 10px;
+				width: auto;
+				height: auto;
+				margin: 0;
+				padding: 8px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-8;
+				background-color: transparent;
+				transition: background-color ease-in-out 300ms;
+				&:hover{
+					background-color: $colour-gray-100;
+				}
+			}
+			.mail-attachment-img--wrapper{
+				width: 36px;
+				height: 36px;
+				img{
+					width: 36px;
+					height: 36px;
+					border-radius: $rounded-6;
+					object-fit: cover;
+				}
+			}
+			.mail-attached--content{
+				min-width: 0;
+			}
+			.attachment-name{
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.attachment-size{
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			.action-item__menutoggle{
+				--button-size: 28px;
+				width: 28px;
+				height: 28px;
+				min-width: 28px;
+				min-height: 28px;
+				border-radius: $rounded-6;
+				background-color: transparent;
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+			}
+			.attachments-button-wrapper{
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				margin: 8px 0 0;
+			}
+			.attachment-button{
+				@include outline-button;
+				--button-size: 28px;
+				height: 28px;
+				min-height: 28px;
+				margin: 8px 0 0;
+				padding: 0 10px;
+				.button-vue__text{
+					font-size: $text-12;
+					line-height: $leading-16;
+				}
+			}
+			.attachments-button-wrapper .attachment-button{
+				margin: 0;
+			}
+		}
+		.reply-buttons{
+			gap: 8px;
+			padding: 0 16px 16px;
+			.button-vue{
+				@include outline-button;
+			}
+		}
+		@media (max-width: $bp-640){
+			.envelope__header{
+				flex-wrap: wrap;
+				.right{
+					justify-content: space-between;
+					width: 100%;
+				}
+			}
+			.envelope__recipients{
+				padding-inline-start: 16px;
+			}
+		}
+		.mail-error{
+			gap: 8px;
+			.empty-content__icon{
+				width: 48px;
+				height: 48px;
+				.material-design-icon,
+				svg{
+					width: 48px !important;
+					height: 48px !important;
+				}
+				svg{
+					fill: $colour-forground-1;
+				}
+			}
+			.empty-content__name{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+		}
+	}
+}

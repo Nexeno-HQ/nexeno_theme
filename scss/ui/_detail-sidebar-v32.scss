@@ -1,0 +1,53 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin detail-sidebar {
+	aside.app-sidebar:not(.modal__card *) {
+		.app-sidebar-header--compact {
+			.app-sidebar-header__figure {
+				display: none;
+			}
+			.app-sidebar-header__desc {
+				margin-top: 0;
+			}
+			.app-sidebar-header__menu {
+				position: absolute !important;
+				top: 0;
+				right: 38px;
+			}
+		}
+		.app-sidebar-tabs__nav {
+			#tab-button-sharing {
+				order: -1;
+			}
+			.checkbox-radio-switch-button {
+				.checkbox-content__icon {
+					.svg-icon {
+						display: flex;
+						width: 16px;
+						height: 16px;
+						svg {
+							width: 16px;
+							height: 16px;
+							fill: $colour-forground;
+						}
+					}
+				}
+				&:hover,
+				&.checkbox-radio-switch--checked {
+					.checkbox-content__icon {
+						.svg-icon {
+							svg {
+								fill: $colour-forground-white;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

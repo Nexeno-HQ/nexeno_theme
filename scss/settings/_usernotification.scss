@@ -1,0 +1,315 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+@use '../dashboard/dashboard' as dash;
+
+@mixin usernotification-content {
+    #activity-user-settings{
+        padding-top: 16px;
+        border-top: 1px solid $theme-divider;
+    }
+    #notifications-user-settings{
+        .notification-frequency__warning{
+            &:empty{
+                display: none;
+            }
+        }
+    }
+    .notification-frequency__wrapper{
+        margin-bottom: 16px;
+        label{
+            font-size: $text-heading-5;
+            line-height: $leading-20;
+            color: $colour-forground-1;
+            font-weight: $font-medium;
+            margin-bottom: 8px;
+        }
+    }
+    .checkbox-radio-switch{
+        @include checkbox-radio-switch;
+        + .checkbox-radio-switch{
+            margin-top: 12px;
+        }
+    }
+    .activitysettings-table-wrapper{
+        overflow-x: auto;
+    }
+    table{
+        &.activitysettings{
+            tr,
+            th{
+                height: 44px;
+            }
+            thead,
+            tbody{
+                tr{
+                    th{
+                        padding-block: 0;
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground-1;
+                        font-weight: $font-normal;
+                        padding-left: 16px;
+                        strong{
+                            font-weight: $font-semibold;
+                        }
+                        &.activity_select_group,
+                        &.group-header-section{
+                            padding-top: 0 !important;
+                        }
+                    }
+                    &.group-header{
+                        th{
+                            font-size: $text-heading-4;
+                            line-height: $leading-20;
+                            color: $colour-forground;
+                            font-weight: $font-semibold;
+                            padding-left: 0;
+                        }
+                    }
+                    &:hover{
+                        background-color: transparent;
+                    }
+                }
+            }
+            tbody{
+                + tbody{
+                    tr:first-child{
+                        th,
+                        td{
+                            padding-top: 16px;
+                        }
+                    }
+                }
+            }
+            .checkbox-radio-switch{
+                --icon-size : 20px;
+                width: 20px;
+                height: 20px;
+                min-height: unset;
+                min-width: unset;
+                .checkbox-radio-switch__input{
+                    margin: 0;
+                    width: 20px;
+                    height: 20px;
+                    min-height: unset;
+                }
+                .checkbox-radio-switch__icon{
+                    margin: 0;
+                    color: $theme-divider;
+                }
+                &.checkbox-radio-switch--checked,
+                &.checkbox-radio-switch--indeterminate{
+                    .checkbox-radio-switch__icon{
+                        color: $colour-blue-600;
+                    }
+                }
+                .checkbox-radio-switch__label,
+                .checkbox-radio-switch__label:hover,
+                .checkbox-radio-switch__label:focus,
+                .checkbox-radio-switch__label:focus-visible,
+                .checkbox-radio-switch__label:focus-within,
+                .checkbox-radio-switch__label:active{
+                    background-color: transparent !important;
+                    box-shadow: none !important;
+                    outline: 0 !important;
+                }
+                .checkbox-radio-switch__label:hover,
+                .checkbox-radio-switch__label:focus,
+                .checkbox-radio-switch__label:focus-visible,
+                .checkbox-radio-switch__label:focus-within,
+                .checkbox-radio-switch__label:active{
+                    .checkbox-radio-switch__icon{
+                        color: $colour-blue-600;
+                    }
+                }
+                &.checkbox-radio-switch--disabled{
+                    .checkbox-radio-switch__label{
+                        opacity: 1 !important;
+                    }
+                    .checkbox-radio-switch__label:hover,
+                    .checkbox-radio-switch__label:focus,
+                    .checkbox-radio-switch__label:focus-visible,
+                    .checkbox-radio-switch__label:focus-within,
+                    .checkbox-radio-switch__label:active{
+                        background-color: transparent !important;
+                        box-shadow: none !important;
+                        outline: 0 !important;
+                    }
+                    &:not(.checkbox-radio-switch--checked):not(.checkbox-radio-switch--indeterminate){
+                        .checkbox-radio-switch__icon{
+                            color: $theme-divider !important;
+                            .material-design-icon{
+                                position: relative;
+                                svg{
+                                    opacity: 0;
+                                }
+                                &::before{
+                                    content: '';
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                    width: 16px;
+                                    height: 16px;
+                                    box-sizing: border-box;
+                                    border: 1.5px solid $theme-divider;
+                                    border-radius: $rounded-4;
+                                }
+                            }
+                        }
+                    }
+                    &.checkbox-radio-switch--checked,
+                    &.checkbox-radio-switch--indeterminate{
+                        .checkbox-radio-switch__icon{
+                            color: $colour-blue-600 !important;
+                        }
+                    }
+                }
+                .checkbox-radio-switch__label{
+                    padding: 0;
+                    min-height: unset;
+                    width: 20px;
+                    height: 20px;
+                    margin: 0;
+                    border-radius: $rounded-4;
+                }
+                .material-design-icon{
+                    width: 20px;
+                    height: 20px;
+                    overflow: visible;
+                    margin: 0;
+                    svg{
+                        width: 20px;
+                        height: 20px;
+                        flex-shrink: 0;
+                        transform: scale(1.15);
+                        transform-origin: center;
+                    }
+                }
+            }
+        }
+    }
+    div{
+        &:has(.activity-frequency__label){
+            margin-top: 20px;
+            p{
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                label{
+                    margin-top: 0;
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    color: $colour-forground;
+                    font-weight: $font-medium;
+                }
+                &:has(select){
+                    display: inline-flex;
+                    position: relative;
+                    select{
+                        margin: 0;
+                        border: 1px solid $theme-divider;
+                        background-color: transparent;
+                        background-image: none !important;
+                        appearance: none;
+                        -webkit-appearance: none;
+                        -moz-appearance: none;
+                        border-radius: $rounded-6;
+                        height: auto;
+                        min-height: unset;
+                        padding: 6px 32px 6px 12px;
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground;
+                    }
+                    &::after{
+                        content: '';
+                        position: absolute;
+                        right: 12px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        pointer-events: none;
+                        color: $colour-forground-1;
+                        @include dash.chevron-down;
+                    }
+                }
+            }
+        }
+    }
+    .checkbox-radio-switch{
+        input{
+            margin: 0;
+        }
+        .checkbox-content{
+            gap: 8px;
+            svg{
+                fill: $theme-divider;
+            }
+            .checkbox-content__icon{
+                &.checkbox-content__icon--checked{
+                    svg{
+                        fill: $colour-blue-600;
+                    }
+                }
+            }
+            .checkbox-content__wrapper{
+                .checkbox-content__text{
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    color: $colour-forground;
+                    font-weight: $font-medium;
+                }
+            }
+        }
+    }
+}
+
+@mixin usernotification {
+    &.notifications,
+    &.activity{
+        .v-select{
+            margin: 0;
+            @include select-field;
+            @include select-box;
+            width: 100%;
+            max-width: 392px;
+            .vs__selected{
+				border: 0 !important;
+				background-color: transparent !important;
+				border-radius: 0;
+				padding: 0 !important;
+			}
+        }
+        .settings-content{
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            @include usernotification-content;
+        }
+        #notifications-admin-settings{
+            h3{
+                font-size: $text-heading-3;
+                line-height: $leading-22;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+                margin-top: 16px;
+                padding-top: 16px;
+                border-top: 1px solid $theme-divider;
+                width: 100%;
+                max-width: 100%;
+            }
+            p,
+            em{
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                font-weight: $font-normal;
+                color: $colour-forground-1;
+            }
+        }
+    }
+}

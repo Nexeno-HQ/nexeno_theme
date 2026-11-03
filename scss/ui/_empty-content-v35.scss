@@ -1,0 +1,18 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../settings/mixins' as *;
+
+@mixin empty-content {
+	.empty-content{
+		.empty-content__action{
+			.button-vue--primary{
+				@include primary-button;
+			}
+			.button-vue--secondary{
+				@include outline-button;
+			}
+		}
+	}
+}

@@ -1,0 +1,63 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin workflow {
+	&.workflow{
+		#workflowengine{
+			border-bottom: 0;
+			.actions{
+				a{
+					margin: 0;
+					padding: 12px;
+					border: 1px solid $theme-divider;
+					background-color: transparent;
+					border-radius: $rounded-6;
+					gap: 8px;
+					transition: all ease-in-out 300ms;
+					.icon-vue{
+						margin: 0;
+						svg{
+							width: 32px;
+							height: 32px;
+							fill: $colour-forground;
+						}
+					}
+					.actions__item__description{
+						gap: 8px;
+						h3{
+							font-size: $text-heading-3;
+							line-height: $leading-22;
+							color: $colour-forground;
+							font-weight: $font-medium;
+							margin-top: 0;
+						}
+						small{
+							font-size: $text-12;
+							line-height: $leading-16;
+							color: $colour-forground-1;
+							padding: 0;
+						}
+					}
+					&:hover{
+						border-color: $colour-blue-600;
+						.icon-vue{
+							svg{
+								fill: $colour-blue-600;
+							}
+						}
+						.actions__item__description{
+							h3,
+							small{
+								color: $colour-blue-600;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

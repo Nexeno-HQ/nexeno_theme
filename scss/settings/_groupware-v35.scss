@@ -1,0 +1,79 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin groupware {
+    &.groupware{
+        .button-vue--tertiary,
+        .button-vue--secondary{
+            @include outline-button;
+        }
+    }
+}
+
+@mixin groupware-popup {
+    .modal-container{
+        .import-event-modal__file-picker{
+            height: auto;
+            min-height: unset;
+            margin: 0;
+            padding: 4px;
+            border: 1px solid $theme-divider;
+            border-radius: $rounded-6;
+            background-color: transparent;
+            box-shadow: none;
+            outline: 0;
+            font-size: $text-heading-5;
+            line-height: $leading-20;
+            color: $colour-forground-1;
+            cursor: pointer;
+            &::file-selector-button{
+                margin-right: 10px;
+                padding: 4px 12px;
+                border: 1px solid $theme-divider;
+                border-radius: $rounded-6;
+                background-color: $colour-gray-100;
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                font-weight: $font-medium;
+                color: $colour-forground;
+                cursor: pointer;
+                transition: all ease-in-out 300ms;
+            }
+            &:hover{
+                border-color: $colour-blue-600;
+                &::file-selector-button{
+                    border-color: $colour-blue-600;
+                    background-color: $colour-primary-50;
+                    color: $colour-blue-600;
+                }
+            }
+            &:focus-visible{
+                border-color: $colour-blue-600;
+            }
+        }
+        .dialog__actions{
+            &:empty{
+                padding: 0;
+                display: none;
+            }
+        }
+        .import-event-modal{
+            padding: 0;
+            p{
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                color: $colour-forground-1;
+                font-weight: $font-medium;
+            }
+            .button-vue--primary{
+                @include primary-button;
+                
+            }
+        }
+    }
+}

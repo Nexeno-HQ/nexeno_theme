@@ -1,0 +1,452 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin app-button {
+	min-width: 100px;
+	margin: 0;
+	&.button-vue--vue-primary{
+		@include primary-button;
+		border-radius: $rounded-8 !important;
+	}
+	&.button-vue--vue-secondary,
+	&.button-vue--vue-tertiary{
+		@include outline-button;
+		border-radius: $rounded-8;
+	}
+}
+
+@mixin level-badge {
+	padding: 6px 12px;
+	border: 1px solid $theme-divider;
+	border-radius: $rounded-8;
+	align-items: center;
+	gap: 4px;
+	font-size: $text-heading-5;
+	line-height: $leading-20;
+	font-weight: $font-medium;
+	color: $colour-forground-1;
+	svg,
+	.icon-vue{
+		width: 16px;
+		height: 16px;
+		min-width: unset;
+		min-height: unset;
+	}
+}
+
+@mixin store-card {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	width: 100%;
+	height: auto;
+	margin: 0;
+	padding: 8px;
+	border: 1px solid $theme-divider;
+	border-radius: $rounded-6;
+	background-color: transparent;
+	transition: all ease-in-out 300ms;
+	> div{
+		width: 100%;
+		height: auto;
+		margin: 0;
+		padding: 0;
+	}
+	.app-image{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		aspect-ratio: 16 / 9;
+		margin-bottom: 6px;
+		border-radius: $rounded-6;
+		overflow: hidden;
+		img{
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		svg,
+		[class^='icon-']{
+			width: 60px;
+			height: 60px;
+			background-size: 60px;
+			fill: $colour-forground-1;
+		}
+	}
+	.app-name--link{
+		font-size: $text-heading-5;
+		line-height: $leading-20;
+		font-weight: $font-semibold;
+		color: $colour-forground;
+		transition: all ease-in-out 300ms;
+	}
+	.app-summary{
+		font-size: $text-12;
+		line-height: $leading-16;
+		color: $colour-forground-1;
+	}
+	.app-level-badge{
+		@include level-badge;
+	}
+	.app-score__wrapper{
+		color: $colour-yellow;
+	}
+	.app-level:empty{
+		display: none;
+	}
+	.app-actions{
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-top: auto;
+		padding-top: 6px;
+		.button-vue{
+			@include app-button;
+		}
+	}
+	&:hover,
+	&.selected{
+		border-color: $colour-blue-600;
+		background-color: transparent;
+		.app-name--link{
+			color: $colour-blue-600;
+		}
+	}
+}
+
+@mixin apps {
+	main.app-settings-content{
+		.app-settings-content__label{
+			position: sticky;
+			top: 0;
+			z-index: 10;
+			min-height: 53px;
+			margin: 0;
+			padding-block: 16px;
+			padding-left: 47px;
+			border-bottom: 1px solid $theme-divider;
+			background-color: $colour-background;
+			font-size: $text-heading-3;
+			line-height: $leading-22;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+		.office-suite-switcher{
+			margin: 0;
+			padding: 16px;
+			border-bottom: 1px solid $theme-divider;
+			> p{
+				margin: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.office-suite-cards{
+				gap: 16px;
+				margin-top: 16px;
+			}
+			.office-suite-card{
+				padding: 16px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				background: transparent;
+				box-shadow: none;
+				.office-suite-card__title{
+					margin: 0;
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					font-weight: $font-bold;
+					color: $colour-forground;
+				}
+				.office-suite-card__features{
+					margin: 12px 0 16px;
+					li{
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground-1;
+					}
+				}
+				.office-suite-card__link{
+					@include outline-button;
+					display: inline-flex;
+					align-items: center;
+					gap: 6px;
+					width: fit-content;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+					text-decoration: none;
+					svg{
+						width: 16px;
+						height: 16px;
+					}
+				}
+				&:hover{
+					box-shadow: none;
+				}
+				&.office-suite-card--primary{
+					border-color: $colour-blue-600;
+					.office-suite-card__title{
+						color: $colour-blue-600;
+					}
+					li{
+						color: $colour-forground;
+					}
+				}
+			}
+			.office-suite-actions{
+				margin-top: 16px;
+				.office-suite-disable-button{
+					@include outline-button;
+					margin: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+			}
+		}
+		.apps-list{
+			margin-bottom: 0;
+			.apps-list__toolbar{
+				padding: 16px 16px 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+			.app-level-badge{
+				@include level-badge;
+			}
+			.app-score__wrapper{
+				color: $colour-yellow;
+			}
+		}
+		.apps-list--list-view{
+			padding: 16px;
+			.apps-list__toolbar{
+				padding: 0 0 16px;
+			}
+			.apps-list__list-container{
+				width: 100%;
+				border-collapse: collapse;
+			}
+			.apps-list__bundle-heading{
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				margin: 24px 0 8px;
+				.apps-list__bundle-header{
+					margin: 0;
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					font-weight: $font-bold;
+					color: $colour-forground;
+				}
+				.button-vue{
+					@include app-button;
+				}
+			}
+			tr:first-child + tr th .apps-list__bundle-heading{
+				margin-top: 0;
+			}
+			.app-item{
+				height: 44px;
+				border-bottom: 1px solid $theme-divider;
+				td{
+					height: auto;
+					padding: 0 8px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+					&.app-image{
+						width: 18px;
+						padding-left: 16px;
+						svg,
+						.icon-vue{
+							width: 18px;
+							height: 18px;
+							margin: 0;
+							fill: $colour-forground;
+						}
+						[class^='icon-']{
+							width: 18px;
+							height: 18px;
+							background-size: 18px;
+						}
+					}
+					&.app-version,
+					&.app-level{
+						width: 15%;
+					}
+					&.app-actions{
+						display: table-cell;
+						width: 25%;
+						padding: 4px 16px 4px 8px;
+						text-align: end;
+						.button-vue{
+							@include app-button;
+							display: inline-flex;
+							vertical-align: middle;
+							+ .button-vue{
+								margin-inline-start: 8px;
+							}
+						}
+					}
+				}
+				.app-name--link{
+					height: 43px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				&:last-child{
+					border-bottom: 0;
+				}
+				&:hover,
+				&.selected{
+					background-color: $colour-gray-100;
+				}
+			}
+		}
+		.apps-list--store-view{
+			.apps-list__store-container{
+				display: grid;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				gap: 16px;
+				margin: 0;
+				padding: 16px;
+				@media (max-width: $bp-1440){
+					grid-template-columns: repeat(3, minmax(0, 1fr));
+				}
+				@media (max-width: $bp-1199){
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+				}
+				@media (max-width: $bp-1023){
+					grid-template-columns: repeat(3, minmax(0, 1fr));
+				}
+				@media (max-width: $bp-768){
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+				}
+				@media (max-width: $bp-576){
+					grid-template-columns: repeat(1, minmax(0, 1fr));
+				}
+			}
+			.app-item{
+				@include store-card;
+			}
+		}
+		.app-discover-showcase__item{
+			.app-item{
+				@include store-card;
+				height: 100%;
+				padding: 0;
+				border: 0;
+				.app-image svg{
+					fill: $colour-forground;
+				}
+			}
+			&:hover .app-name--link{
+				color: $colour-blue-600;
+			}
+		}
+	}
+
+	aside.app-sidebar:has(.app-details){
+		.app-sidebar-header__info{
+			gap: 8px;
+			.app-sidebar-header__figure{
+				width: 28px;
+				height: 28px;
+				margin: 0;
+				border-radius: $rounded-6;
+				.app-sidebar__fallback-icon{
+					width: 28px;
+					height: 28px;
+					svg{
+						width: 28px;
+						height: 28px;
+						filter: $filter-forground;
+					}
+				}
+			}
+			.app-sidebar-header__desc{
+				margin-top: 0;
+				padding-left: 0;
+			}
+		}
+		.app-sidebar-header__description{
+			margin: 8px 0;
+			.app-level-badge{
+				@include level-badge;
+			}
+		}
+		.app-details{
+			padding: 10px 0;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground;
+			.app-details__actions-manage{
+				flex-wrap: wrap;
+				gap: 8px;
+				input[type='button']{
+					@include outline-button;
+					min-height: 34px;
+					margin: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+					cursor: pointer;
+					&:hover{
+						color: $colour-blue-600;
+					}
+					&.primary{
+						border-color: $colour-blue-600;
+						background-color: $colour-blue-600;
+						color: $colour-forground-white;
+						&:hover{
+							background-color: transparent;
+							color: $colour-blue-600;
+						}
+					}
+				}
+			}
+			.app-details__section{
+				margin-top: 15px;
+				h4{
+					margin: 12px 0 5px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				p{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+				ul li a{
+					color: $colour-forground;
+					transition: all ease-in-out 300ms;
+					&:hover{
+						color: $colour-blue-600;
+					}
+				}
+				.button-vue{
+					@include outline-button;
+					border-radius: $rounded-8;
+				}
+			}
+		}
+	}
+}

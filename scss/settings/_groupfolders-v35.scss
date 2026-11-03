@@ -1,0 +1,360 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+@use '../files/files' as files;
+@use '../dashboard/dashboard' as dash;
+
+@mixin groupfolders-field {
+    height: 34px;
+    margin: 0;
+    padding: 0 10px;
+    border: 1px solid $theme-divider;
+    border-radius: $rounded-6;
+    background-color: transparent;
+    box-shadow: none;
+    font-size: $text-heading-5;
+    line-height: $leading-20;
+    color: $colour-forground;
+    transition: border-color ease-in-out 300ms;
+    &:hover,
+    &:focus{
+        border-color: $colour-blue-600;
+        box-shadow: none;
+        outline: 0;
+    }
+}
+
+@mixin groupfolders-chip {
+    height: 34px;
+    min-width: 34px;
+    margin: 0;
+    padding: 0 12px;
+    border: 1px solid $theme-divider;
+    border-radius: $rounded-6;
+    background-color: transparent;
+    font-size: $text-heading-5;
+    line-height: $leading-20;
+    font-weight: $font-medium;
+    color: $colour-forground;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all ease-in-out 300ms;
+    &:hover:not(:disabled){
+        border-color: $colour-blue-600;
+        background-color: $colour-primary-50;
+        color: $colour-blue-600;
+    }
+    &:disabled{
+        opacity: 0.5;
+        cursor: default;
+    }
+}
+
+@mixin groupfolders {
+    &.groupfolders{
+        #groupfolders-wrapper{
+            padding: 0;
+            > h2{
+                margin: 0 0 16px;
+                font-size: $text-heading-2;
+                line-height: $leading-28;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+                @media (max-width: $bp-576) {
+                    font-size: $text-heading-3;
+                    line-height: $leading-24;
+                }
+            }
+        }
+        #groupfolders-react-root{
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            min-height: unset;
+            > form{
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 16px;
+                .newgroup-name{
+                    @include groupfolders-field;
+                    width: 260px;
+                    max-width: 100%;
+                    &::placeholder{
+                        color: $colour-forground-1;
+                    }
+                }
+                input{
+                    &[type="submit"]{
+                        height: 34px;
+                        margin: 0;
+                        padding: 0 14px;
+                        border: 1px solid $colour-blue-600;
+                        border-radius: $rounded-6;
+                        background-color: $colour-blue-600;
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        font-weight: $font-medium;
+                        color: $colour-forground-white;
+                        cursor: pointer;
+                        transition: all ease-in-out 300ms;
+                        &:hover{
+                            background-color: transparent;
+                            color: $colour-blue-600;
+                        }
+                    }
+                }
+                .newgroup-permissions-default{
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 0;
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    color: $colour-forground;
+                    cursor: pointer;
+                    input{
+                        width: 16px;
+                        height: 16px;
+                        margin: 0;
+                        accent-color: $colour-blue-600;
+                    }
+                }
+                @media (max-width: $bp-576) {
+                    align-items: stretch;
+                    flex-direction: column;
+                    .newgroup-name{
+                        width: 100%;
+                    }
+                }
+            }
+            .folder-filter-tabs{
+                gap: 8px;
+                margin: 0 0 16px;
+                overflow-x: auto;
+                @include noscrollbar;
+                button{
+                    @include groupfolders-chip;
+                    &.active{
+                        border-color: $colour-blue-600;
+                        background-color: $colour-blue-600;
+                        color: $colour-forground-white;
+                    }
+                }
+            }
+            > table{
+                width: 100%;
+                border-collapse: collapse;
+                @media (max-width: $bp-1024) {
+                    display: block;
+                    overflow-x: auto;
+                    @include module-scrollbar;
+                }
+                tr{
+                    height: auto;
+                }
+                th,
+                td{
+                    padding: 10px 16px;
+                    vertical-align: middle;
+                    text-align: start;
+                    white-space: nowrap;
+                }
+                thead{
+                    tr{
+                        border-bottom: 1px solid $theme-divider;
+                    }
+                    th{
+                        border-bottom: 0;
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        font-weight: $font-medium;
+                        color: $colour-forground-1;
+                        &:first-child{
+                            font-weight: $font-medium;
+                            color: $colour-forground-1;
+                        }
+                        .sort-header{
+                            gap: 10px;
+                            width: fit-content;
+                            font-weight: $font-medium;
+                            color: $colour-forground-1;
+                            transition: color ease-in-out 300ms;
+                            &:has(.sort_arrow),
+                            &:hover{
+                                color: $colour-forground;
+                            }
+                        }
+                        .sort_arrow{
+                            padding: 0;
+                            font-size: 0;
+                            @include files.sort-down;
+                        }
+                    }
+                }
+                tbody{
+                    tr{
+                        border-bottom: 1px solid $theme-divider;
+                        transition: background-color ease-in-out 300ms;
+                        &:hover{
+                            td{
+                                border-radius: 0 !important;
+                                background-color: $secondary-card-bg;
+                            }
+                        }
+                    }
+                    td{
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground;
+                        a{
+                            color: $colour-forground-1;
+                        }
+                        &.mountpoint{
+                            a,
+                            .action-rename{
+                                font-weight: $font-medium;
+                                color: $colour-forground;
+                            }
+                        }
+                        &.groups{
+                            min-width: 220px;
+                            white-space: normal;
+                        }
+                        &.quota{
+                            padding: 12px;
+                            .quotabar-holder{
+                                width: 150px;
+                            }
+                            .quotabar{
+                                top: 0;
+                                margin: 0;
+                                border-radius: $rounded-6;
+                                background-color: $colour-primary-50;
+                            }
+                            select{
+                                &.editselect{
+                                    @include groupfolders-field;
+                                    width: 150px;
+                                    padding-inline-end: 28px;
+                                }
+                            }
+                            input{
+                                &.editselect-input{
+                                    @include groupfolders-field;
+                                    width: 150px;
+                                    &.error{
+                                        border-color: $colour-red-600;
+                                    }
+                                }
+                            }
+                        }
+                        &.acl{
+                            display: table-cell;
+                            @include secondary-checkbox;
+                            .team-space-locked{
+                                color: $colour-forground-1;
+                            }
+                        }
+                        &.remove{
+                            width: 40px;
+                        }
+                    }
+                    .folder-list-empty{
+                        td{
+                            padding: 32px 16px;
+                            text-align: center;
+                            color: $colour-forground-1;
+                        }
+                    }
+                }
+            }
+            .team-space-badge{
+                margin-inline-end: 6px;
+                padding: 2px 8px;
+                border-radius: $rounded-full;
+                background-color: $colour-primary-50;
+                font-size: $text-12;
+                line-height: $leading-16;
+                font-weight: $font-medium;
+                color: $colour-blue-600;
+            }
+            .group-edit{
+                overflow: hidden;
+                border: 1px solid $theme-divider;
+                border-radius: $rounded-8;
+                background-color: $colour-background;
+                box-shadow: $box-shadow-3;
+                td{
+                    padding: 8px 12px;
+                }
+            }
+            .groupfolders-pagination{
+                position: static;
+                justify-content: flex-end;
+                gap: 12px;
+                margin-top: 16px;
+                @media (max-width: $bp-576) {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+                .groupfolders-pagination__list{
+                    gap: 6px;
+                    margin: 0;
+                    padding: 0;
+                    background-color: transparent;
+                    li{
+                        &:first-child{
+                            .groupfolders-pagination__button{
+                                &::after{
+                                    transform: rotate(90deg);
+                                }
+                            }
+                        }
+                        &:last-child{
+                            .groupfolders-pagination__button{
+                                &::after{
+                                    transform: rotate(-90deg);
+                                }
+                            }
+                        }
+                    }
+                    button{
+                        @include groupfolders-chip;
+                        padding: 0 10px;
+                        &.primary{
+                            border-color: $colour-blue-600;
+                            background-color: $colour-blue-600;
+                            color: $colour-forground-white;
+                        }
+                        &.groupfolders-pagination__button{
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            width: 34px;
+                            padding: 0;
+                            font-size: 0;
+                            &::after{
+                                content: '';
+                                @include dash.chevron-down;
+                            }
+                        }
+                    }
+                }
+                .groupfolders-pagination__goto-page{
+                    flex: 0 0 auto;
+                    font-size: $text-heading-5;
+                    color: $colour-forground-1;
+                    input{
+                        @include groupfolders-field;
+                    }
+                }
+            }
+        }
+    }
+}

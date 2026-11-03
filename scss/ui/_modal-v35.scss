@@ -1,0 +1,533 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin dialog-legend {
+	margin-bottom: 8px;
+	padding: 0;
+	font-size: $text-heading-5;
+	line-height: $leading-20;
+	font-weight: $font-medium;
+	color: $colour-forground;
+}
+
+@mixin dialog-outline-button {
+	padding: 8px 12px;
+	margin: 0;
+	border-radius: $rounded-8;
+	background-color: transparent;
+	border: 1px solid $theme-divider;
+	transition: all ease-in-out 300ms;
+	.button-vue__wrapper{
+		gap: 6px;
+	}
+	.button-vue__text{
+		margin: 0;
+		padding: 0;
+		font-size: $text-heading-5;
+		line-height: $leading-20;
+		font-weight: $font-medium;
+		color: $colour-forground;
+	}
+	.button-vue__icon,
+	.icon-vue{
+		width: 16px;
+		height: 16px;
+		min-width: unset;
+		min-height: unset;
+		svg{
+			width: 16px;
+			height: 16px;
+			fill: $colour-forground;
+		}
+	}
+	&:hover{
+		background-color: $colour-primary-50;
+		border-color: $colour-blue-600;
+		.button-vue__text{
+			color: $colour-blue-600;
+		}
+		svg{
+			fill: $colour-blue-600;
+		}
+	}
+}
+
+@mixin modal {
+	.modal-container.general-popup:has(.photo-metadata, .photo-metadata__loading, .metadata-editor, .metadata-editor__loading, .photo-tags, .photo-tags__loading, .dialog__content > p:only-child){
+		.dialog__content{
+			> p:only-child{
+				margin: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+				overflow-wrap: anywhere;
+			}
+		}
+		.dialog__name{
+			padding: 16px;
+			margin: 0;
+			border-bottom: 1px solid $theme-divider;
+			text-align: start;
+			font-size: $text-heading-3;
+			line-height: $leading-22;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+			min-height: unset;
+			height: auto;
+		}
+		.dialog__wrapper{
+			padding: 0;
+		}
+		.dialog__content{
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			padding: 16px;
+			@include scrollbar($thumb-colour: $colour-scrollbar-main);
+		}
+		.photo-metadata{
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			&__entry{
+				gap: 16px;
+				dt,
+				dd{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+				}
+				dt{
+					flex-shrink: 0;
+					font-weight: $font-normal;
+					color: $colour-forground-1;
+				}
+				dd{
+					font-weight: $font-medium;
+					color: $colour-forground;
+					text-align: end;
+				}
+			}
+			&__map{
+				margin: 0;
+				border-radius: $rounded-8;
+				overflow: hidden;
+			}
+			&__empty{
+				margin: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+			&__loading{
+				margin: 16px auto;
+			}
+		}
+		.metadata-editor{
+			gap: 16px;
+			.native-datetime-picker{
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+				.native-datetime-picker__label{
+					margin: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				input{
+					height: var(--default-clickable-area) !important;
+					min-height: unset;
+					padding-block: 0;
+					padding-inline: 10px;
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-6;
+					box-shadow: none !important;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground;
+					&:hover,
+					&:focus,
+					&:focus-visible{
+						border-width: 1px;
+						border-color: $colour-blue-600;
+					}
+				}
+			}
+			.metadata-editor__location{
+				gap: 8px;
+				margin: 0;
+				padding: 0;
+				legend{
+					@include dialog-legend;
+				}
+				.metadata-editor__location__coordinates{
+					gap: 12px;
+					.input-field{
+						@include input;
+					}
+				}
+				.button-vue--tertiary{
+					align-self: flex-start;
+					@include outline-button;
+				}
+				.metadata-editor__location__map{
+					border-radius: $rounded-8;
+					overflow: hidden;
+				}
+			}
+			&__loading{
+				margin: 16px auto;
+			}
+		}
+		.photo-tags{
+			gap: 16px;
+			.photo-tags__empty{
+				margin: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+			.photo-tags__list{
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+				margin: 0;
+				padding: 0;
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+				legend{
+					@include dialog-legend;
+				}
+				.checkbox-radio-switch{
+					@include checkbox-radio-switch;
+					@include checkbox-radio-switch-icon;
+				}
+			}
+			.photo-tags__create{
+				align-items: center;
+				gap: 8px;
+				padding-block-start: 16px;
+				border-block-start: 1px solid $theme-divider;
+				.input-field{
+					@include input;
+				}
+				.button-vue--primary{
+					@include primary-button;
+					flex-shrink: 0;
+					padding: 9px 12px;
+					min-height: unset;
+					height: auto;
+				}
+			}
+			&__loading{
+				margin: 16px auto;
+			}
+		}
+		.dialog__actions{
+			gap: 8px;
+			margin: 0;
+			padding: 16px;
+			border-top: 1px solid $theme-divider;
+			justify-content: flex-end;
+			.button-vue--primary{
+				@include primary-button;
+			}
+			.button-vue--vue-error{
+				@include error-button;
+			}
+			.button-vue--tertiary,
+			.button-vue--secondary{
+				@include outline-button;
+			}
+		}
+	}
+	.modal-container.general-popup{
+		&.secondary-popup{
+			.dialog__content{
+				.custom-reminder-modal{
+					.native-datetime-picker{
+						input{
+							padding: 4px 12px;
+						}
+					}
+				}
+			}
+			&:has(.custom-reminder-modal){
+				.dialog__actions{
+					.button-vue--tertiary{
+						@include dialog-outline-button;
+					}
+				}
+			}
+		}
+		.file-picker{
+			.dialog__actions{
+				.button-vue--secondary{
+					@include dialog-outline-button;
+				}
+			}
+		}
+		.unified-search-custom-date-modal{
+			padding: 0;
+			h1{
+				padding: 16px 64px 16px 16px;
+				margin: 0;
+				border-bottom: 1px solid $theme-divider;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			&__pickers{
+				gap: 16px;
+				padding: 16px;
+				.native-datetime-picker{
+					display: flex;
+					flex-direction: column;
+					gap: 8px;
+					.native-datetime-picker__label{
+						margin: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					input{
+						width: 100%;
+						height: var(--default-clickable-area) !important;
+						min-height: unset;
+						margin: 0;
+						padding-block: 0;
+						padding-inline: 10px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						box-shadow: none !important;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+						&:hover,
+						&:focus,
+						&:focus-visible{
+							border-width: 1px;
+							border-color: $colour-blue-600;
+						}
+					}
+				}
+			}
+			&__footer{
+				padding: 16px;
+				border-top: 1px solid $theme-divider;
+				.button-vue{
+					@include primary-button;
+				}
+			}
+		}
+	}
+	.card-selector{
+		.modal-container.general-popup{
+			.modal-scroller{
+				width: 100%;
+				padding: 0;
+				overflow: auto;
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			}
+			#modal-inner{
+				display: flex;
+				flex-direction: column;
+				gap: 16px;
+				margin: 0;
+				padding: 0 16px;
+				h2{
+					margin: 0 -16px;
+					padding: 16px 64px 16px 16px;
+					border-bottom: 1px solid $theme-divider;
+					text-align: start;
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.card-title{
+					height: 36px;
+					min-height: unset;
+					margin: 0;
+					padding: 0 12px;
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-6;
+					box-shadow: none;
+					background-color: transparent;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+					&::placeholder{
+						color: $colour-forground-1;
+					}
+					&:hover,
+					&:focus,
+					&:focus-visible{
+						border-color: $colour-blue-600;
+						box-shadow: none;
+						outline: 0;
+					}
+				}
+				.row{
+					gap: 12px;
+				}
+				.selector-wrapper{
+					align-items: center;
+					gap: 8px;
+					margin: 0;
+					padding: 0;
+					.selector-wrapper--icon{
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						flex: none;
+						width: 20px;
+						min-width: unset;
+						height: 20px;
+						margin: 0;
+						svg{
+							width: 16px;
+							height: 16px;
+							fill: $colour-forground-1;
+						}
+					}
+					.selector-wrapper--selector{
+						flex: 1 1 auto;
+						&.multiselect-board,
+						&.multiselect-list{
+							@include single-select($dropdown: false);
+						}
+						&:not(.multiselect-board, .multiselect-list){
+							@include select-field($dropdown: false);
+							.vs__dropdown-toggle{
+								min-height: 36px;
+								.vs__selected-options{
+									padding-left: 12px;
+								}
+							}
+						}
+						.board-bullet{
+							width: 10px;
+							height: 10px;
+							margin-inline-end: 6px;
+						}
+					}
+					.selector-wrapper--content{
+						display: flex;
+						align-items: center;
+						flex-wrap: wrap;
+						gap: 8px;
+						flex: 1 1 auto;
+						.action-item{
+							.button-vue--tertiary{
+								@include outline-button;
+							}
+						}
+						.completed-button{
+							margin-inline-start: auto;
+							@include outline-button;
+						}
+						.native-datetime-picker{
+							input{
+								height: 36px !important;
+								min-height: unset;
+								margin: 0;
+								padding-block: 0;
+								padding-inline: 12px;
+								border: 1px solid $theme-divider;
+								border-radius: $rounded-6;
+								box-shadow: none !important;
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								color: $colour-forground;
+								&:hover,
+								&:focus,
+								&:focus-visible{
+									border-width: 1px;
+									border-color: $colour-blue-600;
+								}
+							}
+						}
+					}
+				}
+				[data-test="description"]{
+					h5{
+						display: flex;
+						align-items: center;
+						gap: 8px;
+						margin: 0 0 8px;
+						padding-bottom: 8px;
+						border-bottom: 1px solid $theme-divider;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+						.icon-info{
+							order: 1;
+							margin-inline-start: auto;
+							width: 16px;
+							height: 16px;
+							background-size: 16px;
+							filter: $filter-forground-1;
+							opacity: 1;
+						}
+						.action-item{
+							.button-vue{
+								@include outline-button;
+								width: 32px !important;
+								height: 32px;
+								min-width: unset;
+								min-height: unset;
+								padding: 0;
+								.icon{
+									width: 16px;
+									height: 16px;
+									background-size: 16px;
+									filter: $filter-forground;
+								}
+								&:hover{
+									.icon{
+										filter: $filter-primry-600;
+									}
+								}
+							}
+						}
+					}
+					.placeholder{
+						margin: 0;
+						padding: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground-1;
+						cursor: pointer;
+					}
+				}
+				.modal-buttons{
+					gap: 8px;
+					margin: 0 -16px;
+					padding: 16px;
+					border-top: 1px solid $theme-divider;
+					background-color: $colour-background;
+					.button-vue--primary,
+					.button-vue--vue-primary{
+						@include primary-button;
+					}
+					.button-vue--secondary,
+					.button-vue--vue-secondary,
+					.button-vue--tertiary,
+					.button-vue--vue-tertiary{
+						@include outline-button;
+					}
+				}
+			}
+		}
+	}
+}

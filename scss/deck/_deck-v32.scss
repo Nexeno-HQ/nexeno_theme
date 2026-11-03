@@ -1,0 +1,51 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@mixin deck {
+	body:has(.app-deck) {
+		aside.app-sidebar {
+			#tab-comments {
+				.comment-form {
+					.comment-form__contenteditable {
+						min-height: 36px;
+						padding: 7px 40px 7px 10px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						background-color: $colour-background;
+						box-shadow: none;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+						&:focus,
+						&:focus-visible {
+							border-color: $colour-blue-600;
+							outline: 0;
+						}
+					}
+					input {
+						&.icon-confirm {
+							top: 7px;
+							right: 6px;
+							width: 28px;
+							min-width: 28px;
+							height: 28px;
+							min-height: 28px;
+							margin: 0;
+							padding: 0;
+							border: 0;
+							border-radius: $rounded-6;
+							background-color: transparent;
+							background-size: 12px;
+							&:hover {
+								background-color: $colour-gray-100;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

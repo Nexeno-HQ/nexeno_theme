@@ -1,0 +1,37 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin deck {
+	.app-deck {
+		main.app-content {
+			.board {
+				padding-left: 0;
+				.stack {
+					.stack__header {
+						margin: 0;
+						padding: 0;
+						.stack__title {
+							min-width: 0;
+							max-width: none;
+						}
+					}
+					.smooth-dnd-container {
+						&.vertical {
+							@include noscrollbar;
+							gap: 8px;
+							margin: 0;
+							padding: 4px 0 12px;
+						}
+					}
+					.card {
+						margin: 0;
+					}
+				}
+			}
+		}
+	}
+}

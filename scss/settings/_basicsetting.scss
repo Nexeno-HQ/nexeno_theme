@@ -1,0 +1,313 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin basicsetting{
+    &.server{
+        .settings-section{
+            h2{
+                gap: 6px;
+                .settings-section__info{
+                    width: 16px;
+                    height: 16px;
+                    display: block;
+                    margin: 0;
+                    svg{
+                        width: 16px;
+                        height: 16px;
+                        fill: $colour-forground;
+                    }
+                }
+            }
+            .checkbox-radio-switch{
+                @include checkbox-radio-switch;
+                &:has(input[type="radio"]){
+                    padding: 0;
+                    .checkbox-content{
+                        align-items: start;
+                        padding: 0;
+                        height: auto;
+                        min-height: unset;
+                        &:hover{
+                            background-color: transparent;
+                        }
+                        .checkbox-content__icon{
+                            width: 20px;
+                            height: 20px;
+                            .material-design-icon{
+                                width: 20px;
+                                height: 20px;
+                                svg{
+                                    width: 20px;
+                                    height: 20px;
+                                    flex-shrink: 0;
+                                    transform-origin: center;
+                                    fill: $theme-divider;
+                                }
+                            }
+                        }
+                        .checkbox-content__wrapper{
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            font-weight: $font-medium;
+                            color: $colour-forground;
+                        }
+                    }
+                    &.checkbox-radio-switch--checked{
+                        .checkbox-content{
+                            .checkbox-content__icon{
+                                .material-design-icon{
+                                    svg{
+                                        fill: $colour-blue-600;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    +em{
+                        font-size: $text-12;
+                        line-height: $leading-16;
+                        color: $colour-forground-1;
+                        font-weight: $font-medium;
+                        margin: 6px 0 16px;
+                        display: block;
+                        padding-left: 24px;
+                    }
+                }
+                
+            }
+            .v-select{
+                @include select-field;
+                @include select-box;
+                .vs__selected{
+                    border: 0 !important;
+                }
+            }
+            .input-field{
+                @include input;
+            }
+            .declarative-form-field{
+                padding: 0;
+                max-height: 100%;
+                overflow: hidden;
+                label{
+                    margin-bottom: 16px;
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    color: $colour-forground;
+                    font-weight: $font-medium;
+                    display: block;
+                }
+                .checkbox-radio-switch{
+                    @include checkbox-radio-switch;
+                    + .checkbox-radio-switch{
+                        margin-top: 12px;
+                    }
+                }
+            }
+            form{
+                #{css-module("ncFormBox")}{
+                    gap: 12px;
+                }
+                #{css-module("adminSettingsMailServer__formAction")}{
+                    margin-top: 12px;
+                    gap: 8px;
+                    justify-content: flex-start;
+                    @media (max-width: $bp-512) {
+                        justify-content: center;
+                    }
+                    .button-vue--vue-primary{
+                        @include primary-button;
+                    }
+                    .button-vue--vue-success{
+                        @include outline-button;
+                    }
+                }
+                fieldset{
+                    margin-top: 12px;
+                    #{css-module("formGroup__content")}{
+                        margin-top: 8px;
+                        #{css-module("ncFormBox")}{
+                            gap: 8px;
+                            @media (max-width: $bp-512) {
+                                flex-direction: column;
+                            }
+                        }
+                    }
+                }
+                &:not(.sanitize-filenames__form) fieldset .input-field{
+                    &:has(.input-field__icon) input{
+                        padding-left: 32px;
+                    }
+                }
+                &.sanitize-filenames__form{
+                    gap: 12px;
+                    .input-field__helper-text-message{
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground-1;
+                        font-weight: $font-normal;
+                        padding: 0;
+                        margin-top: 8px;
+                    }
+                    .button-vue--vue-error{
+                        @include error-outline-button;
+                        margin-top: 8px;
+                    }
+                    .sanitize-filenames__fields{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: start;
+                    }
+                }
+            }
+            .hint{
+                margin: 8px 0 0;
+                padding-left: 41px;
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                color: $colour-forground-1;
+                font-weight: $font-normal;
+            }
+            .checkbox-radio-switch{
+                &:has(.material-design-icon__svg){
+                    .checkbox-content{
+                        align-items: start;
+                        .checkbox-content__icon{
+                            width: 20px;
+                            height: 20px;
+                            .material-design-icon{
+                                width: 20px;
+                                height: 20px;
+                                svg{
+                                    width: 20px;
+                                    height: 20px;
+                                    flex-shrink: 0;
+                                    transform-origin: center;
+                                    fill: $theme-divider;
+                                }
+                            }
+                        }
+                        .checkbox-content__wrapper{
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            font-weight: $font-medium;
+                            color: $colour-forground;
+                        }
+                    }
+                    &.checkbox-radio-switch--checked{
+                        .checkbox-content{
+                            .checkbox-content__icon{
+                                .material-design-icon{
+                                    svg{
+                                        fill: $colour-blue-600;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #profile-settings{
+            padding: 20px 0px; 
+            max-width: 100%;
+            h2{
+                font-size: $text-heading-3;
+                line-height: $leading-22;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+                margin-bottom: 16px
+            }
+            .checkbox-radio-switch{
+                @include checkbox-radio-switch;
+                + .checkbox-radio-switch{
+                    margin-top: 12px;
+                }
+            }
+            .notecard{
+                &:first-of-type{
+                    margin-top: 0 !important;
+                }
+                &:last-of-type{
+                    margin-bottom: 0 !important;
+                }
+            }
+        }
+        #vue-admin-systemtags{
+            padding-top: 16px;
+        }
+        #system-tags-creation-control{
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid $theme-divider;
+            h4{
+                margin: 0;
+                font-size: $text-heading-3;
+                line-height: $leading-22;
+                color: $colour-forground;
+                font-weight: $font-semibold;
+            }
+            .settings-hint{
+                margin: 0
+            }
+            p{
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                color: $colour-forground-1;
+                font-weight: $font-normal;
+            }
+        }
+        .notecard{
+            @include notecard;
+            align-items: start;
+            &.notecard--warning{
+                margin-bottom: 0 !important;
+            }
+        }
+        .system-tag-form{
+            width: 100%;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid $theme-divider;
+            max-width: 100%;
+            .system-tag-form__group{
+                max-width: 500px;
+                gap: 4px;
+                label{
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    font-weight: $font-normal;
+                    color: $colour-forground-1;
+                }
+            }
+            .system-tag-form__row{
+                gap: 8px;
+                @media (max-width: $bp-512) {
+                    justify-content: center;
+                }
+                button{
+                    &.button-vue--secondary{
+                        @include outline-button;
+                        &:first-of-type{
+                            @include primary-button;
+                        }
+                    }
+                }
+            }
+            h4{
+                font-size: $text-heading-3;
+                line-height: $leading-22;
+                color: $colour-forground;
+                font-weight: $font-semibold;
+                margin: 0 0 8px;
+            }
+        }
+    }
+}

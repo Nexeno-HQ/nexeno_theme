@@ -1,0 +1,381 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin header-icon-button {
+	width: 28px !important;
+	height: 28px;
+	min-width: unset;
+	min-height: unset;
+	padding: 0;
+	border: 0;
+	border-radius: $rounded-6;
+	background-color: transparent;
+	.button-vue__icon{
+		width: 16px;
+		height: 16px;
+		min-width: unset;
+		min-height: unset;
+		svg{
+			width: 16px;
+			height: 16px;
+			fill: $colour-forground-1;
+		}
+	}
+	&:hover,
+	&:focus-visible{
+		background-color: $colour-gray-100 !important;
+		svg{
+			fill: $colour-forground;
+		}
+	}
+}
+
+@mixin contacts-filter-button {
+	@include outline-button;
+	width: 34px !important;
+	height: 34px;
+	min-width: unset;
+	min-height: unset;
+	padding: 0;
+	justify-content: center;
+	.button-vue__icon{
+		width: 16px;
+		height: 16px;
+		min-width: unset;
+		min-height: unset;
+		svg{
+			width: 16px;
+			height: 16px;
+		}
+	}
+}
+
+@mixin header-menus {
+	.header-menu__wrapper{
+		&:has(.notification-container, .contactsmenu__menu){
+			overflow: hidden;
+			border: 1px solid $theme-divider;
+		}
+		.header-menu__content{
+			&:has(.notification-container, .contactsmenu__menu){
+				overflow-x: hidden;
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			}
+		}
+	}
+
+	.notification-container{
+		&:has(> .empty-content){
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 220px;
+		}
+		> .empty-content{
+			gap: 12px;
+			margin: 0 !important;
+			padding: 24px 16px;
+			.empty-content__icon{
+				width: 60px;
+				height: 60px;
+				margin: 0;
+				border-radius: $rounded-full;
+				background-color: $colour-primary-100;
+				outline: 7px solid $colour-primary-50;
+				outline-offset: -7px;
+				opacity: 1;
+				svg{
+					width: 26px !important;
+					height: 26px !important;
+					max-width: 26px !important;
+					max-height: 26px !important;
+					fill: $colour-blue-600;
+				}
+			}
+			.empty-content__name{
+				margin: 0 !important;
+				font-size: $text-heading-5 !important;
+				line-height: $leading-20 !important;
+				font-weight: $font-medium !important;
+				color: $colour-forground-1 !important;
+			}
+		}
+		.notification-wrapper{
+			overflow-x: hidden;
+			@include scrollbar($thumb-colour: $colour-scrollbar-main);
+		}
+		.notification{
+			padding: 12px 16px;
+			border-bottom: 1px solid $theme-divider;
+			&:last-child{
+				border-bottom: 0;
+			}
+			&:hover{
+				background-color: transparent;
+			}
+			&.notification--new{
+				background-color: $colour-primary-50 !important;
+				&::before{
+					background-color: $colour-blue-600;
+				}
+			}
+			.notification-heading{
+				min-height: unset;
+				margin-bottom: 8px;
+				.notification-time{
+					margin: 0;
+					margin-inline-start: auto;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+				}
+				.notification-dismiss-button{
+					margin: 0;
+					margin-inline-start: 8px;
+					@include header-icon-button;
+				}
+			}
+			.notification-subject,
+			.notification-message,
+			.notification-full-message,
+			.notification-actions{
+				margin: 0;
+			}
+			.notification-subject{
+				align-items: flex-start;
+				gap: 12px;
+				padding: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground;
+				> .rich-text--wrapper,
+				> span.subject{
+					padding-inline-start: 0;
+				}
+				> a{
+					> .rich-text--wrapper,
+					> span.subject{
+						padding-inline-start: 0;
+					}
+				}
+				> .image{
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					flex-shrink: 0;
+					width: 36px;
+					height: 36px;
+					margin: 0;
+					padding: 0;
+					border-radius: $rounded-6;
+					background-color: $colour-gray-100;
+				}
+				img{
+					&.notification-icon{
+						width: 18px !important;
+						height: 18px !important;
+						filter: $filter-primry-600;
+					}
+				}
+			}
+			strong{
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.notification-message,
+			.notification-full-message{
+				margin-top: 6px;
+				padding-inline-start: 48px;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+			.notification-actions{
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				margin-top: 10px;
+				padding-inline-start: 48px;
+				.button-vue{
+					margin: 0;
+					@include outline-button;
+				}
+				.button-vue--vue-primary{
+					@include primary-button;
+				}
+			}
+		}
+		.dismiss-all{
+			display: flex;
+			justify-content: center;
+			padding: 12px 16px;
+			border-top: 1px solid $theme-divider;
+			.button-vue{
+				@include outline-button;
+			}
+		}
+	}
+
+	.contactsmenu__menu{
+		height: auto;
+		min-height: 200px;
+		.contactsmenu__menu__search-container{
+			align-items: center;
+			gap: 8px;
+			padding: 12px;
+			border-bottom: 1px solid $theme-divider;
+			.action-item{
+				.button-vue{
+					@include contacts-filter-button;
+				}
+			}
+		}
+		.contactsmenu__menu__input-wrapper{
+			.input-field{
+				@include input;
+			}
+			input{
+				&.contactsmenu__menu__search{
+					height: 34px !important;
+					margin: 0;
+					padding-inline: 10px;
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-6;
+					box-shadow: none;
+					font-size: $text-heading-5;
+					color: $colour-forground;
+					&:focus{
+						border-color: $colour-blue-600;
+					}
+				}
+			}
+		}
+		.contactsmenu__menu__content{
+			margin: 0;
+			padding: 8px;
+			@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			.empty-content{
+				padding-block: 24px;
+			}
+		}
+		.contact{
+			gap: 12px;
+			padding: 6px 8px;
+			border-radius: $rounded-6;
+			transition: background-color ease-in-out 300ms;
+			&:hover{
+				background-color: $secondary-card-bg;
+			}
+			.contact__body{
+				margin: 0;
+				padding: 0;
+				.contact__body__full-name{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.contact__body__last-message,
+				.contact__body__status-message,
+				.contact__body__email-address{
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+			}
+			.action-items,
+			.action-item{
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				margin: 0;
+			}
+			.button-vue{
+				@include header-icon-button;
+				margin: 0;
+				&:hover,
+				&:focus-visible,
+				&:active{
+					background-color: transparent !important;
+					svg{
+						fill: $colour-forground-1;
+					}
+				}
+			}
+			.contact__action__icon{
+				width: 16px;
+				height: 16px;
+				padding: 0;
+				filter: $filter-forground-1;
+			}
+		}
+		.contactsmenu__menu__content__footer{
+			padding: 8px 0 4px;
+			.button-vue{
+				@include outline-button;
+			}
+		}
+	}
+	.v-popper__inner{
+		&:has(img.contact__action__icon){
+			padding: 8px;
+			li{
+				border-radius: $rounded-6;
+				transition: background-color ease-in-out 300ms;
+				&:hover{
+					background-color: $secondary-card-bg;
+				}
+			}
+			.action-link{
+				align-items: center;
+				gap: 8px;
+				padding: 8px 12px;
+				.action-link__text{
+					padding: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground;
+				}
+			}
+			li:has(.action-text){
+				&:hover{
+					background-color: transparent;
+				}
+			}
+			.action-text{
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				padding: 8px 12px;
+				.action-text__text{
+					padding: 0;
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+			}
+		}
+		.action-button__icon{
+			&[class="action-button__icon"]:empty{
+				display: none;
+			}
+		}
+		img{
+			&.contact__action__icon{
+				width: 14px;
+				height: 14px;
+				padding: 0;
+				margin: 0;
+				align-self: center;
+				flex-shrink: 0;
+				filter: $filter-forground;
+			}
+		}
+	}
+}

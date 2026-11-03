@@ -1,0 +1,494 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin tasks-icon-button {
+	@include outline-button;
+	width: 36px;
+	height: 36px;
+	min-width: unset;
+	min-height: unset;
+	padding: 0;
+	justify-content: center;
+	.button-vue__icon {
+		svg {
+			width: 18px;
+			height: 18px;
+		}
+	}
+}
+
+@mixin tasks-checkbox {
+	.task-checkbox {
+		label {
+			color: $colour-forground-1;
+			&.priority--high {
+				color: $colour-red-600;
+			}
+			&.priority--medium {
+				color: $colour-yellow;
+			}
+			&.priority--low {
+				color: $colour-blue-600;
+			}
+			.material-design-icon {
+				width: 16px;
+				height: 16px;
+				border: 2px solid currentColor;
+				border-radius: $rounded-full;
+				box-sizing: border-box;
+				svg {
+					display: none;
+				}
+			}
+		}
+		input {
+			&:checked {
+				+ label {
+					.material-design-icon {
+						background-color: currentColor;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin tasks-main {
+	.app-tasks {
+		main.app-content {
+			background-color: $main-page-bg !important;
+			@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			.header {
+				gap: 8px;
+				padding: 8px 16px 8px 60px;
+				background-color: $main-page-bg;
+				border-bottom: 1px solid $theme-divider;
+				.header__input {
+					.input-field {
+						@include input;
+						.input-field__main-wrapper {
+							height: 36px;
+							input {
+								padding: 0 10px 0 36px;
+								background-color: $colour-background;
+							}
+							.input-field__icon--leading {
+								width: 36px;
+								height: 36px;
+								svg {
+									width: 18px;
+									height: 18px;
+									fill: $colour-forground-1;
+								}
+							}
+						}
+					}
+				}
+				.action-item {
+					.action-item__menutoggle {
+						@include tasks-icon-button;
+					}
+					&.sortorder {
+						.sort-direction {
+							display: none;
+						}
+					}
+				}
+			}
+			.task-list {
+				padding: 16px;
+				.grouped-tasks {
+					& + .grouped-tasks {
+						margin-top: 20px;
+					}
+					.heading {
+						margin: 0 0 8px !important;
+						.heading__name {
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-semibold;
+							color: $colour-forground;
+							opacity: 1;
+						}
+					}
+					> ol {
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-8;
+						background-color: $colour-background;
+						overflow: hidden;
+						filter: none;
+						&:empty {
+							display: none;
+						}
+						> .task-item {
+							&:first-child {
+								> .task-item__body {
+									border-top: 0;
+								}
+							}
+						}
+					}
+				}
+				.task-item {
+					.task-item__body {
+						height: 44px;
+						background-color: $colour-background;
+						border-top: 1px solid $theme-divider;
+						border-radius: 0 !important;
+						cursor: pointer;
+						&:hover,
+						&:focus-within {
+							background-color: $colour-background;
+						}
+						&:hover {
+							.task-body__info {
+								.summary {
+									color: $colour-blue-600;
+								}
+							}
+						}
+						&.task-item__body--active {
+							background-color: $colour-background !important;
+						}
+						@include tasks-checkbox;
+						.task-body__info {
+							.summary {
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								font-weight: $font-medium;
+								color: $colour-forground;
+								cursor: pointer;
+								span {
+									cursor: pointer;
+								}
+							}
+						}
+						.task-body__icons {
+							gap: 8px;
+							.calendar {
+								gap: 6px;
+								.calendar__indicator {
+									width: 8px;
+									height: 8px;
+								}
+								.calendar__name {
+									font-size: $text-12;
+									line-height: $leading-16;
+									font-weight: $font-medium;
+									color: $colour-forground-1;
+								}
+							}
+							.date {
+								font-size: $text-12;
+								line-height: $leading-16;
+								font-weight: $font-medium;
+								color: $colour-forground-1;
+								&.date--overdue {
+									color: $colour-red-600;
+								}
+							}
+							.material-design-icon {
+								svg {
+									width: 18px;
+									height: 18px;
+									fill: $colour-forground-1;
+								}
+							}
+							.button-vue {
+								background-color: transparent;
+								&:hover {
+									background-color: transparent !important;
+									svg {
+										fill: $colour-blue-600;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			.loadmore {
+				display: flex;
+				justify-content: center;
+				margin-top: 16px;
+				.button-vue {
+					@include outline-button;
+					.button-vue__text {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin tasks-sidebar {
+	.app-tasks {
+		aside.app-sidebar {
+			@include tasks-checkbox;
+			.app-sidebar-header__mainname-container {
+				height: 34px;
+				align-items: center;
+				.app-sidebar-header__mainname {
+					height: auto;
+					min-height: unset;
+					line-height: $leading-28;
+				}
+			}
+			.app-sidebar-header__description {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+				padding-top: 12px;
+				.property__item {
+					&:last-child {
+						border-bottom: 0;
+					}
+				}
+			}
+			.app-sidebar__tab {
+				padding-top: 8px;
+				overflow-x: hidden;
+				> .property__item {
+					padding-inline: 0;
+					border-bottom: 0;
+				}
+			}
+			.property__item {
+				gap: 8px;
+				min-height: 40px;
+				padding-block: 6px;
+				border-bottom: 1px solid $theme-divider;
+				.item__content {
+					gap: 8px;
+					align-items: center;
+					.content__icon {
+						svg {
+							width: 18px;
+							height: 18px;
+							fill: $colour-forground-1;
+						}
+					}
+					.content__name {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+				}
+				.item__actions {
+					.button-vue {
+						background-color: transparent;
+						svg {
+							width: 16px;
+							height: 16px;
+							fill: $colour-forground-1;
+						}
+						&:hover {
+							background-color: transparent !important;
+							svg {
+								fill: $colour-blue-600;
+							}
+						}
+					}
+				}
+				.v-select.select {
+					@include single-select($dropdown: false);
+					width: 100%;
+					&:not(.nc-select) {
+						.vs__selected-options {
+							input.vs__search {
+								width: 100% !important;
+							}
+							.placeholder__icon {
+								+ input.vs__search {
+									padding-left: 40px;
+								}
+							}
+						}
+					}
+				}
+				.multiselect__icon {
+					+ .v-select {
+						.vs__dropdown-toggle {
+							margin-left: 0;
+						}
+					}
+				}
+				.multiselect__icon,
+				.placeholder__icon,
+				.multiselect-picker-option__icon {
+					svg {
+						width: 18px;
+						height: 18px;
+						fill: $colour-forground-1;
+					}
+				}
+				.multiselect-picker-option,
+				.calendar-picker-option {
+					gap: 8px;
+					.multiselect-picker-option__label,
+					.calendar-picker-option__label {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					.calendar-picker-option__color-indicator {
+						flex: 0 0 12px;
+						width: 12px;
+						height: 12px;
+						margin: 0;
+						border-radius: $rounded-full;
+					}
+				}
+				> label {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.content__note {
+					.note__viewer {
+						margin: 0 !important;
+						> :first-child {
+							margin-top: 0;
+						}
+					}
+					.note__viewer,
+					.note__editor {
+						padding: 10px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+						p {
+							color: $colour-forground-1;
+						}
+						textarea {
+							padding: 10px;
+							border: 0;
+							box-shadow: none;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							color: $colour-forground;
+						}
+					}
+				}
+			}
+			.app-sidebar-tabs {
+				&:not(:has(.app-sidebar-tabs__nav)) {
+					padding-top: 0;
+					.app-sidebar-tabs__content {
+						margin-top: 0;
+					}
+				}
+			}
+			.component {
+				gap: 8px;
+				align-items: center;
+				padding-block: 8px;
+				border-bottom: 0;
+				.component__icon {
+					svg {
+						width: 18px;
+						height: 18px;
+						fill: $colour-forground-1;
+					}
+				}
+				.component__items {
+					padding: 0;
+					.new {
+						align-items: center;
+						padding: 0;
+					}
+					p {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					.button-vue--secondary {
+						@include outline-button;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin tasks-popovers {
+	&:has(.app-tasks) {
+		.action-item__popper {
+			.action {
+				&:hover,
+				&.active {
+					background-color: transparent !important;
+				}
+			}
+			.action-input {
+				align-items: flex-start;
+				gap: 8px;
+				padding: 8px 12px;
+				.action-input__icon-wrapper {
+					align-self: flex-start;
+					display: flex;
+					align-items: center;
+					height: 16px;
+					margin: 8px 0 0;
+					svg {
+						width: 18px;
+						height: 18px;
+						fill: $colour-forground-1;
+					}
+				}
+				.action-input__container {
+					gap: 6px;
+				}
+				.action-input__text-label {
+					margin: 0;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-semibold;
+					color: $colour-forground-1;
+				}
+				.action-input__multi {
+					@include select-field;
+					@include select-box;
+					.vs__dropdown-toggle {
+						border-radius: $rounded-6;
+						.vs__search {
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							color: $colour-forground;
+							&::placeholder {
+								color: $colour-forground-1;
+							}
+						}
+					}
+				}
+			}
+			.action {
+				&.selected {
+					.action-button {
+						background-color: $colour-primary-50;
+						.action-button__text {
+							color: $colour-blue-600;
+						}
+						svg {
+							fill: $colour-blue-600;
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,17 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../files/files' as files;
+
+@mixin files {
+	th.files-list__row-checkbox{
+		@include files.batch-actions;
+		.files-list__row-actions-batch > button.action-item--single{
+			@include files.batch-action-button;
+		}
+	}
+	.files-list__row .files-list__row-actions .button-vue--tertiary:hover:not(:disabled){
+		background-color: transparent;
+	}
+}

@@ -1,0 +1,13 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use 'variables' as *;
+@use 'themes' as *;
+@use 'login/login' as login;
+
+@include root-palette;
+
+#body-login {
+	@include login.login;
+}

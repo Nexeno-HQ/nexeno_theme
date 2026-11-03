@@ -1,0 +1,1115 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+@use '../ui/modal-v35' as *;
+@use '../ui/sidebar' as side;
+
+@mixin teams-search-field {
+	@include input;
+	&.input-field--leading-icon{
+		.input-field__main-wrapper{
+			input{
+				padding-inline-start: 36px;
+			}
+		}
+	}
+	&.input-field--trailing-icon{
+		.input-field__main-wrapper{
+			input{
+				padding-inline-end: 36px;
+			}
+		}
+	}
+	.input-field__icon{
+		width: 36px;
+		height: 100%;
+		svg{
+			width: 16px;
+			height: 16px;
+			fill: $colour-forground-1;
+		}
+	}
+	input{
+		color: $colour-forground !important;
+	}
+}
+
+@mixin teams-heading {
+	margin: 0;
+	font-size: $text-heading-3;
+	line-height: $leading-24;
+	font-weight: $font-semibold;
+	color: $colour-forground;
+}
+
+@mixin teams-icon-button {
+	@include outline-button;
+	width: 34px !important;
+	height: 34px;
+	min-width: unset;
+	min-height: unset;
+	padding: 0;
+	justify-content: center;
+}
+
+@mixin teams-mime-icon-filters {
+	&[src*="mime=application%2Fpdf"],
+	&[src*="mime=video%2F"]{
+		filter: $filter-red;
+	}
+	&[src*="spreadsheet"],
+	&[src*="ms-excel"]{
+		filter: $filter-green;
+	}
+}
+
+@mixin teams-app {
+	.content.app-teams{
+		#{css-module('home-view')}{
+			padding: 24px;
+			gap: 24px;
+			@media (max-width: $bp-768) {
+				padding: 16px;
+				gap: 16px;
+			}
+		}
+		#{css-module('home-view__banner')}{
+			padding: 24px 32px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-12;
+			background: $colour-primary-50;
+			@media (max-width: $bp-768) {
+				padding: 20px;
+			}
+		}
+		#{css-module('home-view__title')}{
+			font-size: $text-heading-1;
+			line-height: $leading-36;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+			@media (max-width: $bp-768) {
+				font-size: $text-heading-2;
+				line-height: $leading-28;
+			}
+		}
+		#{css-module('home-view__subtitle')}{
+			margin-top: 4px;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			color: $colour-forground-1;
+		}
+		#{css-module('home-view__banner-action')}{
+			margin-top: 16px;
+			.button-vue--primary{
+				@include primary-button;
+			}
+		}
+		#{css-module('home-view__body')}{
+			gap: 24px;
+			@media (max-width: $bp-768) {
+				gap: 16px;
+			}
+		}
+		#{css-module('home-view__search')}{
+			@include teams-search-field;
+			@media (max-width: $bp-576) {
+				max-width: 100%;
+			}
+		}
+		#{css-module('home-view__grid')}{
+			grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+			gap: 16px;
+			@media (max-width: $bp-576) {
+				grid-template-columns: 1fr;
+				gap: 12px;
+			}
+		}
+		#{css-module('team-card')}{
+			gap: 12px;
+			min-height: 132px;
+			padding: 16px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-12;
+			background-color: $colour-background;
+			transition: all ease-in-out 300ms;
+			&:hover{
+				border-color: $colour-blue-600;
+				background-color: $colour-background;
+				#{css-module('team-card__member')},
+				#{css-module('team-card__member-more')}{
+					box-shadow: 0 0 0 2px $colour-background;
+				}
+			}
+			&:focus-visible{
+				outline: 0;
+				border-color: $colour-blue-600;
+			}
+		}
+		#{css-module('team-card__name')}{
+			font-size: $text-heading-4;
+			line-height: $leading-24;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+		#{css-module('team-card__description')}{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			color: $colour-forground-1;
+		}
+		#{css-module('team-card__member')},
+		#{css-module('team-card__member-more')}{
+			box-shadow: 0 0 0 2px $colour-background;
+		}
+		#{css-module('team-card__member-more')}{
+			background-color: $colour-gray-100;
+			font-size: $text-10;
+			line-height: $leading-16;
+			font-weight: $font-semibold;
+			color: $colour-forground-1;
+		}
+
+		.app-navigation{
+			.team-navigation__team-header{
+				padding: 0;
+			}
+			.team-header__trigger{
+				gap: 10px;
+				padding: 6px;
+				border: 0;
+			}
+			.team-header__info{
+				gap: 8px;
+			}
+			.team-header__name{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.team-header__chevron{
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+			}
+			.team-members-row__more{
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			.app-navigation-entry--editing{
+				&:hover,
+				&:focus,
+				&:focus-within{
+					background-color: transparent !important;
+				}
+				.app-navigation-entry-link,
+				.app-navigation-entry-button{
+					height: 40px;
+					padding: 2px 12px;
+					gap: 6px;
+					align-items: center;
+					background-color: transparent !important;
+				}
+				.editingContainer{
+					width: 100%;
+					margin: 0;
+					display: flex;
+				}
+				.app-navigation-input-confirm{
+					flex: 1;
+					form{
+						padding: 0;
+						gap: 4px;
+						input{
+							margin: 0 !important;
+							height: auto !important;
+							min-height: unset;
+							padding: 7px 10px;
+							border: 1px solid $theme-divider;
+							border-radius: $rounded-6;
+							box-shadow: none;
+							background-color: transparent;
+							outline: 0;
+							font-size: $text-heading-5 !important;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground;
+							&::placeholder{
+								color: $colour-forground-1;
+							}
+							&:focus{
+								border-color: $colour-blue-600;
+							}
+						}
+						.button-vue--primary{
+							@include primary-button;
+							padding: 6px;
+							svg{
+								fill: $colour-forground-white;
+								filter: none;
+							}
+						}
+						.button-vue--tertiary{
+							@include outline-button;
+							padding: 6px;
+							svg{
+								filter: none;
+							}
+							&:hover{
+								background-color: $colour-primary-50 !important;
+							}
+						}
+					}
+				}
+			}
+			.team-navigation__new-page{
+				padding: 12px 0 4px;
+				.input-field{
+					@include teams-search-field;
+				}
+			}
+			.team-navigation__caption{
+				.action-item{
+					--open-background-color: transparent;
+				}
+				.button-vue{
+					background-color: transparent !important;
+				}
+			}
+			.team-navigation__add{
+				padding: 0;
+				.button-vue{
+					@include side.nav-footer-button;
+					width: 100%;
+					height: 40px;
+					border-radius: $rounded-8;
+					.button-vue__wrapper{
+						justify-content: flex-start;
+						margin-inline-start: 0;
+						.button-vue__icon svg{
+							filter: $filter-forground;
+						}
+					}
+				}
+			}
+			.team-navigation__footer{
+				display: flex;
+				flex-direction: column;
+				padding: 12px 16px;
+				border-top: 1px solid $theme-divider;
+				background-color: $colour-sidebar-bg;
+				@include side.nav-entry-rows;
+				.action-separator{
+					display: none;
+				}
+			}
+		}
+
+		#{css-module('app-content-heading')}{
+			@include teams-heading;
+		}
+
+		.team-members{
+			max-width: none;
+			margin: 0;
+			padding: 0;
+			@include module-scrollbar;
+			.team-members__header{
+				position: sticky;
+				top: 0;
+				z-index: 2;
+				min-height: 52px;
+				margin: 0;
+				padding-inline: calc(var(--default-clickable-area) + 2 * var(--app-navigation-padding, 4px)) 16px;
+				border-bottom: 1px solid $theme-divider;
+				background-color: $colour-background;
+				@media (max-width: $bp-576) {
+					padding-inline-end: 12px;
+				}
+				.button-vue--secondary{
+					@include outline-button;
+					padding: 4px 10px;
+				}
+			}
+			#{css-module('member-list')}{
+				max-width: none;
+				padding: 16px;
+			}
+		}
+		.member-list__filters{
+			gap: 12px;
+			margin-bottom: 16px;
+			@media (max-width: $bp-576) {
+				flex-direction: column;
+				align-items: stretch;
+			}
+			.member-list__search{
+				@include teams-search-field;
+			}
+			.v-select.select{
+				@include single-select($dropdown: false);
+				.vs__dropdown-toggle{
+					height: 36px;
+				}
+				@media (max-width: $bp-576) {
+					min-width: 100% !important;
+				}
+			}
+		}
+		#{css-module('member-grid-item')}{
+			gap: 12px;
+			padding: 10px 8px;
+			border-bottom: 1px solid $theme-divider;
+			border-radius: 0;
+			background-color: transparent;
+			transition: background-color ease-in-out 300ms;
+			&:hover{
+				background-color: $colour-gray-100;
+			}
+			.action-item__menutoggle{
+				border: 0;
+				background-color: transparent !important;
+				&:hover,
+				&:focus,
+				&:focus-visible,
+				&:active,
+				&[aria-expanded="true"]{
+					background-color: transparent !important;
+					box-shadow: none;
+				}
+			}
+		}
+		#{css-module('member-name')}{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground;
+		}
+		#{css-module('member-role')}{
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+		#{css-module('member-grid-item__actions')}{
+			.button-vue{
+				@include teams-icon-button;
+			}
+		}
+
+		.team-home{
+			padding: 0;
+			@include module-scrollbar;
+			.circle-details-section{
+				max-width: none;
+				margin: 0;
+				.section-header{
+					min-height: 52px;
+					margin: 0;
+					padding-inline: 16px;
+					border-bottom: 1px solid $theme-divider;
+					h2,
+					h3{
+						margin: 0;
+						line-height: $leading-24;
+					}
+				}
+				+ .circle-details-section{
+					.section-header{
+						border-top: 1px solid $theme-divider;
+					}
+				}
+				&:first-child{
+					.section-header{
+						padding-inline-start: calc(var(--default-clickable-area) + 2 * var(--app-navigation-padding, 4px));
+					}
+				}
+			}
+			.item-list{
+				max-height: none;
+				gap: 0;
+				padding: 8px 16px 16px;
+				.list-item__wrapper{
+					padding: 0;
+					border-bottom: 1px solid $theme-divider;
+				}
+				.list-item{
+					padding: 10px 8px;
+					border-radius: 0;
+					transition: background-color ease-in-out 300ms;
+					&:hover,
+					&:focus-visible{
+						background-color: $colour-gray-100;
+					}
+				}
+				.resource__icon{
+					width: 44px;
+					height: 44px;
+					flex-shrink: 0;
+					border-radius: $rounded-6;
+					background-color: $colour-gray-100;
+					svg{
+						width: 20px;
+						height: 20px;
+						fill: $colour-blue-600;
+						path{
+							fill: $colour-blue-600;
+						}
+					}
+				}
+				img.resource__icon{
+					padding: 0;
+					object-fit: cover;
+					border-radius: $rounded-6 !important;
+				}
+				.list-item-content__name{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+			}
+		}
+
+		.team-folder-widget__header{
+			min-height: 52px;
+			border-bottom-color: $theme-divider;
+			@media (max-width: $bp-576) {
+				padding-inline-end: 12px;
+			}
+			.breadcrumb__crumbs{
+				@include breadcrumb-crumbs('a, > button');
+			}
+		}
+		.team-folder-widget__actions{
+			gap: 8px;
+			.button-vue--tertiary{
+				@include outline-button;
+				padding: 4px 10px;
+			}
+			> button.button-vue--tertiary{
+				width: 32px !important;
+				height: 32px;
+				padding: 6px;
+				.button-vue__icon{
+					width: auto;
+					height: auto;
+					min-width: unset;
+					min-height: unset;
+					svg{
+						width: 20px;
+						height: 20px;
+						flex-shrink: 0;
+						fill: $colour-forground;
+					}
+				}
+				&:hover{
+					border-color: $theme-divider;
+					background-color: $colour-sidebar-link-bg;
+					.button-vue__wrapper .button-vue__icon svg{
+						fill: $colour-forground;
+					}
+				}
+			}
+		}
+		.team-folder-widget__name-ext{
+			color: $colour-forground-1;
+		}
+
+		.team-folder-widget__list--grid{
+			grid-template-columns: repeat(6, minmax(0, 1fr));
+			justify-content: stretch;
+			gap: 16px;
+			padding: 16px;
+			@media (max-width: $bp-1600) {
+				grid-template-columns: repeat(5, minmax(0, 1fr));
+			}
+			@media (max-width: $bp-1366) {
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+			}
+			@media (max-width: $bp-1199) {
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+			}
+			@media (max-width: $bp-640) {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+			.team-folder-widget__item{
+				min-width: 0;
+			}
+			.team-folder-widget__tile{
+				width: 100%;
+				height: 100%;
+				gap: 4px;
+				padding: 8px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				background-color: $colour-background;
+				transition: all ease-in-out 300ms;
+				&:hover,
+				&:focus{
+					border-color: $colour-blue-600;
+					background-color: transparent;
+					.team-folder-widget__name-base,
+					.team-folder-widget__name-ext{
+						color: $colour-blue-600;
+					}
+				}
+				&:focus-visible{
+					outline: 0;
+				}
+			}
+			.team-folder-widget__tile-preview{
+				width: 100%;
+				height: auto;
+				min-height: 160px;
+				aspect-ratio: 202 / 160;
+				border-radius: $rounded-6;
+				background-color: $colour-gray-100;
+				@media (max-width: $bp-512) {
+					min-height: 150px;
+					aspect-ratio: 147 / 150;
+				}
+			}
+			.team-folder-widget__preview{
+				object-fit: cover;
+				border-radius: $rounded-6;
+				&[src*="/core/mimeicon"]{
+					width: 80px;
+					height: 80px;
+					object-fit: contain;
+					border-radius: 0;
+					background: transparent;
+					@include teams-mime-icon-filters;
+					@media (max-width: $bp-512) {
+						width: 60px;
+						height: 60px;
+					}
+				}
+			}
+			.team-folder-widget__tile-icon{
+				width: 80px;
+				height: 80px;
+				color: $colour-blue-600;
+				svg{
+					width: 80px;
+					height: 80px;
+				}
+				@media (max-width: $bp-512) {
+					width: 60px;
+					height: 60px;
+					svg{
+						width: 60px;
+						height: 60px;
+					}
+				}
+			}
+			.team-folder-widget__tile-info{
+				width: 100%;
+				height: auto;
+				margin-top: 4px;
+			}
+			.team-folder-widget__tile-name{
+				margin: 0;
+				padding: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				transition: all ease-in-out 300ms;
+			}
+			.team-folder-widget__tile-mtime{
+				width: 100%;
+				height: auto;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				color: $colour-forground-1 !important;
+			}
+		}
+
+		.team-folder-widget__table{
+			padding-inline: 16px;
+			.team-folder-widget__table-header{
+				gap: 10px;
+				padding-inline: 16px;
+				border-block-end-color: $theme-divider;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.team-folder-widget__row-name--header{
+				padding-inline: 0;
+			}
+			.team-folder-widget__rows{
+				li:last-child .team-folder-widget__row{
+					border-block-end: 0;
+				}
+			}
+			.team-folder-widget__row{
+				gap: 10px;
+				padding-inline: 16px;
+				border-block-end-color: $theme-divider;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+				transition: background-color ease-in-out 300ms;
+				&:hover,
+				&:focus,
+				&:active{
+					background-color: $colour-gray-100;
+				}
+				&:focus-visible{
+					outline: 0;
+				}
+			}
+			.team-folder-widget__row-icon{
+				margin-inline-end: 6px;
+				color: $colour-blue-600;
+			}
+			.team-folder-widget__row-preview{
+				border-radius: $rounded-4;
+				&[src*="/core/mimeicon"]{
+					border-radius: 0;
+					background: transparent;
+					@include teams-mime-icon-filters;
+				}
+			}
+			.team-folder-widget__row-name-text{
+				padding: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.team-folder-widget__row-size,
+			.team-folder-widget__row-mtime{
+				color: $colour-forground-1 !important;
+			}
+			.team-folder-widget__row-size{
+				@media (max-width: $bp-576) {
+					display: none;
+				}
+			}
+			.team-folder-widget__row-mtime{
+				@media (max-width: $bp-512) {
+					width: auto;
+					margin-inline-end: 0;
+				}
+			}
+		}
+	}
+}
+
+@mixin teams-app-popup {
+	body:has(.content.app-teams){
+		.v-popper__inner{
+			li.action{
+				&:has(> .action-text){
+					&:hover{
+						background-color: transparent;
+					}
+					.action-text{
+						display: flex;
+						align-items: center;
+						width: 100%;
+						min-height: var(--default-clickable-area);
+						padding: 0;
+						padding-inline-end: calc((var(--default-clickable-area) - 16px) / 2);
+						.action-text__icon,
+						> .material-design-icon{
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							flex-shrink: 0;
+							width: var(--default-clickable-area);
+							height: var(--default-clickable-area);
+							margin: 0;
+							padding: 0;
+						}
+						.action-text__text,
+						.action-text__longtext{
+							padding: 0;
+							font-weight: $font-medium;
+						}
+					}
+				}
+			}
+		}
+		.v-popper__inner ul:has(> .app-navigation-caption){
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+			min-width: 200px;
+			> .app-navigation-caption{
+				order: -1;
+				padding: 4px 12px 6px;
+				margin-bottom: 4px;
+				border-bottom: 1px solid $theme-divider;
+				border-radius: 0;
+				color: $colour-forground-1;
+			}
+		}
+
+		.team-switcher-popover{
+			.v-popper__inner{
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-8;
+				box-shadow: $box-shadow-3;
+			}
+			.team-header__switcher{
+				gap: 6px;
+				padding: 12px;
+			}
+			.team-header__info{
+				gap: 4px;
+			}
+			.team-header__name{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.team-header__switcher-caption,
+			.team-header__switcher-actions{
+				.button-vue--tertiary{
+					@include teams-icon-button;
+				}
+			}
+			.team-header__switcher-caption-text{
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.team-header__switcher-divider{
+				border-top-color: $theme-divider;
+			}
+			.team-header__switcher-search{
+				@include teams-search-field;
+				margin-top: 8px;
+			}
+			.team-header__switcher-list{
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+				.list-item{
+					border-radius: $rounded-6;
+					&:hover{
+						background-color: $colour-gray-100;
+					}
+				}
+				.list-item-content__name{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+			}
+			.team-header__switcher-footer{
+				gap: 8px;
+				.button-vue--tertiary{
+					@include teams-icon-button;
+				}
+				.button-vue--secondary{
+					@include outline-button;
+					justify-content: center;
+				}
+			}
+		}
+
+		.modal-container:has(.team-wizard){
+			.team-wizard{
+				padding: 16px 16px 0;
+			}
+			.team-wizard__step{
+				gap: 12px;
+				h3{
+					@include teams-heading;
+					font-size: $text-heading-4;
+				}
+				.input-field{
+					@include teams-search-field;
+				}
+			}
+			.team-wizard__advanced{
+				.button-vue--tertiary{
+					@include outline-button;
+				}
+			}
+			.team-wizard__advanced-body{
+				padding-inline-start: 0;
+				.checkbox-radio-switch{
+					@include checkbox-radio-switch;
+					@include checkbox-radio-switch-icon;
+				}
+			}
+			.team-wizard__hint{
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			.team-wizard__selection{
+				gap: 6px;
+				border-bottom-color: $theme-divider;
+			}
+			.team-wizard__results{
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			}
+			.team-wizard__caption{
+				padding: 12px 4px 4px;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-semibold;
+				color: $colour-blue-600;
+			}
+			.list-item{
+				border-radius: $rounded-6;
+				&:hover{
+					background-color: $colour-gray-100;
+				}
+			}
+			.dialog__actions{
+				.button-vue--primary{
+					@include primary-button;
+				}
+				.button-vue--secondary,
+				.button-vue--tertiary{
+					@include dialog-outline-button;
+				}
+			}
+		}
+
+		.modal-container:has(.team-settings-details){
+			@media (max-width: $bp-768) {
+				width: 100% !important;
+			}
+			.dialog__name{
+				position: static;
+				width: auto;
+				height: auto;
+				margin: 0;
+				padding: 16px 56px 16px 20px;
+				clip-path: none;
+				border-bottom: 1px solid $theme-divider;
+				text-align: start;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.app-settings__content{
+				padding: 0 20px;
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+				@media (max-width: $bp-576) {
+					padding-inline: 16px;
+				}
+			}
+			.app-settings-section{
+				margin: 0;
+				padding-block: 20px;
+				&:not(:last-of-type){
+					border-bottom: 1px solid $theme-divider;
+				}
+				.app-settings-section__content{
+					margin-top: 0;
+				}
+			}
+			#{css-module('appSettingsDialogVersion')}{
+				margin: 16px 0 0;
+				padding: 0 0 20px;
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+				font-weight: $font-medium;
+			}
+			.team-settings-details{
+				gap: 16px;
+				.input-field{
+					@include input;
+					input{
+						color: $colour-forground !important;
+					}
+				}
+				.textarea{
+					@include textarea-field;
+					width: 100%;
+					.textarea__input{
+						width: 100% !important;
+						box-sizing: border-box !important;
+						resize: vertical !important;
+					}
+				}
+			}
+			.team-settings-details__avatar{
+				gap: 16px;
+				@media (max-width: $bp-576) {
+					flex-direction: column;
+					align-items: flex-start;
+				}
+			}
+			.team-settings-details__avatar-buttons{
+				gap: 8px;
+				.button-vue--secondary{
+					@include outline-button;
+				}
+			}
+			.team-settings-details__save{
+				.button-vue--primary{
+					@include primary-button;
+				}
+			}
+			.team-settings-groups{
+				gap: 24px;
+			}
+			.team-settings-groups__group{
+				gap: 8px;
+			}
+			#{css-module('app-content-heading')}{
+				@include teams-heading;
+				font-size: $text-heading-4;
+				margin-bottom: 4px;
+			}
+			#{css-module('ncFormBox')}{
+				gap: 0;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-8;
+				overflow: hidden;
+			}
+			#{css-module('ncFormBox')} > #{css-module('formBoxItem')}{
+				min-height: unset;
+				padding: 10px 12px;
+				border: 0;
+				border-radius: 0;
+				background-color: transparent;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				transition: background-color ease-in-out 300ms;
+				&:not(:last-child){
+					border-bottom: 1px solid $theme-divider;
+				}
+				&:hover:not(:has(:disabled)){
+					background-color: $colour-gray-100;
+				}
+				svg{
+					fill: $colour-forground-1;
+				}
+			}
+			[class*="_iconToggleSwitch_"]{
+				color: $colour-forground-1 !important;
+			}
+			input:checked + [class*="_iconToggleSwitch_"]{
+				color: $colour-blue-600 !important;
+			}
+			.unique-password-form{
+				@media (max-width: $bp-576) {
+					flex-direction: column;
+					align-items: stretch;
+				}
+				.input-field{
+					@include input;
+				}
+				.button-vue--primary{
+					@include primary-button;
+				}
+			}
+			.team-settings-danger{
+				gap: 8px;
+				.button-vue--warning{
+					@include warning-button;
+				}
+				.button-vue--error{
+					@include error-button;
+				}
+			}
+		}
+
+		.modal-container:has(.entity-picker){
+			.entity-picker{
+				padding: 16px 20px 20px;
+				@media (max-width: $bp-576) {
+					padding: 12px 16px 16px;
+				}
+			}
+			.entity-picker__title{
+				@include teams-heading;
+				margin-bottom: 12px;
+			}
+			.entity-picker__search{
+				width: 100%;
+			}
+			.entity-picker__search-input{
+				height: 36px !important;
+				margin: 0;
+				padding-inline: 36px 10px !important;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				background-color: transparent;
+				box-shadow: none;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				&::placeholder{
+					color: $colour-forground-1;
+				}
+				&:focus,
+				&:focus-visible{
+					outline: 0;
+					border-color: $colour-blue-600;
+					box-shadow: none;
+				}
+			}
+			.entity-picker__search-icon{
+				width: 36px;
+				height: 36px;
+				background-size: 16px;
+				filter: $filter-forground-1;
+			}
+			.entity-picker__selection{
+				gap: 6px;
+				margin-top: 12px;
+				border-bottom-color: $theme-divider;
+				background: transparent;
+			}
+			.entity-picker__options{
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			}
+			.entity-picker__option-caption{
+				font-size: $text-12;
+				font-weight: $font-semibold;
+				color: $colour-blue-600;
+			}
+			.entity-picker__bubble{
+				.user-bubble__content{
+					border-radius: $rounded-6;
+				}
+				&--selected,
+				&:hover,
+				&:focus{
+					.user-bubble__content{
+						background-color: $colour-primary-50;
+					}
+				}
+			}
+			.entity-picker__navigation{
+				gap: 8px;
+				padding-top: 16px;
+				border-top: 1px solid $theme-divider;
+				box-shadow: none;
+				.navigation__button-left{
+					@include dialog-outline-button;
+				}
+				.navigation__button-right{
+					@include primary-button;
+					margin-inline-start: auto;
+				}
+			}
+		}
+	}
+}

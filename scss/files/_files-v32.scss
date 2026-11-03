@@ -1,0 +1,103 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin filter-active {
+	border-color: $colour-blue-600;
+	background-color: $colour-primary-50;
+	.button-vue__wrapper {
+		.button-vue__icon {
+			svg {
+				fill: $colour-blue-600;
+			}
+		}
+		.button-vue__text {
+			color: $colour-blue-600;
+		}
+	}
+}
+
+@mixin files {
+	.files-list__header {
+		.files-list__breadcrumbs {
+			margin: 0;
+			.files-list__header-share-button {
+				@include outline-button;
+				width: 34px !important;
+				min-width: 34px;
+				height: 34px;
+				min-height: unset;
+				padding: 0;
+				margin: 0 8px 0 0;
+			}
+			.upload-picker {
+				.v-popper {
+					button.button-vue.action-item__menutoggle {
+						background-color: $colour-blue-600;
+						border-color: $colour-blue-600;
+						.button-vue__icon {
+							svg {
+								fill: $colour-forground-white;
+							}
+						}
+						.button-vue__text {
+							color: $colour-forground-white;
+						}
+						&:hover {
+							background-color: transparent !important;
+							.button-vue__icon {
+								svg {
+									fill: $colour-blue-600;
+									filter: none;
+								}
+							}
+							.button-vue__text {
+								color: $colour-blue-600;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.files-list {
+		.files-list__filters {
+			position: static;
+			padding-bottom: 12px !important;
+		}
+	}
+	.file-list-filters {
+		gap: 8px;
+	}
+	.file-list-filter-accounts__item {
+		.file-list-filter-accounts__avatar {
+			margin: 0;
+		}
+	}
+	.file-list-filters__filter {
+		gap: 8px;
+		.action-item__menutoggle {
+			@include outline-button;
+			height: auto;
+			min-height: unset;
+			margin: 0;
+			&:focus-visible {
+				outline: 0 !important;
+				box-shadow: none !important;
+			}
+			&.button-vue--vue-secondary,
+			&:focus-visible {
+				@include filter-active;
+			}
+		}
+		.action-item--open {
+			.action-item__menutoggle {
+				@include filter-active;
+			}
+		}
+	}
+}

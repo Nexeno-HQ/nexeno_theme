@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2026 Nexeno contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# Build output, rebuilt by `npm run build` (css/ from scss/, js/page/ from src/)
+/css/
+/js/page/
+# App Store package, written by `make appstore`
+/build/
+
+node_modules/
+/vendor/
+
+.DS_Store
+*.log
+*.map
+.php-cs-fixer.cache

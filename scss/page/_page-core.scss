@@ -1,0 +1,28 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../themes' as themes;
+@use '../variables' as *;
+@mixin core {
+	.nexeno-content {
+		@include themes.theme-vars(light);
+		font-family: var(--font-face);
+		letter-spacing: $tracking-05;
+	}
+
+	body[data-theme-dark],
+	body[data-theme-dark-highcontrast] {
+		.nexeno-content {
+			@include themes.theme-vars(dark);
+		}
+	}
+
+	@media (prefers-color-scheme: dark) {
+		body:not([data-theme-light]):not([data-theme-light-highcontrast]):not([data-theme-dark]):not([data-theme-dark-highcontrast]) {
+			.nexeno-content {
+				@include themes.theme-vars(dark);
+			}
+		}
+	}
+}

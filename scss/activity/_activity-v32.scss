@@ -1,0 +1,16 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin activity {
+	.activity-app {
+		.activity-app__container {
+			&:empty {
+				display: none;
+			}
+		}
+	}
+}

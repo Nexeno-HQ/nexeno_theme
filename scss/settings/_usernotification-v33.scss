@@ -1,0 +1,17 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use './usernotification' as base;
+
+@mixin usernotification {
+	&.notifications,
+	&.activity{
+		@include base.usernotification-content;
+		div:has(.activity-frequency__label){
+			> p:has(> strong:only-child){
+				margin-bottom: 12px;
+			}
+		}
+	}
+}

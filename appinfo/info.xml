@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2026 Nexeno contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>nexeno_theme</id>
+	<name>Nexeno theme</name>
+	<summary>Nexeno Light and Dark colour themes for Nextcloud</summary>
+	<description><![CDATA[A modern Nextcloud experience: the Nexeno brand colours in a light and a dark variant.
+
+- Light and Dark variants, chosen per account under **Personal settings → Appearance**
+- Restyled navigation, dialogs, popovers and settings pages
+- Tailored layouts for Files, Photos, Dashboard, Activity, Calendar, Contacts, Deck, Notes, Tasks, Talk, Collectives, Mail and more
+- Supports Nextcloud 32 to 35]]></description>
+	<version>1.0.0</version>
+	<licence>agpl</licence>
+	<author mail="TODO-author@example.com" homepage="https://TODO-website.example.com">Nexeno</author>
+	<namespace>NexenoTheme</namespace>
+	<category>customization</category>
+	<website>https://TODO-website.example.com</website>
+	<bugs>https://github.com/TODO-owner/nexeno_theme/issues</bugs>
+	<repository type="git">https://github.com/TODO-owner/nexeno_theme</repository>
+	<screenshot>https://raw.githubusercontent.com/TODO-owner/nexeno_theme/main/img/showcase/dashboard.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/TODO-owner/nexeno_theme/main/img/showcase/files.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/TODO-owner/nexeno_theme/main/img/showcase/photos.png</screenshot>
+	<dependencies>
+		<nextcloud min-version="32" max-version="35"/>
+	</dependencies>
+	<settings>
+		<personal>OCA\NexenoTheme\Settings\Personal</personal>
+	</settings>
+</info>

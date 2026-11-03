@@ -1,0 +1,61 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin waffle-menu {
+    .app-menu__popover{
+        &:has(.app-menu__grid){
+            border-radius: $rounded-6;
+        }
+        .app-menu-actions{
+            a{
+                padding-block: 0;
+                --app-icon-scale:1;
+                .app-item__label{
+                    font-size: $text-12;
+                    line-height: $leading-16;
+                    color: $colour-forground;
+                    font-weight: $font-medium;
+                    padding: 0;
+                }
+            }
+        }
+    }
+    .app-menu__grid{
+        padding: 12px 6px 0;
+        gap: 0 6px;
+        .app-item{    
+            padding: 0 !important;
+            .app-item__label{
+                padding: 0;
+            }
+            &.app-item--outlined{
+                .app-icon{
+                    background-color: $colour-background;
+                    box-shadow: none;
+                    border: 1px solid $theme-divider;
+                    .app-icon__img{
+                        background-color: $colour-blue-600;
+                    }
+                }
+            }
+        }
+        .app-icon{
+            border-radius: $rounded-6;
+            width: 44px;
+            height: 44px;
+            min-height: unset;
+            background-image: none;
+            background-color: $colour-primary-50;
+            --app-icon-bevel:none;
+            .app-icon__img{
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+}

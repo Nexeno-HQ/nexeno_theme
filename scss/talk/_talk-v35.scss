@@ -1,0 +1,95 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin talk {
+	.app-spreed {
+		.top-bar {
+			.top-bar__controls {
+				gap: 8px;
+				.v-popper > .button-vue--tertiary,
+				> .button-vue--tertiary,
+				.action-item__menutoggle.button-vue--tertiary {
+					@include outline-button;
+					--button-size: 34px;
+					width: 34px;
+					min-width: 34px;
+					height: 34px;
+					min-height: 34px;
+					padding: 0;
+				}
+				.call-time > .button-vue {
+					width: auto;
+					min-width: auto;
+					padding: 0 10px;
+					.call-time__text {
+						font-size: $text-heading-5;
+						font-weight: $font-medium;
+						font-variant-numeric: tabular-nums;
+						color: $colour-forground;
+					}
+				}
+				.join-call-actions--split {
+					gap: 1px;
+					.start-call-button--split {
+						@include primary-button;
+						--button-size: 34px;
+						min-height: 34px;
+						border-start-end-radius: 0 !important;
+						border-end-end-radius: 0 !important;
+					}
+					.action-item__menutoggle {
+						@include primary-button;
+						--button-size: 34px;
+						width: 30px;
+						min-width: 30px;
+						min-height: 34px;
+						padding: 0;
+						border-start-start-radius: 0 !important;
+						border-end-start-radius: 0 !important;
+					}
+				}
+				.button-vue--secondary {
+					@include outline-button;
+					--button-size: 34px;
+					min-height: 34px;
+					padding: 0;
+					width: 34px;
+				}
+			}
+		}
+		.talk-dashboard-wrapper {
+			padding-top: 24px;
+			.event-section--empty {
+				height: auto;
+			}
+			.dashboard-section {
+				&.dashboard-section--background {
+					border: 1px solid $theme-divider;
+					background-color: $colour-background;
+					&::before,
+					&::after {
+						display: none;
+					}
+					&.dashboard-section--wide {
+						.dashboard-section__content {
+							max-width: none;
+						}
+					}
+				}
+				.dashboard-section__content {
+					padding: 16px 20px;
+				}
+			}
+			.talk-dashboard__unread-mentions {
+				.dashboard-section__content {
+					justify-content: flex-start;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,101 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin connected-accounts {
+	&.connected-accounts {
+		.section {
+			padding: 20px 0;
+			border-bottom: 1px solid $theme-divider;
+			&:last-child {
+				border-bottom: 0;
+			}
+			> h2 {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				margin: 0 0 16px;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+				.material-design-icon {
+					width: 20px;
+					height: 20px;
+					svg {
+						width: 20px;
+						height: 20px;
+						fill: $colour-forground;
+					}
+				}
+				+ div {
+					max-width: 600px !important;
+					margin: 0 !important;
+				}
+			}
+			p:not(.notecard *) {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-normal;
+				color: $colour-forground-1;
+			}
+			.input-field {
+				@include input;
+				&.input-field--leading-icon {
+					.input-field__main-wrapper {
+						input {
+							padding-inline-start: 36px;
+						}
+					}
+				}
+				.input-field__icon--leading {
+					svg {
+						width: 16px;
+						height: 16px;
+						fill: $colour-forground-1;
+					}
+				}
+			}
+			.notecard {
+				margin: 4px 0;
+			}
+			label:not(.input-field__label):not(#{css-module('formBoxItem__element')}) {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.v-select.select {
+				@include single-select($dropdown: false);
+				width: 100%;
+			}
+			#{css-module('ncFormBox')} {
+				gap: 8px;
+				#{css-module('formBoxItem')} {
+					padding: 10px 12px;
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-6 !important;
+					background-color: transparent;
+					transition: border-color ease-in-out 300ms;
+					&:hover {
+						border-color: $colour-blue-600;
+						background-color: transparent;
+					}
+					#{css-module('formBoxItem__content')} {
+						padding: 0;
+						label {
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground;
+						}
+					}
+				}
+			}
+		}
+	}
+}

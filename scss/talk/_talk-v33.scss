@@ -1,0 +1,140 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin talk {
+	.app-spreed {
+		.app-navigation {
+			.new-conversation {
+				margin: 0;
+			}
+			.navigation-item {
+				padding-inline: 0;
+				margin-block: 0;
+				& + .navigation-item {
+					margin-top: 4px;
+				}
+				.app-navigation-entry {
+					border-radius: $rounded-8;
+					background-color: transparent;
+					.app-navigation-entry-link {
+						display: flex;
+						align-items: center;
+						min-height: 40px;
+						padding: 2px 12px;
+						gap: 6px;
+						.app-navigation-entry-icon {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							width: 36px;
+							height: 36px;
+							svg {
+								width: 18px;
+								height: 18px;
+								fill: $colour-forground;
+							}
+						}
+						.app-navigation-entry__name {
+							padding: 0;
+							margin: 0;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground;
+						}
+					}
+					&:hover,
+					&.active {
+						background-color: $colour-sidebar-link-bg !important;
+					}
+				}
+			}
+			.left-sidebar__settings-button-container {
+				padding: 12px 16px;
+				background-color: $colour-sidebar-bg;
+				border-top: 1px solid $theme-divider;
+				.button-vue {
+					min-height: 40px;
+					padding: 2px 12px;
+					border-radius: $rounded-8;
+					background-color: transparent;
+					.button-vue__wrapper {
+						justify-content: flex-start;
+						gap: 6px;
+					}
+					.button-vue__icon {
+						svg {
+							width: 18px;
+							height: 18px;
+						}
+					}
+					.button-vue__text {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					&:hover {
+						background-color: $colour-sidebar-link-bg;
+					}
+				}
+			}
+			.list-item__wrapper {
+				&.list-item__wrapper--active {
+					&.list-item__wrapper--legacy {
+						.list-item-content__name {
+							color: $colour-forground !important;
+						}
+						.list-item-content__subname,
+						.list-item-content__details,
+						.list-item-details__details {
+							color: $colour-forground-1 !important;
+						}
+						.list-item-content__actions {
+							.action-item__menutoggle {
+								border: 0 !important;
+								background-color: transparent !important;
+								box-shadow: none !important;
+								color: $colour-forground !important;
+								svg {
+									fill: $colour-forground;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		.app-sidebar-tabs__nav--legacy {
+			#{css-module('sidebarTabsButton_legacy')} {
+				border-radius: $rounded-8;
+				&#{css-module('sidebarTabsButton_selected')} {
+					border-color: $colour-blue-600 !important;
+					border-radius: $rounded-8;
+					&:focus,
+					&:active {
+						background-color: $colour-blue-600 !important;
+					}
+				}
+				&:not(#{css-module('sidebarTabsButton_selected')}) {
+					&:focus,
+					&:active {
+						background-color: $colour-gray-100 !important;
+					}
+					border-color: $colour-gray-100;
+					background-color: $colour-gray-100;
+					color: $colour-forground;
+					&:hover {
+						border-color: $colour-blue-600;
+						background-color: $colour-blue-600;
+						color: $colour-forground-white;
+					}
+				}
+			}
+		}
+	}
+}

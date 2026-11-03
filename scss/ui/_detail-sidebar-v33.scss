@@ -1,0 +1,29 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin detail-sidebar {
+	.app-sidebar-tabs__nav--legacy{
+		.checkbox-radio-switch.checkbox-radio-switch--button-variant{
+			.checkbox-content{
+				border-bottom: 0 !important;
+			}
+		}
+	}
+	aside.app-sidebar:not(.modal__card *) {
+		.app-sidebar-tabs__nav {
+			#{css-module('sidebarTabsButton_legacy')} {
+				border-bottom: 1px solid $colour-gray-100 !important;
+				&:hover,
+				&#{css-module('sidebarTabsButton_selected')} {
+					background-color: $colour-blue-600 !important;
+					border-bottom-color: $colour-blue-600 !important;
+					color: $colour-forground-white !important;
+				}
+			}
+		}
+	}
+}

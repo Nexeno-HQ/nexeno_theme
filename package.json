@@ -1,0 +1,38 @@
+{
+  "name": "nexeno_theme",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-or-later",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build:page-css": "sass scss/page/nexeno-page.scss css/nexeno-page.css --style=compressed --no-source-map",
+    "build:theme-css": "sass scss/nexeno-theme.scss css/nexeno-theme.css --style=compressed --no-source-map",
+    "build:login-css": "sass scss/nexeno-login.scss css/nexeno-login.css --style=compressed --no-source-map",
+    "build:version-css": "node scripts/build-version-css.js",
+    "build:js": "webpack --config webpack.config.js",
+    "build": "npm run build:page-css && npm run build:theme-css && npm run build:login-css && npm run build:version-css && npm run build:js",
+    "watch:css": "sass --no-source-map --style=expanded --watch scss/page/nexeno-page.scss:css/nexeno-page.css scss/nexeno-theme.scss:css/nexeno-theme.css scss/nexeno-login.scss:css/nexeno-login.css",
+    "watch:version-css": "node scripts/build-version-css.js --watch",
+    "watch:js": "webpack --config webpack.config.js --watch",
+    "watch": "npm run watch:css & npm run watch:version-css"
+  },
+  "dependencies": {
+    "@nextcloud/axios": "^2.5.1",
+    "@nextcloud/l10n": "^3.4.1",
+    "@nextcloud/router": "^3.0.1",
+    "@nextcloud/vue": "^9.8.2",
+    "vue": "^3.5.13",
+    "vue-router": "^5.2.0"
+  },
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.5.13",
+    "css-loader": "^7.1.2",
+    "sass": "^1.102.0",
+    "style-loader": "^4.0.0",
+    "vue-loader": "^17.4.2",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^5.1.4"
+  }
+}

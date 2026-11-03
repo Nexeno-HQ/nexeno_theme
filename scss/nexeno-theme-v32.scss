@@ -1,0 +1,29 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use 'dashboard/dashboard-v32' as dashboard;
+@use 'files/files-v32' as files;
+@use 'ui/modal-v32' as modal;
+@use 'photos/photos-v32' as photos;
+@use 'activity/activity-v32' as activity;
+@use 'settings/settings-v32' as settings;
+@use 'ui/detail-sidebar-v32' as detail-sidebar;
+@use 'deck/deck-v32' as deck;
+@use 'contacts/contacts-v32' as contacts;
+@use 'notes/notes-v32' as notes;
+@use 'talk/talk-v32' as talk;
+
+:root[data-nexeno] {
+	@include activity.activity;
+	@include dashboard.dashboard;
+	@include detail-sidebar.detail-sidebar;
+	@include files.files;
+	@include modal.modal;
+	@include photos.photos;
+	@include settings.settings;
+	@include deck.deck;
+	@include contacts.contacts;
+	@include notes.notes;
+	@include talk.talk;
+}

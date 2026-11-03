@@ -1,0 +1,111 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin activity {
+	.activity-app{
+		.activity-app__filter,
+		.activity-app__content{
+			max-width: 100%;
+			width: 100%;
+		}
+		.activity-app__content{
+			padding-inline: 0;
+		}
+		.activity-app__filter{
+			padding-inline: 16px;
+			padding-inline-start: 46px;
+			border-bottom: 1px solid $theme-divider;
+		}
+		.activity-group__heading{
+			position: static;
+			padding: 0;
+			background: none;
+		}
+	}
+	.activity-filter{
+		padding-block: 10px;
+		.activity-filter__controls{
+			gap: 8px;
+		}
+		.activity-filter__search{
+			@include input;
+			.input-field__main-wrapper{
+				input{
+					padding-inline-start: 34px;
+				}
+			}
+			.input-field__icon--leading{
+				height: 34px;
+				width: 34px;
+				inset-inline-start: 0;
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+			}
+		}
+		.activity-filter__actor{
+			&.v-select.select{
+				@include select-field($dropdown: false);
+				@include select-box;
+			}
+		}
+		.activity-filter__range .button-vue,
+		.activity-filter__controls > .button-vue{
+			@include outline-button;
+		}
+		.activity-filter__custom-range{
+			gap: 8px;
+			.native-datetime-picker__input{
+				@include datepicker;
+			}
+		}
+	}
+	.activity-heatmap-view__inner{
+		max-width: 100%;
+		width: 100%;
+		padding: 16px 0 16px;
+		h1{
+			padding-left: 48px;
+			border-bottom: 1px solid $theme-divider;
+			padding-bottom: 19px;
+			font-size: $text-heading-3;
+			line-height: $leading-22;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+		.activity-heatmap,
+		.activity-heatmap-view__actions,
+		.activity-heatmap-view__intro{
+			padding-inline: 16px;
+		}
+		p{
+			&.activity-heatmap-view__intro{
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-normal;
+				color: $colour-forground-1;
+			}
+		}
+		p{
+			&.activity-heatmap__summary{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+		}
+		.button-vue--primary{
+			@include primary-button;
+		}
+		.button-vue--tertiary{
+			@include outline-button;
+		}
+	}
+}

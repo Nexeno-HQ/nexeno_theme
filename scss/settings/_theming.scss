@@ -1,0 +1,467 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin theming {
+	&.theming{
+		div{
+			&.section{
+				padding: 0;
+				h3{
+					margin: 0;
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					color: $colour-forground;
+					font-weight: $font-semibold;
+					margin-bottom: 16px;
+					text-transform: capitalize;
+				}
+				p{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+					font-weight: $font-normal;
+					max-width: 600px;
+				}
+			}
+			&.theming{
+				padding-top: 16px !important;
+			}
+		}
+		.settings-section{
+			&.background{
+				#{css-module("backgroundSelect")}{
+					justify-content: start;
+					@media (max-width: $bp-1023) {
+						justify-content: center;
+					}
+				}
+			}
+		}
+		.nexeno_theme-theme-card{
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 20px;
+			margin-bottom: 20px;
+			@media (max-width: $bp-1366) {
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+			}
+			@media (max-width: $bp-1199) {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+			@media (max-width: $bp-1023) {
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+			}
+			@media (max-width: $bp-768) {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+			@media (max-width: $bp-512) {
+				grid-template-columns: repeat(1, minmax(0, 1fr));
+			}
+			.nexeno_theme-theme-card__item{
+				display: flex;
+				flex-direction: column;
+				gap: 16px;
+				img{
+					border-radius: $rounded-6;
+				}
+				.nexeno_theme-theme-card__body{
+					display: flex;
+					flex-direction: column;
+					gap: 16px;
+					flex-grow: 1;
+					p,h3{
+						margin-bottom: 0;
+					}
+					p{
+						&:has(input[type="radio"]){
+							margin-top: auto;
+						}
+					}
+					label{
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+						font-weight: $font-medium;
+						text-transform: capitalize;
+						&::before{
+							box-shadow: inset 0px 0px 0px 2.8px var(--color-main-background);
+						}
+					}
+				}
+			}
+		}
+		#settings-personal-theming{
+			.theming{
+				padding-top: 20px !important;
+				h2{
+					margin: 0;
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					color: $colour-forground;
+					font-weight: $font-semibold;
+					margin-bottom: 16px;
+				}
+				p{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+					font-weight: $font-normal;
+					max-width: 600px;
+					a{
+						font-weight: $font-medium;
+						color: $colour-forground;
+						text-decoration: underline;
+						transition: all ease-in-out 300ms;
+						&:hover{
+							color: $colour-blue-600;
+						}
+					}
+					+ p{
+						margin-top: 16px;
+					}
+				}
+				.theming__preview-list:first-of-type{
+					margin-top: 20px;
+					display: grid;
+					grid-template-columns: repeat(4, minmax(0, 1fr));
+					gap: 20px;
+					@media (max-width: $bp-1366) {
+						grid-template-columns: repeat(3, minmax(0, 1fr));
+					}
+					@media (max-width: $bp-1199) {
+						grid-template-columns: repeat(2, minmax(0, 1fr));
+					}
+					@media (max-width: $bp-1023) {
+						grid-template-columns: repeat(3, minmax(0, 1fr));
+					}
+					@media (max-width: $bp-768) {
+						grid-template-columns: repeat(2, minmax(0, 1fr));
+					}
+					@media (max-width: $bp-512) {
+						grid-template-columns: repeat(1, minmax(0, 1fr));
+					}
+					.theming__preview{
+						display: flex;
+						flex-direction: column;
+						gap: 12px;
+						.theming__preview-image{
+							margin: 0;
+							border-radius: $rounded-6;
+							flex-basis: unset;
+							height: auto;
+							aspect-ratio: 8 / 5;
+							background-size: cover;
+							background-position: center;
+						}
+						.theming__preview-description{
+							display: flex;
+							flex-direction: column;
+							gap: 16px;
+							flex-grow: 1;
+							h3{
+								margin: 0;
+								font-size: $text-heading-3;
+								line-height: $leading-22;
+								color: $colour-forground;
+								font-weight: $font-semibold;
+								text-transform: capitalize;
+							}
+							p{
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								color: $colour-forground-1;
+								font-weight: $font-normal;
+								max-width: 600px;
+								margin-bottom: 0;
+							}
+							.checkbox-radio-switch{
+								margin-top: auto;
+								input{
+									margin: 0;
+									width: 18px;
+									height: 18px;
+									min-height: unset;
+								}
+								.checkbox-content{
+									padding: 0;
+									gap: 4px;
+									.checkbox-content__icon{
+										margin: 0;
+										width: 18px;
+										height: 18px;
+										.material-design-icon{
+											width: 18px;
+											height: 18px;
+											svg{
+												width: 18px;
+												height: 18px;
+											}
+										}
+									}
+									.checkbox-content__wrapper{
+										flex: auto;
+										.checkbox-content__text{
+											font-size: $text-heading-5;
+											line-height: $leading-20;
+											color: $colour-forground;
+											font-weight: $font-medium;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				.theming__preview-list:last-of-type{
+					padding-top: 20px;
+					margin-top: 16px;
+					border-top: 1px solid $theme-divider;
+					display: grid;
+					grid-template-columns: repeat(4, minmax(0, 1fr));
+					gap: 20px;
+					@media (max-width: $bp-1366) {
+						grid-template-columns: repeat(3, minmax(0, 1fr));
+					}
+					@media (max-width: $bp-1199) {
+						grid-template-columns: repeat(2, minmax(0, 1fr));
+					}
+					@media (max-width: $bp-1023) {
+						grid-template-columns: repeat(3, minmax(0, 1fr));
+					}
+					@media (max-width: $bp-768) {
+						grid-template-columns: repeat(2, minmax(0, 1fr));
+					}
+					@media (max-width: $bp-512) {
+						grid-template-columns: repeat(1, minmax(0, 1fr));
+					}
+					.theming__preview{
+						display: flex;
+						flex-direction: column;
+						gap: 12px;
+						.theming__preview-image{
+							margin: 0;
+							border-radius: $rounded-6;
+							flex-basis: unset;
+							height: auto;
+							aspect-ratio: 8 / 5;
+							background-size: cover;
+							background-position: center;
+						}
+						.theming__preview-description{
+							display: flex;
+							flex-direction: column;
+							gap: 16px;
+							flex-grow: 1;
+							h3{
+								margin: 0;
+								font-size: $text-heading-3;
+								line-height: $leading-22;
+								color: $colour-forground;
+								font-weight: $font-semibold;
+								text-transform: capitalize;
+							}
+							p{
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								color: $colour-forground-1;
+								font-weight: $font-normal;
+								max-width: 600px;
+								margin-bottom: 0;
+							}
+							.checkbox-radio-switch{
+								margin-top: auto;
+								input{
+									margin: 0;
+								}
+								.checkbox-content{
+									padding: 0;
+									gap: 6px;
+									min-height: unset;
+									.checkbox-content__icon{
+										margin: 0;
+									}
+									.checkbox-content__wrapper{
+										flex: auto;
+										.checkbox-content__text{
+											font-size: $text-heading-5;
+											line-height: $leading-20;
+											color: $colour-forground;
+											font-weight: $font-medium;
+										}
+									}
+								}
+								.checkbox-radio-switch{
+									.checkbox-content{
+										padding: 0;
+										gap: 6px;
+										min-height: unset;
+										.checkbox-content__icon{
+											margin: 0;
+										}
+										.checkbox-content__wrapper{
+											flex: auto;
+											.checkbox-content__text{
+												font-size: $text-heading-5;
+												line-height: $leading-20;
+												color: $colour-forground;
+												font-weight: $font-medium;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					+ h3{
+						margin-top: 16px;
+						padding-top: 16px;
+						border-top: 1px solid $theme-divider;
+						font-size: $text-heading-3;
+						line-height: $leading-22;
+						color: $colour-forground;
+						font-weight: $font-semibold;
+					}
+				}
+				+ .settings-section{
+					padding-block: 16px;
+					p{
+						font-weight: $font-normal;
+					}
+					#{css-module("userPrimaryColor")}{
+						gap: 16px;
+						align-items: center;
+						.v-popper{
+							button{
+								border-radius: $rounded-6;
+								&:hover,
+								&:focus-visible,
+								&:focus-within{
+									outline: 0 !important;
+									box-shadow: none;
+								}
+							}
+						}
+						.button-vue--tertiary{
+							@include outline-button;
+						}
+					}
+				}
+			}
+		}
+		.checkbox-radio-switch{
+			.checkbox-content{
+				padding: 0;
+				gap: 6px;
+				min-height: unset;
+				.checkbox-content__icon{
+					margin: 0;
+				}
+				.checkbox-content__wrapper{
+					flex: auto;
+					.checkbox-content__text{
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+						font-weight: $font-medium;
+					}
+				}
+				&:hover{
+					background-color: transparent;
+				}
+			}
+		}
+		.settings-section{
+			p{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+				font-weight: $font-normal;
+				max-width: 600px;
+			}
+			&.background{
+				fieldset{
+					max-width: 900px;
+				}
+			}
+			
+		}
+		#{css-module("userSectionAppMenu__selector")}{
+			margin-block: 16px;
+			@media (max-width: $bp-512) {
+				width: 100%;
+			}
+			li{
+				padding-inline: 0;
+				padding-block: 8px;
+				border-bottom: 1px solid $theme-divider;
+				svg{
+					width: 16px;
+					height: 16px;
+				}
+				.order-selector-element__icon{
+					filter: $filter-forground;
+				}
+				&:hover{
+					background-color: transparent;
+				}
+				.order-selector-element__label{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+				}
+				&:first-child{
+					padding-top: 0;
+				}
+				&:last-child{
+					padding-bottom: 0;
+					border-bottom: 0;
+				}
+				.order-selector-element__placeholder{
+					width: 20px;
+					height: 20px;
+				}
+				button{
+					min-height: unset;
+					min-width: unset;
+					width: 20px !important;
+					height: 20px;
+					padding: 0;
+					.button-vue__wrapper,
+					.button-vue__icon{
+						width: 20px;
+						height: 20px;
+						min-height: unset;
+						min-width: unset;
+						svg{
+							fill: $colour-forground;
+							width: 20px;
+							height: 20px;
+						}
+					}
+					&:hover{
+						background-color: transparent;
+						.button-vue__wrapper,
+						.button-vue__icon{
+							svg{
+								fill: $colour-blue-600;
+							}
+						}
+					}
+				}
+			}
+			+ .button-vue--tertiary{
+				@include outline-button;
+				@media (max-width: $bp-512) {
+					margin-inline: auto;
+				}
+				&:disabled{
+					pointer-events: none;
+				}
+			}
+		}
+	}
+}

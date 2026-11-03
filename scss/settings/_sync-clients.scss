@@ -1,0 +1,46 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use './mixins' as *;
+
+@mixin sync-clients {
+	&.sync-clients{
+		.settings-section{
+			ul{
+				&#{css-module('list')}{
+					gap: 10px;
+					+ p{
+						margin-top: 16px;
+					}
+					li{
+						a{
+							display: flex;
+							align-items: center;
+							height: 100%;
+							img{
+								width: auto;
+								height: 34px;
+								max-width: 100%;
+								object-fit: contain;
+							}
+							&.button-vue{
+								@include outline-button;
+							}
+						}
+					}
+				}
+			}
+			p{
+				+.input-field{
+					@include input(25px);
+					@media (max-width: $bp-512) {
+						width: 100%;
+						max-width: 100% !important;
+					}
+				}
+			}
+		}
+	}
+}

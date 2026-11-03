@@ -1,0 +1,17 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use './security-v32' as *;
+@use './sharing-v32' as *;
+@use './theming-v32' as *;
+
+@mixin settings {
+	#content.app-settings {
+		main#app-content {
+			@include security;
+			@include sharing;
+			@include theming;
+		}
+	}
+}

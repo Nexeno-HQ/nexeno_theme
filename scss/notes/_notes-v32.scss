@@ -1,0 +1,128 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin notes {
+	body:has(.app-notes) {
+		.v-popper__inner {
+			.action-input--visible-label {
+				.action-input__text-label {
+					display: none;
+				}
+			}
+		}
+	}
+	.app-notes {
+		.app-navigation {
+			.app-navigation-new {
+				padding: 0 0 8px;
+				.button-vue--vue-primary {
+					@include primary-button;
+					--button-size: 34px;
+					width: 100%;
+					.button-vue__wrapper {
+						justify-content: center;
+					}
+				}
+			}
+			.app-navigation-entry-wrapper {
+				&.active {
+					> .app-navigation-entry {
+						background-color: $colour-sidebar-link-bg !important;
+					}
+				}
+			}
+			.app-navigation-entry--editing {
+				.app-navigation-entry-link {
+					.editingContainer {
+						flex: 1 1 auto;
+						width: auto;
+						min-width: 0;
+						.app-navigation-input-confirm {
+							flex: 1 1 auto;
+							width: auto;
+							min-width: 0;
+						}
+					}
+				}
+				.app-navigation-input-confirm {
+					form {
+						gap: 6px;
+						width: 100%;
+						input {
+							flex: 1 1 auto;
+							width: auto;
+							min-width: 0;
+						}
+						.button-vue--vue-primary {
+							@include primary-button;
+							color: $colour-forground-white;
+							.material-design-icon svg {
+								filter: none;
+								fill: $colour-forground-white !important;
+							}
+							&:hover {
+								.material-design-icon svg {
+									fill: $colour-blue-600 !important;
+								}
+							}
+							&:active {
+								background-color: $colour-blue-600;
+								.material-design-icon svg {
+									fill: $colour-forground-white !important;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		main.app-content {
+			.content-list__actions {
+				.button-vue--vue-primary {
+					@include primary-button;
+					--button-size: 34px;
+					width: 100%;
+					.button-vue__wrapper {
+						justify-content: center;
+					}
+				}
+			}
+			.welcome-content {
+				.feature {
+					.button-vue--vue-secondary {
+						@include outline-button;
+						--button-size: 34px;
+						.material-design-icon {
+							svg {
+								width: 16px;
+								height: 16px;
+							}
+						}
+					}
+				}
+			}
+			.app-content-list {
+				> ul {
+					padding: 6px 8px;
+				}
+				.list-item__wrapper {
+					&.list-item__wrapper--active {
+						.list-item-content__name {
+							color: $colour-forground !important;
+						}
+						.list-item-content__subname,
+						.list-item-content__details,
+						.list-item-details__details {
+							color: $colour-forground-1 !important;
+						}
+					}
+				}
+			}
+		}
+	}
+}

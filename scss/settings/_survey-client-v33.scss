@@ -1,0 +1,28 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin survey-client {
+	&.survey_client{
+		#last_report{
+			h3{
+				display: flex;
+				align-items: center;
+				gap: 6px;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				cursor: pointer;
+				.icon{
+					width: 16px;
+					height: 16px;
+					background-size: 16px;
+				}
+			}
+		}
+	}
+}

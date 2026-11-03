@@ -1,0 +1,269 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin adminsecurity{
+    &.admin-security{
+        p{
+            &:empty{
+                display: none;
+            }
+        }
+        .settings-section{
+            h2{
+                gap: 6px;
+                .settings-section__info{
+                    width: 16px;
+                    height: 16px;
+                    display: block;
+                    margin: 0;
+                    svg{
+                        width: 16px;
+                        height: 16px;
+                        fill: $colour-forground;
+                    }
+                }
+            }
+            .whitelist-list{
+                &:empty{
+                    margin: 0;
+                }
+            }
+            h3{
+                &:first-of-type{
+                    font-size: $text-heading-3;
+                    line-height: $leading-22;
+                    color: $colour-forground;
+                    font-weight: $font-semibold;
+                    margin: 16px 0;
+                    padding-top: 16px;
+                    border-top: 1px solid $theme-divider;
+                    width: 100%;
+                    max-width: 100%;
+                }
+            }
+            p{
+                &:has(.v-select){
+                    display: flex;
+                    gap: 4px;
+                    flex-direction: column;
+                    margin-top: 8px;
+                    label{
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground-1;
+                        font-weight: $font-medium;
+                    }
+                }
+            }
+            .settings-section__loose-text,
+            .top-margin{
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                color: $colour-forground-1;
+                font-weight: $font-normal;
+            }
+            #{css-module("form")}{
+                width: 100%;
+                max-width: 100%;
+                gap: 16px;
+                margin-bottom: 16px;
+                #{css-module("inputField")}{
+                    display: flex;
+                    flex-direction: column;
+                    .input-field{
+                        .input-field__helper-text-message{
+                            font-size: $text-12;
+                            line-height: $leading-16;
+                            color: $colour-forground-1;
+                        }
+                    }
+                }
+            }
+            #{css-module("policyWrapper")}{
+                width: 100%;
+                gap: 0;
+                @media (max-width: $bp-1199) {
+                    flex-direction: column;
+                    gap: 16px;
+                }
+                flex-wrap: unset;
+                form{
+                    padding: 16px;
+                    border: 1px solid $theme-divider;
+                    border-radius: $rounded-6;
+                    min-width: unset;
+                    width: 50%;
+                    max-width: 100%;
+                    @media (max-width: $bp-1199) {
+                        width: 100%;
+                    }
+                    #{css-module("headingWrapper")}{
+                        margin-bottom: 16px;
+                        h3{
+                            padding-top: 0;
+                            margin: 0;
+                            border-top: 0;
+                        }
+                        .button-vue--tertiary{
+                            @include error-button;
+                        }
+                    }
+                    .input-field{
+                        width: 100%;
+                        max-width: 100%;
+                        margin-bottom: 16px;
+                    }
+                    .checkbox-radio-switch{
+                        .checkbox-radio-switch__content{
+                            align-items: start;
+                            .checkbox-content__icon{
+                                margin-top: 2px;
+                            }
+                        }
+                        + .checkbox-radio-switch{
+                            margin-top: 12px;
+                        }
+                    }
+                    #{css-module("hint")}{
+                        margin-top: 12px;
+                        margin-left: 0;
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground-1;
+                        font-weight: $font-normal;
+                    }
+                }
+                #{css-module("container")}{
+                    padding: 16px;
+                    border: 1px solid $theme-divider;
+                    border-radius: $rounded-6;
+                    min-width: unset;
+                    width: 50%;
+                    margin-left: 16px;
+                    max-width: 100%;
+                    @media (max-width: $bp-1199) {
+                        width: 100%;
+                    }
+                    @media (max-width: $bp-1199) {
+                        margin-left: 0;
+                    }
+                }
+            }
+            #{css-module("container")}{
+                .action-item--secondary{
+                    button{
+                        @include outline-button;
+                    }
+                }
+            }
+        }
+        div{
+            &.section{
+                &:first-of-type{
+                    padding-top: 0;
+                }
+                p{
+                    font-weight: $font-normal;
+                }
+            }
+        }
+        .notecard{
+            @include notecard;
+            &.notecard--warning,
+            &.notecard--success{
+                margin-bottom: 0 !important;
+            }
+        }
+        .input-field{
+            @include input;
+            input{
+                &::placeholder{
+                    opacity: 0
+                }
+            }
+        }
+        .whitelist-form{
+            gap: 16px;
+            @media (max-width: $bp-576) {
+                width: 100% !important;
+            }
+            .button-vue--secondary{
+                @include primary-button;
+                margin-top: 12px;
+            }
+            .whitelist-form__ip-mask{
+                @media (max-width: $bp-576) {
+                   flex-direction: column;
+                   align-items: start;
+                   gap: 16px;
+                   width: 100%;
+                }
+            }
+            .input-field{
+                @media (max-width: $bp-576) {
+                   width: 100% !important;
+                }
+            }
+            .whitelist__comment{
+                @media (max-width: $bp-576) {
+                    width: 100% !important;
+                }
+            }
+        }
+        .textarea{
+            @include textarea-field;
+            margin-top: 0;
+            textarea{
+                @include noscrollbar;
+                &::placeholder{
+                    opacity: 0
+                }
+            }
+        }
+        .checkbox-radio-switch{
+            @include checkbox-radio-switch;
+        }
+        .v-select{
+            @include select-field;
+            @include select-box;
+            .vs__selected{
+                border: 0 !important;
+                background-color: transparent !important;
+            }
+        }
+        .button-vue--vue-primary{
+            @include primary-button;
+        }
+        #oauth2{
+            .settings-section{
+                gap: 0;
+                padding-top: 16px;
+                .settings-section__desc{
+                    margin-bottom: 0;
+                }
+                br{
+                    display: none;
+                }
+            }
+            #{css-module("oauthApp__form")}{
+                gap: 12px;
+                flex-direction: column;
+                .input-field{
+                    margin: 0;
+                    @media (max-width: $bp-576) {
+                        width: 100%;
+                        max-width: 100%;
+                    }
+                }
+                .button-vue--secondary{
+                    @include primary-button;
+                }
+            }
+        }
+    }
+}

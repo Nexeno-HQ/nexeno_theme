@@ -1,0 +1,199 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin saml-form-group {
+	#{css-module('formGroup__label')}{
+		padding-inline: 0;
+		font-size: $text-heading-4;
+		line-height: $leading-22;
+		font-weight: $font-semibold;
+		color: $colour-forground;
+	}
+	#{css-module('formGroup__description')}{
+		padding-inline: 0;
+		font-size: $text-heading-5;
+		line-height: $leading-20;
+		font-weight: $font-normal;
+		color: $colour-forground-1;
+	}
+	#{css-module('formGroup__content')}{
+		margin-block-start: 12px;
+		gap: 8px;
+	}
+}
+
+@mixin saml-form-box-item {
+	min-height: unset;
+	padding: 10px 12px;
+	border: 1px solid $theme-divider;
+	border-radius: $rounded-6;
+	font-size: $text-heading-5;
+	line-height: $leading-20;
+	font-weight: $font-medium;
+	color: $colour-forground;
+	#{css-module('formBoxItem__description')}{
+		font-size: $text-12;
+		line-height: $leading-16;
+		font-weight: $font-normal;
+		color: $colour-forground-1;
+	}
+	&:hover:not(:has(:disabled)){
+		border-color: $colour-blue-600;
+		background-color: $colour-primary-50;
+		color: $colour-forground;
+	}
+}
+
+@mixin saml {
+	&.saml{
+		.settings-section{
+			.notecard{
+				margin-block: 16px;
+			}
+			h3{
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				margin: 0 0 12px;
+				font-size: $text-heading-4;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			#{css-module('formGroup')}{
+				@include saml-form-group;
+			}
+			#{css-module('formBoxItem')}{
+				@include saml-form-box-item;
+			}
+			.global-settings{
+				padding-block-start: 0;
+			}
+			.provider-list{
+				padding-block: 20px;
+				border-bottom: 1px solid $theme-divider;
+				.provider-list__items{
+					gap: 8px;
+					margin-block-end: 0;
+				}
+				.provider-list__item{
+					gap: 8px;
+					.provider-list__item-btn{
+						flex: 0 0 auto;
+						width: fit-content;
+						justify-content: flex-start;
+						@include outline-button;
+						transition: background-color ease-in-out 300ms, border-color ease-in-out 300ms, color ease-in-out 300ms;
+						&.button-vue--primary{
+							@include primary-button;
+						}
+					}
+					.button-vue--error{
+						@include error-button;
+						flex: none;
+						padding: 6px;
+					}
+				}
+			}
+			.button-vue--secondary{
+				@include outline-button;
+			}
+			.button-vue--warning{
+				@include warning-button;
+			}
+		}
+	}
+
+	@at-root body:has(.app-settings main.saml) .modal-container.general-popup{
+		.dialog__content{
+			padding: 16px;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			overflow-x: hidden;
+			@include scrollbar;
+			> *{
+				min-width: 0;
+			}
+		}
+		.notecard{
+			@include notecard;
+			margin: 0;
+		}
+		#{css-module('formGroup')}{
+			@include saml-form-group;
+		}
+		#{css-module('formBoxItem')}{
+			@include saml-form-box-item;
+		}
+		.settings-section{
+			margin: 0;
+			width: 100%;
+			min-width: 0;
+			padding-block: 16px;
+			&:not(:last-child){
+				border-bottom-color: $theme-divider;
+			}
+			.settings-section__name{
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				margin: 0 0 4px;
+				font-size: $text-heading-4;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.settings-section__desc{
+				margin: 0 0 12px;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-normal;
+				color: $colour-forground-1;
+			}
+		}
+		#{css-module('ncFormBox')}{
+			gap: 8px;
+			min-width: 0;
+		}
+		.input-field{
+			@include input;
+		}
+		.textarea{
+			@include textarea-field;
+			width: 100%;
+			max-width: 100%;
+			min-width: 0;
+			.textarea__main-wrapper{
+				width: 100%;
+				height: auto;
+			}
+			.textarea__input{
+				box-sizing: border-box;
+				width: 100%;
+				max-width: 100%;
+				resize: vertical;
+			}
+		}
+		.v-select{
+			@include select-field;
+		}
+		.dialog__actions{
+			gap: 8px;
+			padding: 16px;
+			border-top: 1px solid $theme-divider;
+			.button-vue--tertiary,
+			.button-vue--secondary{
+				@include outline-button;
+			}
+			.button-vue--primary{
+				@include primary-button;
+			}
+		}
+	}
+}

@@ -1,0 +1,207 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin admintheming{
+    &.admin-theming{
+        .settings-section{
+            hr{
+                display: none;
+            }
+            h2{
+                gap: 6px;
+                .settings-section__info{
+                    width: 16px;
+                    height: 16px;
+                    display: block;
+                    margin: 0;
+                    svg{
+                        width: 16px;
+                        height: 16px;
+                        fill: $colour-forground;
+                    }
+                }
+            }
+            #{css-module("adminSectionTheming")}{
+                margin-top: 16px;
+                gap: 16px;
+                hr{
+                    display: none
+                }
+            }
+            #{css-module("adminSectionThemingAdvanced")}{
+                gap: 16px;
+                #{css-module("colorPickerField")}{
+                    gap: 12px;
+                    p {
+                        margin: 0;
+                    }
+                    .button-vue--primary{
+                        @include primary-button;
+                    }
+                }
+            }
+            .checkbox-content-switch{
+                .checkbox-content__icon{
+                    margin-top: 2px;
+                }
+                .checkbox-content__wrapper{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                    .checkbox-content__description{
+                        font-size: $text-12;
+                        line-height: $leading-16;
+                        color: $colour-forground;
+                        font-weight: $font-normal;
+                    }
+                }
+            }
+            #{css-module("fileInputField")}{
+                gap: 16px;
+                align-items: center;
+                .button-vue--start,
+                .button-vue--tertiary{
+                    @include outline-button;
+                }
+                .button-vue--tertiary{
+                    width: 32px !important;
+                    height: 32px;
+                    min-height: unset;
+                    min-width: unset;
+                }
+                #{css-module("fileInputField__preview")}{
+                    border: 0;
+                    border-radius: $rounded-6;
+                    background-size: cover;
+                }
+            }
+            &:last-of-type{
+                h3{
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    color: $colour-forground;
+                    font-weight: $font-semibold;
+                    margin: 0 0 8px;
+                }
+                p{
+                    &.info-note{
+                        margin-bottom: 10px;
+                    }
+                }
+                section{
+                    h4{
+                        font-size: $text-heading-3;
+                        line-height: $leading-22;
+                        color: $colour-forground;
+                        font-weight: $font-semibold;
+                        margin: 16px 0 0;
+                        padding-top: 16px;
+                        border-top: 1px solid $theme-divider;
+                    }
+                    h5{
+                        font-size: $text-heading-3;
+                        line-height: $leading-22;
+                        color: $colour-forground;
+                        font-weight: $font-semibold;
+                        margin: 12px 0;
+                    }
+                    .v-select{
+                        @include select-field;
+                        @include select-box;
+                        margin-top: 12px;
+                        max-width: 500px;
+                        .vs__selected{
+                            border: 1px solid $theme-divider;
+                            padding: 4px 8px !important;
+                            background-color: transparent !important;
+                        }
+                    }
+                }
+            }
+        }
+        .notecard{
+            @include notecard;
+        }
+        .input-field{
+            @include input;
+        }
+        #{css-module("appOrderSelector")}{
+            margin-block: 16px;
+            @media (max-width: $bp-512) {
+                width: 100%;
+            }
+            li{
+                padding-inline: 0;
+                padding-block: 8px;
+                border-bottom: 1px solid $theme-divider;
+                svg{
+                    width: 16px;
+                    height: 16px;
+                }
+                .order-selector-element__icon{
+                    filter: $filter-forground;
+                }
+                &:hover{
+                    background-color: transparent;
+                }
+                .order-selector-element__label{
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                }
+                &:first-child{
+                    padding-top: 0;
+                }
+                &:last-child{
+                    padding-bottom: 0;
+                    border-bottom: 0;
+                }
+                .order-selector-element__placeholder{
+                    width: 20px;
+                    height: 20px;
+                }
+                button{
+                    min-height: unset;
+                    min-width: unset;
+                    width: 20px !important;
+                    height: 20px;
+                    padding: 0;
+                    .button-vue__wrapper,
+                    .button-vue__icon{
+                        width: 20px;
+                        height: 20px;
+                        min-height: unset;
+                        min-width: unset;
+                        svg{
+                            fill: $colour-forground;
+                            width: 20px;
+                            height: 20px;
+                        }
+                    }
+                    &:hover{
+                        background-color: transparent;
+                        .button-vue__wrapper,
+                        .button-vue__icon{
+                            svg{
+                                fill: $colour-blue-600;
+                            }
+                        }
+                    }
+                }
+            }
+            + .button-vue--tertiary{
+                @include outline-button;
+                @media (max-width: $bp-512) {
+                    margin-inline: auto;
+                }
+                &:disabled{
+                    pointer-events: none;
+                }
+            }
+        }
+    }
+}

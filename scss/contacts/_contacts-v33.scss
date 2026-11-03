@@ -1,0 +1,28 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin contacts {
+	.app-contacts {
+		main.app-content {
+			.app-content-list {
+				.list-item__wrapper {
+					&.list-item__wrapper--active {
+						&.list-item__wrapper--legacy {
+							.list-item-content__name {
+								color: $colour-forground !important;
+							}
+							.list-item-content__subname,
+							.envelope__subtitle {
+								color: $colour-forground-1 !important;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

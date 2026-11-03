@@ -1,0 +1,46 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin help {
+	.help-wrapper{
+		background-color: $main-page-bg;
+		.help-content{
+			padding: 24px 16px;
+			.help-content__heading{
+				margin: 0 0 24px;
+				padding: 0;
+				font-size: $text-heading-1;
+				line-height: $leading-36;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.help-content__body{
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 12px;
+				a.button{
+					margin: 0;
+					padding: 6px 12px;
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-6;
+					background-color: transparent;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+					transition: all ease-in-out 300ms;
+					&:hover,
+					&:focus-visible{
+						border-color: $colour-blue-600;
+						background-color: $colour-primary-50;
+						color: $colour-blue-600;
+					}
+				}
+			}
+		}
+	}
+}

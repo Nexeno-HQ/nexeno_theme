@@ -1,0 +1,262 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin text-menubar-button {
+	--button-size: 32px;
+	width: 32px;
+	min-width: 32px;
+	height: 32px;
+	min-height: 32px;
+	border: 0;
+	border-radius: $rounded-6;
+	background-color: transparent;
+	color: $colour-forground;
+	transition: all ease-in-out 300ms;
+	.material-design-icon {
+		width: 18px;
+		height: 18px;
+		svg {
+			width: 18px;
+			height: 18px;
+		}
+	}
+	&:hover:not(:disabled) {
+		background-color: $colour-gray-100;
+		color: $colour-blue-600;
+	}
+	&:disabled {
+		opacity: 0.4;
+	}
+	&.button-vue--vue-primary {
+		background-color: $colour-primary-50;
+		color: $colour-blue-600;
+	}
+}
+
+@mixin text-menubar {
+	.text-menubar {
+		border-bottom: 1px solid $theme-divider;
+		.text-menubar__entries {
+			align-items: center;
+			gap: 2px;
+			.entry-action {
+				&.button-vue,
+				.action-item__menutoggle,
+				.entry-action__button {
+					@include text-menubar-button;
+				}
+				&.action-item--open {
+					.action-item__menutoggle {
+						background-color: $colour-primary-50;
+						color: $colour-blue-600;
+					}
+				}
+			}
+		}
+		.text-menubar__slot {
+			padding-inline-end: 12px;
+			.text-editor__session-list {
+				gap: 8px;
+				.button-vue {
+					@include outline-button;
+					--button-size: 32px;
+					width: 32px;
+					height: 32px;
+					min-height: 32px;
+					padding: 0;
+					color: $colour-forground;
+					.material-design-icon {
+						svg {
+							width: 16px;
+							height: 16px;
+						}
+					}
+					&:hover {
+						color: $colour-blue-600;
+					}
+				}
+				.button-vue.avatar-list {
+					width: auto;
+					min-width: 32px;
+					padding: 0 6px;
+					.button-vue__wrapper {
+						.button-vue__icon {
+							display: flex;
+							align-items: center;
+							gap: 4px;
+							width: auto;
+							height: auto;
+							.avatar-wrapper {
+								flex-shrink: 0;
+								width: 22px;
+								height: 22px;
+								margin: 0;
+								border-width: 1px;
+								.avatardiv {
+									--avatar-size: 20px;
+									width: 20px !important;
+									height: 20px !important;
+									img {
+										width: 20px;
+										height: 20px;
+										filter: none;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.container-suggestions {
+		gap: 8px;
+		padding-bottom: 12px;
+		.suggestions--button {
+			@include outline-button;
+			--button-size: 32px;
+			.material-design-icon {
+				svg {
+					width: 16px;
+					height: 16px;
+				}
+			}
+			.button-vue__text {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+			}
+		}
+	}
+	.v-popper__inner:has(.alphabetical-variant-icon) {
+		ul {
+			li {
+				&:not(.action-separator) {
+					min-height: 36px;
+				}
+				.action-checkbox,
+				.action-text {
+					display: flex;
+					align-items: center;
+					gap: 12px;
+					min-height: 36px;
+					padding-inline-start: 12px;
+					.action-checkbox__icon,
+					.material-design-icon {
+						display: flex;
+						align-self: center;
+						align-items: center;
+						justify-content: center;
+						width: 16px;
+						min-width: 16px;
+						height: 16px;
+					}
+				}
+				.action-checkbox {
+					.action-checkbox__icon {
+						svg {
+							width: 18px;
+							height: 18px;
+							fill: $colour-forground-1;
+						}
+					}
+					&:has(.action-checkbox__input:checked) {
+						.action-checkbox__icon {
+							svg {
+								fill: $colour-blue-600;
+							}
+						}
+					}
+				}
+				.action-checkbox__text,
+				.action-button__text {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-normal;
+					color: $colour-forground;
+				}
+				.action-text {
+					.material-design-icon {
+						svg {
+							width: 16px;
+							height: 16px;
+							fill: $colour-forground-1;
+						}
+					}
+					.action-text__longtext-wrapper {
+						display: flex;
+						align-items: center;
+					}
+					.action-text__longtext {
+						&:empty {
+							display: none;
+						}
+					}
+					.action-text__name {
+						font-size: $text-12;
+						line-height: $leading-16;
+						font-weight: $font-medium;
+						color: $colour-forground-1;
+					}
+				}
+			}
+		}
+	}
+	.v-popper__inner {
+		.session-menu {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			padding: 12px;
+			.last-saved {
+				margin: 0;
+				padding: 0;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			ul {
+				display: flex;
+				flex-direction: column;
+				gap: 6px;
+				li {
+					display: flex;
+					align-items: center;
+					gap: 8px;
+					padding: 4px 0;
+					&:hover {
+						background-color: transparent;
+					}
+				}
+			}
+			.avatar-wrapper {
+				width: 28px;
+				height: 28px;
+				margin: 0;
+				border-width: 1px;
+				.avatardiv {
+					--avatar-size: 26px;
+					width: 26px !important;
+					height: 26px !important;
+					img {
+						width: 26px;
+						height: 26px;
+					}
+				}
+			}
+			.session-label {
+				padding: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+		}
+	}
+}

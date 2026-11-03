@@ -1,0 +1,111 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin example-buttons{
+    margin: 0;
+    padding-block: 16px;
+    gap: 6px;
+    @media (max-width: $bp-512) {
+        flex-direction: column;
+    }
+    .button-vue--tertiary,
+    .button-vue--secondary{
+        @include outline-button;
+        .download-button{
+            gap: 6px;
+            .download-button__label{
+                line-height: $leading-20;
+                font-weight: $font-medium;
+            }
+            .download-button__icon{
+                margin: 0;
+                svg{
+                    width: 16px;
+                    height: 16px;
+                    fill: $colour-forground;
+                }
+            }
+        }
+        &:hover{
+            .download-button{
+                .download-button__icon{
+                    svg{
+                        fill: $colour-blue-600;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin groupware{
+    &.groupware{
+        .example-contact-settings,
+        .example-event-settings{
+            margin-top: 0;
+            .checkbox-radio-switch{
+                @include checkbox-radio-switch;
+            }
+            .example-contact-settings__buttons{
+                @include example-buttons;
+            }
+        }
+        .example-event-settings{
+            margin-bottom: 0;
+        }
+        .declarative-settings-section{
+            margin-top: 20px;
+            border-top: 1px solid $theme-divider;
+            .declarative-form-field{
+                padding-block: 0;
+                .checkbox-radio-switch{
+                    @include checkbox-radio-switch;
+                }
+            }
+        }
+        #contacts{
+            padding: 20px 0;
+            h2{
+                font-size: $text-heading-3;
+                line-height: $leading-22;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+                margin-bottom: 16px;
+            }
+            p{
+                input{
+                    &.checkbox{
+                        +label{
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            color: $colour-forground;
+                            &::before{
+                                background-repeat: no-repeat;
+                                width: 14px;
+                                height: 14px;
+                                border: 1px solid $theme-divider;
+                                border-radius: $rounded-4;
+                                margin-bottom: 2px;
+                            }
+                            em{
+                                color: $colour-forground-1;
+                            }
+                        }
+                        &:checked{
+                            +label{
+                                &::before{
+                                    border-color: $colour-blue-600;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

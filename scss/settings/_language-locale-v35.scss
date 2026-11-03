@@ -1,0 +1,61 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin language-locale {
+    &.language-locale{
+        .language-locale-settings{
+            width: 100%;
+            max-width: 100%;
+            padding: 0;
+            margin: 0;
+            .language-section,
+            .locale-section,
+            .fdow-section,
+            .timezone-section{
+                #{css-module('formBoxItem')}{
+                    padding: 10px 0;
+                    border: 0;
+                    border-bottom: 1px solid $theme-divider;
+                    border-radius: 0 !important;
+                    background-color: transparent;
+                    #{css-module('formBoxItem__content')}{
+                        padding: 0;
+                    }
+                    a{
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground;
+                        font-weight: $font-medium;
+                    }
+                    &:hover{
+                        background-color: transparent;
+                    }
+                }
+                .v-select.select{
+                    @include single-select($dropdown: false);
+                    &:not(.nc-select){
+                        .vs__dropdown-toggle{
+                            .vs__selected-options{
+                                padding-left: 10px !important;
+                            }
+                            .vs__selected{
+                                padding-left: 0 !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin language-locale-dropdown {
+    body:has(.language-locale-settings) .vs__dropdown-menu{
+        @include select-dropdown-menu;
+    }
+}

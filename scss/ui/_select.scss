@@ -1,0 +1,18 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+
+@mixin select {
+	.v-select.select{
+		.vs__dropdown-toggle{
+			align-items: center;
+		}
+		&.vs--single .vs__selected-options,
+		&.vs--multiple .vs__selected-options{
+			min-height: unset;
+			align-self: stretch;
+			align-items: center;
+		}
+	}
+}

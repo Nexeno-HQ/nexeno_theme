@@ -1,0 +1,271 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin adminsharing{
+    &.admin-sharing{
+        .settings-section{
+            border-bottom: 0;
+        }
+        h2{
+            gap: 6px;
+            .settings-section__info{
+                width: 16px;
+                height: 16px;
+                display: block;
+                margin: 0;
+                svg{
+                    width: 16px;
+                    height: 16px;
+                    fill: $colour-forground;
+                }
+            }
+        }
+        .checkbox-radio-switch{
+            @include checkbox-radio-switch;
+        }
+        .sharing__sub-section{
+            padding: 0 20px;
+            margin: 0;
+            gap: 16px;
+            @media (max-width: $bp-640) {
+                padding: 0 0 0 16px;
+            }
+            &:has(.notecard),
+            &:has(input[type="radio"]){
+                gap: 10px;
+                +label{
+                    font-size: $text-heading-3;
+                    line-height: $leading-22;
+                    font-weight: $font-semibold;
+                    color: $colour-forground;
+                    padding-top: 16px;
+                    border-top: 1px solid $theme-divider;
+                }
+            }
+            &:has(input[type="radio"]){
+                padding-inline: 0
+            }
+        }
+        .notecard{
+            @include notecard;
+            margin: 0 !important;
+        }
+        form{
+            gap: 12px;
+            max-width: 100%;
+            .sharing__sub-section{
+                .checkbox-radio-switch{
+                    .checkbox-content{
+                        align-items: start;
+                        .checkbox-content__icon{
+                            width: 20px;
+                            height: 20px;
+                            .material-design-icon{
+                                width: 20px;
+                                height: 20px;
+                                svg{
+                                    width: 20px;
+                                    height: 20px;
+                                    flex-shrink: 0;
+                                    transform-origin: center;
+                                    fill: $theme-divider;
+                                }
+                            }
+                        }
+                        .checkbox-content__wrapper{
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            font-weight: $font-medium;
+                            color: $colour-forground;
+                        }
+                    }
+                    &.checkbox-radio-switch--checked{
+                        .checkbox-content{
+                            .checkbox-content__icon{
+                                .material-design-icon{
+                                    svg{
+                                        fill: $colour-blue-600;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .sharing__labeled-entry{
+                    margin-left: 0;
+                    padding-left: 26px;
+                    @media (max-width: $bp-640) {
+                        padding-left: 16px;
+                    }
+                    label,
+                    span,
+                    em{
+                        margin-top: 0;
+                        font-size: $text-12;
+                        line-height: $leading-16;
+                        color: $colour-forground-1;
+                        font-weight: $font-medium;
+                        margin-bottom: 2px
+                    }
+                    .v-select{
+                        @include select-field;
+                        @include select-box;
+                    }
+                }
+            }
+        }
+        .input-field{
+            @include input;
+        }
+        .sharing__section{
+            gap: 16px;
+            margin-bottom: 0;
+            max-width: 100%;
+            margin-top: 16px;
+        }
+        #settings-sharing-default-permissions,
+        #admin-download-limit,
+        #vue-admin-federated,
+        #federation-admin-settings,
+        #vue-admin-sharebymail,
+        #vue-admin-federated-teams{
+            padding-top: 16px;
+            border-top: 1px solid $theme-divider;
+            h3{
+                font-size: $text-heading-3;
+                line-height: $leading-22;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+                margin: 0;
+            }
+        }
+        #settings-sharing-default-permissions{
+            &.sharing__section{
+                gap: 12px;
+                .permissions-select{
+                    column-gap: 20px;
+                    .checkbox-radio-switch{
+                        @include checkbox-radio-switch-icon;
+                    }
+                }
+            }
+        }
+        #vue-admin-federated{
+            margin-top: 16px;
+            .checkbox-radio-switch{
+                + .checkbox-radio-switch{
+                    margin-top: 16px;
+                }
+            }
+            fieldset{
+                margin-top: 16px;
+                legend{
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    color: $colour-forground;
+                    font-weight: $font-semibold;
+                    margin-bottom: 16px;
+                }
+            }
+            .settings-subsection{
+                padding-block: 16px;
+                border-top: 1px solid $theme-divider;
+                h3{
+                    margin-bottom: 16px;
+                }
+            }
+        }
+        #settings-sharing-privacy-related{
+            padding-top: 16px;
+            border-top: 1px solid $theme-divider;
+            h3{
+                font-size: $text-heading-3;
+                line-height: $leading-22;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+                margin: 0;
+            }
+            fieldset{
+                padding-left: 43px;
+                @media (max-width: $bp-640) {
+                    padding-left: 16px;
+                }
+                em{
+                    font-size: $text-12;
+                    line-height: $leading-16;
+                    color: $colour-forground-1;
+                    font-weight: $font-medium;
+                }
+            }
+            .sharing__sub-section{
+                &:has(.textarea){
+                    padding-left: 43px;
+                    gap: 12px;
+                    @media (max-width: $bp-640) {
+                        padding-left: 16px;
+                    }
+                    em{
+                        font-size: $text-12;
+                        line-height: $leading-16;
+                        color: $colour-forground-1;
+                        font-weight: $font-medium;
+                        margin: 0
+                    }
+                }
+                .textarea{
+                    @include textarea-field;
+                    margin: 0;
+                    display: flex;
+                    .textarea__main-wrapper{
+                        display: flex;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        #federation-admin-settings{
+            form{
+                h3{
+                    margin-bottom: 8px;
+                    font-weight: $font-semibold;
+                }
+                #{css-module("addTrustedServerForm__wrapper")}{
+                    gap: 6px;
+                    .button-vue--primary{
+                        @include primary-button;
+                    }
+                }
+            }
+        }
+        #vue-admin-sharebymail{
+            margin-top: 16px;
+            padding-bottom: 16px;
+            .checkbox-radio-switch{
+                + .checkbox-radio-switch{
+                    margin-top: 16px;
+                }
+            }
+        }
+        #vue-admin-federated-teams{
+            .federated-teams__sub-section{
+                margin-top: 8px;
+                margin-left: 0;
+                padding-left: 43px;
+                @media (max-width: $bp-640) {
+                    padding-left: 16px;
+                }
+                .federated-teams__hint{
+                    font-size: $text-12;
+                    line-height: $leading-16;
+                    color: $colour-forground-1;
+                    font-weight: $font-medium;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,282 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin talk-admin {
+	&.talk{
+		#admin_settings{
+			.section{
+				margin: 0;
+				padding: 20px 0;
+				border-bottom: 1px solid $theme-divider;
+				&:first-child{
+					padding-top: 0;
+				}
+				&:last-child{
+					border-bottom: 0;
+				}
+				h2{
+					display: flex;
+					align-items: center;
+					justify-content: flex-start;
+					gap: 8px;
+					margin: 0 0 16px;
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+					small{
+						margin: 0;
+						padding: 2px 8px;
+						border: 1px solid $colour-blue-600;
+						border-radius: $rounded-full;
+						background-color: $colour-primary-50;
+						font-size: $text-12;
+						line-height: $leading-16;
+						font-weight: $font-medium;
+						color: $colour-blue-600;
+					}
+				}
+				h3{
+					margin: 20px 0 12px;
+					font-size: $text-heading-4;
+					line-height: $leading-22;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				p{
+					margin: 0 0 12px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-normal;
+					color: $colour-forground-1;
+					em{
+						font-style: normal;
+					}
+					a{
+						font-weight: $font-medium;
+						color: $colour-forground;
+						text-decoration: underline;
+						transition: all ease-in-out 300ms;
+						&:hover{
+							color: $colour-blue-600;
+						}
+					}
+					&.consent-description{
+						margin: 4px 0 12px;
+						padding-inline-start: 26px;
+					}
+					&.settings-hint--after-select{
+						margin-top: 6px;
+					}
+				}
+				.additional-top-margin{
+					margin-top: 16px;
+				}
+				label{
+					&.form__label{
+						display: block;
+						margin-bottom: 6px;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+				}
+				.notecard{
+					margin: 0 0 16px !important;
+					&.notecard--warning{
+						align-items: start;
+						padding: 12px 16px;
+						font-size: $text-12;
+						line-height: $leading-16;
+						.notecard__heading{
+							margin: 0 0 4px;
+							font-size: $text-heading-4;
+							line-height: $leading-22;
+							font-weight: $font-semibold;
+							color: $colour-yellow;
+						}
+						.notecard__text{
+							margin: 0;
+							font-size: $text-12;
+							line-height: $leading-16;
+							font-weight: $font-medium;
+							color: $colour-yellow;
+						}
+					}
+				}
+				.button-vue--primary,
+				.button-vue--vue-primary{
+					@include primary-button;
+				}
+				.button-vue--secondary,
+				.button-vue--vue-secondary{
+					@include outline-button;
+				}
+				.button-vue--tertiary,
+				.button-vue--vue-tertiary{
+					border-radius: $rounded-6;
+					background-color: transparent;
+					.button-vue__icon{
+						svg{
+							width: 16px;
+							height: 16px;
+							fill: $colour-forground-1;
+						}
+					}
+					&:hover{
+						background-color: $colour-gray-100;
+						.button-vue__icon{
+							svg{
+								fill: $colour-blue-600;
+							}
+						}
+					}
+					&:has(.trash-can-outline-icon){
+						&:hover{
+							.button-vue__icon{
+								svg{
+									fill: $colour-red-600;
+								}
+							}
+						}
+					}
+				}
+				.checkbox-radio-switch{
+					@include checkbox-radio-switch;
+					+ .checkbox-radio-switch{
+						margin-top: 12px;
+					}
+					&.checkbox-radio-switch-checkbox,
+					&.checkbox-radio-switch-radio{
+						@include checkbox-radio-switch-icon;
+					}
+				}
+				.input-field{
+					@include input;
+				}
+				.textarea{
+					@include textarea-field;
+					margin-top: 0;
+				}
+				.v-select{
+					&.select{
+						&.vs--single{
+							@include single-select($dropdown: false);
+							max-width: 400px;
+							&.form__select{
+								margin-top: 16px;
+							}
+							.vs__selected-options{
+								overflow: visible !important;
+							}
+							.vs__search{
+								position: static;
+								.input-field__main-wrapper{
+									position: static;
+								}
+							}
+							.input-field__label{
+								top: -8px;
+								font-size: $text-12;
+								line-height: $leading-16;
+								color: $colour-forground-1;
+							}
+						}
+						&.vs--multiple{
+							@include select-field($dropdown: false);
+							max-width: 400px;
+							.select__label{
+								inset-inline-start: 12px;
+							}
+							.vs__selected-options{
+								@include noscrollbar;
+								overflow-y: hidden;
+								padding-left: 12px !important;
+							}
+						}
+					}
+				}
+				.grid{
+					gap: 12px 16px;
+					align-items: end;
+					margin-bottom: 16px;
+				}
+				.form{
+					gap: 12px;
+				}
+				.test-connection{
+					display: flex;
+					align-items: center;
+					gap: 6px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+					.check-icon{
+						svg{
+							fill: $colour-green-700;
+						}
+					}
+				}
+			}
+			.hosted-signaling{
+				.form__textfield{
+					max-width: 400px;
+					margin-top: 16px;
+				}
+			}
+			.signaling-server,
+			.recording-server,
+			.turn-server{
+				gap: 12px;
+				align-items: center;
+				margin-bottom: 12px;
+			}
+			.stun-server{
+				gap: 8px;
+				margin-bottom: 8px;
+				.stun-server__wrapper{
+					gap: 8px;
+					label{
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+				}
+				.stun-server__alert{
+					svg{
+						fill: $colour-yellow;
+					}
+				}
+			}
+			.web-server-setup-checks{
+				li{
+					display: flex;
+					align-items: center;
+					gap: 6px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+					.check-icon{
+						svg{
+							fill: $colour-green-700;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin talk-admin-dropdown {
+	body:has(main.talk) .vs__dropdown-menu{
+		@include select-dropdown-menu;
+	}
+}

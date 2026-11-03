@@ -1,0 +1,40 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin assistant{
+    &.ai{
+        .checkbox-radio-switch{
+            @include checkbox-radio-switch
+        }
+        .ai-settings{
+            .settings-section{
+                h3{
+                    font-size: $text-heading-3;
+                    line-height: $leading-22;
+                    font-weight: $font-semibold;
+                    color: $colour-forground;
+                    margin-top: 16px;
+                    padding-top: 16px;
+                    border-top: 1px solid $theme-divider;
+                    width: 100%;
+                    max-width: 100%;
+                }
+                &:nth-of-type(2){
+                    p{
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+        .notecard{
+            margin-bottom: 0 !important;
+            width: fit-content;
+            max-width: unset;
+        }
+    }
+}

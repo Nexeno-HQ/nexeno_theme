@@ -1,0 +1,1847 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin talk-icon-button($size: 34px) {
+	--button-size: #{$size};
+	width: $size;
+	min-width: $size;
+	height: $size;
+	min-height: $size;
+	border-radius: $rounded-6;
+	background-color: transparent;
+	color: $colour-forground;
+	.material-design-icon {
+		svg {
+			width: 18px;
+			height: 18px;
+		}
+	}
+	&:hover:not(:disabled) {
+		background-color: $colour-gray-100;
+		color: $colour-blue-600;
+	}
+}
+
+@mixin talk-counter {
+	min-width: 20px;
+	height: 20px;
+	padding: 0 6px;
+	border-radius: $rounded-full;
+	background-color: $colour-gray-100;
+	font-size: $text-12;
+	line-height: $leading-20;
+	font-weight: $font-semibold;
+	text-align: center;
+	color: $colour-forground;
+	&.counter-bubble__counter--highlighted {
+		background-color: $colour-blue-600;
+		color: $colour-forground-white;
+	}
+}
+
+@mixin talk-outline-icon-button {
+	@include outline-button;
+	--button-size: 34px;
+	width: 34px;
+	min-width: 34px;
+	height: 34px;
+	min-height: 34px;
+	padding: 0;
+}
+
+@mixin talk-dashboard {
+	.talk-dashboard-wrapper {
+		.talk-dashboard__menu {
+			margin-bottom: 16px;
+		}
+		.talk-dashboard__header {
+			margin: 0 0 12px;
+			padding-inline-start: 0;
+			font-size: $text-heading-2;
+			line-height: $leading-28;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+		.talk-dashboard__actions {
+			gap: 8px;
+			.button-vue {
+				height: 34px;
+				border-radius: $rounded-6;
+				&.button-vue--primary {
+					@include primary-button;
+				}
+				&.button-vue--secondary {
+					@include outline-button;
+				}
+			}
+		}
+		.event-section {
+			margin-block-end: 16px;
+		}
+		.talk-dashboard__chats {
+			gap: 16px;
+		}
+		.dashboard-section {
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-12;
+			background-color: $colour-background;
+			&.dashboard-section--list {
+				.dashboard-section__bar--narrow {
+					display: none;
+				}
+			}
+			.talk-dashboard__conversations-list {
+				margin-top: 8px;
+				.list-item {
+					padding: 8px;
+					border-radius: $rounded-8;
+					&:hover {
+						background-color: $colour-gray-100;
+					}
+				}
+				.conversation-icon {
+					--icon-size: 32px !important;
+					width: 32px;
+					height: 32px;
+					.avatar,
+					.avatardiv {
+						--avatar-size: 32px !important;
+						width: 32px;
+						height: 32px;
+						img {
+							width: 32px;
+							height: 32px;
+						}
+					}
+				}
+				.list-item-content__name {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.list-item-content__subname {
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+			}
+			.dashboard-section__content {
+				gap: 4px;
+				padding: 16px 20px;
+			}
+			.dashboard-section__title {
+				margin: 0 0 4px;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.dashboard-section__subtitle {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.dashboard-section__description {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+			.dashboard-section__action {
+				padding-block: 12px 0;
+				.button-vue--secondary {
+					@include outline-button;
+					height: 34px;
+				}
+			}
+		}
+		.event-card {
+			gap: 4px;
+			padding: 12px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-12;
+			background-color: $colour-background;
+			&.event-card--highlighted {
+				border-color: $colour-primary-100;
+				background-color: $colour-primary-50;
+			}
+			&.event-card--in-call {
+				border-color: $colour-blue-600;
+			}
+			.title_text {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.secondary_text,
+			.event-card__date {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			.event-card__description {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+			.event-card__attachment {
+				border-radius: $rounded-6;
+				&:hover {
+					background-color: $colour-gray-100;
+				}
+			}
+		}
+	}
+}
+
+@mixin talk-top-bar {
+	.app-navigation {
+		.list-item__wrapper.conversation {
+			padding: 2px 0;
+		}
+		.tag-header {
+			margin-block: 8px 4px;
+			.app-navigation-entry {
+				height: 40px;
+				min-height: 40px;
+				.app-navigation-entry-link {
+					height: 40px;
+					min-height: 40px;
+					.app-navigation-entry-icon:empty {
+						display: none;
+					}
+					.app-navigation-entry__name {
+						padding-inline-start: 0;
+						font-size: $text-heading-5;
+						font-weight: $font-semibold;
+						color: $colour-forground-1;
+					}
+				}
+				.app-navigation-entry__utils {
+					height: 40px;
+				}
+			}
+		}
+	}
+	.list-item__wrapper {
+		.list-item {
+			.list-item-content__details {
+				gap: 4px;
+				align-items: flex-end;
+				.list-item-details__details {
+					margin: 0;
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+				.list-item-details__extra {
+					margin: 0;
+				}
+			}
+			.counter-bubble__counter.list-item-details__counter {
+				@include talk-counter;
+			}
+		}
+	}
+	.top-bar {
+		border-bottom: 1px solid $theme-divider;
+		background-color: $colour-background;
+		.top-bar__icon-wrapper {
+			&:hover,
+			&:focus-visible {
+				background-color: $colour-gray-100;
+			}
+		}
+		.conversation-header__text {
+			.title {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.description {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+		}
+		.top-bar__wrapper {
+			gap: 8px;
+			.button-vue--secondary {
+				@include outline-button;
+				--button-size: 34px;
+				min-height: 34px;
+				&.button-vue--icon-only,
+				&:has(.button-vue__text:empty) {
+					width: 34px;
+					padding: 0;
+				}
+			}
+			.button-vue--primary {
+				@include primary-button;
+				--button-size: 34px;
+				min-height: 34px;
+			}
+			.action-item__menutoggle,
+			.top-bar__participants-button,
+			.v-popper > .button-vue--tertiary {
+				@include talk-outline-icon-button;
+			}
+			.call-time > .button-vue {
+				width: auto;
+				min-width: auto;
+				padding: 0 10px;
+				.call-time__text {
+					font-size: $text-heading-5;
+					font-weight: $font-medium;
+					font-variant-numeric: tabular-nums;
+					color: $colour-forground;
+				}
+			}
+		}
+	}
+}
+
+@mixin talk-messages {
+	.messages-date__text {
+		padding: 4px 12px;
+		border-radius: $rounded-full;
+		background-color: $colour-gray-100;
+		font-size: $text-12;
+		line-height: $leading-16;
+		font-weight: $font-medium;
+		color: $colour-forground-1;
+	}
+	.messages-group__system {
+		.message-main__text {
+			color: $colour-forground-1;
+			.rich-text--wrapper {
+				font-size: $text-12;
+				line-height: $leading-16;
+			}
+		}
+	}
+	.message-unread-marker {
+		.message-unread-marker__wrapper {
+			&::before,
+			&::after {
+				border-color: $colour-primary-100;
+				background-color: $colour-primary-100;
+			}
+		}
+		.message-unread-marker__text {
+			font-size: $text-12;
+			line-height: $leading-16;
+			font-weight: $font-semibold;
+			color: $colour-blue-600;
+		}
+	}
+	.pin_wrapper {
+		border: 0;
+		box-shadow: none;
+		&::before {
+			display: none;
+		}
+		.list-item {
+			padding: 8px 12px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-8;
+			background-color: $colour-background;
+			box-shadow: $box-shadow-1;
+			transition: border-color ease-in-out 300ms;
+			&:hover,
+			&:focus-within {
+				border-color: $colour-blue-600;
+				background-color: $colour-background !important;
+			}
+			.list-item-content__actions {
+				.action-item__menutoggle {
+					@include talk-icon-button(28px);
+				}
+			}
+		}
+		.pin-icon {
+			width: 20px;
+			height: 20px;
+			color: $colour-blue-600;
+		}
+		.list-item-content__name {
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+		.list-item-content__subname {
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			color: $colour-forground;
+		}
+	}
+	.message-buttons-bar {
+		gap: 2px;
+		padding: 2px;
+		border: 1px solid $theme-divider;
+		border-radius: $rounded-8;
+		background-color: $colour-background;
+		box-shadow: $box-shadow-1;
+		.button-vue,
+		.action-item__menutoggle {
+			@include talk-icon-button(28px);
+		}
+	}
+	.messages__author {
+		font-size: $text-12;
+		line-height: $leading-16;
+		font-weight: $font-medium;
+		color: $colour-forground-1;
+	}
+	.message {
+		&.message--sided {
+			.message-body {
+				padding: 4px 8px;
+				border: 1px solid $theme-divider;
+				border-radius: 4px $rounded-12 $rounded-12;
+				background-color: $colour-gray-100;
+			}
+			&.outgoing {
+				.message-body {
+					border-color: $colour-primary-100;
+					border-radius: $rounded-12 4px $rounded-12 $rounded-12;
+					background-color: $colour-primary-50;
+				}
+			}
+		}
+		.message-main__text {
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			color: $colour-forground;
+			a:not(.quote):not(.poll-card):not(.file-preview) {
+				color: $colour-blue-600;
+			}
+			h1,
+			h2,
+			h3 {
+				margin: 4px 0 8px;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			h4 {
+				margin: 4px 0 8px;
+				font-size: $text-heading-4;
+				line-height: $leading-24;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			h5,
+			h6 {
+				margin: 4px 0 6px;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			ul,
+			ol {
+				padding-inline-start: 20px;
+				li {
+					margin-block: 2px;
+				}
+			}
+			blockquote {
+				margin: 4px 0;
+				padding: 4px 10px;
+				border-inline-start: 3px solid $theme-divider-2;
+				color: $colour-forground-1;
+			}
+			hr {
+				margin: 8px 0;
+				border: 0;
+				border-top: 1px solid $theme-divider;
+			}
+			table {
+				border-collapse: collapse;
+				font-size: $text-12;
+				th,
+				td {
+					padding: 6px 10px;
+					border: 1px solid $theme-divider;
+				}
+				th {
+					background-color: $colour-background;
+					font-weight: $font-semibold;
+				}
+			}
+			code {
+				padding: 1px 6px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-4;
+				background-color: $colour-background;
+				font-size: $text-12;
+			}
+			pre {
+				padding: 8px 12px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-8;
+				background-color: $colour-background;
+				code {
+					padding: 0;
+					border: 0;
+				}
+			}
+			&.deleted-message {
+				gap: 4px;
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+				.material-design-icon {
+					svg {
+						width: 14px;
+						height: 14px;
+					}
+				}
+			}
+		}
+		.message-main__info {
+			.date {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			.message-status {
+				svg {
+					width: 14px;
+					height: 14px;
+					fill: $colour-forground-1;
+				}
+			}
+		}
+	}
+	.quote {
+		padding: 6px 10px;
+		border: 1px solid $theme-divider;
+		border-inline-start: 3px solid $colour-blue-600;
+		border-radius: $rounded-6;
+		background-color: $colour-background;
+		.quote__main-author-name {
+			font-size: $text-12;
+			line-height: $leading-16;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+		.quote__main-text {
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+	}
+	.mention-chip {
+		border-radius: $rounded-full;
+		background-color: $colour-primary-50;
+		color: $colour-blue-600;
+		.nc-chip__text {
+			font-size: $text-12;
+			font-weight: $font-medium;
+		}
+		&.nc-chip--primary {
+			background-color: $colour-blue-600;
+			color: $colour-forground-white;
+		}
+	}
+	.reactions-wrapper {
+		gap: 4px;
+		.reaction-button--trigger {
+			height: 24px;
+			min-height: 24px;
+			padding: 0 8px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-full;
+			background-color: $colour-background;
+			.button-vue__text {
+				font-size: $text-12;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			&.button-vue--primary {
+				border-color: $colour-blue-600;
+				background-color: $colour-primary-50;
+				.button-vue__text {
+					color: $colour-blue-600;
+				}
+			}
+			&:hover {
+				border-color: $colour-blue-600;
+			}
+		}
+	}
+	.rich-text--reference-widget {
+		.widget-custom {
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-8;
+			background-color: $colour-background;
+			overflow: hidden;
+		}
+		.widget-file {
+			.widget-file__title {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.widget-file__description,
+			.widget-file__link {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+		}
+		.toggle-interactive--button {
+			@include outline-button;
+			--button-size: 32px;
+			background-color: $colour-background;
+		}
+		.widget-default {
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-8;
+			background-color: $colour-background;
+			.widget-default--name {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.widget-default--description,
+			.widget-default--link {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+		}
+	}
+	.poll-card {
+		padding: 12px;
+		border: 1px solid $theme-divider;
+		border-radius: $rounded-8;
+		background-color: $colour-background;
+		.poll-card__header {
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+		.poll-card__footer {
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+		.nc-chip--primary {
+			background-color: $colour-blue-600;
+			.nc-chip__text {
+				font-size: $text-12;
+				font-weight: $font-medium;
+			}
+		}
+	}
+	.file-preview {
+		.image-container {
+			border-radius: $rounded-8;
+			overflow: hidden;
+		}
+		.name-container {
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground;
+		}
+	}
+	.scroll-to-bottom__button {
+		border: 1px solid $theme-divider;
+		background-color: $colour-background;
+		box-shadow: $box-shadow-1;
+	}
+}
+
+@mixin talk-composer {
+	.app-sidebar__toggle {
+		@include talk-outline-icon-button;
+	}
+	.wrapper:has(.new-message-form) {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-height: 65px;
+		padding-block: 14px;
+		border-top: 1px solid $theme-divider;
+		background-color: $colour-background;
+		.new-message-form {
+			gap: 8px;
+			align-items: center;
+			width: 100%;
+			> .action-item .action-item__menutoggle,
+			.audio-recorder .button-vue,
+			> .button-vue--tertiary {
+				@include talk-outline-icon-button;
+			}
+			.new-message-form__emoji-picker .button-vue {
+				@include talk-icon-button;
+			}
+			.new-message-form__quote {
+				.quote {
+					border-width: 0 0 1px 3px;
+					border-radius: $rounded-8 $rounded-8 0 0;
+					.quote__button {
+						@include talk-icon-button(28px);
+					}
+				}
+			}
+			.new-message-form__input {
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-8;
+				background-color: $colour-background;
+				transition: border-color ease-in-out 300ms;
+				&:focus-within {
+					border-color: $colour-blue-600;
+				}
+				.new-message-form__emoji-picker {
+					top: auto;
+					bottom: 0;
+					display: flex;
+					align-items: center;
+					height: 34px;
+					.button-vue {
+						&:hover:not(:disabled) {
+							background-color: transparent;
+						}
+					}
+				}
+				.new-message-form__thread-title {
+					@include talk-small-input;
+					padding: 6px 6px 0;
+					.input-field__main-wrapper {
+						padding: 0;
+						box-shadow: none;
+						input {
+							padding: 0 34px 0 10px;
+						}
+					}
+					.input-field__trailing-button {
+						@include talk-icon-button(28px);
+					}
+				}
+				.rich-contenteditable__input {
+					min-height: 34px;
+					padding-block: 7px;
+					border: 0;
+					box-shadow: none;
+					background-color: transparent;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground;
+					&::before {
+						color: $colour-forground-1;
+					}
+				}
+			}
+		}
+		.indicator__main {
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+	}
+}
+
+@mixin talk-sidebar {
+	.app-sidebar {
+		.app-sidebar-header {
+			.content {
+				width: auto;
+				min-height: auto;
+				border-top: 0;
+				background: transparent;
+				&.content--preview {
+					.content__scroller {
+						align-items: center;
+						gap: 12px;
+					}
+					.content__image-wrapper {
+						width: 56px;
+						height: 56px;
+						padding: 0;
+						.content__image {
+							width: 56px;
+							height: 56px;
+							border-radius: $rounded-full;
+							object-fit: cover;
+						}
+					}
+					.content__header {
+						padding: 0;
+					}
+				}
+				.content__name {
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.content__info-row {
+					gap: 4px;
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+					.material-design-icon {
+						svg {
+							width: 14px;
+							height: 14px;
+						}
+					}
+				}
+				.content__actions {
+					top: 0;
+					gap: 12px;
+					.button-vue,
+					.action-item__menutoggle {
+						@include outline-button;
+						--button-size: 34px;
+						width: 34px;
+						height: 34px;
+						min-height: 34px;
+						padding: 0;
+					}
+				}
+			}
+			.app-sidebar-header__mainname {
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.app-sidebar-header__subname {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+		}
+		.search-form {
+			gap: 8px;
+			.search-form__input {
+				@include input;
+				.input-field__main-wrapper {
+					height: 34px;
+					input {
+						padding-inline-start: 34px;
+					}
+				}
+			}
+		}
+		.button-vue--secondary {
+			@include outline-button;
+			min-height: 34px;
+			&:has(.button-vue__text:empty) {
+				width: 34px;
+				padding: 0;
+			}
+		}
+		.participant {
+			.list-item {
+				padding: 6px 8px;
+				border-radius: $rounded-6;
+				&:hover {
+					background-color: $colour-gray-100;
+				}
+				.action-item__menutoggle {
+					background-color: transparent !important;
+				}
+			}
+			.list-item-content__name {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.list-item-content__subname {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+		}
+		.app-sidebar-tabs:not(:has(.app-sidebar-tabs__nav)) {
+			padding-top: 0;
+			.app-sidebar-tabs__content {
+				margin-top: 12px;
+			}
+		}
+		.app-sidebar__tab--active:has(.shared-items-tab) {
+			padding-top: 0;
+		}
+		.shared-items-tab {
+			padding: 0 0 8px;
+			.shared-items-tab__section {
+				margin: 0 0 16px;
+			}
+			.app-navigation-caption {
+				margin: 0 0 8px;
+				padding: 0;
+				.app-navigation-caption__name {
+					padding: 0;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-semibold;
+					text-transform: none;
+					letter-spacing: normal;
+					color: $colour-forground-1;
+				}
+			}
+			.pin {
+				.list-item {
+					padding: 8px 10px;
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-8;
+					&:hover {
+						border-color: $colour-blue-600;
+						background-color: $colour-background;
+					}
+				}
+				.icon-pin {
+					width: 20px;
+					color: $colour-blue-600;
+				}
+				.list-item-content__name {
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+				.list-item-content__subname {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground;
+				}
+			}
+			.shared-items__media {
+				gap: 8px;
+				.image-container {
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-8;
+					overflow: hidden;
+				}
+			}
+			.file-preview--row-layout {
+				padding: 6px 8px;
+				border-radius: $rounded-6;
+				&:hover {
+					background-color: $colour-gray-100;
+				}
+				.name-container {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+				}
+			}
+			.shared-items-tab__poll-button {
+				@include outline-button;
+				--button-size: 34px;
+				width: 100%;
+			}
+			.poll-card {
+				max-width: none;
+				width: 100%;
+			}
+		}
+		.app-sidebar-header {
+			.content__header--row {
+				padding: 0;
+			}
+		}
+		.app-sidebar-tabs:has(.search-messages-tab) {
+			margin-top: 12px;
+			padding-top: 0;
+			.app-sidebar-tabs__content {
+				margin-top: 0;
+			}
+			.app-sidebar__tab--active {
+				padding-top: 0;
+			}
+		}
+		.search-messages-tab {
+			padding: 12px 0 0;
+			.search-form__search-box-wrapper {
+				gap: 8px;
+				align-items: center;
+				.search-box {
+					@include talk-small-input;
+					.input-field__main-wrapper {
+						input {
+							padding-inline-start: 34px;
+						}
+					}
+				}
+				> .button-vue {
+					@include outline-button;
+					--button-size: 34px;
+					width: 34px;
+					min-width: 34px;
+					height: 34px;
+					padding: 0;
+					&.button-vue--primary {
+						border-color: $colour-blue-600;
+						background-color: $colour-primary-50;
+					}
+				}
+			}
+			.search-form__search-detail {
+				gap: 8px;
+				margin-top: 8px;
+				.v-select {
+					@include single-select(false);
+				}
+				.search-form__search-detail__date-picker-wrapper {
+					gap: 8px;
+				}
+				.native-datetime-picker {
+					input {
+						@include datepicker;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin talk-small-input {
+	@include input;
+	.input-field__main-wrapper {
+		height: 34px;
+	}
+}
+
+@mixin talk-dialogs {
+	body:has(.app-spreed) {
+		.v-popper__inner {
+			li.action {
+				&:has(.action-input__datetimepicker) {
+					&:hover {
+						background-color: transparent !important;
+					}
+				}
+				.action-input {
+					.action-input__icon-wrapper {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						svg {
+							width: 18px;
+							height: 18px;
+							fill: $colour-forground-1;
+						}
+					}
+					.action-input__datetimepicker {
+						.input-field__main-wrapper {
+							input {
+								height: 34px !important;
+								min-height: 34px;
+								padding: 0 10px;
+								border: 1px solid $theme-divider;
+								border-radius: $rounded-6;
+								box-shadow: none;
+								background-color: $colour-background;
+								font-size: $text-heading-5;
+								color: $colour-forground;
+								&:focus {
+									border-color: $colour-blue-600;
+									box-shadow: none;
+								}
+							}
+						}
+					}
+				}
+				> .action-text {
+					align-items: center;
+					gap: 12px;
+					min-height: 36px;
+					padding: 8px 12px;
+					> span:first-child {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 16px;
+						height: 16px;
+						.material-design-icon {
+							width: 16px;
+							height: 16px;
+						}
+					}
+					.action-text__text {
+						font-size: $text-12;
+						line-height: $leading-16;
+						color: $colour-forground-1;
+					}
+				}
+			}
+		}
+		.profile-hover-card {
+			.user-actions {
+				gap: 8px;
+				.user-actions__primary {
+					@include primary-button;
+					--button-size: 34px;
+					min-height: 34px;
+					.user-actions__primary__icon {
+						width: 16px;
+						height: 16px;
+						filter: $filter-light-bg;
+					}
+					&:hover {
+						.user-actions__primary__icon {
+							filter: $filter-primry-600;
+						}
+					}
+				}
+				.user-actions__other {
+					@include talk-outline-icon-button;
+					.user-actions__other__icon {
+						width: 16px;
+						height: 16px;
+						filter: $filter-forground;
+					}
+					&:hover {
+						.user-actions__other__icon {
+							filter: $filter-primry-600;
+						}
+					}
+				}
+			}
+		}
+		.reactions__modal {
+			min-height: auto;
+			padding: 12px 16px 16px;
+			.reactions-list__navigation {
+				gap: 6px;
+				padding-bottom: 12px;
+				border-bottom: 1px solid $theme-divider;
+				.button-vue {
+					--button-size: 30px;
+					min-height: 30px;
+					padding: 0 10px;
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-full;
+					background-color: $colour-background;
+					.button-vue__text {
+						display: inline-flex;
+						align-items: center;
+						gap: 4px;
+						font-size: $text-12;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					&:hover {
+						border-color: $colour-blue-600;
+					}
+					&.active {
+						border-color: $colour-blue-600;
+						background-color: $colour-primary-50;
+						.button-vue__text {
+							color: $colour-blue-600;
+						}
+					}
+				}
+			}
+			.reactions-list__scrollable {
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+				height: auto;
+				max-height: 320px;
+				padding-top: 8px;
+			}
+			.reactions-item {
+				gap: 10px;
+				padding: 6px 0;
+				.reactions-item__name {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+			}
+		}
+		.modal-wrapper--small {
+			.dialog__content:has(> .input-field) {
+				padding: 20px 16px 8px;
+				> .input-field {
+					@include talk-small-input;
+				}
+			}
+		}
+		.instant-meeting__dialog {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			width: 260px;
+			padding: 12px;
+			strong {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.input-field {
+				@include talk-small-input;
+			}
+			.button-vue--primary {
+				@include primary-button;
+				--button-size: 34px;
+				width: 100%;
+				.button-vue__wrapper {
+					justify-content: center;
+				}
+			}
+		}
+		.calendar-events__empty-content {
+			gap: 8px;
+			margin: 0;
+			padding: 16px 16px 8px;
+			.empty-content__icon {
+				width: 32px;
+				height: 32px;
+				margin: 0;
+				svg {
+					width: 32px !important;
+					height: 32px !important;
+					fill: $colour-forground-1;
+				}
+			}
+			.empty-content__description {
+				margin: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+		}
+		.calendar-events__buttons {
+			padding: 0 12px 12px;
+			.button-vue--secondary {
+				@include outline-button;
+				--button-size: 34px;
+			}
+		}
+		.start-group__content {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			padding: 12px;
+			.start-group__header {
+				margin: 0;
+				text-align: start;
+				font-size: $text-heading-4;
+				line-height: $leading-24;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.set-contacts__form-input {
+				@include talk-small-input;
+				.input-field__main-wrapper {
+					input {
+						padding-inline-start: 34px;
+					}
+				}
+			}
+			.set-contacts {
+				gap: 8px;
+			}
+			.selected-participants {
+				gap: 4px;
+				padding: 0 0 8px;
+				&:empty {
+					display: none;
+				}
+				.nc-chip {
+					height: 26px;
+					padding: 2px 10px 2px 2px;
+					border: 1px solid $colour-primary-100;
+					border-radius: $rounded-full;
+					background-color: $colour-primary-50;
+					.nc-chip__icon {
+						width: 20px;
+						height: 20px;
+						margin-inline-end: 6px;
+						.avatar-wrapper,
+						.avatardiv {
+							--avatar-size: 20px !important;
+							width: 20px;
+							height: 20px;
+						}
+					}
+					.nc-chip__text {
+						font-size: $text-12;
+						font-weight: $font-medium;
+						color: $colour-blue-600;
+					}
+				}
+			}
+			.selectable-participant {
+				padding: 6px 8px;
+				border-radius: $rounded-6;
+				&:hover {
+					background-color: $colour-gray-100;
+				}
+				.selectable-participant__content-name {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.selectable-participant__content-subname {
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+				.selectable-participant__check-icon {
+					color: $colour-blue-600;
+				}
+			}
+			.start-group__action {
+				@include primary-button;
+				--button-size: 34px;
+				align-self: flex-end;
+			}
+		}
+		.nc-emoji-picker-container {
+			.search {
+				.input-field {
+					@include talk-small-input;
+				}
+			}
+		}
+		#{css-module('tribute-container')} {
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-8;
+			box-shadow: $box-shadow-1;
+			#{css-module('tribute-container__item')} {
+				border-radius: $rounded-6;
+				&.highlight {
+					background-color: $colour-gray-100;
+				}
+			}
+			.autocomplete-result__title {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.autocomplete-result__subline {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+		}
+		.modal-container {
+			.media-settings {
+				padding: 0;
+				.media-settings__content {
+					gap: 20px;
+					padding: 20px;
+				}
+				.media-settings__title {
+					margin: 0;
+					padding: 16px 64px 16px 20px;
+					border-bottom: 1px solid $theme-divider;
+					text-align: start;
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.media-settings__preview {
+					border-radius: $rounded-12;
+					overflow: hidden;
+				}
+				.media-settings__toggles {
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-8;
+					background-color: $colour-background;
+					.button-vue {
+						@include talk-icon-button(32px);
+					}
+				}
+				.tab-list {
+					gap: 8px;
+					.button-vue {
+						--button-size: 34px;
+						min-height: 34px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						background-color: transparent;
+						.button-vue__icon {
+							width: 16px;
+							min-width: 16px;
+							height: 16px;
+							min-height: 16px;
+							.material-design-icon,
+							.icon-vue,
+							svg {
+								width: 16px;
+								height: 16px;
+							}
+						}
+						.button-vue__text {
+							font-size: $text-heading-5;
+							font-weight: $font-medium;
+							color: $colour-forground;
+						}
+						&.button-vue--secondary {
+							border-color: $colour-blue-600;
+							background-color: $colour-primary-50;
+							.button-vue__icon {
+								svg {
+									fill: $colour-blue-600;
+								}
+							}
+							.button-vue__text,
+							.material-design-icon {
+								color: $colour-blue-600;
+							}
+						}
+					}
+				}
+				.media-devices-selector {
+					gap: 8px;
+					.media-devices-selector__icon {
+						svg {
+							width: 18px;
+							height: 18px;
+							fill: $colour-forground-1;
+						}
+					}
+					.v-select {
+						@include single-select(false);
+					}
+				}
+				.button-vue--secondary {
+					@include outline-button;
+					--button-size: 34px;
+				}
+				.button-vue--tertiary.button-vue--wide {
+					@include outline-button;
+					--button-size: 34px;
+					min-height: 34px;
+				}
+				.background-editor__element {
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-8;
+					background-color: $colour-background;
+					font-size: $text-12;
+					font-weight: $font-medium;
+					color: $colour-forground;
+					&:hover {
+						border-color: $colour-blue-600;
+					}
+					&.background-editor__element--selected {
+						border-color: $colour-blue-600;
+						background-color: $colour-primary-50;
+						color: $colour-blue-600;
+					}
+				}
+				.checkbox-radio-switch {
+					@include checkbox-radio-switch;
+					@include checkbox-radio-switch-icon;
+					.checkbox-content__text {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+					}
+					.checkbox-content__description {
+						font-size: $text-12;
+						line-height: $leading-16;
+						color: $colour-forground-1;
+					}
+				}
+				.button-vue--primary {
+					@include primary-button;
+					--button-size: 34px;
+				}
+			}
+			&:has(.poll-editor__wrapper) {
+				.dialog__content {
+					padding: 0 16px 8px;
+				}
+			}
+			.poll-editor__caption {
+				margin: 16px 0 8px;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.poll-editor__option,
+			.poll-editor__wrapper {
+				.input-field {
+					@include talk-small-input;
+				}
+			}
+			.poll-modal {
+				padding: 20px;
+				.poll-modal__header-wrapper {
+					display: flex;
+					flex-direction: column;
+					gap: 8px;
+					margin-bottom: 16px;
+				}
+				.checkbox-radio-switch {
+					@include checkbox-radio-switch;
+					@include checkbox-radio-switch-icon;
+					.checkbox-content__text {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+					}
+				}
+				.poll-modal__actions {
+					gap: 8px;
+					margin-top: 16px;
+					.action-item__menutoggle {
+						@include talk-icon-button;
+					}
+					.button-vue--primary {
+						@include primary-button;
+						--button-size: 34px;
+					}
+				}
+				.poll-modal__header {
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.poll-modal__summary {
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+				.nc-chip--primary {
+					background-color: $colour-blue-600;
+					.nc-chip__text {
+						font-size: $text-12;
+						font-weight: $font-medium;
+					}
+				}
+				.poll-modal__options {
+					display: flex;
+					flex-direction: column;
+					gap: 4px;
+				}
+			}
+			&:has(.selector__search) {
+				.dialog__content {
+					padding-top: 20px;
+				}
+				.selector__search {
+					@include talk-small-input;
+					.input-field__main-wrapper {
+						input {
+							padding-inline-start: 34px;
+						}
+					}
+				}
+			}
+			.dialog__content:has(> p) {
+				padding: 16px 16px 4px;
+				p {
+					margin: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+			}
+			.dialog__actions {
+				gap: 8px;
+				padding: 12px 16px;
+				&:empty {
+					display: none;
+				}
+				.button-vue--warning {
+					@include warning-button;
+				}
+			}
+			&:has(.audio-dialog__radiogroup) {
+				.dialog__content {
+					display: flex;
+					flex-direction: column;
+					gap: 12px;
+					padding: 16px;
+				}
+				.audio-dialog__radiogroup {
+					#{css-module('formGroup__label')} {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+					#{css-module('formGroup__description')} {
+						font-size: $text-12;
+						line-height: $leading-16;
+						color: $colour-forground-1;
+					}
+					#{css-module('formGroup__content')} {
+						margin-top: 8px;
+						#{css-module('radioGroupButton')} {
+							padding: 6px 10px;
+							#{css-module('radioGroupButton__label')} {
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+							}
+						}
+					}
+				}
+				#{css-module('ncFormBox')} {
+					gap: 8px;
+					#{css-module('formBoxItem')} {
+						padding: 10px 12px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-8;
+						background-color: $colour-background;
+						#{css-module('formBoxItem__element')} {
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground;
+						}
+						#{css-module('formBoxItem__description')} {
+							font-size: $text-12;
+							line-height: $leading-16;
+							color: $colour-forground-1;
+						}
+					}
+				}
+			}
+			&:has(.drafts__empty) {
+				.empty-content {
+					gap: 8px;
+					margin: 0;
+					padding: 24px 16px 8px;
+					.empty-content__icon {
+						width: 40px;
+						height: 40px;
+						margin: 0;
+						svg {
+							width: 40px !important;
+							height: 40px !important;
+							fill: $colour-forground-1;
+						}
+					}
+					.empty-content__name {
+						font-size: $text-heading-4;
+						line-height: $leading-24;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+					.empty-content__description {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground-1;
+					}
+				}
+			}
+			&:has(.button-update-permission) {
+				.wrapper {
+					padding: 0;
+				}
+				.title {
+					margin: 0;
+					padding: 16px 64px 16px 20px;
+					border-bottom: 1px solid $theme-divider;
+					font-size: $text-heading-4;
+					line-height: $leading-24;
+					color: $colour-forground;
+				}
+				form {
+					display: flex;
+					flex-direction: column;
+					gap: 4px;
+					padding: 12px 20px 20px;
+				}
+				.checkbox-radio-switch {
+					@include checkbox-radio-switch;
+					@include checkbox-radio-switch-icon;
+					.checkbox-content__text {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+					}
+				}
+				.button-update-permission {
+					@include primary-button;
+					--button-size: 34px;
+					width: 100%;
+					margin-top: 12px;
+					.button-vue__wrapper {
+						justify-content: center;
+					}
+				}
+			}
+			.dialog__actions {
+				.button-vue--primary {
+					@include primary-button;
+				}
+				.button-vue--secondary {
+					@include outline-button;
+				}
+				.button-vue--tertiary:not(.action-item__menutoggle) {
+					@include outline-button;
+				}
+			}
+		}
+		.new-group-conversation {
+			.checkbox-radio-switch {
+				.checkbox-content {
+					&:hover {
+						background-color: transparent;
+					}
+				}
+			}
+		}
+		.modal-container.general-popup:has(.basic-info-section) {
+			.app-settings__title {
+				font-size: $text-heading-4;
+				line-height: $leading-24;
+				white-space: nowrap;
+			}
+			.app-settings-section__subtitle {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.app-settings-section__hint,
+			.checkbox-content__description,
+			.conversation-permissions-editor__hint,
+			.bots-settings__hint,
+			.breakout-rooms-settings__hint {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			.button-vue--secondary {
+				@include outline-button;
+				--button-size: 34px;
+			}
+			.button-vue--error {
+				@include error-outline-button;
+				--button-size: 34px;
+			}
+			.button-vue--warning {
+				@include warning-button;
+				--button-size: 34px;
+			}
+		}
+	}
+}
+
+@mixin talk-main {
+	@include talk-dialogs;
+	.app-spreed {
+		@include talk-sidebar;
+		@include talk-dashboard;
+		@include talk-top-bar;
+		@include talk-messages;
+		@include talk-composer;
+	}
+}
+
+@mixin talk-settings {
+	.modal-container.general-popup:has(.talk_appearance-section) {
+		.app-settings__content {
+			section {
+				#{css-module('ncFormBox')} {
+					#{css-module('formBoxItem')} {
+						#{css-module('formBoxItem__description')} {
+							font-size: $text-12;
+							line-height: $leading-16;
+							font-weight: $font-normal;
+							color: $colour-forground-1;
+						}
+					}
+				}
+				.button-vue--secondary {
+					@include outline-button;
+					--button-size: 34px;
+				}
+				.button-vue--primary {
+					@include primary-button;
+					--button-size: 34px;
+				}
+			}
+			.attachments-section {
+				#{css-module('formBoxItem_inverted')} {
+					min-height: unset;
+					padding: 8px 12px;
+					#{css-module('formBoxItem__content')} {
+						gap: 2px;
+						padding: 0;
+					}
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-6;
+					background-color: transparent;
+					#{css-module('formBoxItem__element')} {
+						font-size: $text-12;
+						line-height: $leading-16;
+						font-weight: $font-medium;
+						color: $colour-forground-1;
+					}
+					#{css-module('formBoxItem__description')} {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					#{css-module('formBoxItem__icon')} {
+						svg {
+							width: 18px;
+							height: 18px;
+							fill: $colour-forground-1;
+						}
+					}
+					&:hover {
+						border-color: $colour-blue-600;
+						background-color: $colour-primary-50;
+					}
+				}
+			}
+			section.keyboard-shortcuts-section {
+				#{css-module('appSettingsSectionShortcuts')} {
+					#{css-module('hotkeyList')} {
+						ul {
+							li {
+								flex-wrap: nowrap;
+								align-items: center;
+								gap: 12px;
+								#{css-module('hotkey__keys')} {
+									flex: 0 0 auto;
+								}
+								#{css-module('hotkey__label')} {
+									flex: 1 1 auto;
+									min-width: 0;
+									white-space: normal;
+								}
+							}
+						}
+					}
+				}
+			}
+			#{css-module('appSettingsDialogVersion')} {
+				margin: 0;
+				padding: 16px 0;
+				border-top: 1px solid $theme-divider;
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+				font-weight: $font-medium;
+			}
+		}
+	}
+}

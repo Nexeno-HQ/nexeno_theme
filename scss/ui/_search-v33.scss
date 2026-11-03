@@ -1,0 +1,90 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin search {
+	.modal-container.general-popup.global-search{
+		.dialog__wrapper{
+			padding-top: 12px;
+			.unified-search-modal__header{
+				margin-top: 0;
+				padding-top: 8px;
+			}
+		}
+		.unified-search-modal__filters-applied{
+			gap: 6px;
+			.nc-chip{
+				gap: 1px;
+				height: auto;
+				margin: 0;
+				padding: 6px;
+				border: 0;
+				border-radius: $rounded-full;
+				background-color: $colour-gray-100;
+				.nc-chip__icon{
+					width: 16px;
+					height: 16px;
+					margin: 0;
+					flex: none;
+					img{
+						width: 16px;
+						height: 16px;
+						filter: $filter-forground;
+					}
+					.avatardiv{
+						--avatar-size: 16px !important;
+						width: 16px;
+						height: 16px;
+						line-height: 16px !important;
+						font-size: 8px !important;
+						img{
+							filter: none;
+							border-radius: $rounded-full;
+						}
+						.avatardiv__user-status{
+							display: none;
+						}
+					}
+				}
+				.nc-chip__text{
+					padding-inline: 4px;
+					font-size: $text-12;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.nc-chip__actions{
+					--default-clickable-area: 14px;
+					width: 14px;
+					height: 14px;
+					min-width: unset;
+					min-height: unset;
+					margin: 0;
+					padding: 0;
+					flex: none;
+					border-radius: $rounded-full;
+					background-color: transparent;
+					.button-vue__wrapper,
+					.button-vue__icon,
+					.icon-vue{
+						width: 14px;
+						height: 14px;
+						min-width: unset;
+						min-height: unset;
+					}
+					svg{
+						width: 10px;
+						height: 10px;
+						filter: $filter-forground;
+					}
+					&:hover{
+						background-color: transparent;
+					}
+				}
+			}
+		}
+	}
+}

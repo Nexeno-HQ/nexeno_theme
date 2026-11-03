@@ -1,0 +1,20 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin dashboard {
+	.set-status-modal{
+		form{
+			.custom-input + a,
+			.status-buttons button{
+				font-weight: $font-medium;
+				.button-vue__text{
+					font-weight: $font-medium;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,18 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+@use 'page-shared' as shared;
+@use 'page-themed' as themed;
+@use 'page-core' as core;
+
+@include shared.shared;
+
+:root[data-nexeno] {
+	@include themed.themed;
+}
+
+:root:not([data-nexeno-light]):not([data-nexeno-dark]) {
+	@include core.core;
+}

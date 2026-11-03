@@ -1,0 +1,507 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin serverinfo {
+    &.serverinfo{
+        .settings-navigation{
+            padding: 0;
+            margin-bottom: 20px;
+            max-width: 100%;
+            overflow-x: auto;
+            @include noscrollbar;
+            #{css-module('radioGroupButton')}{
+                border: 0 !important;
+                border-radius: $rounded-6 !important;
+                background-color: $colour-gray-100;
+                color: $colour-forground-1;
+                transition: all ease-in-out 300ms;
+                #{css-module('radioGroupButton__label')}{
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    font-weight: $font-medium;
+                    color: inherit;
+                }
+                svg{
+                    width: 16px;
+                    height: 16px;
+                    fill: currentColor;
+                }
+                &:hover{
+                    background-color: $colour-blue-600 !important;
+                    color: $colour-forground-white;
+                }
+            }
+            #{css-module('radioGroupButton_active')}{
+                background-color: $colour-blue-600;
+                color: $colour-forground-white;
+                &:hover{
+                    background-color: $colour-blue-600;
+                    color: $colour-forground-white;
+                }
+            }
+        }
+        .section{
+            h3{
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin: 0 0 12px;
+                font-size: $text-heading-4;
+                line-height: $leading-24;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+                .icon{
+                    margin: 0;
+                }
+                svg{
+                    width: 20px;
+                    height: 20px;
+                    fill: $colour-forground-1;
+                }
+            }
+        }
+        .row{
+            gap: 24px;
+            &.row--cards{
+                gap: 16px;
+            }
+            &.row--tiles{
+                gap: 12px;
+            }
+        }
+        div.section{
+            .row{
+                &:has(> :only-child){
+                    grid-template-columns: minmax(0, 1fr);
+                }
+                &.row--tiles{
+                    margin-bottom: 16px;
+                }
+                .infobox{
+                    margin-bottom: 0;
+                }
+            }
+            &.network-infos{
+                .row.row--cards{
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+                    gap: 16px;
+                    .infobox{
+                        min-width: 0;
+                        overflow-wrap: anywhere;
+                        .info{
+                            overflow-wrap: anywhere;
+                            word-break: break-all;
+                        }
+                    }
+                }
+            }
+            &.disk-status{
+                .row.row--cards{
+                    grid-template-columns: minmax(0, 1fr);
+                }
+            }
+            &.monitoring{
+                #{css-module('formGroup__label')},
+                #{css-module('formGroup__description')}{
+                    padding-inline: 0;
+                }
+                #{css-module('formBoxItem')}{
+                    padding: 10px 0;
+                    border: 0;
+                    border-bottom: 1px solid $theme-divider;
+                    border-radius: 0 !important;
+                    background-color: transparent;
+                    #{css-module('formBoxItem__content')}{
+                        padding: 0;
+                    }
+                    &:hover{
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
+        .info{
+            font-weight: $font-semibold;
+            color: $colour-forground;
+        }
+        .smallinfo{
+            font-size: $text-12;
+            line-height: $leading-16;
+            color: $colour-forground-1;
+        }
+        .info--warning{
+            color: $colour-yellow;
+        }
+        .server-info-table{
+            table{
+                border-collapse: collapse;
+            }
+            th,
+            td{
+                padding: 10px 12px;
+                border-bottom: 1px solid $theme-divider;
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                text-align: start;
+            }
+            th{
+                font-weight: $font-medium;
+                color: $colour-forground-1;
+            }
+            td{
+                color: $colour-forground;
+            }
+            tr:last-child{
+                th,
+                td{
+                    border-bottom: 0;
+                }
+            }
+        }
+        .resource-usage,
+        .opcache-meters{
+            gap: 20px;
+        }
+        .usage-meter-bar__header{
+            margin-bottom: 8px;
+            font-size: $text-heading-5;
+            line-height: $leading-20;
+            color: $colour-forground-1;
+            .info{
+                color: $colour-forground;
+            }
+        }
+        .progress-bar{
+            border-radius: $rounded-full;
+            background-color: $colour-gray-100;
+            &::-webkit-progress-value{
+                border-radius: $rounded-full;
+                background: $colour-blue-600;
+            }
+            &::-moz-progress-bar{
+                border-radius: $rounded-full;
+                background: $colour-blue-600;
+            }
+            &.progress-bar--error{
+                &::-webkit-progress-value{
+                    background: $colour-red-600 !important;
+                }
+                &::-moz-progress-bar{
+                    background: $colour-red-600 !important;
+                }
+            }
+        }
+        .progress-bar__value{
+            font-size: $text-12;
+            line-height: $leading-16;
+            color: $colour-forground-1;
+        }
+        .stat-tile{
+            gap: 4px;
+            padding: 12px 16px;
+            border: 1px solid $theme-divider;
+            border-radius: $rounded-8;
+            background-color: $secondary-card-bg;
+            .stat-tile__label{
+                font-size: $text-10;
+                line-height: $leading-16;
+                letter-spacing: $tracking-12;
+                font-weight: $font-medium;
+                color: $colour-forground-1;
+            }
+            .stat-tile__value{
+                font-size: $text-heading-3;
+                line-height: $leading-24;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+                &.stat-tile__value--warning{
+                    color: $colour-yellow;
+                }
+                &.stat-tile__value--critical{
+                    color: $colour-red-600;
+                }
+            }
+        }
+        .infobox,
+        .db-live__box,
+        .rule-card{
+            padding: 16px;
+            border: 1px solid $theme-divider;
+            border-radius: $rounded-8;
+            background-color: $colour-background;
+        }
+        .infobox{
+            h3{
+                padding: 0 0 12px;
+                font-size: $text-heading-4;
+                line-height: $leading-24;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+            }
+        }
+        .chart-container{
+            margin: 0;
+            padding: 16px;
+            border: 1px solid $theme-divider;
+            border-radius: $rounded-8;
+        }
+        .diskinfo{
+            gap: 4px 12px;
+            font-size: $text-heading-5;
+            line-height: $leading-20;
+            .diskinfo__row{
+                dt{
+                    color: $colour-forground-1;
+                }
+                dd{
+                    color: $colour-forground;
+                }
+            }
+        }
+        .info-color-label--used{
+            &::before{
+                background-color: $colour-blue-600;
+            }
+        }
+        .info-color-label--available{
+            &::before{
+                background-color: $theme-divider;
+            }
+        }
+        .active-users-box{
+            border-left-color: $theme-divider;
+            .info{
+                font-size: $text-heading-1;
+                line-height: $leading-36;
+            }
+        }
+        .db-live{
+            gap: 12px;
+            .db-live__label{
+                font-size: $text-12;
+                line-height: $leading-16;
+                color: $colour-forground-1;
+            }
+            .db-live__value{
+                font-size: $text-heading-4;
+                line-height: $leading-24;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+            }
+        }
+        .db-settings__intro,
+        .snippet__note,
+        .database-view__empty{
+            font-size: $text-heading-5;
+            line-height: $leading-20;
+            color: $colour-forground-1;
+        }
+        .snippet__code{
+            padding: 12px 16px;
+            border: 1px solid $theme-divider;
+            border-radius: $rounded-6;
+            background-color: $colour-gray-100;
+            font-size: $text-12;
+            line-height: $leading-20;
+            color: $colour-forground;
+            @include scrollbar($thumb-colour: $colour-scrollbar-main);
+        }
+        .database-view__filters{
+            gap: 4px;
+            padding: 4px;
+            border-radius: $rounded-8;
+            background-color: $colour-gray-100;
+            .database-view__filter{
+                padding: 6px 12px;
+                border-radius: $rounded-6;
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                font-weight: $font-medium;
+                color: $colour-forground-1;
+                transition: all ease-in-out 300ms;
+                &:hover{
+                    background-color: $colour-background;
+                    color: $colour-forground;
+                }
+                &.database-view__filter--active{
+                    background-color: $colour-blue-600;
+                    color: $colour-forground-white;
+                }
+            }
+        }
+        .database-view__group-title{
+            font-size: $text-heading-4;
+            line-height: $leading-24;
+            font-weight: $font-semibold;
+            color: $colour-forground;
+            .database-view__group-fails{
+                font-size: $text-12;
+                color: $colour-red-600;
+            }
+        }
+        .rule-card{
+            &.rule-card--fail{
+                border-inline-start: 4px solid $colour-red-600;
+            }
+            .rule-card__title{
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+            }
+            .rule-card__meta,
+            .rule-card__line--muted,
+            .rule-card__details dt{
+                color: $colour-forground-1;
+            }
+            .rule-card__line,
+            .rule-card__issue,
+            .rule-card__details{
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+            }
+            .rule-card__dot--alert{
+                background-color: $colour-red-600;
+            }
+            .rule-card__dot--warning{
+                background-color: $colour-yellow;
+            }
+            .rule-card__chip{
+                padding: 2px 10px;
+                border-radius: $rounded-full;
+                background-color: $colour-gray-100;
+                font-size: $text-12;
+                line-height: $leading-16;
+                font-weight: $font-medium;
+                color: $colour-forground-1;
+                &.rule-card__chip--fail{
+                    background-color: $colour-red-50;
+                    color: $colour-red-600;
+                }
+                &.rule-card__chip--ok{
+                    background-color: $colour-green-50;
+                    color: $colour-green-700;
+                }
+            }
+            .rule-card__doc{
+                color: $colour-blue-600;
+            }
+        }
+        .background-jobs{
+            h3{
+                font-size: $text-heading-4;
+                line-height: $leading-24;
+                font-weight: $font-semibold;
+                color: $colour-forground;
+            }
+        }
+        .job-status{
+            font-size: $text-heading-5;
+            line-height: $leading-20;
+            .job-status__dot{
+                background-color: $colour-forground-1;
+            }
+            &.job-status--succeeded .job-status__dot{
+                background-color: $colour-green-700;
+            }
+            &.job-status--failed,
+            &.job-status--crashed{
+                .job-status__dot{
+                    background-color: $colour-red-600;
+                }
+            }
+        }
+        .job-details{
+            font-size: $text-heading-5;
+            line-height: $leading-20;
+            dt{
+                color: $colour-forground-1;
+            }
+            dd{
+                color: $colour-forground;
+            }
+        }
+        .notecard{
+            @include notecard;
+        }
+        .button-vue--primary{
+            @include primary-button;
+        }
+        .button-vue--secondary{
+            @include outline-button;
+        }
+        @media (max-width: $bp-1024) {
+            .row{
+                gap: 16px;
+            }
+        }
+        @media (max-width: $bp-768) {
+            .settings-navigation{
+                margin-bottom: 16px;
+            }
+            .row--tiles{
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .server-info-table{
+                overflow-x: auto;
+                @include noscrollbar;
+                th,
+                td{
+                    padding: 8px;
+                }
+            }
+            .infobox,
+            .chart-container,
+            .db-live__box,
+            .rule-card{
+                padding: 12px;
+            }
+        }
+        @media (max-width: $bp-640) {
+            .server-info-table{
+                th,
+                td{
+                    padding: 0;
+                    border-bottom: 0;
+                }
+                tr:last-child{
+                    border-bottom: 0;
+                }
+            }
+        }
+        @media (max-width: $bp-576) {
+            .section{
+                h3{
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                }
+            }
+            .server-info-table{
+                th,
+                td{
+                    font-size: $text-12;
+                    line-height: $leading-16;
+                }
+            }
+            .stat-tile{
+                padding: 10px 12px;
+                .stat-tile__value{
+                    font-size: $text-heading-4;
+                    line-height: $leading-22;
+                }
+            }
+            .active-users-box{
+                .info{
+                    font-size: $text-heading-2;
+                    line-height: $leading-28;
+                }
+            }
+        }
+    }
+}

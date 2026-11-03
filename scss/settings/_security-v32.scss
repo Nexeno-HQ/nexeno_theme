@@ -1,0 +1,47 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin security {
+	&.security {
+		#generate-app-token-section {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 12px;
+			max-width: 400px;
+			padding-top: 16px;
+			.app-name-text-field {
+				width: 100%;
+				height: auto !important;
+				margin: 0;
+				padding: 0;
+			}
+			> .button-vue {
+				align-self: flex-start;
+				margin: 0;
+			}
+		}
+		.settings-section {
+			#passwordform {
+				width: 100%;
+				max-width: 400px;
+				gap: 12px;
+				.input-field {
+					@include input;
+				}
+				.button-vue--vue-primary {
+					@include primary-button;
+					width: 100%;
+					margin: 0;
+					.button-vue__wrapper {
+						justify-content: center;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,220 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+@use '../files/files' as files;
+
+@mixin teams {
+    #vue-admin-team-folders{
+        .team-folders__input-row{
+            gap: 12px;
+            align-items: flex-end;
+            max-width: 500px;
+            .team-folders__input{
+                min-width: 0;
+            }
+            .v-select.select{
+                @include single-select($dropdown: false);
+                .vs__dropdown-toggle{
+                    height: 34px;
+                }
+            }
+            .button-vue--primary{
+                @include primary-button;
+                flex-shrink: 0;
+            }
+        }
+        .team-folders__hint{
+            margin: 8px 0 0;
+            font-size: $text-12;
+            line-height: $leading-16;
+            color: $colour-forground-1;
+        }
+        .team-folders__list{
+            margin: 24px 0 0;
+        }
+        .team-folders__list-title{
+            margin: 0;
+            padding-bottom: 12px;
+            border-bottom: 0;
+            font-size: $text-heading-4;
+            line-height: $leading-24;
+            font-weight: $font-semibold;
+            color: $colour-forground;
+        }
+        .team-folders__scroll{
+            @include scrollbar($thumb-colour: $colour-scrollbar-main);
+        }
+        .team-folders__table{
+            tr{
+                height: 44px;
+            }
+            th,
+            td{
+                padding: 0 16px;
+                border-bottom: 1px solid $theme-divider;
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                vertical-align: middle;
+            }
+            thead{
+                th,
+                th:first-child{
+                    border-bottom: 1px solid $theme-divider;
+                    background-color: transparent;
+                    font-weight: $font-medium;
+                    color: $colour-forground-1;
+                }
+            }
+            tbody{
+                tr{
+                    border-bottom: 0;
+                    td{
+                        color: $colour-forground-1;
+                        &:first-child{
+                            font-weight: $font-medium;
+                            color: $colour-forground;
+                        }
+                    }
+                    &:not(.team-folders__empty):hover{
+                        td{
+                            background-color: $colour-gray-100;
+                            border-radius: 0 !important;
+                        }
+                    }
+                }
+            }
+            .team-folders__empty{
+                td{
+                    padding: 32px 16px;
+                    border-bottom: 0;
+                    font-weight: $font-medium;
+                    color: $colour-forground-1;
+                }
+                &,
+                &:hover,
+                &:hover td{
+                    background-color: transparent !important;
+                }
+            }
+        }
+        .team-folders__sort-header,
+        .team-folders__sort-header:hover,
+        .team-folders__sort-header:focus{
+            gap: 4px;
+            min-height: unset;
+            padding: 0;
+            border: 0;
+            background-color: transparent !important;
+            box-shadow: none;
+            font-weight: $font-medium;
+            color: $colour-forground-1;
+            > span{
+                display: none;
+            }
+            &::after{
+                content: '';
+                flex-shrink: 0;
+                @include files.sort-down;
+            }
+        }
+        .team-folders__sort-header:hover{
+            color: $colour-forground;
+        }
+        .team-folders__sort-header:focus-visible{
+            outline: 1px solid $colour-blue-600;
+            border-radius: $rounded-4;
+        }
+        .v-select.select.team-folders__quota-select{
+            @include single-select($dropdown: false);
+            width: 100%;
+            .vs__dropdown-toggle{
+                height: 34px;
+            }
+            &,
+            *{
+                background-color: transparent !important;
+            }
+        }
+        .team-folders__remove{
+            button{
+                &,
+                &:hover,
+                &:focus{
+                    background-color: transparent !important;
+                }
+                svg{
+                    fill: $colour-forground-1;
+                }
+            }
+        }
+        @media (max-width: $bp-768) {
+            .team-folders__list{
+                margin-top: 16px;
+            }
+            .team-folders__table{
+                th,
+                td{
+                    padding: 0 12px;
+                }
+            }
+        }
+        @media (max-width: $bp-576) {
+            .team-folders__input-row{
+                flex-direction: column;
+                align-items: stretch;
+                max-width: 100%;
+                .button-vue--primary{
+                    width: 100%;
+                    justify-content: center;
+                }
+            }
+            .team-folders__list-title{
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+            }
+            .team-folders__table{
+                th,
+                td{
+                    font-size: $text-12;
+                    line-height: $leading-16;
+                }
+            }
+        }
+    }
+}
+
+@mixin teams-popup {
+    body:has(#vue-admin-team-folders) .vs__dropdown-menu{
+        @include select-dropdown-menu;
+    }
+    .modal-container:has(.team-folders__dialog-options){
+        .team-folders__dialog-options{
+            gap: 12px;
+        }
+        .team-folders__warning{
+            margin: 0 0 16px;
+            padding: 10px 12px;
+            border-inline-start: 0;
+            border-radius: $rounded-6;
+            background-color: $colour-yellow-50;
+            font-size: $text-12;
+            line-height: $leading-16;
+            font-weight: $font-medium;
+            color: $colour-yellow;
+        }
+        .checkbox-radio-switch{
+            @include checkbox-radio-switch;
+        }
+        .button-vue--primary{
+            @include primary-button;
+        }
+        .button-vue--secondary,
+        .button-vue--tertiary{
+            @include outline-button;
+        }
+    }
+}

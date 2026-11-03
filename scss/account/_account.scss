@@ -1,0 +1,73 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin account {
+    table{
+        &.user-list{
+            margin-top: 53px;
+            padding: 0;
+            border-top: 1px solid $theme-divider;
+            thead{
+                tr{
+                    height: 44px !important;
+                    th{
+                        border-inline-end: 0;
+                        color: $colour-forground-1;
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        font-weight: $font-medium;
+                        strong,
+                        span{
+                            font-weight: $font-medium;
+                        }
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    height: 44px !important;
+                    td{
+                        border-inline-end: 0;
+                        color: $colour-forground-1;
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        font-weight: $font-medium;
+                        strong,
+                        span{
+                            font-weight: $font-medium;
+                        }
+                        &.row__cell--displayname{
+                            strong{
+                                color: $colour-forground;
+                            }
+                        }
+                        &:first-child{
+                            padding-left: 16px;
+                            .avatardiv{
+                                --avatar-size:24px !important;
+                            }
+                        }
+                        .progress-bar{
+                            border-radius: 999px;
+                            &::-webkit-progress-value{
+                                border-radius: 999px;
+                                background: $colour-blue-600;
+                            }
+                        }
+                    }
+                }
+            }
+            tfoot{
+                td{
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    color: $colour-forground-1;
+                }
+            }
+        }
+    }
+}

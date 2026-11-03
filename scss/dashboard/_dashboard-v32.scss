@@ -1,0 +1,27 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin dashboard {
+	.status-modal {
+		box-sizing: border-box;
+		overflow: auto;
+		* {
+			box-sizing: border-box;
+		}
+		.user-status-online-select__icon {
+			padding: 0;
+		}
+		.set-status-modal {
+			form {
+				padding-bottom: 20px;
+				@media (max-width: $bp-640) {
+					padding-bottom: 16px;
+				}
+			}
+		}
+	}
+}

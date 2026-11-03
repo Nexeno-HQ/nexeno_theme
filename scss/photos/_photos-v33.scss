@@ -1,0 +1,22 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin photos {
+	.content{
+		&.app-photos{
+			main{
+				.files-list-viewer{
+					> .empty-content{
+						justify-content: center;
+						margin: 0;
+						min-height: calc(100dvh - #{$header-height} - 53px - 32px);
+					}
+				}
+			}
+		}
+	}
+}

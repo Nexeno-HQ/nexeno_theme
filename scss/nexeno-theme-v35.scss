@@ -1,0 +1,32 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use 'ui/waffle-menu-v35' as waffle-menu;
+@use 'ui/search-v35' as search;
+@use 'files/files-v35' as files;
+@use 'activity/activity-v35' as activity;
+@use 'ui/empty-content-v35' as empty-content;
+@use 'photos/photos-v35' as photos;
+@use 'dashboard/dashboard-v35' as dashboard;
+@use 'ui/modal-v35' as modal;
+@use 'settings/settings-v35' as settings;
+@use 'teams/teams-v35' as teams;
+@use 'deck/deck-v35' as deck;
+@use 'talk/talk-v35' as talk;
+
+:root[data-nexeno] {
+	@include waffle-menu.waffle-menu;
+	@include search.search;
+	@include empty-content.empty-content;
+	@include files.files;
+	@include activity.activity;
+	@include photos.photos;
+	@include dashboard.dashboard;
+	@include modal.modal;
+	@include settings.settings;
+	@include teams.teams-app;
+	@include teams.teams-app-popup;
+	@include deck.deck;
+	@include talk.talk;
+}

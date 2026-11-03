@@ -1,0 +1,295 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use 'variables' as *;
+@use 'themes' as *;
+@use 'settings/mixins' as *;
+@use 'dashboard/dashboard' as dash;
+@use 'account/account' as acc;
+@use 'ui/modal' as mod;
+@use 'ui/sidebar' as side;
+@use 'ui/detail-sidebar' as detside;
+@use 'ui/select' as select;
+@use 'ui/header-menus' as hmenu;
+@use 'files/files' as files;
+@use 'settings/settings' as set;
+@use 'office/office' as off;
+@use 'activity/activity' as act;
+@use 'photos/photos' as pho;
+@use 'apps/apps' as apps;
+@use 'calendar/calendar' as cal;
+@use 'deck/deck' as deck;
+@use 'contacts/contacts' as contacts;
+@use 'notes/notes' as notes;
+@use 'text/text' as text;
+@use 'talk/talk' as talk;
+@use 'collectives/collectives' as collectives;
+@use 'tasks/tasks' as tasks;
+@use 'mail/mail' as mail;
+
+@include root-palette;
+
+:root[data-nexeno] {
+	font-family: var(--font-face);
+	letter-spacing: $tracking-05;
+	main {
+		&.app-content {
+			border: 0 !important;
+			border-radius: 0 !important;
+			border-left: 1px solid $theme-divider !important;
+		}
+	}
+	.empty-content{
+		.button-vue--vue-secondary{
+			@include outline-button;
+		}
+	}
+	.app-navigation-toggle-wrapper{
+		margin-top: 2px;
+		.app-navigation-toggle{
+			background-color: $colour-background;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-8;
+			&:hover{
+				background-color: $colour-primary-50 !important;
+				border-color: $colour-blue-600;
+				svg{
+					filter: $filter-primry-600;
+				}
+			}
+		}
+	}
+	#content {
+		&.app-dashboard {
+			margin-inline: 0;
+			border-radius: 0;
+			width: 100%;
+			border-top: 1px solid $theme-divider;
+			background: $main-page-bg-dashboard;
+			margin-bottom: 0;
+			padding-bottom: 8px;
+			margin-top: $header-height;
+			min-height: calc(100dvh - $header-height);
+		}
+		&.app-activity {
+			margin-inline: 0;
+			border-radius: 0;
+			width: 100%;
+			background: $main-page-bg;
+			margin-bottom: 0;
+			padding-bottom: 8px;
+		}
+		&.app-office,
+		&.app-appstore,
+		&.app-contacts,
+		&.app-spreed,
+		&.app-collectives,
+		&.app-maps,
+		&.app-cookbook,
+		&.app-news,
+		&.app-tables,
+		&.app-forms,
+		&.app-notes,
+		&.app-calendar,
+		&.app-circles,
+		&.app-tasks{
+			margin-inline: 0;
+			border-radius: 0;
+			width: 100%;
+			background: $main-page-bg-dashboard;
+			margin-bottom: 0;
+			padding-bottom: 8px;
+			margin-top: $header-height;
+			min-height: calc(100dvh - $header-height);
+		}
+		
+	}
+	.app-calendar{
+		main{
+			border-left: 0 !important;
+		}
+		table{
+			border: 0 !important;
+		}
+	}
+	.content {
+		margin-inline: 0;
+		border-radius: 0;
+		width: 100%;
+		background: $main-page-bg;
+		margin-bottom: 0;
+		border-top: 1px solid $theme-divider;
+		min-height: calc(100dvh - var(--header-height));
+	}
+	
+	.app-mail{
+		.setup__form-content{
+			padding-inline: 16px;
+		}
+		.tabs-component-panels{
+			margin-top: 16px;
+		}
+		
+	}
+	.app-cookbook{
+		.wrapper{
+			align-items: center;
+		}
+	}
+	.app-navigation-toggle{
+		svg{
+			filter: $filter-forground-1
+		}
+	}
+	.unified-search-input__button{
+		box-shadow: none;
+		background: transparent !important;
+		border: 1px solid $theme-divider;
+		border-radius: $rounded-6;
+		&:focus,
+		&:focus-visible,
+		&:focus-within,
+		&:hover,
+		&:active{
+			background: transparent !important;
+			border: 1px solid $theme-divider;
+		}
+		.unified-search-input__label{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			color: $colour-forground-1;
+			font-weight: $font-normal;
+		}
+		svg{
+			width: 18px;
+    		height: 18px;
+			fill: $colour-forground-1;
+		}
+	}
+	.header-menu,
+	.app-menu__current-app-icon,
+	.app-menu__current-app-cog {
+		--header-menu-icon-mask: none;
+	}
+
+	.header-end{
+		button{
+			&:hover{
+				background-color: transparent !important;
+			}
+		}
+	}
+
+	@include mod.modal;
+	@include side.sidebar;
+	@include detside.detail-sidebar;
+	@include select.select;
+	@include hmenu.header-menus;
+	@include files.files;
+	@include dash.dashboard;
+	@include acc.account;
+	@include off.office;
+	@include act.activity;
+	@include pho.photos;
+	@include apps.apps;
+	@include set.settings;
+	@include cal.calendar-settings;
+	@include cal.calendar-trashbin;
+	@include cal.calendar-edit-modal;
+	@include cal.calendar-proposal-editor;
+	@include cal.calendar-navigation;
+	@include cal.calendar-main;
+	@include cal.calendar-event-popover;
+	@include cal.calendar-edit-full;
+	@include cal.calendar-unscheduled-tasks;
+	@include cal.calendar-more-popover;
+	@include collectives.collectives-main;
+	@include collectives.collectives-settings;
+	@include collectives.collectives-dialogs;
+	@include collectives.collectives-versions;
+	@include cal.calendar-repeat-modal;
+	@include cal.calendar-talk-modal;
+	@include deck.deck-sidebar;
+	@include deck.deck-settings;
+	@include deck.deck-dialogs;
+	@include deck.deck-main;
+	@include deck.deck-filter-popover;
+	@include deck.deck-modals;
+	@include deck.deck-navigation;
+	@include contacts.contacts-settings;
+	@include contacts.contacts-main;
+	@include contacts.contacts-modals;
+	@include notes.notes-settings;
+	@include notes.notes-main;
+	@include notes.notes-dialogs;
+	@include text.text-menubar;
+	@include talk.talk-settings;
+	@include talk.talk-main;
+	@include tasks.tasks-main;
+	@include tasks.tasks-sidebar;
+	@include tasks.tasks-popovers;
+	@include mail.mail-account-settings;
+	@include mail.mail-settings;
+	@include mail.mail-dialogs;
+	@include mail.mail-popovers;
+	@include mail.mail-main;
+	@include mail.mail-composer;
+	@include mail.mail-thread;
+}
+
+:root[data-nexeno-light] {
+	--color-background-plain: #{$main-page-bg} !important;
+
+	body {
+		--color-background-plain: #{$main-page-bg} !important;
+		--color-background-plain-text: #{$colour-forground} !important;
+		--background-image-invert-if-bright: invert(100%) !important;
+		--image-background: none !important;
+		--primary-invert-if-bright: no !important;
+		--primary-invert-if-dark: invert(100%) !important;
+		--color-primary: #2563eb !important;
+		--color-primary-text: #ffffff !important;
+		--color-primary-hover: #5082ef !important;
+		--color-primary-element: #2563eb !important;
+		--color-primary-element-hover: #1451d8 !important;
+		--color-primary-element-text: #ffffff !important;
+		--color-primary-element-text-dark: #ededed !important;
+		--color-primary-light: #e9effd !important;
+		--color-primary-light-hover: #dde3f0 !important;
+		--color-primary-light-text: #0e275e !important;
+	}
+
+	#header {
+		background-color: $main-page-bg;
+		background-image: none;
+	}
+}
+
+:root[data-nexeno-dark] {
+	--color-background-plain: #{$main-page-bg} !important;
+
+	body {
+		--color-background-plain: #{$main-page-bg} !important;
+		--color-background-plain-text: #{$colour-forground} !important;
+		--background-image-invert-if-bright: no !important;
+		--image-background: none !important;
+		--primary-invert-if-bright: invert(100%) !important;
+		--primary-invert-if-dark: no !important;
+		--color-primary: #2563eb !important;
+		--color-primary-text: #ffffff !important;
+		--color-primary-hover: #2253c0 !important;
+		--color-primary-element: #6d87eb !important;
+		--color-primary-element-hover: #8ca1ef !important;
+		--color-primary-element-text: #000000 !important;
+		--color-primary-element-text-dark: #121212 !important;
+		--color-primary-light: #1f222c !important;
+		--color-primary-light-hover: #2a2d36 !important;
+		--color-primary-light-text: #a7c0f7 !important;
+	}
+
+	#header {
+		background-color: $main-page-bg;
+		background-image: none;
+	}
+}

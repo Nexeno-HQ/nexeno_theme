@@ -1,0 +1,319 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+@use './sync-clients' as *;
+@use './sharing' as *;
+@use './admindelegation' as *;
+@use './survey-client' as *;
+@use './availability' as *;
+@use './personal-info' as *;
+@use './security' as *;
+@use './theming' as *;
+@use './workflow' as *;
+@use './adminworkflow' as *;
+@use './presets' as *;
+@use './usernotification' as *;
+@use './migration' as *;
+@use './privacy' as *;
+@use './overview' as *;
+@use './assistant' as *;
+@use './groupware' as *;
+@use './appapi' as *;
+@use './support' as *;
+@use './adminsharing' as *;
+@use './basicsetting' as *;
+@use './admintheming' as *;
+@use './adminsecurity' as *;
+@use './system' as *;
+@use './logging' as *;
+@use './teamfolders' as *;
+@use './saml' as *;
+@use './help' as *;
+@use './connected-accounts' as *;
+@use './talk' as *;
+
+:root:not([data-nexeno-light]):not([data-nexeno-dark])
+	#nexeno_theme-settings .nexeno_theme-theme-card {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+#nexeno_theme-settings {
+	input.radio {
+		&:disabled:not(:checked) {
+			+ label {
+				&::before {
+					background-color: transparent !important;
+				}
+			}
+		}
+	}
+}
+
+#nexeno_theme-master-toggle {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-block: 20px;
+	input#nexeno_theme-enabled.checkbox {
+		position: relative !important;
+		left: auto !important;
+		top: auto !important;
+		z-index: auto !important;
+		width: 32px !important;
+		height: 16px !important;
+		min-width: 32px !important;
+		min-height: 16px !important;
+		max-width: 32px !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		opacity: 1 !important;
+		appearance: none !important;
+		-webkit-appearance: none !important;
+		border: none !important;
+		border-radius: 16px !important;
+		background-color: var(--color-background-darker) !important;
+		cursor: pointer;
+		transition: background-color 0.2s ease;
+
+		& + label::before {
+			display: none;
+			content: none;
+		}
+
+		&::before {
+			content: "" !important;
+			position: absolute;
+			top: 2px;
+			left: 2px;
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			background: var(--color-main-background);
+			box-shadow: var(--box-shadow-2);
+			transition: transform 0.2s ease;
+		}
+
+		&:checked {
+			background-color: var(--color-primary-element) !important;
+
+			&::before {
+				transform: translateX(16px);
+			}
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-primary-element);
+			outline-offset: 2px;
+		}
+	}
+
+	label[for="nexeno_theme-enabled"] {
+		cursor: pointer;
+		font-size: $text-heading-5;
+		line-height: $leading-20;
+		color: $colour-forground;
+		font-weight: $font-medium;
+	}
+}
+
+@mixin settings {
+	@include select-box;
+	@include help;
+	@include talk-admin-dropdown;
+	:is(
+			.theming__preview--default,
+			.theming__preview--light,
+			.theming__preview--dark,
+			.theming__preview--light-highcontrast,
+			.theming__preview--dark-highcontrast,
+			.theming__preview--opendyslexic
+		) {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+	.empty-content{
+		margin-top: 0 !important;
+		gap: 8px;
+		.empty-content__icon{
+			width: auto;
+			height: auto;
+			margin-bottom: 0 !important;
+			.loading-icon{
+				width: 22px;
+				height: 22px;
+				svg{
+					width: 22px !important;
+					height: 22px !important;
+				}
+			}
+		}
+		.empty-content__name{
+			margin-bottom: 0 !important;
+			font-size: $text-heading-4 !important;
+			line-height: $leading-20 !important;
+			font-weight: $font-medium !important;
+			color: $colour-forground !important;
+		}
+	}
+	.notecard{
+		@include notecard;
+	}
+	.app-settings{
+		main{
+			scroll-behavior: smooth;
+			scroll-padding-top: 55px;
+			.settings-content{
+				padding: 55px 16px 16px;
+				display: block !important;
+				.settings-section{
+					margin: 0;
+					width: 100%;
+					padding-inline: 0;
+					padding-block: 20px;
+					&:first-child{
+						padding-top: 0;
+					}
+					&:last-child{
+						padding-bottom: 0;
+					}
+					.settings-section__name{
+						font-size: $text-heading-3;
+						line-height: $leading-22;
+						color: $colour-forground;
+						font-weight: $font-semibold;
+						margin-bottom: 16px;
+					}
+					.settings-section__desc,
+					#{css-module('text')}{
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground-1;
+						font-weight: $font-normal;
+						margin-bottom: 16px;
+						margin-top: 0;
+					}
+				}
+				form{
+					fieldset{
+						legend{
+							font-size: $text-heading-4;
+							line-height: $leading-22;
+							color: $colour-forground;
+							font-weight: $font-semibold;
+							padding: 0;
+						}
+					}
+					#{css-module('formGroup__content')}{
+						margin-top: 16px;
+						#{css-module('ncFormBox')}{
+							gap: 10px;
+							div#{css-module('ncFormBox__item')}{
+								border: 1px solid $theme-divider;
+								border-radius: $rounded-6 !important;
+								padding: 12px;
+								transition: all ease-in-out 300ms;
+								background-color: transparent;
+								#{css-module('formBoxItem__content')}{
+									padding: 0;
+									gap: 4px;
+								}
+								#{css-module('formBoxItem__icon')}{
+									svg{
+										width: 18px;
+										height: 18px;
+										fill: $colour-forground-1;
+									}
+								}
+								span{
+									font-size: $text-12;
+									line-height: $leading-16;
+									color: $colour-forground-1;
+								}
+								button{
+									font-size: $text-heading-5;
+									line-height: $leading-20;
+									color: $colour-forground;
+									font-weight: $font-medium;
+								}
+								&:hover{
+									background-color: transparent;
+									border-color: var(--color-primary-element);
+									button{
+										color: var(--color-primary-element);
+									}
+									#{css-module('formBoxItem__icon')}{
+										svg{
+											fill: var(--color-primary-element);
+										}
+									}
+								}
+								&#{css-module('transferOwnership__newOwner')}{
+									border: 1px solid $theme-divider;
+									background-color: transparent;
+									#{css-module('transferOwnership__newOwnerSelect')}{
+										@include select-field;
+									}
+								}
+							}
+						}
+						button{
+							&.button-vue--vue-primary{
+								@include primary-button;
+							}
+						}
+					}
+				}
+			}
+			.avatar__container{
+				@media (max-width: $bp-576) {
+					margin-top: 0;
+				}
+				.avatar__preview{
+					@media (max-width: $bp-576) {
+						width: 140px;
+						height: 140px;
+						.avatardiv{
+							width: 140px;
+							height: 140px;
+						}
+					}
+				}
+			}
+
+			@include sync-clients;
+			@include sharing;
+			@include admindelegation;
+			@include survey-client;
+			@include availability;
+			@include personal-info;
+			@include security;
+			@include theming;
+			@include workflow;
+			@include adminworkflow;
+			@include presets;
+			@include usernotification;
+			@include migration;
+			@include privacy;
+			@include overview;
+			@include assistant;
+			@include groupware;
+			@include appapi;
+			@include support;
+			@include adminsharing;
+			@include basicsetting;
+			@include admintheming;
+			@include adminsecurity;
+			@include system;
+			@include logging;
+			@include teamfolders;
+			@include saml;
+			@include connected-accounts;
+			@include talk-admin;
+		}
+	}
+}

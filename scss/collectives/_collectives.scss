@@ -1,0 +1,489 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin collectives-icon-button {
+	@include outline-button;
+	width: 36px;
+	height: 36px;
+	min-width: unset;
+	min-height: unset;
+	padding: 0;
+	justify-content: center;
+	.button-vue__icon {
+		svg {
+			width: 18px;
+			height: 18px;
+		}
+	}
+}
+
+@mixin collectives-main {
+	#content.app-collectives {
+		.page-title-container {
+			gap: 8px;
+			padding-block: 8px;
+			.page-title-icon {
+				.button-emoji-page {
+					border-radius: $rounded-6;
+					&:hover {
+						background-color: $colour-gray-100;
+					}
+				}
+			}
+			.page-title {
+				input.title {
+					font-size: $text-heading-1;
+					line-height: $leading-36;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+					opacity: 1;
+					&::placeholder {
+						color: $colour-forground-2;
+					}
+				}
+			}
+			.titlebar-buttons {
+				align-items: center;
+				gap: 8px;
+				.titleform-button {
+					@include primary-button;
+				}
+				.action-item__menutoggle,
+				.page-sidebar-button {
+					@include collectives-icon-button;
+				}
+			}
+		}
+		.landing-page-widgets {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			.members-title,
+			.recent-pages-title {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				height: auto;
+				min-height: unset;
+				padding-block: 4px;
+				.widget-heading {
+					padding: 0;
+					font-size: $text-heading-4;
+					line-height: $leading-24;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.toggle-icon {
+					display: flex;
+					padding: 0;
+					svg {
+						width: 18px;
+						height: 18px;
+						fill: $colour-forground-1;
+					}
+				}
+			}
+			.members-members {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				.button-vue {
+					@include collectives-icon-button;
+				}
+			}
+			.recent-pages-widget-pages {
+				gap: 12px;
+				.recent-page-tile {
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-8;
+					background-color: $colour-background;
+					box-shadow: none;
+					transition: all ease-in-out 300ms;
+					.recent-page-tile__icon {
+						svg {
+							fill: $colour-forground-2;
+						}
+					}
+					.recent-page-tile__title {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+					.recent-page-tile__subtitle {
+						gap: 6px;
+						.timestamp {
+							font-size: $text-12;
+							line-height: $leading-16;
+							color: $colour-forground-1;
+						}
+					}
+					&:hover,
+					&:focus-visible {
+						border-color: $colour-blue-600;
+						background-color: $colour-primary-50;
+					}
+				}
+			}
+			.recent-pages-widget-buttons {
+				.button-slide {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					width: 32px;
+					height: 32px;
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-full;
+					background-color: $colour-background;
+					box-shadow: $box-shadow-3;
+					svg {
+						width: 18px;
+						height: 18px;
+						fill: $colour-forground;
+					}
+					&.hidden {
+						display: none;
+					}
+				}
+			}
+		}
+		.infobar {
+			.infobar-item {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+				.user-bubble__content {
+					border-radius: $rounded-full;
+					background-color: $colour-gray-100;
+					.user-bubble__name {
+						font-size: $text-12;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+				}
+				.timestamp {
+					color: $colour-forground-1;
+				}
+			}
+		}
+		.collectives-text-container {
+			.ProseMirror {
+				color: $colour-forground;
+				h1,
+				h2,
+				h3,
+				h4 {
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.heading-anchor {
+					color: $colour-forground-2;
+				}
+				a {
+					color: $colour-blue-600;
+					text-decoration: none;
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+				code {
+					padding: 2px 6px;
+					border-radius: $rounded-4;
+					background-color: $colour-gray-100;
+					color: $colour-forground;
+				}
+				blockquote {
+					border-inline-start: 3px solid $colour-blue-600;
+					color: $colour-forground-1;
+				}
+				hr {
+					border-color: $theme-divider;
+				}
+				table {
+					th,
+					td {
+						border-color: $theme-divider;
+					}
+					th {
+						background-color: $colour-sidebar-bg;
+						font-weight: $font-semibold;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin collectives-settings {
+	.modal-container.general-popup:has(.collective-name-and-emoji) {
+		.app-settings__content {
+			@include scrollbar($thumb-colour: $colour-scrollbar-main);
+		}
+		.app-settings-section {
+			border-bottom: 1px solid $theme-divider;
+			.app-settings-section__name {
+				margin: 0 0 16px;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				text-transform: none;
+				color: $colour-forground;
+			}
+			.app-settings-section__description:empty {
+				display: none;
+			}
+			&.danger-zone-section {
+				padding-bottom: 16px;
+				border-bottom: 0;
+			}
+		}
+		.app-settings-section__content {
+			fieldset {
+				& + fieldset {
+					margin-top: 20px;
+				}
+				legend#{css-module('formGroup__label')} {
+					padding: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-semibold;
+					text-transform: none;
+					color: $colour-forground;
+				}
+				#{css-module('formGroup__description')} {
+					margin: 0;
+					padding: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+				#{css-module('formGroup__content')} {
+					margin-top: 10px;
+					#{css-module('ncFormBox')} {
+						gap: 8px;
+						#{css-module('radioGroupButton')} {
+							flex-direction: row;
+							align-items: center;
+							justify-content: center;
+							min-height: 40px;
+							padding: 8px 12px;
+							#{css-module('radioGroupButton__label')} {
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								white-space: nowrap;
+							}
+						}
+					}
+				}
+			}
+		}
+		.collective-name-and-emoji {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			.button-emoji {
+				@include outline-button;
+				width: 40px;
+				height: 40px;
+				padding: 0;
+				flex-shrink: 0;
+				.button-vue__text {
+					margin: 0;
+					font-size: $text-heading-3;
+				}
+			}
+			.collective-name-input {
+				@include input;
+				.input-field__main-wrapper {
+					input {
+						height: 40px !important;
+						color: $colour-forground;
+					}
+				}
+			}
+		}
+		.collective-name-error-placeholder:empty {
+			display: none;
+		}
+		.danger-zone-section {
+			#{css-module('formGroup__content')} {
+				.button-vue--error {
+					@include error-outline-button;
+					width: fit-content;
+				}
+			}
+		}
+		#{css-module('appSettingsDialogVersion')} {
+			margin: 0;
+			padding: 16px 0;
+			border-top: 1px solid $theme-divider;
+			font-size: $text-12;
+			line-height: $leading-16;
+			font-weight: $font-medium;
+			color: $colour-forground-1;
+		}
+	}
+}
+
+@mixin collectives-dialogs {
+	.templates-dialog {
+		.modal-header {
+			opacity: 0;
+		}
+		.modal-container.general-popup {
+			height: auto !important;
+			.dialog__wrapper,
+			.dialog__content {
+				flex: none;
+			}
+			.dialog__content {
+				min-height: 80px;
+				padding: 16px;
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+				ul {
+					display: flex;
+					flex-direction: column;
+					gap: 4px;
+				}
+			}
+			.template-list-item {
+				align-items: center;
+				gap: 8px;
+				padding: 6px 10px;
+				border-radius: $rounded-6;
+				.template-list-item-title {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				svg {
+					fill: $colour-forground-1;
+				}
+				&:hover {
+					background-color: $colour-gray-100;
+				}
+			}
+			.dialog__actions {
+				margin: 0;
+				padding: 16px;
+				border-top: 1px solid $theme-divider;
+				.button-vue--secondary {
+					@include primary-button;
+				}
+			}
+		}
+	}
+	.modal-container.general-popup:has(.tags-modal__input) {
+		height: auto;
+		.dialog__content {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			min-height: unset;
+			padding: 20px 16px 16px;
+		}
+		.tags-modal__input {
+			.input-field {
+				@include input;
+				.input-field__main-wrapper {
+					input {
+						height: 40px !important;
+						color: $colour-forground;
+					}
+					label {
+						margin-inline: 8px;
+						background-color: $colour-background;
+					}
+				}
+			}
+		}
+		.tags-modal__tags {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			li:empty {
+				display: none;
+			}
+		}
+		.tags-modal__tag {
+			align-items: center;
+			gap: 8px;
+			padding: 4px 8px;
+			border-radius: $rounded-6;
+			&:hover {
+				background-color: $colour-gray-100;
+			}
+			.tags-modal__tag-title {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.checkbox-radio-switch {
+				@include checkbox-radio-switch;
+				@include checkbox-radio-switch-icon;
+			}
+		}
+		.tags-modal__tag-create-subline {
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+	}
+}
+
+@mixin collectives-versions {
+	aside.app-sidebar {
+		.versions-container {
+			.version-list {
+				display: flex;
+				flex-direction: column;
+				padding: 0;
+				.list-item__wrapper {
+					padding: 0;
+					.list-item {
+						padding: 10px 8px;
+						border: 0;
+						border-bottom: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						background-color: transparent;
+						.version-icon {
+							svg {
+								fill: $colour-forground-1;
+							}
+						}
+						.version-info__label {
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-semibold;
+							color: $colour-forground;
+						}
+						.version-info__subline {
+							gap: 4px;
+							font-size: $text-12;
+							line-height: $leading-16;
+							color: $colour-forground-1;
+						}
+						.action-item__menutoggle {
+							background-color: transparent;
+							svg {
+								fill: $colour-forground-1;
+							}
+						}
+					}
+					&.list-item__wrapper--active {
+						.list-item {
+							background-color: transparent !important;
+						}
+					}
+				}
+			}
+		}
+	}
+}

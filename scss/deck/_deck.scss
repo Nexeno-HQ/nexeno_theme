@@ -1,0 +1,2050 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+@use '../ui/detail-sidebar' as detside;
+
+@mixin deck-settings {
+	.modal-container.general-popup:has(.general-settings-section) {
+		.app-settings__content {
+			section {
+				.app-settings-section__content {
+					display: flex;
+					flex-direction: column;
+					gap: 12px;
+					margin-top: 16px;
+					p {
+						margin: 0;
+						font-size: $text-12;
+						line-height: $leading-16;
+						color: $colour-forground-1;
+					}
+				}
+			}
+		}
+		#{css-module('formBoxItem')} {
+			min-height: unset;
+		}
+		#settings-section_admin-settings {
+			p {
+				margin: 0;
+			}
+		}
+	}
+}
+
+@mixin deck-dialogs {
+	body:has(.app-deck) {
+		.modal-container.general-popup {
+			&:has(.modal__content .checkbox-radio-switch):not(:has(.modal__card)) {
+				.dialog__content {
+					padding: 0;
+				}
+				.modal__content {
+					display: flex;
+					flex-direction: column;
+					gap: 12px;
+					margin: 0;
+					padding: 20px;
+					.checkbox-radio-switch {
+						@include checkbox-radio-switch;
+						@include checkbox-radio-switch-icon;
+						.checkbox-content {
+							align-items: center;
+							background-color: transparent;
+						}
+					}
+					.note {
+						margin: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-normal;
+						color: $colour-forground-1;
+					}
+					.accordion {
+						display: flex;
+						flex-direction: column;
+						gap: 12px;
+						.accordion__toggle {
+							display: flex;
+							align-items: center;
+							gap: 6px;
+							margin: 0;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground;
+							&:hover {
+								color: $colour-blue-600;
+							}
+						}
+						.accordion__content {
+							display: flex;
+							flex-direction: column;
+							gap: 12px;
+						}
+					}
+				}
+				.dialog__actions {
+					margin: 0;
+					padding: 12px 16px;
+					gap: 8px;
+					justify-content: flex-end;
+					border-top: 1px solid $theme-divider;
+					.button-vue--primary,
+					.button-vue--vue-primary {
+						@include primary-button;
+					}
+					.button-vue--secondary,
+					.button-vue--vue-secondary {
+						@include outline-button;
+					}
+				}
+			}
+			&:has(.nc-generic-dialog) {
+				.dialog__actions {
+					.button-vue--tertiary {
+						@include outline-button;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin deck-activity-list {
+	.activity-list {
+		margin-bottom: 0;
+		.activity {
+			border-bottom: 1px solid $theme-divider;
+			&:last-child {
+				border-bottom: 0;
+			}
+		}
+		.activity--header {
+			gap: 10px;
+			padding: 12px 0;
+		}
+		.activity--icon {
+			margin-top: 2px;
+		}
+		.activity--subject {
+			margin: 0;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			color: $colour-forground-1;
+			a {
+				font-weight: $font-medium;
+				color: $colour-forground;
+				text-decoration: none;
+				&:hover {
+					color: $colour-blue-600;
+				}
+			}
+		}
+		.activity--timestamp {
+			flex-grow: 0;
+			flex-shrink: 0;
+			padding: 0;
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+			white-space: nowrap;
+		}
+	}
+}
+
+@mixin deck-sidebar {
+	.app-deck {
+		aside.app-sidebar {
+			.app-sidebar-tabs__nav {
+				.checkbox-radio-switch-button {
+					.checkbox-content {
+						align-items: center;
+						.checkbox-content__icon {
+							.material-design-icon {
+								width: 16px;
+								height: 16px;
+								svg {
+									width: 16px;
+									height: 16px;
+									fill: $colour-forground;
+								}
+							}
+						}
+						.checkbox-content__wrapper {
+							flex: none;
+						}
+						.checkbox-content__text {
+							white-space: nowrap !important;
+						}
+						.app-sidebar-tabs__tab-caption {
+							white-space: nowrap !important;
+						}
+					}
+					&:hover,
+					&.checkbox-radio-switch--checked {
+						.checkbox-content__icon {
+							.material-design-icon {
+								svg {
+									fill: $colour-forground-white;
+								}
+							}
+						}
+					}
+				}
+			}
+			.app-sidebar__tab {
+				padding: 0;
+			}
+			#tab-sharing {
+				.v-select {
+					display: flex;
+					flex-direction: column;
+					gap: 6px;
+					.select__label {
+						margin: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					.vs__dropdown-toggle {
+						align-items: center;
+						height: 36px;
+						min-height: 36px;
+						padding: 0 8px 0 4px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						box-shadow: none;
+					}
+					.vs__selected-options {
+						align-items: center;
+					}
+					.vs__search {
+						height: 28px !important;
+						margin: 0;
+						font-size: $text-heading-5;
+						&::placeholder {
+							font-size: $text-heading-5;
+							color: $colour-forground-1;
+						}
+					}
+					.vs__actions {
+						svg {
+							width: 16px;
+							height: 16px;
+							fill: $colour-forground-1;
+						}
+					}
+					&.vs--open {
+						.vs__dropdown-toggle {
+							border-color: $colour-blue-600;
+						}
+					}
+				}
+			}
+			.shareWithList {
+				margin: 16px 0 0;
+				li {
+					gap: 12px;
+					padding-block: 8px;
+					border-bottom: 1px solid $theme-divider;
+					&:last-child {
+						border-bottom: 0;
+					}
+				}
+				.avatardiv {
+					flex-shrink: 0;
+				}
+				.username {
+					padding: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.board-owner-label {
+					margin-inline-start: 4px;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-normal;
+					color: $colour-forground-1;
+					opacity: 1;
+				}
+			}
+			ul.labels {
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+				li {
+					height: auto;
+					margin: 0;
+					padding: 4px 4px 4px 8px;
+					gap: 4px;
+					align-items: center;
+					border-radius: $rounded-6;
+					&:hover {
+						background-color: $colour-gray-100;
+						border-radius: $rounded-6;
+					}
+					.label-title {
+						padding: 0;
+						span {
+							display: inline-block;
+							padding: 2px 10px;
+							border-radius: $rounded-full;
+							font-size: $text-12;
+							line-height: $leading-16;
+							font-weight: $font-medium;
+						}
+					}
+					.button-vue {
+						width: 32px;
+						height: 32px;
+						min-width: 32px;
+						min-height: 32px;
+						margin: 0;
+						border-radius: $rounded-6;
+						.icon {
+							width: 16px;
+							height: 16px;
+							background-size: 16px;
+							filter: $filter-forground-1;
+						}
+						&:hover {
+							background-color: $colour-background;
+							.icon {
+								filter: $filter-primry-600;
+							}
+						}
+					}
+					&.editing {
+						display: flex;
+						flex-direction: column;
+						align-items: stretch;
+						gap: 6px;
+						padding: 8px;
+						background-color: $colour-gray-100;
+						p {
+							margin: 0;
+							font-size: $text-12;
+							line-height: $leading-16;
+							color: $colour-red-600;
+						}
+					}
+				}
+				.label-form {
+					align-items: center;
+					gap: 6px;
+					.color-picker-wrapper {
+						width: 32px;
+						height: 32px;
+						padding: 0;
+						flex-shrink: 0;
+						.color0 {
+							width: 32px;
+							height: 32px;
+						}
+					}
+					input[type=text] {
+						height: 32px;
+						min-height: 32px;
+						margin: 0;
+						padding: 0 10px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						background-color: $colour-background;
+						font-size: $text-heading-5;
+						color: $colour-forground;
+						box-shadow: none;
+						&:focus {
+							border-color: $colour-blue-600;
+						}
+					}
+					input[type=submit] {
+						width: 32px;
+						height: 32px;
+						min-height: 32px;
+						margin: 0;
+						border: 1px solid;
+						border-color: $theme-divider !important;
+						border-radius: $rounded-6 !important;
+						background-color: $colour-background;
+						background-size: 16px;
+					}
+				}
+				> button {
+					@include outline-button;
+					display: flex;
+					align-items: center;
+					gap: 6px;
+					width: fit-content;
+					margin: 8px 0 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+					.icon-add {
+						width: 16px;
+						height: 16px;
+						background-size: 16px;
+					}
+					&:hover {
+						color: $colour-blue-600;
+						.icon-add {
+							filter: $filter-primry-600;
+						}
+					}
+				}
+			}
+			#tab-deleted {
+				h5 {
+					margin: 0 0 8px;
+					font-size: $text-heading-4;
+					line-height: $leading-24;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				ul {
+					margin-bottom: 16px;
+					li {
+						align-items: center;
+						gap: 8px;
+						padding-block: 8px;
+						border-bottom: 1px solid $theme-divider;
+					}
+					.title {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+						.timestamp {
+							margin: 0;
+							font-size: $text-12;
+							line-height: $leading-16;
+							color: $colour-forground-1;
+						}
+					}
+				}
+			}
+			@include deck-activity-list;
+		}
+	}
+}
+
+@mixin deck-icon-button($bordered: true) {
+	--button-size: 34px;
+	border-radius: $rounded-8;
+	background-color: transparent;
+	transition: all ease-in-out 300ms;
+	@if $bordered {
+		border: 1px solid $theme-divider;
+		background-color: $colour-background;
+	}
+	.button-vue__icon {
+		.material-design-icon {
+			width: 16px;
+			height: 16px;
+			svg {
+				width: 16px;
+				height: 16px;
+				fill: $colour-forground-1;
+			}
+		}
+		.icon {
+			width: 16px;
+			height: 16px;
+			background-size: 16px;
+			filter: $filter-forground-1;
+			opacity: 1;
+		}
+	}
+	&:hover {
+		background-color: $colour-primary-50;
+		@if $bordered {
+			border-color: $colour-blue-600;
+		}
+		.button-vue__icon {
+			.material-design-icon {
+				svg {
+					fill: $colour-blue-600;
+				}
+			}
+			.icon {
+				filter: $filter-primry-600;
+			}
+		}
+	}
+}
+
+@mixin deck-field-text {
+	font-size: $text-heading-5;
+	line-height: $leading-20;
+	font-weight: $font-medium;
+	color: $colour-forground;
+	&::placeholder {
+		font-size: $text-heading-5;
+		font-weight: $font-medium;
+		color: $colour-forground-1;
+	}
+}
+
+@mixin deck-inline-form {
+	display: flex;
+	align-items: center;
+	input[type=text] {
+		height: 34px;
+		min-height: 34px;
+		margin: 0;
+		padding: 0 10px;
+		border: 1px solid $theme-divider;
+		border-radius: $rounded-6 0 0 $rounded-6;
+		background-color: $colour-background;
+		box-shadow: none;
+		outline: 0;
+		@include deck-field-text;
+		&:focus {
+			border-color: $colour-blue-600;
+		}
+	}
+	&:focus-within {
+		input.icon-confirm {
+			border-color: $colour-blue-600 !important;
+		}
+	}
+	input.icon-confirm {
+		width: 34px;
+		min-width: 34px;
+		height: 34px;
+		min-height: 34px;
+		margin: 0;
+		padding: 0;
+		border: 1px solid $theme-divider !important;
+		border-inline-start: 0 !important;
+		border-radius: 0 $rounded-6 $rounded-6 0;
+		background-color: $colour-background;
+		background-size: 12px;
+		filter: none;
+		&:hover {
+			background-color: $colour-primary-50;
+		}
+	}
+}
+
+@mixin deck-card {
+	.card {
+		gap: 8px;
+		padding: 12px;
+		border: 1px solid $theme-divider;
+		border-radius: $rounded-6;
+		box-shadow: none;
+		&:hover,
+		&:focus,
+		&:focus-visible,
+		&:focus-within,
+		&.current-card {
+			border: 1px solid $theme-divider;
+			outline: 0;
+		}
+		&:has(.clock-outline-icon) {
+			--deck-status: #{$colour-blue-600};
+		}
+		&:has(.clock-icon) {
+			--deck-status: #{$colour-red-600};
+		}
+		&:has(.check-circle-icon) {
+			--deck-status: #{$colour-green-700};
+		}
+		&:has(.duedate) {
+			.card-upper {
+				h4 {
+					display: flex;
+					align-items: baseline;
+					gap: 8px;
+					&::before {
+						content: '';
+						flex-shrink: 0;
+						width: 8px;
+						height: 8px;
+						border-radius: $rounded-full;
+						background-color: var(--deck-status);
+					}
+				}
+			}
+		}
+		&.card__archived {
+			background-color: $colour-gray-100;
+		}
+		.card-cover {
+			height: 100px;
+			margin: -12px -12px 0;
+			.image-wrapper {
+				background-color: $colour-gray-100;
+			}
+		}
+		.card-related {
+			align-items: center;
+			gap: 6px;
+			padding: 0;
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+			.board-bullet {
+				width: 8px;
+				height: 8px;
+				margin: 0;
+			}
+			& + .card-cover {
+				margin-top: 0;
+			}
+		}
+		.card-upper {
+			gap: 8px;
+			h4 {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				&.editable {
+					&:focus-within {
+						padding: 4px 8px;
+						outline: 1px solid $colour-blue-600;
+						outline-offset: 0;
+						border-radius: $rounded-4;
+					}
+				}
+			}
+		}
+		.card-labels {
+			.labels {
+				gap: 4px;
+			}
+		}
+		&:not(.compact) {
+			.card-labels {
+				.labels {
+					li {
+						position: relative;
+						isolation: isolate;
+						margin: 0;
+						padding: 2px 8px;
+						border-radius: $rounded-full;
+						&::after {
+							content: '';
+							position: absolute;
+							inset: 1px;
+							z-index: -1;
+							border-radius: $rounded-full;
+							background-color: $colour-background;
+						}
+						span {
+							background-color: inherit;
+							-webkit-background-clip: text;
+							background-clip: text;
+							color: transparent;
+							font-size: $text-12;
+							line-height: $leading-16;
+							font-weight: $font-medium;
+						}
+					}
+				}
+			}
+		}
+		&.compact {
+			.card-labels {
+				.labels {
+					li {
+						border-radius: $rounded-full;
+					}
+				}
+			}
+		}
+		.badges {
+			align-items: center;
+			gap: 12px;
+		}
+		.badge-left {
+			gap: 8px 10px;
+		}
+		.inline-badges {
+			align-items: center;
+			gap: 8px;
+			height: auto;
+		}
+		.icon-badge {
+			gap: 2px;
+			margin: 0;
+			color: $colour-forground-1;
+			.material-design-icon {
+				width: 14px;
+				height: 14px;
+				svg {
+					width: 14px;
+					height: 14px;
+				}
+			}
+			span {
+				padding: 0;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+			}
+		}
+		.duedate {
+			color: $colour-forground-1;
+			.due {
+				gap: 4px;
+				padding: 2px 8px;
+				border-radius: $rounded-full;
+				.material-design-icon {
+					width: 14px;
+					height: 14px;
+					svg {
+						width: 14px;
+						height: 14px;
+					}
+				}
+				.due--label {
+					margin: 0;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+				}
+				&:has(.clock-icon) {
+					background-color: $colour-red-50;
+					color: $colour-red-600;
+				}
+				&:has(.check-circle-icon) {
+					background-color: $colour-green-50;
+					color: $colour-green-700;
+				}
+			}
+		}
+		.badge-right {
+			align-self: center;
+			gap: 4px;
+			.avatar-list {
+				height: auto;
+				min-height: unset;
+				margin: 0;
+				padding: 0;
+				border-radius: $rounded-full;
+				background-color: transparent;
+				&:hover,
+				&:focus-visible {
+					background-color: transparent;
+				}
+				> div {
+					display: flex;
+					align-items: center;
+					height: auto;
+				}
+				.avatardiv {
+					width: 24px;
+					height: 24px;
+					margin-inline-end: -8px;
+					border: 0;
+					box-shadow: none;
+					&:last-child {
+						margin-inline-end: 0;
+					}
+					img {
+						width: 24px;
+						height: 24px;
+					}
+					.avatardiv__initials-wrapper {
+						width: 24px;
+						height: 24px;
+					}
+					.avatardiv__initials {
+						font-size: $text-12;
+						line-height: 24px;
+					}
+				}
+			}
+		}
+		.card-menu {
+			.action-item__menutoggle,
+			.button-vue--tertiary {
+				@include deck-icon-button(false);
+				--button-size: 28px;
+			}
+		}
+	}
+}
+
+@mixin deck-main {
+	.app-deck {
+		main.app-content {
+			background-color: $main-page-bg;
+			@include deck-card;
+			.controls {
+				align-items: center;
+				gap: 12px;
+				height: auto;
+				min-height: 53px;
+				margin: 0 0 16px;
+				padding: 8px 16px 8px 48px;
+				border-bottom: 1px solid $theme-divider;
+				.board-title {
+					gap: 8px;
+					min-width: 0;
+					h2 {
+						margin: 0;
+						font-size: $text-heading-3;
+						line-height: $leading-28;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+					p {
+						margin: 0;
+						font-size: $text-12;
+						line-height: $leading-16;
+						font-weight: $font-medium;
+						color: $colour-forground-1;
+					}
+					.board-bullet {
+						flex-shrink: 0;
+						width: 12px;
+						height: 12px;
+						margin: 0;
+						&.icon-calendar-dark {
+							width: 18px;
+							height: 18px;
+							background-size: 18px;
+							border-radius: 0;
+							filter: $filter-forground;
+						}
+					}
+					.action-item--single {
+						@include deck-icon-button;
+					}
+				}
+				.board-actions {
+					align-items: center;
+					gap: 8px;
+				}
+				#stack-add {
+					.action-item--single {
+						@include deck-icon-button;
+					}
+					form {
+						@include deck-inline-form;
+						#new-stack-input-main {
+							width: 200px;
+							margin: 0;
+						}
+					}
+				}
+				.board-action-buttons {
+					align-items: center;
+					gap: 8px;
+					.action-item__menutoggle,
+					.action-item--single,
+					.filter-button {
+						@include deck-icon-button;
+					}
+					.filter-button {
+						&.button-vue--vue-primary {
+							border-color: $colour-blue-600;
+							background-color: $colour-blue-600;
+							.button-vue__icon {
+								.material-design-icon {
+									svg {
+										fill: $colour-forground-white;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			.board {
+				@include module-scrollbar;
+				.smooth-dnd-container {
+					&.horizontal {
+						gap: 16px;
+						padding: 0 16px 16px;
+					}
+				}
+			}
+			.stack {
+				padding: 0;
+				&.stack--done-column {
+					.stack__header--done-column {
+						border-bottom: 2px solid $colour-green-700;
+					}
+				}
+				.stack__header {
+					flex-shrink: 0;
+					align-items: center;
+					gap: 4px;
+					height: 44px;
+					background-color: $main-page-bg;
+					&::before {
+						display: none;
+					}
+					h3 {
+						padding: 0 4px;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+					.stack__done-icon {
+						color: $colour-green-700;
+					}
+					form {
+						@include deck-inline-form;
+						input[type=text] {
+							font-weight: $font-semibold;
+						}
+					}
+					.action-item__menutoggle,
+					.action-item--single {
+						@include deck-icon-button(false);
+						--button-size: 30px;
+					}
+				}
+				.dnd-container {
+					@include noscrollbar;
+					gap: 8px;
+					padding-top: 4px;
+				}
+				.stack__card-add {
+					padding-bottom: 12px;
+					background-color: $main-page-bg;
+					&::before {
+						display: none;
+					}
+					form {
+						padding: 0;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-8;
+						background-color: $colour-background;
+						&:focus-within {
+							border-color: $colour-blue-600;
+						}
+					}
+					input[type=text] {
+						height: 34px;
+						min-height: 34px;
+						padding: 0 10px;
+						background-color: transparent;
+						box-shadow: none;
+						@include deck-field-text;
+					}
+					input.icon-confirm {
+						width: 34px;
+						min-width: 34px;
+						height: 34px;
+						min-height: 34px;
+						background-color: transparent;
+						background-size: 12px;
+					}
+				}
+			}
+			.overview {
+				@include module-scrollbar;
+				gap: 16px;
+				padding: 0 16px 16px;
+				.dashboard-column {
+					padding: 0;
+					.dashboard-column__header {
+						flex-shrink: 0;
+						align-items: center;
+						height: 44px;
+						background-color: $main-page-bg;
+						&::before {
+							display: none;
+						}
+					}
+					.dashboard-column__header-title {
+						margin: 0;
+						padding: 0 4px;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+					.dashboard-column__list {
+						@include noscrollbar;
+						gap: 8px;
+						padding-top: 4px;
+					}
+				}
+			}
+			.board-list {
+				margin-top: 0;
+				padding: 0 16px 16px;
+				.board-list-row {
+					min-height: 56px;
+					border-bottom: 1px solid $theme-divider;
+					color: $colour-forground;
+					&:hover {
+						background-color: $colour-gray-100;
+					}
+					&.board-list-header-row {
+						min-height: 40px;
+						height: 40px;
+						font-size: $text-12;
+						line-height: $leading-16;
+						font-weight: $font-medium;
+						color: $colour-forground-1;
+						&:hover {
+							background-color: transparent;
+						}
+						.board-list-bullet {
+							display: none;
+						}
+					}
+				}
+				.board-list-bullet-cell {
+					display: flex;
+					justify-content: center;
+					width: 48px;
+					padding: 0;
+				}
+				.board-list-bullet {
+					width: 12px;
+					height: 12px;
+				}
+				.board-list-title-cell {
+					padding: 0 12px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+				}
+				.board-list-avatars-cell {
+					align-items: center;
+					padding: 0 16px;
+					.board-list-avatar {
+						width: 28px;
+						height: 28px;
+						margin-inline-start: -6px;
+						border: 2px solid $colour-background;
+					}
+				}
+			}
+			.empty-content {
+				.empty-content__icon {
+					opacity: 1;
+					svg {
+						fill: $colour-forground-1;
+					}
+				}
+				.empty-content__name {
+					font-size: $text-heading-4;
+					line-height: $leading-24;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.empty-content__description,
+				.empty-content__action {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+				form {
+					align-items: center;
+					gap: 8px;
+					margin-top: 16px;
+					.input-field {
+						@include input;
+						.input-field__main-wrapper {
+							input {
+								height: 34px !important;
+								padding: 0 10px;
+							}
+						}
+					}
+				}
+			}
+			.emptycontent {
+				h2 {
+					font-size: $text-heading-4;
+					line-height: $leading-24;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+			}
+			.gantt-wrapper {
+				padding: 0 16px 16px;
+				.gantt-toolbar {
+					gap: 8px;
+					padding: 0 0 12px;
+					.button-vue--vue-secondary {
+						@include outline-button;
+					}
+					.button-vue--vue-primary {
+						@include primary-button;
+					}
+				}
+				.gantt-container {
+					--g-header-background: #{$main-page-bg-dashboard};
+					--g-row-color: #{$colour-background};
+					--g-border-color: #{$theme-divider};
+					--g-row-border-color: #{$theme-divider-2};
+					--g-tick-color: #{$theme-divider-2};
+					--g-tick-color-thick: #{$theme-divider};
+					--g-weekend-highlight-color: #{$colour-gray-100};
+					--g-text-dark: #{$colour-forground};
+					--g-text-light: #{$colour-forground};
+					--g-text-muted: #{$colour-forground-1};
+					--g-weekend-label-color: #{$colour-forground-1};
+					--g-today-highlight: #{$colour-blue-600};
+					--g-actions-background: #{$colour-gray-100};
+					--g-progress-color: #{$colour-blue-600};
+					--g-handle-color: #{$colour-blue-600};
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-8;
+					.upper-text {
+						font-size: $text-heading-5;
+						font-weight: $font-semibold;
+					}
+					.side-header {
+						button {
+							padding: 4px 10px;
+							border: 1px solid $theme-divider;
+							border-radius: $rounded-6;
+							background-color: $colour-background;
+							font-size: $text-12;
+							line-height: $leading-16;
+							font-weight: $font-medium;
+							color: $colour-forground;
+							&:hover {
+								border-color: $colour-blue-600;
+								color: $colour-blue-600;
+							}
+						}
+					}
+				}
+				.gantt-undated {
+					border-top: 1px solid $theme-divider;
+					.button-vue--tertiary {
+						.button-vue__text {
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-semibold;
+							color: $colour-forground;
+						}
+						.button-vue__icon {
+							svg {
+								fill: $colour-forground-1;
+							}
+						}
+						&:hover {
+							background-color: transparent;
+							.button-vue__text {
+								color: $colour-blue-600;
+							}
+						}
+					}
+				}
+				.gantt-undated__card {
+					gap: 8px;
+					border-radius: $rounded-6;
+					&:hover {
+						background-color: $colour-gray-100;
+					}
+				}
+				.gantt-undated__title {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.gantt-undated__stack-name {
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+				.gantt-legend {
+					gap: 16px;
+					border-top: 1px solid $theme-divider;
+				}
+				.gantt-legend__item {
+					gap: 6px;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+				}
+			}
+			.global-search {
+				padding: 16px 16px 0;
+				border-top: 1px solid $theme-divider;
+				.search-header {
+					align-items: center;
+					margin-bottom: 12px;
+					h2 {
+						padding: 0;
+						font-size: $text-heading-4;
+						line-height: $leading-24;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+					.action-item--single,
+					.button-vue--tertiary {
+						@include deck-icon-button;
+					}
+				}
+				.search-wrapper {
+					gap: 8px;
+					p {
+						margin: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground-1;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin deck-filter-popover {
+	.v-popper__inner {
+		.filter {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+			box-sizing: border-box;
+			width: 260px;
+			padding: 12px;
+			overflow-x: hidden;
+			@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			h3 {
+				margin: 12px 0 4px;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-semibold;
+				color: $colour-forground-1;
+				&:first-child {
+					margin-top: 0;
+				}
+			}
+			.filter--item {
+				@include secondary-checkbox;
+				input {
+					&.radio {
+						+ label {
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							color: $colour-forground;
+							&::before {
+								width: 14px;
+								height: 14px;
+								border: 1px solid $theme-divider;
+							}
+						}
+						&:checked {
+							+ label {
+								&::before {
+									border-color: $colour-blue-600;
+								}
+							}
+						}
+					}
+					+ label {
+						display: flex;
+						align-items: center;
+						gap: 6px;
+						padding: 4px 0;
+						.label {
+							padding: 2px 8px;
+							border-radius: $rounded-full;
+							font-size: $text-12;
+							line-height: $leading-16;
+							font-weight: $font-medium;
+						}
+						.avatardiv {
+							margin: 0;
+						}
+					}
+				}
+			}
+			.button-vue {
+				@include outline-button;
+				margin-top: 12px;
+				&:disabled {
+					opacity: 0.5;
+				}
+			}
+		}
+	}
+}
+
+@mixin deck-card-fields {
+	.selector-wrapper {
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 12px;
+		.selector-wrapper--icon {
+			display: flex;
+			flex-shrink: 0;
+			width: 20px;
+			min-width: 20px;
+			.material-design-icon {
+				width: 18px;
+				height: 18px;
+				svg {
+					width: 18px;
+					height: 18px;
+					fill: $colour-forground-1;
+				}
+			}
+		}
+		.selector-wrapper--content {
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 8px;
+		}
+		.v-select {
+			.vs__dropdown-toggle {
+				align-items: center;
+				min-height: 36px;
+				padding: 2px 8px 2px 4px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				box-shadow: none;
+				background-color: $colour-background;
+			}
+			.vs__selected-options {
+				align-items: center;
+				gap: 4px;
+			}
+			.vs__selected {
+				gap: 4px;
+				height: 28px;
+				margin: 0 !important;
+				padding: 0 4px 0 0;
+				border: 0 !important;
+				background-color: transparent !important;
+				color: $colour-forground;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				.tag {
+					position: relative;
+					margin: 0;
+					padding: 2px 8px;
+					border-radius: $rounded-full;
+					-webkit-background-clip: text;
+					background-clip: text;
+					color: transparent !important;
+					&::before {
+						content: '';
+						position: absolute;
+						inset: 0;
+						padding: 1px;
+						border-radius: inherit;
+						background-color: inherit;
+						pointer-events: none;
+						-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+						-webkit-mask-composite: xor;
+						mask-composite: exclude;
+					}
+				}
+				.vs__deselect {
+					svg {
+						width: 14px;
+						height: 14px;
+					}
+				}
+			}
+			.vs__search {
+				height: 28px !important;
+				min-height: 0;
+				margin: 0;
+				@include deck-field-text;
+			}
+			.vs__actions {
+				svg {
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+			}
+			&.vs--open {
+				.vs__dropdown-toggle {
+					border-color: $colour-blue-600;
+				}
+			}
+			&.vs--disabled {
+				.vs__dropdown-toggle {
+					background-color: $colour-gray-100;
+					cursor: not-allowed;
+				}
+				.vs__search {
+					border-color: transparent;
+					background-color: transparent;
+				}
+			}
+			&.user-select {
+				.vs__selected {
+					padding-inline-start: 0;
+				}
+				.option {
+					gap: 6px;
+				}
+				.option__avatar {
+					margin: 0;
+				}
+			}
+			&.vs--single {
+				min-width: 0 !important;
+				.vs__selected-options {
+					min-width: 0;
+				}
+				.vs__selected {
+					display: block;
+					padding: 0 8px;
+					border: 0 !important;
+					background-color: transparent;
+					font-size: $text-heading-5;
+					line-height: 28px;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+				.board-bullet {
+					display: inline-block;
+					width: 8px;
+					height: 8px;
+					margin-inline-end: 6px;
+					border-radius: $rounded-full;
+				}
+			}
+		}
+		.native-datetime-picker {
+			input {
+				@include datepicker;
+				height: 34px !important;
+			}
+		}
+		.action-item__menutoggle {
+			@include deck-icon-button;
+			&.button-vue--icon-and-text {
+				@include outline-button;
+				--button-size: 34px;
+			}
+		}
+		.button-vue--tertiary {
+			&.button-vue--icon-and-text {
+				@include outline-button;
+			}
+			&.button-vue--icon-only {
+				@include deck-icon-button(false);
+			}
+		}
+		.button-vue--secondary,
+		.button-vue--vue-secondary {
+			@include outline-button;
+		}
+		.done-info,
+		.start-info {
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground;
+		}
+		.done-info--duedate {
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+	}
+	h5 {
+		align-items: center;
+		gap: 4px;
+		margin: 16px 0 8px;
+		padding: 0;
+		border-bottom: 0;
+		font-size: $text-heading-5;
+		line-height: $leading-20;
+		font-weight: $font-semibold;
+		color: $colour-forground;
+		span {
+			font-size: $text-12;
+			font-weight: $font-normal;
+			color: $colour-forground-1;
+		}
+	}
+	.description__text {
+		border: 1px solid $theme-divider;
+		border-radius: $rounded-8;
+		overflow: hidden;
+		.text-menubar {
+			top: 0 !important;
+			border-bottom: 1px solid $theme-divider;
+			border-radius: $rounded-8 $rounded-8 0 0;
+			background-color: $main-page-bg-dashboard;
+		}
+	}
+}
+
+@mixin deck-card-tabs {
+	#tab-details {
+		@include deck-card-fields;
+	}
+	#tab-attachments {
+		.button-group {
+			gap: 8px;
+			margin-bottom: 12px;
+			.button-vue {
+				@include outline-button;
+				flex: 1;
+				background-position: 12px center;
+				background-size: 16px;
+			}
+		}
+		.attachment-list {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			.attachment {
+				align-items: center;
+				gap: 12px;
+				padding: 8px 8px 8px 12px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-8;
+				transition: border-color ease-in-out 300ms;
+				&:hover {
+					border-color: $colour-blue-600;
+					background-color: $colour-primary-50;
+				}
+				&.attachment--deleted {
+					opacity: 0.6;
+				}
+			}
+			.fileicon {
+				flex-shrink: 0;
+				width: 40px;
+				height: 40px;
+				border-radius: $rounded-6;
+				background-size: cover;
+			}
+			.details {
+				min-width: 0;
+				a {
+					display: flex;
+					flex-direction: column;
+					gap: 2px;
+				}
+			}
+			.action-item__menutoggle {
+				@include deck-icon-button;
+			}
+			.filename {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				.extension {
+					color: $colour-forground-1;
+				}
+			}
+			.filesize,
+			.filedate,
+			.attachment--info {
+				margin-inline-end: 6px;
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+		}
+	}
+	#tab-comments {
+		.comment--header {
+			align-items: center;
+			gap: 8px;
+			.username {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.timestamp {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			.action-item__menutoggle,
+			.action-item--single {
+				@include deck-icon-button(false);
+				--button-size: 28px;
+			}
+		}
+		.reply--hint {
+			display: flex;
+			align-items: center;
+			gap: 4px;
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+		.reply--cancel {
+			.action-item--single {
+				@include deck-icon-button(false);
+				--button-size: 28px;
+			}
+		}
+		.comment-form {
+			margin: 12px 0 16px;
+			.rich-contenteditable__input {
+				min-height: 36px;
+				padding: 7px 40px 7px 10px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				box-shadow: none;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground;
+				&:focus {
+					border-color: $colour-blue-600;
+				}
+			}
+			.comment-form__submit {
+				svg {
+					fill: $colour-blue-600;
+				}
+			}
+		}
+		#commentsFeed {
+			.comment {
+				display: block;
+				padding-block: 12px;
+				border-bottom: 1px solid $theme-divider;
+				&:last-child {
+					border-bottom: 0;
+				}
+			}
+			.comment--content {
+				margin-top: 4px;
+				padding-inline-start: 40px;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground;
+			}
+			.reply {
+				margin-inline-start: 40px;
+				border-inline-start: 2px solid $colour-blue-600;
+				border-radius: $rounded-4;
+				background-color: $colour-gray-100;
+			}
+		}
+		.emptycontent {
+			margin-top: 0;
+			padding: 48px 0;
+			.icon-comment {
+				width: 48px;
+				height: 48px;
+				background-size: 48px;
+				filter: $filter-forground-1;
+				opacity: 1;
+			}
+			p {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+		}
+	}
+	@include deck-activity-list;
+}
+
+@mixin deck-modals {
+	body:has(.app-deck) {
+		.modal-mask {
+			&:has(.modal__card) {
+				.modal-header {
+					display: none !important;
+				}
+			}
+		}
+		.vs__dropdown-menu {
+			@include select-dropdown-menu;
+		}
+		.color-picker__clear {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 34px;
+			height: 34px;
+			.icon-vue {
+				width: 34px;
+				height: 34px;
+				svg {
+					width: 34px;
+					height: 34px;
+					max-width: 34px;
+					max-height: 34px;
+				}
+			}
+		}
+		aside.app-sidebar {
+			@include deck-card-tabs;
+			.app-sidebar-header {
+				.app-sidebar-header__mainname-container {
+					.app-sidebar-header__mainname {
+						text-transform: none;
+					}
+				}
+			}
+		}
+		.modal-container {
+			&:has(.modal__card) {
+				border-radius: $rounded-12;
+				.modal-container__close {
+					display: none;
+				}
+				.modal__card {
+					height: 100%;
+					margin: 0;
+					padding: 0;
+					aside.app-sidebar {
+						box-sizing: border-box;
+						width: 100%;
+						min-width: 100%;
+						max-width: 100%;
+						height: 100%;
+						padding: 0;
+						background-color: $colour-background;
+						.app-sidebar-header {
+							padding: 16px 20px 0;
+						}
+						.app-sidebar-header__desc {
+							padding-inline-start: 0;
+						}
+						.app-sidebar-header__mainname-container {
+							padding-top: 0;
+						}
+						.app-sidebar-header__menu {
+							top: 8px;
+						}
+						.app-sidebar-header__mainname-form {
+							gap: 8px;
+							margin: 0;
+							margin-inline-end: 8px;
+							button {
+								@include deck-icon-button(false);
+								.button-vue__icon {
+									.material-design-icon {
+										width: 16px;
+										height: 16px;
+										svg {
+											width: 16px;
+											height: 16px;
+										}
+									}
+								}
+							}
+						}
+						.app-sidebar-header__mainname {
+							font-size: $text-heading-2;
+							line-height: $leading-28;
+							font-weight: $font-semibold;
+							color: $colour-forground;
+						}
+						.app-sidebar-header__mainname-input {
+							height: 36px;
+							margin: 0;
+							padding: 0 10px;
+							border: 1px solid $theme-divider;
+							border-radius: $rounded-6;
+							box-shadow: none;
+							font-size: $text-heading-3;
+							font-weight: $font-semibold;
+							color: $colour-forground;
+							&:focus {
+								border-color: $colour-blue-600;
+							}
+						}
+						.app-sidebar__close {
+							top: 24px;
+							inset-inline-end: 20px;
+						}
+						.app-sidebar-header__subname {
+							font-size: $text-12;
+							line-height: $leading-16;
+							color: $colour-forground-1;
+							.user-bubble__content {
+								background-color: $colour-gray-100;
+							}
+						}
+						.app-sidebar-header__menu {
+							.action-item__menutoggle {
+								@include deck-icon-button;
+							}
+						}
+						.app-sidebar__close {
+							@include deck-icon-button;
+						}
+						.app-sidebar-tabs__nav {
+							@include detside.sidebar-tabs;
+							padding: 16px 20px 0;
+							.checkbox-content__icon {
+								.material-design-icon {
+									width: 16px;
+									height: 16px;
+									svg {
+										width: 16px;
+										height: 16px;
+										fill: $colour-forground;
+									}
+								}
+							}
+							.checkbox-radio-switch-button {
+								&:hover,
+								&.checkbox-radio-switch--checked {
+									.checkbox-content__icon {
+										.material-design-icon {
+											svg {
+												fill: $colour-forground-white;
+											}
+										}
+									}
+								}
+							}
+						}
+						.app-sidebar-tabs__content {
+							padding: 16px 0 0;
+						}
+						.app-sidebar__tab {
+							@include scrollbar($thumb-colour: $colour-scrollbar-main);
+							padding: 0 20px 20px;
+							border: 0;
+							box-shadow: none;
+							&:focus,
+							&:focus-visible {
+								border: 0;
+								box-shadow: none;
+								outline: 0;
+							}
+						}
+					}
+				}
+			}
+			&:has(#modal-inner) {
+				border-radius: $rounded-12;
+				.modal-scroller {
+					width: 100%;
+					margin: 0;
+					padding: 0;
+				}
+				#modal-inner {
+					display: flex;
+					flex-direction: column;
+					gap: 12px;
+					margin: 0;
+					padding: 0 16px;
+					@include deck-card-fields;
+					.selector-wrapper {
+						margin: 0;
+						.v-select {
+							margin: 0;
+						}
+					}
+					h2 {
+						margin: 0 -16px 4px;
+						padding: 16px;
+						border-bottom: 1px solid $theme-divider;
+						text-align: start;
+						font-size: $text-heading-3;
+						line-height: $leading-22;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+					input.card-title {
+						width: 100%;
+						height: 36px;
+						margin: 0;
+						padding: 0 10px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						box-shadow: none;
+						@include deck-field-text;
+						&:focus {
+							border-color: $colour-blue-600;
+						}
+					}
+					.row {
+						flex-direction: column;
+						gap: 12px;
+						.selector-wrapper {
+							width: 100%;
+							min-width: 0;
+						}
+					}
+					.modal-buttons {
+						gap: 8px;
+						margin: 4px -16px 0;
+						padding: 12px 16px;
+						border-top: 1px solid $theme-divider;
+						.button-vue--secondary,
+						.button-vue--vue-secondary {
+							@include outline-button;
+						}
+						.button-vue--primary,
+						.button-vue--vue-primary {
+							@include primary-button;
+						}
+					}
+					.empty-content {
+						.empty-content__name {
+							font-size: $text-heading-4;
+							line-height: $leading-24;
+							font-weight: $font-semibold;
+							color: $colour-forground;
+						}
+						.empty-content__action {
+							gap: 8px;
+						}
+						button {
+							height: 34px;
+							padding: 0 12px;
+							border: 1px solid $theme-divider;
+							border-radius: $rounded-6;
+							background-color: transparent;
+							font-size: $text-heading-5;
+							font-weight: $font-medium;
+							color: $colour-forground;
+							&.primary {
+								border-color: $colour-blue-600;
+								background-color: $colour-blue-600;
+								color: $colour-forground-white;
+							}
+						}
+					}
+				}
+			}
+			&:has(.modal__content > progress) {
+				border-radius: $rounded-12;
+				.modal__content {
+					margin: 0;
+					padding: 20px;
+					text-align: start;
+					h3 {
+						margin: 0 0 16px;
+						font-size: $text-heading-3;
+						line-height: $leading-28;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+					progress {
+						width: 100%;
+						height: 6px;
+						margin: 0 0 20px;
+						border: 0;
+						border-radius: $rounded-full;
+						background-color: $colour-gray-100;
+						&::-webkit-progress-bar {
+							border-radius: $rounded-full;
+							background-color: $colour-gray-100;
+						}
+						&::-webkit-progress-value {
+							border-radius: $rounded-full;
+							background-color: $colour-blue-600;
+						}
+					}
+					button {
+						height: 34px;
+						margin: 0 0 0 8px;
+						padding: 0 12px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						background-color: transparent;
+						font-size: $text-heading-5;
+						font-weight: $font-medium;
+						color: $colour-forground;
+						&:hover {
+							border-color: $colour-blue-600;
+							color: $colour-blue-600;
+						}
+						&.primary {
+							border-color: $colour-blue-600;
+							background-color: $colour-blue-600;
+							color: $colour-forground-white;
+							&:hover {
+								background-color: transparent;
+								color: $colour-blue-600;
+							}
+						}
+					}
+				}
+			}
+			&:has(.modal__content > .v-select) {
+				.dialog__content {
+					padding: 0;
+				}
+				.modal__content {
+					display: flex;
+					flex-direction: column;
+					gap: 12px;
+					margin: 0;
+					padding: 20px;
+					.v-select {
+						@include single-select(false);
+					}
+				}
+				.dialog__actions {
+					margin: 0;
+					padding: 12px 16px;
+					gap: 8px;
+					border-top: 1px solid $theme-divider;
+					.button-vue--secondary,
+					.button-vue--vue-secondary {
+						@include outline-button;
+					}
+					.button-vue--primary,
+					.button-vue--vue-primary {
+						@include primary-button;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin deck-navigation {
+	.app-deck {
+		.app-navigation {
+			.app-navigation-entry--deleted {
+				flex-wrap: nowrap;
+				align-items: center;
+				min-height: 40px;
+				border-radius: $rounded-6;
+				.app-navigation-entry__deleted {
+					align-items: center;
+					min-width: 0;
+					padding-inline-start: 12px !important;
+				}
+				.app-navigation-entry__deleted-description {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.app-navigation-entry__utils {
+					flex-shrink: 0;
+					padding-inline-end: 4px;
+				}
+				.app-navigation-entry__actions {
+					@include deck-icon-button(false);
+					display: inline-flex;
+				}
+			}
+		}
+	}
+}

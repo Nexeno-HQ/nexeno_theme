@@ -1,0 +1,21 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin themed {
+	#content{
+		&.app-nexeno_theme{
+			margin-inline: 0;
+			border-radius: 0;
+			width: 100%;
+			background: $main-page-bg-dashboard;
+			margin-bottom: 0;
+			padding-bottom: 8px;
+			margin-top: $header-height;
+			min-height: calc(100dvh - $header-height);
+		}
+	}
+}

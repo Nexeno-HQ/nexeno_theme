@@ -1,0 +1,384 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin personal-info {
+	&.personal-info{
+		#personal-settings{
+			padding: 0;
+			gap: 16px;
+			@media (max-width: $bp-576) {
+				gap: 12px;
+			}
+		}
+		#vue-avatar-section{
+			.headerbar-label{
+				margin-top: 0;
+				margin-bottom: 16px;
+				gap: 0;
+				@media (max-width: $bp-576) {
+					margin-bottom: 12px;
+				}
+				svg{
+					fill: $colour-forground;
+				}
+				.action-item{
+					margin-left: 0 !important;
+				}
+			}
+			.avatar__container{
+				margin: 0;
+				@media (max-width: $bp-512) {
+					margin-inline: auto;
+				}
+			}
+
+			.avatar__container{
+				> span{
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+			}
+		}
+		.personal-settings-setting-box-profile{
+			.checkbox-content{
+				padding: 0;
+				.checkbox-content__icon{
+					margin: 0;
+				}
+			}
+			.checkbox-content__text{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground;
+				font-weight: $font-medium;
+			}
+		}
+		label{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			color: $colour-forground-1;
+			font-weight: $font-medium;
+		}
+		em,
+		.property__helper-text-message{
+			margin-top: 4px;
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+			font-weight: $font-normal;
+			font-style: normal;
+			padding: 0;
+			display: flex;
+		}
+		.example__text{
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+			p{
+				margin: 0;
+			}
+			@media (max-width: $bp-576) {
+				display: flex;
+				gap: 4px;
+			}
+		}
+		.example{
+			margin-top: 8px;
+			align-items: center;
+			@media (max-width: $bp-576) {
+				margin-bottom: 0;
+			}
+			.material-design-icon{
+				width: 16px;
+				height: 16px;
+				svg{
+					width: 16px;
+					height: 16px;
+				}
+			}
+		}
+		.personal-settings-setting-box{
+			section{
+				padding: 0;
+			}
+			.headerbar-label {
+				margin-top: 0;
+				button {
+					margin-left: -8px !important;
+					&.button-vue--icon-and-text{
+						margin-left: auto !important;
+						.button-vue__wrapper{
+							gap: 6px;
+							.button-vue__icon{
+								width: 16px;
+								height: 16px;
+								min-width: unset;
+								min-height: unset;
+								svg{
+									width: 16px;
+									height: 16px;
+									fill: $colour-forground-1;
+								}
+							}
+							.button-vue__text{
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								margin: 0;
+								padding-inline-start: 0;
+								font-weight: $font-medium;
+								color: $colour-forground-1;
+										
+							}
+						}
+						&:hover{
+							background-color: transparent;
+							.button-vue__icon{
+								svg{
+									fill: $colour-forground;
+								}
+							}
+							.button-vue__text{
+								color: $colour-forground;
+							}
+						}
+					}
+					&:hover{
+						background-color: transparent;
+						svg{
+							fill: $colour-forground;
+						}
+					}
+				}
+			}
+			&.personal-settings-setting-box-detail{
+				.headerbar-label{
+					h3{
+						font-size: $text-heading-3;
+						line-height: $leading-22;
+						color: $colour-forground;
+						font-weight: $font-semibold;
+					}
+				}
+				.details{
+					margin: 12px 0 0;
+					.details__groups,
+					.details__quota{
+						gap: 8px;
+						.material-design-icon{
+							margin-top: 2px;
+							svg{
+								width: 16px;
+								height: 16px;
+								fill: $colour-forground-1;
+							}
+						}
+						.details__groups-info,
+						.details__quota-info{
+							gap: 0;
+							p,
+							.details__quota-text{
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								font-weight: $font-normal;
+								color: $colour-forground-1;
+								&.details__groups-list,
+								strong{
+									color: $colour-forground;
+									font-weight: $font-medium;
+								}
+							}
+							.progress-bar{
+								border-radius: 999px;
+								margin-top: 8px;
+								&::-webkit-progress-value{
+									border-radius: 999px;
+									background: $colour-blue-600;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		.action-item{
+			.button-vue__icon{
+				width: 16px;
+				height: 16px;
+				min-width: unset;
+				min-height: unset;
+				svg{
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+			}
+			&:hover{
+				background-color: transparent !important;
+			}
+		}
+		.checkbox-content--has-text{
+			padding-inline: 0 !important;
+			&:hover{
+				background-color: transparent !important;
+			}
+		}
+		.input-field{
+			@include input;
+		}
+		.textarea{
+			@include textarea-field;
+			margin-top: 0;
+		}
+		.v-select{
+			@include select-field;
+			@include select-box;
+			margin-top: 0 !important;
+			.vs__selected{
+				border: 0 !important;
+				background-color: transparent !important;
+				border-radius: 0;
+				padding: 0 !important;
+			}
+		}
+		input[type="date"]{
+			@include datepicker;
+		}
+		.native-datetime-picker--label{
+			&:empty{
+				display: none;
+				margin-top: 0;
+			}
+		}
+		#vue-avatar-section{
+			padding: 0;
+			button.button-vue{
+				&:not(.action-item__menutoggle):not([aria-label="Remove profile picture"]){
+					@include outline-button;
+				}
+				&[aria-label="Remove profile picture"]{
+					@include error-outline-button;
+				}
+			}
+		}
+		.headerbar__heading{
+			font-size: $text-heading-3;
+			line-height: $leading-22;
+			color: $colour-forground;
+			font-weight: $font-semibold;
+		}
+		.preview-card{
+			box-shadow: none;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-6;
+			margin-inline: 0;
+			@media (max-width: $bp-576) {
+				margin-inline: auto;
+			}
+			&:hover,
+			&:focus,
+			&:active{
+				box-shadow: none;
+			}
+			.preview-card__header{
+				background-color: $colour-blue-600;
+				span{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-white;
+					font-weight: $font-semibold;
+				}
+			}
+			+a{
+				margin: 0;
+				padding: 6px 12px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				display: flex;
+				gap: 6px;
+				align-items: center;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				height: auto;
+				transition: all ease-in-out 300ms;
+				.material-design-icon{
+					display: flex;
+					margin: 0;
+					width: 16px;
+					height: 16px;
+					svg{
+						width: 16px;
+						height: 16px;
+					}
+				}
+				&:hover{
+					background-color: $colour-primary-50;
+					border-color: $colour-blue-600;
+					color: $colour-blue-600;
+				}
+				@media (max-width: $bp-576) {
+					margin-inline: auto;
+				}
+			}
+		}
+		.personal-settings-section{
+			padding-block: 16px;
+			margin-top: 16px;
+			border-top: 1px solid $theme-divider;
+			> section{
+				margin: 0 !important;
+				width: 100%;
+				max-width: 100%;
+				padding: 0;
+				.headerbar-label{
+					margin-top: 0;
+				}
+				em{
+					margin-block: 16px;
+					max-width: 600px;
+					@media (max-width: $bp-576) {
+						margin-block: 12px;
+					}
+				}
+				.visibility-dropdowns{
+					padding-top: 16px;
+					display: flex;
+					flex-direction: column;
+					gap: 16px;
+					.visibility-container{
+						align-items: center;
+						@media (max-width: $bp-576) {
+							flex-direction: column;
+							gap: 4px;
+							align-items: start;
+							.v-select{
+								width: 100%;
+								max-width: 100%;
+							}
+						}
+					}
+					@media (max-width: $bp-576) {
+						padding-top: 12px;
+						gap: 12px;
+					}
+				}
+			}
+		}
+		.development-notice{
+			@include development-notice;
+		}
+		.msg,
+		#personal-settings-group-container{
+			&:empty{
+				display: none;
+			}
+		}
+	}
+}

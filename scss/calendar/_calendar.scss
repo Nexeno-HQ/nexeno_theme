@@ -1,0 +1,1526 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin calendar-settings {
+	.modal-container.general-popup:has(.settings-modal-general-section) {
+		.modal-container__content {
+			> h2.dialog__name {
+				@media (max-width: $bp-1023) {
+					margin: 0;
+					padding: 16px 56px 16px 16px;
+					border-bottom: 1px solid $theme-divider;
+					text-align: start;
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+			}
+		}
+		.app-settings-section__content {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			.settings-fieldset-interior-item {
+				list-style: none;
+				&--timezone {
+					display: flex;
+					flex-direction: column;
+					gap: 6px;
+					label {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+				}
+				&--import-action {
+					.button-vue {
+						@include outline-button;
+						width: fit-content;
+					}
+				}
+			}
+			.v-select.select {
+				@include single-select($dropdown: false);
+				width: 100%;
+				&:has(.input-field__label) {
+					margin-top: 26px;
+				}
+				.vs__dropdown-toggle {
+					overflow: visible;
+					.vs__selected-options {
+						.vs__selected {
+							display: flex;
+							align-items: center;
+							height: auto;
+							.name-parts {
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+							}
+							.calendar-picker-option {
+								gap: 8px;
+							}
+						}
+					}
+				}
+				.vs__search {
+					.input-field__label {
+						position: absolute;
+						top: -27px;
+						left: -1px;
+						margin: 0;
+						padding: 0;
+						max-width: 100%;
+						background: transparent;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+						opacity: 1;
+					}
+				}
+				&.vs--disabled {
+					.vs__dropdown-toggle {
+						background-color: $colour-gray-100;
+						cursor: not-allowed;
+					}
+				}
+			}
+			fieldset {
+				#{css-module('formGroup__label')} {
+					font-size: $text-heading-4;
+					line-height: $leading-24;
+					font-weight: $font-semibold;
+					text-transform: none;
+					color: $colour-forground;
+					padding: 0;
+				}
+				#{css-module('formGroup__description')} {
+					margin: 4px 0 0;
+					padding: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+				#{css-module('formGroup__content')} {
+					margin-top: 12px;
+					> #{css-module('formBoxItem')} {
+						padding: 10px 12px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-8 !important;
+						background-color: transparent;
+						#{css-module('formBoxItem__description')} {
+							color: $colour-forground-1;
+							font-weight: $font-normal;
+						}
+						&:hover {
+							border-color: $colour-blue-600;
+							background-color: $colour-primary-50;
+						}
+					}
+				}
+			}
+			.shortcut-section-item__keys {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				> div {
+					display: flex;
+					align-items: center;
+					gap: 4px;
+				}
+			}
+			.delegation-settings {
+				&__empty {
+					margin: 0 0 12px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+				&__add-button {
+					@include outline-button;
+					width: fit-content;
+				}
+			}
+		}
+		#{css-module('appSettingsDialogVersion')} {
+			margin: 0;
+			padding: 16px 0;
+			border-top: 1px solid $theme-divider;
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+			font-weight: $font-medium;
+		}
+	}
+}
+
+@mixin calendar-trashbin {
+	&:has(.modal__content__empty, .item-actions) {
+		.modal-header {
+			opacity: 0;
+		}
+	}
+	.modal-container.general-popup:has(.modal__content__empty, .item-actions) {
+		max-width: 800px;
+		height: auto;
+		.modal__content {
+			margin: 0;
+			> h2 {
+				margin: 0;
+				padding: 16px 56px 16px 16px;
+				border-bottom: 1px solid $theme-divider;
+				text-align: start;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.empty-content {
+				margin: 0 !important;
+				padding: 32px 16px;
+				gap: 12px;
+				.empty-content__icon {
+					margin: 0;
+					width: auto;
+					height: auto;
+					opacity: 1;
+					.material-design-icon {
+						width: 60px;
+						height: 60px;
+						border-radius: $rounded-full;
+						background-color: $colour-primary-100;
+						outline: 7px solid $colour-primary-50;
+						outline-offset: -7px;
+						svg {
+							width: 26px !important;
+							height: 26px !important;
+							filter: $filter-primry-600;
+						}
+					}
+				}
+				.empty-content__description {
+					margin: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+			}
+			table {
+				width: 100%;
+				margin: 0;
+				border-collapse: collapse;
+				th {
+					padding: 16px 16px 10px;
+					border-bottom: 1px solid $theme-divider;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+				}
+				td {
+					padding: 12px 16px;
+					border-bottom: 1px solid $theme-divider;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground;
+				}
+				tr {
+					&:last-child {
+						td {
+							border-bottom: 0;
+						}
+					}
+				}
+				.item {
+					align-items: center;
+					.color-dot {
+						width: 10px;
+						height: 10px;
+						margin-inline-end: 12px;
+					}
+					.item-name {
+						font-weight: $font-medium;
+					}
+					.item-subline {
+						font-size: $text-12;
+						line-height: $leading-16;
+						color: $colour-forground-1;
+					}
+				}
+				.timestamp {
+					color: $colour-forground-1;
+				}
+				.item-actions {
+					align-items: center;
+					gap: 6px;
+					.button-vue--secondary {
+						@include outline-button;
+					}
+				}
+			}
+			.footer {
+				margin: 0;
+				padding: 16px;
+				gap: 12px;
+				border-top: 1px solid $theme-divider;
+				> p {
+					margin: 0;
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+				.button-vue--error {
+					@include error-button;
+				}
+			}
+		}
+	}
+}
+
+@mixin calendar-edit-modal {
+	&:has(.edit-calendar-modal) {
+		.modal-header {
+			opacity: 0;
+		}
+	}
+	.modal-container.general-popup:has(.edit-calendar-modal) {
+		max-width: 600px;
+		@media (max-width: $bp-1024) {
+			height: auto !important;
+		}
+		.edit-calendar-modal {
+			padding: 0;
+			gap: 16px;
+			&__header {
+				margin: 0;
+				padding: 16px 56px 16px 16px;
+				border-bottom: 1px solid $theme-divider;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+				&_subtitle {
+					margin-top: 4px;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-normal;
+					color: $colour-forground-1;
+				}
+			}
+			&__name-and-color {
+				margin: 0;
+				padding-inline: 16px;
+				gap: 12px;
+				&__color {
+					&__dot {
+						width: 20px;
+						height: 20px;
+						border-radius: $rounded-full;
+						cursor: pointer;
+					}
+				}
+				&__name {
+					@include input;
+					margin: 0;
+					.input-field__main-wrapper {
+						input {
+							height: 36px !important;
+							padding: 8px 12px;
+							color: $colour-forground;
+						}
+					}
+				}
+			}
+			> .checkbox-radio-switch {
+				padding-inline: 16px;
+				@include checkbox-radio-switch;
+				@include checkbox-radio-switch-icon;
+				.checkbox-content {
+					margin: 0;
+					align-items: center;
+					gap: 8px;
+				}
+			}
+			&__default-alarm {
+				margin: 0;
+				padding-inline: 16px;
+				display: flex;
+				flex-direction: column;
+				gap: 6px;
+				&__label {
+					margin: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				&__hint {
+					margin: 0;
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+			}
+			.v-select.select {
+				@include single-select($dropdown: false);
+				width: 100%;
+				.vs__dropdown-toggle {
+					.vs__selected-options {
+						.vs__selected {
+							display: flex;
+							align-items: center;
+							height: auto;
+							.name-parts {
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+							}
+						}
+					}
+				}
+				.vs__search {
+					.input-field__input {
+						font-size: $text-heading-5;
+						&::placeholder {
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground-1;
+						}
+					}
+				}
+			}
+			&__sharing-header {
+				margin: 0;
+				padding: 16px 16px 0;
+				border-top: 1px solid $theme-divider;
+				font-size: $text-heading-4;
+				line-height: $leading-24;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			&__sharing {
+				padding-inline: 16px;
+				gap: 12px;
+				.publish-calendar,
+				.internal-link {
+					gap: 12px;
+					&__icon {
+						width: 36px;
+						height: 36px;
+						border-radius: $rounded-full;
+						background-color: $colour-primary-100;
+						color: $colour-blue-600;
+						flex-shrink: 0;
+						svg {
+							width: 18px;
+							height: 18px;
+							fill: $colour-blue-600;
+						}
+					}
+					&__label {
+						margin: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+						&__hint {
+							font-size: $text-12;
+							line-height: $leading-16;
+							font-weight: $font-normal;
+							color: $colour-forground-1;
+						}
+					}
+					.action-item--single {
+						--button-size: 32px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						background-color: transparent;
+						svg {
+							width: 16px;
+							height: 16px;
+							fill: $colour-forground;
+						}
+						&:hover {
+							border-color: $colour-blue-600;
+							background-color: $colour-primary-50;
+							svg {
+								fill: $colour-blue-600;
+							}
+						}
+					}
+				}
+				.internal-link {
+					&__label {
+						gap: 2px;
+					}
+				}
+			}
+			> .app-navigation-spacer {
+				display: none;
+			}
+			&__actions {
+				margin: 0;
+				padding: 16px;
+				gap: 8px;
+				border-top: 1px solid $theme-divider;
+				> .button-vue--tertiary {
+					@include outline-button;
+					&:first-child {
+						@include error-outline-button;
+					}
+				}
+				.button-vue--secondary {
+					@include primary-button;
+					margin-inline-start: auto;
+				}
+			}
+		}
+	}
+}
+
+@mixin calendar-proposal-editor {
+	&:has(.proposal-editor__content) {
+		.modal-header {
+			display: none !important;
+		}
+	}
+	.modal-container.general-popup:has(.proposal-editor__content) {
+		top: 0;
+		height: 100%;
+		border-radius: 0;
+		.proposal-editor__content {
+			height: 100%;
+			padding: 0;
+			gap: 0;
+		}
+		.proposal-editor__column-left {
+			border-right: 1px solid $theme-divider;
+		}
+		.proposal-editor__row-title {
+			margin: 0;
+			h2 {
+				margin: 0;
+				padding: 16px;
+				border-bottom: 1px solid $theme-divider;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+		}
+		.proposal-editor__row-details {
+			margin: 0;
+			padding: 16px;
+			gap: 16px;
+			@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			.input-field {
+				&.proposal-editor__proposal-title,
+				&.proposal-editor__proposal-location {
+					@include input;
+					margin: 0;
+				}
+			}
+			.proposal-editor__proposal-description {
+				@include textarea-field;
+				margin: 0;
+				.textarea__main-wrapper {
+					.textarea__input {
+						box-sizing: border-box;
+						width: 100%;
+						height: 100px !important;
+						resize: vertical;
+					}
+				}
+			}
+			.proposal-editor__proposal-location-container {
+				gap: 16px;
+			}
+			.checkbox-radio-switch {
+				@include checkbox-radio-switch;
+				@include checkbox-radio-switch-icon;
+				.checkbox-content {
+					align-items: center;
+					gap: 8px;
+				}
+			}
+			.v-select.select {
+				@include single-select($dropdown: false);
+				width: 100%;
+				.vs__dropdown-toggle {
+					.vs__selected-options {
+						.vs__selected {
+							display: flex;
+							align-items: center;
+							height: auto;
+						}
+					}
+				}
+				.vs__search {
+					.input-field__input {
+						font-size: $text-heading-5;
+						&::placeholder {
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground-1;
+						}
+					}
+				}
+			}
+			.proposal-editor__proposal-participants,
+			.proposal-editor__proposed-dates {
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+				h6 {
+					margin: 0 0 4px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+			}
+			.proposal-date__item,
+			.proposal-participant__item {
+				gap: 12px;
+				padding: 8px 10px;
+				border-radius: $rounded-6;
+				&:hover {
+					background-color: $colour-gray-100;
+				}
+			}
+			.proposal-date__icon,
+			.proposal-date__action {
+				display: flex;
+				.material-design-icon {
+					width: 16px;
+					height: 16px;
+					svg {
+						width: 16px;
+						height: 16px;
+						fill: $colour-forground-1;
+					}
+				}
+			}
+			.proposal-date__action {
+				cursor: pointer;
+				.material-design-icon {
+					&:hover {
+						svg {
+							fill: $colour-red-600;
+						}
+					}
+				}
+			}
+			.proposal-date__content,
+			.proposal-participant__name {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+		}
+		.proposal-editor__row-actions {
+			padding: 16px;
+			gap: 8px;
+			border-top: 1px solid $theme-divider;
+			.button-vue--primary {
+				@include primary-button;
+				justify-content: center;
+			}
+			.button-vue--secondary {
+				@include error-outline-button;
+			}
+		}
+		.proposal-editor__column-right {
+			height: 100%;
+			margin: 0;
+			padding: 16px;
+		}
+		.proposal-editor__calendar-actions {
+			margin-bottom: 16px;
+			gap: 8px;
+			padding-inline-end: 44px;
+			.button-vue--secondary {
+				@include outline-button;
+				--button-size: 36px;
+			}
+			h2 {
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+		}
+	}
+}
+
+@mixin calendar-navigation {
+	#content.app-calendar {
+		.app-navigation-list {
+			.app-navigation-caption {
+				min-height: 34px;
+			}
+			.appointment-config-list {
+				margin-top: 4px;
+			}
+		}
+	}
+}
+
+@mixin calendar-main {
+	#content.app-calendar {
+		.calendar-wrapper {
+			.fc {
+				th,
+				td {
+					border-color: $theme-divider;
+				}
+				.fc-col-header-cell {
+					padding: 10px 0;
+					background-color: $colour-background;
+					.fc-col-header-cell-cushion {
+						font-size: $text-12;
+						line-height: $leading-16;
+						font-weight: $font-medium;
+						color: $colour-forground-1;
+					}
+					&.fc-day-today {
+						.fc-col-header-cell-cushion {
+							padding: 2px 8px;
+							border-radius: $rounded-6;
+							background-color: $colour-blue-600;
+							color: $colour-forground-white;
+						}
+					}
+				}
+				.fc-daygrid-day {
+					background-color: $colour-background;
+					.fc-daygrid-day-top {
+						padding: 6px 0 2px;
+					}
+					.fc-daygrid-day-number {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						min-width: 24px;
+						height: 24px;
+						padding: 0 6px;
+						border-radius: $rounded-full;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					&.fc-day-other {
+						border-color: $theme-divider;
+						background-color: $colour-sidebar-bg !important;
+						.fc-daygrid-day-top {
+							opacity: 1;
+						}
+						.fc-daygrid-day-number {
+							color: $colour-forground-2;
+						}
+					}
+					&.fc-day-today {
+						background-color: $colour-primary-50;
+						.fc-daygrid-day-number {
+							background-color: $colour-blue-600;
+							color: $colour-forground-white;
+						}
+					}
+				}
+				.fc-daygrid-event {
+					margin: 1px 6px 0;
+					padding: 2px 6px;
+					border-radius: $rounded-4;
+					gap: 4px;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+					.fc-event-time {
+						margin: 0;
+						font-weight: $font-normal;
+						color: $colour-forground-1;
+					}
+					.fc-event-title {
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					&:hover {
+						background-color: transparent;
+					}
+					&.fc-daygrid-block-event {
+						.fc-event-time,
+						.fc-event-title {
+							color: inherit;
+						}
+						&:hover {
+							background-color: inherit;
+						}
+					}
+				}
+				.fc-daygrid-more-link {
+					margin-inline-start: 6px;
+					padding: 0 6px;
+					border: 0;
+					border-radius: $rounded-4;
+					background-color: $colour-primary-50;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+					color: $colour-blue-600;
+				}
+				.fc-timegrid-slot-label-cushion,
+				.fc-timegrid-axis-cushion {
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+				.fc-timegrid-divider {
+					padding: 0;
+					border-color: $theme-divider;
+					background-color: $theme-divider;
+				}
+				.fc-timegrid-col {
+					&.fc-day-today {
+						background-color: $colour-primary-50;
+					}
+				}
+				.fc-timegrid-now-indicator-line {
+					border-color: $colour-red-600;
+				}
+				.fc-timegrid-now-indicator-arrow {
+					border-color: $colour-red-600;
+					border-top-color: transparent;
+					border-bottom-color: transparent;
+				}
+				.fc-timegrid-event {
+					padding: 2px 4px;
+					border-radius: $rounded-6;
+					font-size: $text-12;
+					line-height: $leading-16;
+					.fc-event-time {
+						font-size: $text-12;
+						line-height: $leading-16;
+					}
+					.fc-event-title-container {
+						display: flex;
+						align-items: center;
+						gap: 4px;
+					}
+					.fc-event-title {
+						font-weight: $font-medium;
+					}
+					.fc-task-checkbox {
+						width: 12px;
+						height: 12px;
+						flex-shrink: 0;
+					}
+				}
+				.fc-list {
+					border: 0;
+					.fc-list-table {
+						th,
+						td {
+							border-color: $theme-divider;
+						}
+					}
+					.fc-list-day-cushion {
+						padding-block: 8px;
+						background-color: $colour-sidebar-bg;
+						.fc-list-day-text {
+							font-size: $text-12;
+							line-height: $leading-16;
+							font-weight: $font-semibold;
+							color: $colour-forground-1;
+						}
+					}
+					.fc-list-day {
+						&.fc-day-today {
+							.fc-list-day-text {
+								padding: 2px 8px;
+								border-radius: $rounded-6;
+								background-color: $colour-blue-600;
+								color: $colour-forground-white;
+							}
+						}
+					}
+					.fc-list-event {
+						td {
+							padding: 10px 16px;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							vertical-align: middle;
+						}
+						.fc-list-event-time {
+							font-weight: $font-medium;
+							color: $colour-forground-1;
+						}
+						.fc-list-event-title {
+							a {
+								font-weight: $font-medium;
+								color: $colour-forground;
+							}
+						}
+						.fc-list-event-location,
+						.fc-list-event-description {
+							font-size: $text-12;
+							line-height: $leading-16;
+							color: $colour-forground-1;
+						}
+					}
+				}
+				.fc-multimonth {
+					border: 0;
+					.fc-multimonth-title {
+						padding: 16px 0 12px;
+						font-size: $text-heading-3;
+						line-height: $leading-22;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+					.fc-multimonth-header-table,
+					.fc-multimonth-daygrid-table {
+						border-color: $theme-divider;
+					}
+					.fc-multimonth-daygrid {
+						background-color: $colour-background;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin calendar-icon-button {
+	--button-size: 32px;
+	border-radius: $rounded-6;
+	svg {
+		width: 16px;
+		height: 16px;
+		fill: $colour-forground-1;
+	}
+	&:hover {
+		background-color: $colour-gray-100;
+	}
+}
+
+@mixin calendar-event-fields {
+	.calendar-picker-header {
+		.button-vue__text {
+			font-size: $text-heading-4;
+			line-height: $leading-24;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+	}
+	.property-title__input {
+		.input-field {
+			@include input;
+			.input-field__main-wrapper {
+				input {
+					height: 40px !important;
+					font-size: $text-heading-4;
+					line-height: $leading-24;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+			}
+		}
+	}
+	.datepicker-label {
+		font-size: $text-heading-5;
+		line-height: $leading-20;
+		font-weight: $font-medium;
+		color: $colour-forground-1;
+	}
+	.dp__input_wrap {
+		.dp__input {
+			@include datepicker;
+			padding-inline-start: 36px;
+			max-height: 36px;
+		}
+		.dp__input_icon {
+			svg {
+				width: 16px;
+				height: 16px;
+				fill: $colour-forground-1;
+			}
+		}
+	}
+	.checkbox-radio-switch {
+		@include checkbox-radio-switch;
+		@include checkbox-radio-switch-icon;
+		.checkbox-content {
+			align-items: center;
+			gap: 8px;
+		}
+	}
+	.property-repeat__summary {
+		gap: 8px;
+		.property-repeat__summary__icon {
+			svg {
+				width: 18px;
+				height: 18px;
+				fill: $colour-forground-1;
+			}
+		}
+		.property-repeat__summary__content {
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground;
+		}
+		.button-vue {
+			@include calendar-icon-button;
+		}
+	}
+	.property-text {
+		.property-text__icon {
+			svg {
+				width: 18px;
+				height: 18px;
+				fill: $colour-forground-1;
+			}
+		}
+		.property-text__input {
+			padding-inline-start: 30px;
+			textarea {
+				padding: 8px 10px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				box-shadow: none;
+				background-color: transparent;
+				outline: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				&::placeholder {
+					color: $colour-forground-1;
+				}
+				&:hover {
+					border-color: $theme-divider;
+				}
+				&:focus,
+				&:focus-visible {
+					border-color: $colour-blue-600;
+					background-color: $colour-background;
+					box-shadow: none !important;
+				}
+			}
+		}
+	}
+	.invitees-list__header {
+		.invitees-list__header__title {
+			gap: 8px;
+			.material-design-icon {
+				svg {
+					width: 18px;
+					height: 18px;
+					fill: $colour-forground-1;
+				}
+			}
+			.invitees-list__header__title__text {
+				font-size: $text-heading-4;
+				line-height: $leading-24;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.counter-bubble__counter {
+				padding: 0 8px;
+				border-radius: $rounded-full;
+				background-color: $colour-primary-100;
+				font-size: $text-12;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-blue-600;
+			}
+			.button-vue {
+				@include calendar-icon-button;
+			}
+		}
+		> .button-vue--secondary {
+			@include outline-button;
+		}
+	}
+}
+
+@mixin calendar-event-popover {
+	.event-popover {
+		@include calendar-event-fields;
+		.event-popover__inner {
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-12;
+			background-color: $colour-background;
+			box-shadow: $box-shadow-3;
+		}
+		.event-popover__top-actions {
+			.button-vue {
+				@include calendar-icon-button;
+				svg {
+					width: 18px;
+					height: 18px;
+				}
+			}
+		}
+		.event-popover__location-row {
+			.button-vue--secondary {
+				@include outline-button;
+				--button-size: 36px;
+				padding: 0;
+			}
+		}
+		.event-popover__footer {
+			.event-popover__buttons {
+				gap: 8px;
+				.button-vue--secondary {
+					@include outline-button;
+				}
+				.button-vue--primary {
+					@include primary-button;
+				}
+			}
+		}
+	}
+}
+
+@mixin calendar-edit-full {
+	.calendar-edit-full {
+		.modal-header {
+			opacity: 0;
+		}
+		.modal-container.general-popup {
+			@include calendar-event-fields;
+			.calendar-edit-full__default-close {
+				@include calendar-icon-button;
+				svg {
+					width: 18px;
+					height: 18px;
+				}
+			}
+			.app-full {
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			}
+			.app-full__header__top {
+				gap: 16px;
+				padding-bottom: 16px;
+				border-bottom: 1px solid $theme-divider;
+				.app-full__header__top-close-icon {
+					svg {
+						fill: $colour-forground-1;
+					}
+				}
+			}
+			.app-full__actions {
+				.save-buttons {
+					gap: 8px;
+					.button-vue--primary {
+						@include primary-button;
+					}
+					.button-vue--secondary {
+						@include outline-button;
+					}
+				}
+			}
+			.app-full__header__details {
+				gap: 16px;
+			}
+			.property-select,
+			.property-select-multiple,
+			.property-add-talk,
+			.property-color {
+				gap: 12px;
+				.material-design-icon {
+					svg {
+						width: 18px;
+						height: 18px;
+						fill: $colour-forground-1;
+					}
+				}
+			}
+			.property-select__input,
+			.property-select-multiple__input {
+				.v-select.select {
+					@include single-select($dropdown: false);
+					width: 100%;
+					.vs__dropdown-toggle {
+						.vs__selected-options {
+							.vs__selected {
+								display: flex;
+								align-items: center;
+								height: auto;
+								.name-parts {
+									font-size: $text-heading-5;
+									line-height: $leading-20;
+								}
+							}
+						}
+					}
+					.vs__search {
+						.input-field__input {
+							font-size: $text-heading-5;
+							&::placeholder {
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								font-weight: $font-medium;
+								color: $colour-forground-1;
+							}
+						}
+					}
+				}
+			}
+			.property-add-talk__button {
+				@include outline-button;
+			}
+			.property-color__color-preview {
+				width: 36px;
+				height: 36px;
+				border: 0;
+				border-radius: $rounded-6;
+			}
+			.attachments-summary {
+				align-items: center;
+				.attachments-summary-inner {
+					gap: 12px;
+					.material-design-icon {
+						svg {
+							width: 18px;
+							height: 18px;
+							fill: $colour-forground-1;
+						}
+					}
+				}
+				.attachments-summary-inner-label {
+					padding: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.action-item__menutoggle {
+					@include calendar-icon-button;
+				}
+			}
+			.app-full-footer {
+				padding-top: 16px;
+				border-top: 1px solid $theme-divider;
+			}
+			.editor-invitee-list-no-email-configured-message {
+				gap: 12px;
+				.material-design-icon {
+					svg {
+						width: 18px;
+						height: 18px;
+						fill: $colour-forground-1;
+					}
+				}
+				.editor-invitee-list-no-email-configured-message__caption {
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+					a {
+						color: $colour-blue-600;
+						font-weight: $font-medium;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin calendar-unscheduled-tasks {
+	aside.app-sidebar:has(.unscheduled-tasks-list) {
+		border-inline-start: 1px solid $theme-divider;
+		background-color: $colour-background;
+		.app-sidebar-header {
+			padding-bottom: 12px;
+			border-bottom: 0;
+			.app-sidebar-header__mainname {
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.app-sidebar__close {
+				@include calendar-icon-button;
+				border: 0;
+				background-color: transparent;
+				svg {
+					width: 18px;
+					height: 18px;
+				}
+			}
+		}
+		.app-sidebar-tabs {
+			margin: 0;
+			padding: 0;
+			border-top: 1px solid $theme-divider;
+			.app-sidebar-tabs__content {
+				margin: 0;
+			}
+			.app-sidebar__tab {
+				padding: 0;
+			}
+		}
+		.unscheduled-tasks-list {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+			padding: 12px 0;
+			.list-item__wrapper {
+				margin: 0;
+				padding: 0;
+				border: 0;
+				background-color: transparent;
+				.list-item__anchor {
+					height: auto;
+				}
+				.list-item {
+					padding: 6px 8px;
+					border-radius: $rounded-6;
+					background-color: transparent;
+					.list-item-content__name {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					&:hover {
+						background-color: $colour-gray-100;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin calendar-more-popover {
+	#content.app-calendar {
+		.fc-popover {
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-12;
+			background-color: $colour-background;
+			box-shadow: $box-shadow-3;
+			overflow: hidden;
+			.fc-popover-header {
+				padding: 10px 12px;
+				border-bottom: 1px solid $theme-divider;
+				background-color: $colour-background;
+				.fc-popover-title {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.fc-popover-close {
+					color: $colour-forground-1;
+					opacity: 1;
+				}
+			}
+			.fc-popover-body {
+				padding: 8px 0;
+			}
+		}
+	}
+}
+
+@mixin calendar-repeat-modal {
+	&:has(.property-repeat__options) {
+		.modal-header {
+			opacity: 0;
+		}
+	}
+	.modal-container.general-popup:has(.property-repeat__options) {
+		@media (max-width: $bp-1024) {
+			height: auto !important;
+		}
+		.modal-container__content {
+			.property-repeat__options {
+				display: flex;
+				flex-direction: column;
+				gap: 16px;
+				padding: 0 0 16px;
+				> h2 {
+					margin: 0;
+					padding: 16px 56px 16px 16px;
+					border-bottom: 1px solid $theme-divider;
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.repeat-option-set {
+					margin: 0;
+					padding-inline: 16px;
+					gap: 12px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.v-select.select {
+					@include single-select($dropdown: false);
+					width: 100%;
+					.vs__dropdown-toggle {
+						.vs__selected-options {
+							.vs__selected {
+								display: flex;
+								align-items: center;
+								height: auto;
+								.name-parts {
+									font-size: $text-heading-5;
+									line-height: $leading-20;
+								}
+							}
+						}
+					}
+				}
+				.input-field {
+					@include input;
+				}
+				.checkbox-radio-switch {
+					@include checkbox-radio-switch;
+					@include checkbox-radio-switch-icon;
+					.checkbox-content {
+						align-items: center;
+						gap: 8px;
+					}
+				}
+			}
+			.property-repeat__options__footer {
+				display: flex;
+				justify-content: flex-end;
+				margin: 0;
+				padding: 16px;
+				border-top: 1px solid $theme-divider;
+				.button-vue--primary {
+					@include primary-button;
+				}
+			}
+		}
+	}
+}
+
+@mixin calendar-talk-modal {
+	&:has(.add-talk-modal) {
+		.modal-header {
+			opacity: 0;
+		}
+	}
+	.add-talk-modal {
+		.modal-container.general-popup {
+			@media (max-width: $bp-1024) {
+				height: auto !important;
+			}
+			.modal-content {
+				display: flex;
+				flex-direction: column;
+				gap: 16px;
+				padding: 16px;
+				.spacer {
+					display: none;
+				}
+				fieldset {
+					#{css-module('formGroup__label')} {
+						margin: 0;
+						padding: 0 56px 0 0;
+						font-size: $text-heading-4;
+						line-height: $leading-24;
+						font-weight: $font-semibold;
+						text-transform: none;
+						color: $colour-forground;
+					}
+					#{css-module('formGroup__content')} {
+						margin-top: 12px;
+						gap: 12px;
+					}
+				}
+				.talk-room__wrapper {
+					display: flex;
+					flex-direction: column;
+					gap: 4px;
+					@include scrollbar($thumb-colour: $colour-scrollbar-main);
+					.list-item__wrapper {
+						padding: 0;
+						.list-item {
+							padding: 6px 10px;
+							border-radius: $rounded-8;
+							background-color: transparent;
+							.list-item-content__name {
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								font-weight: $font-medium;
+								color: $colour-forground;
+							}
+							&:hover {
+								background-color: $colour-gray-100;
+							}
+						}
+						&.selected {
+							.list-item {
+								background-color: $colour-primary-50;
+								.list-item-content__name {
+									color: $colour-blue-600 !important;
+								}
+							}
+						}
+					}
+				}
+				.talk_select-room {
+					@include primary-button;
+					justify-content: center;
+					&:disabled {
+						border-color: $theme-divider;
+						background-color: $colour-gray-100;
+						opacity: 1;
+						.button-vue__text {
+							color: $colour-forground-1;
+						}
+					}
+				}
+				#{css-module('ncFormBox')} {
+					gap: 8px;
+					#{css-module('formBoxItem')} {
+						padding: 0 12px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-8 !important;
+						background-color: transparent;
+						#{css-module('formBoxItem__element')} {
+							min-height: unset;
+							padding: 0;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground;
+						}
+						#{css-module('formBoxItem__icon')} {
+							svg {
+								width: 18px;
+								height: 18px;
+								fill: $colour-forground-1;
+							}
+						}
+						&:hover {
+							border-color: $colour-blue-600;
+							background-color: $colour-primary-50;
+							#{css-module('formBoxItem__icon')} {
+								svg {
+									fill: $colour-blue-600;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

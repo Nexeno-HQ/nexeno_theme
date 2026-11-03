@@ -1,0 +1,68 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin sharing {
+	&.sharing {
+		div:has(> form > .transfer-select-row) {
+			.transfer-select-row__choose_button {
+				@include primary-button;
+				width: fit-content;
+			}
+			.button-vue--vue-primary {
+				@include primary-button;
+				margin: 0;
+			}
+		}
+		.settings-section:has(.federated-cloud__cloud-id) {
+			padding: 0 0 20px;
+			border-bottom: 1px solid $theme-divider;
+			.settings-section__name {
+				gap: 6px;
+				.settings-section__info {
+					display: block;
+					width: 16px;
+					height: 16px;
+					margin: 0;
+					svg {
+						width: 16px;
+						height: 16px;
+						fill: $colour-forground;
+					}
+				}
+			}
+			.federated-cloud__cloud-id {
+				@include input(16px);
+				max-width: 400px;
+			}
+			.social-button {
+				margin: 16px 0 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				.button-vue {
+					@include outline-button;
+					margin: 12px 8px 0 0;
+					.button-vue__icon {
+						img {
+							width: 16px;
+							height: 16px;
+						}
+					}
+				}
+				.social-button__website-button {
+					display: flex;
+					margin-inline-end: 0;
+					.button-vue__wrapper {
+						justify-content: center;
+					}
+				}
+			}
+		}
+	}
+}

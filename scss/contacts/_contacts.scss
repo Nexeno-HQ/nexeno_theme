@@ -1,0 +1,1051 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin contacts-settings {
+	.modal-container.general-popup:has(.address-books-section) {
+		.app-settings__content {
+			section {
+				.app-settings-section__content {
+					display: flex;
+					flex-direction: column;
+					gap: 16px;
+				}
+				#{css-module('ncFormBox')} {
+					#{css-module('formBoxItem')} {
+						#{css-module('formBoxItem__description')} {
+							font-size: $text-12;
+							line-height: $leading-16;
+							font-weight: $font-normal;
+							color: $colour-forground-1;
+						}
+					}
+				}
+			}
+		}
+		.sort-contacts {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			&__label {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.v-select.select {
+				@include single-select($dropdown: false);
+				width: 100%;
+				.vs__dropdown-toggle {
+					.vs__selected-options {
+						.vs__selected {
+							display: flex;
+							align-items: center;
+							height: auto;
+							.name-parts {
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+							}
+						}
+					}
+				}
+			}
+		}
+		.import-contact__button-main {
+			@include outline-button;
+		}
+		.settings-new-addressbook {
+			.button-vue {
+				@include outline-button;
+			}
+		}
+		.addressbook-list {
+			margin: 0;
+		}
+		.settings-addressbook-list {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			padding-block: 12px;
+			border-bottom: 1px solid $theme-divider;
+			&:first-child {
+				padding-top: 0;
+			}
+			.settings-line__icon {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 36px;
+				height: 36px;
+				flex-shrink: 0;
+				border-radius: $rounded-full;
+				background-color: $colour-primary-100;
+				svg {
+					width: 18px;
+					height: 18px;
+					fill: $colour-blue-600;
+				}
+			}
+		}
+		.addressbook {
+			flex: 1;
+			gap: 8px;
+			padding: 0;
+			&__name {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			&__description,
+			&__count {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			&__count-wrapper {
+				gap: 4px;
+			}
+			&__share {
+				@include outline-button;
+				--button-size: 32px;
+				padding: 0;
+			}
+			&__menu {
+				.button-vue {
+					--button-size: 32px;
+				}
+			}
+		}
+		#{css-module('appSettingsDialogVersion')} {
+			margin: 0;
+			padding: 16px 0;
+			border-top: 1px solid $theme-divider;
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+			font-weight: $font-medium;
+		}
+	}
+}
+
+@mixin contacts-main {
+	.app-contacts {
+		main.app-content {
+			background-color: $main-page-bg;
+			.splitpanes__splitter {
+				border-left: 1px solid $theme-divider;
+				background-color: $main-page-bg;
+			}
+			.app-content-list {
+				background-color: $main-page-bg;
+				.contacts-list__header {
+					display: flex;
+					align-items: center;
+					min-height: 53px;
+					padding: 8px 12px 8px 48px;
+					border-bottom: 1px solid $theme-divider;
+					.search-contacts-field {
+						flex: 1;
+						padding: 0;
+						.input-field {
+							@include input;
+							.input-field__main-wrapper {
+								height: 34px;
+								input {
+									padding: 0 10px;
+								}
+							}
+						}
+					}
+				}
+				.contacts-list__multiselect-header {
+					display: flex;
+					align-items: center;
+					gap: 8px;
+					padding: 8px 12px;
+					border-bottom: 1px solid $theme-divider;
+					.button-vue {
+						@include outline-button;
+						--button-size: 32px;
+						padding: 0;
+					}
+				}
+				.contacts-list {
+					@include scrollbar($thumb-colour: $colour-scrollbar-main);
+					padding: 8px;
+				}
+				.list-item__wrapper {
+					padding: 2px 0;
+					.contacts-list__item-avatar-selected,
+					.contacts-list__item-avatar-hovered {
+						svg {
+							width: 20px;
+							height: 20px;
+						}
+					}
+					.list-item {
+						padding: 8px;
+						border-radius: $rounded-6;
+						background-color: transparent;
+						transition: background-color ease-in-out 300ms;
+						&::before {
+							display: none;
+						}
+						&:hover {
+							background-color: $colour-gray-100;
+						}
+					}
+					.list-item-content__name {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+					.list-item-content__subname {
+						font-size: $text-12;
+						line-height: $leading-16;
+						color: $colour-forground-1;
+					}
+					.envelope__subtitle {
+						font-size: $text-12;
+						line-height: $leading-16;
+						color: $colour-forground-1;
+					}
+					.list-item-content__actions {
+						.button-vue {
+							--button-size: 28px;
+							border-radius: $rounded-6;
+							background-color: transparent;
+							.material-design-icon {
+								width: 16px;
+								height: 16px;
+								svg {
+									width: 16px;
+									height: 16px;
+									fill: $colour-forground-1;
+								}
+							}
+							&:hover {
+								.material-design-icon {
+									svg {
+										fill: $colour-blue-600;
+									}
+								}
+							}
+						}
+					}
+					&.list-item__wrapper--active {
+						.list-item {
+							background-color: $colour-gray-100;
+						}
+					}
+				}
+			}
+			.app-content-details {
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+				display: flex;
+				flex-direction: column;
+				gap: 24px;
+				max-width: none;
+				padding: 24px;
+				background-color: $main-page-bg;
+				@media (max-width: $bp-640) {
+					gap: 16px;
+					padding: 16px;
+				}
+				.property--rev {
+					justify-content: flex-start;
+				}
+				> .property__row {
+					margin: 0;
+					.property__label {
+						display: none;
+					}
+					.property__value {
+						justify-content: flex-start;
+					}
+					.action-item__menutoggle {
+						@include outline-button;
+					}
+				}
+			}
+			.contact-header {
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: space-between;
+				gap: 16px;
+				margin: 0;
+				padding: 0;
+				.contact-header__no-wrap {
+					align-items: center;
+					gap: 16px;
+					min-width: 0;
+				}
+				.contact-header__avatar {
+					justify-content: flex-start;
+					width: auto;
+				}
+				.contact-header__infos {
+					gap: 4px;
+					min-width: 0;
+					&:has(.input-field) {
+						gap: 12px;
+					}
+				}
+				.contact-header__quick-actions {
+					margin-top: 4px;
+				}
+				.contact-header-avatar__menu {
+					.action-item__menutoggle {
+						@include outline-button;
+						--button-size: 28px;
+						padding: 0;
+						background-color: $colour-background;
+					}
+				}
+				.contact-header__infos-title {
+					font-size: $text-heading-2;
+					line-height: $leading-28;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.contact-header__infos-subtitle {
+					gap: 8px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+				.contact-header__infos {
+					.input-field {
+						@include input;
+						.input-field__main-wrapper {
+							height: 34px;
+							input {
+								padding: 0 10px;
+							}
+						}
+					}
+				}
+				.quick-actions {
+					display: flex;
+					gap: 8px;
+					.quick-action {
+						@include outline-button;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 34px;
+						height: 34px;
+						margin: 0;
+						padding: 0;
+						.button-vue__wrapper {
+							justify-content: center;
+						}
+					}
+				}
+				.contact-header__actions {
+					align-items: center;
+					justify-content: flex-end;
+					gap: 8px;
+					margin-inline-start: auto;
+					.button-vue--tertiary {
+						&:not(.action-item__menutoggle) {
+							@include outline-button;
+						}
+					}
+					.button-vue--secondary {
+						@include primary-button;
+					}
+					.action-item__menutoggle {
+						@include outline-button;
+						--button-size: 34px;
+						padding: 0;
+					}
+				}
+			}
+			.contact-details-wrapper {
+				display: flex;
+				flex-direction: column;
+				gap: 20px;
+				width: auto;
+				padding: 16px 20px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-12;
+				background-color: $colour-background;
+				.contact-details {
+					gap: 20px;
+					width: 100%;
+				}
+				.property {
+					width: 100%;
+				}
+				&:not(.contact-details-wrapper-read-only) {
+					.property__row {
+						margin-top: 12px;
+					}
+				}
+				&.contact-details-wrapper-read-only {
+					.property__value {
+						.input-field {
+							.input-field__main-wrapper {
+								display: flex;
+								align-items: center;
+								height: 20px;
+								input {
+									height: auto !important;
+									padding: 0;
+									border: 0;
+									background-color: transparent;
+									color: $colour-forground;
+								}
+							}
+							.input-field__label {
+								display: none;
+							}
+						}
+					}
+				}
+			}
+			.property {
+				.property__row {
+					align-items: center;
+					gap: 16px;
+					@media (max-width: $bp-1199) {
+						flex-wrap: wrap;
+						gap: 6px;
+						.property__label {
+							flex: 0 0 100%;
+							width: 100%;
+						}
+						.property__value {
+							flex: 1 1 0;
+						}
+					}
+				}
+				.property__label {
+					flex: 0 0 160px;
+					justify-content: flex-start;
+					width: 160px;
+					&:empty {
+						display: none;
+					}
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+					.material-design-icon {
+						svg {
+							width: 18px;
+							height: 18px;
+							fill: $colour-forground-1;
+						}
+					}
+				}
+				.property__value {
+					flex: 1;
+					justify-content: flex-start;
+					min-width: 0;
+					max-width: none;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground;
+					.input-field {
+						@include input;
+						width: 100%;
+						.input-field__main-wrapper {
+							input {
+								padding: 0 10px;
+							}
+						}
+					}
+					.textarea {
+						@include textarea-field;
+						margin-top: 0;
+					}
+					.v-select {
+						@include single-select(false);
+						&.vs--multiple {
+							&.nc-select {
+								.vs__dropdown-toggle {
+									.vs__selected-options {
+										padding-left: 10px !important;
+										.vs__selected {
+											position: static;
+											height: 24px;
+										}
+									}
+								}
+							}
+							.vs__selected-options {
+								gap: 6px;
+								padding-inline-start: 10px !important;
+								.vs__selected {
+									position: static;
+									inset: auto;
+									gap: 4px;
+									height: 24px;
+									margin: 0 !important;
+									padding: 0 6px 0 8px !important;
+									border: 1px solid $theme-divider !important;
+									border-radius: $rounded-full;
+									background-color: transparent !important;
+									font-size: $text-12;
+									line-height: $leading-16;
+									pointer-events: auto;
+								}
+							}
+						}
+					}
+					.native-datetime-picker {
+						input {
+							@include datepicker;
+						}
+					}
+					.dp__input_icon {
+						display: flex;
+						.icon-vue {
+							width: 16px;
+							height: 16px;
+							svg {
+								width: 16px;
+								height: 16px;
+								fill: $colour-forground-1;
+							}
+						}
+					}
+					p {
+						flex: 0 1 auto;
+						width: auto;
+						margin: 0;
+					}
+					.property__ext {
+						@include outline-button;
+						--button-size: 28px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 28px;
+						height: 28px;
+						margin-inline-start: 8px;
+						padding: 0;
+						.button-vue__wrapper {
+							justify-content: center;
+							width: 100%;
+							height: 100%;
+						}
+					}
+				}
+				.property__label {
+					.v-select {
+						@include single-select(false);
+						.vs__search {
+							caret-color: transparent;
+						}
+						&.vs--open {
+							.vs__search {
+								caret-color: auto;
+							}
+						}
+					}
+				}
+				.property__actions {
+					.button-vue {
+						--button-size: 32px;
+						border-radius: $rounded-6;
+						background-color: transparent;
+						.material-design-icon {
+							width: 16px;
+							height: 16px;
+							svg {
+								width: 16px;
+								height: 16px;
+								fill: $colour-forground-1;
+							}
+						}
+						&:hover {
+							background-color: $colour-gray-100;
+							.material-design-icon {
+								svg {
+									fill: $colour-blue-600;
+								}
+							}
+						}
+						&:has(.plus-icon) {
+							@include outline-button;
+							padding: 0;
+						}
+						&:has(.trash-can-outline-icon) {
+							@include error-outline-button;
+							padding: 0;
+							.material-design-icon {
+								svg {
+									fill: $colour-red-600;
+								}
+							}
+							&:hover {
+								background-color: $colour-red-600;
+								.material-design-icon {
+									svg {
+										fill: $colour-forground-white;
+									}
+								}
+							}
+						}
+					}
+				}
+				.property__ext {
+					--button-size: 28px;
+					.material-design-icon {
+						svg {
+							width: 16px;
+							height: 16px;
+							fill: $colour-forground-1;
+						}
+					}
+				}
+				&.property--title {
+					gap: 8px;
+					margin: 0 0 8px;
+					.property__label {
+						flex: 0 0 auto;
+						width: auto;
+					}
+					.property__value {
+						font-size: $text-heading-4;
+						line-height: $leading-24;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+				}
+				&.property-note {
+					.property__row {
+						.property__label {
+							display: none;
+						}
+					}
+				}
+				&.property--rev {
+					.property__value {
+						font-size: $text-12;
+						line-height: $leading-16;
+						color: $colour-forground-1;
+					}
+				}
+				.action--primary {
+					@include outline-button;
+				}
+			}
+			.related-resources {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				min-height: 200px;
+				gap: 0;
+				margin: 0;
+				padding: 24px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-12;
+				background-color: transparent;
+				.empty-content {
+					justify-content: center;
+					margin: 0;
+					padding: 0;
+					.empty-content__icon {
+						opacity: 1;
+						svg {
+							fill: $colour-forground-1;
+						}
+					}
+					.empty-content__name {
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground-1;
+					}
+				}
+			}
+			.empty-content {
+				.empty-content__icon {
+					opacity: 1;
+					svg {
+						fill: $colour-forground-1;
+					}
+				}
+				.empty-content__name {
+					font-size: $text-heading-4;
+					line-height: $leading-24;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.empty-content__description {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+			}
+			.usergroup-details-container,
+			.circle-details-container {
+				padding: 24px;
+				.usergroup-name,
+				.circle-name {
+					font-size: $text-heading-2;
+					line-height: $leading-28;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+				.usergroup-details__subtitle,
+				.subtitle {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+				.button-vue--secondary,
+				.button-vue--tertiary {
+					@include outline-button;
+				}
+				.button-vue--primary {
+					@include primary-button;
+				}
+				.usergroup-details__content-heading,
+				.section-header {
+					font-size: $text-heading-4;
+					line-height: $leading-24;
+					font-weight: $font-semibold;
+					color: $colour-forground;
+				}
+			}
+			.member-grid-item {
+				gap: 8px;
+				padding: 8px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				.member-name {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.member-role {
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+			}
+		}
+	}
+}
+
+@mixin contacts-modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 56px;
+	margin: 0;
+	padding: 12px 64px 12px 16px;
+	border-bottom: 1px solid $theme-divider;
+	h3 {
+		margin: 0;
+		font-size: $text-heading-3;
+		line-height: $leading-22;
+		font-weight: $font-semibold;
+		color: $colour-forground;
+	}
+}
+
+@mixin contacts-modal-footer {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin: 0;
+	padding: 12px 16px;
+	border-top: 1px solid $theme-divider;
+	.button-vue--primary {
+		@include primary-button;
+	}
+	.button-vue--secondary,
+	.button-vue--tertiary {
+		@include outline-button;
+	}
+}
+
+@mixin contacts-modals {
+	body:has(.app-contacts) {
+		.modal-mask {
+			&:has(.batch),
+			&:has(.merging) {
+				.modal-header {
+					display: none !important;
+				}
+			}
+		}
+		.modal-container.general-popup {
+			&:has(.dialog) {
+				.dialog__content {
+					padding: 16px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground;
+					.v-select {
+						@include single-select(false);
+						width: 100%;
+					}
+					.notecard {
+						@include notecard;
+						width: 100%;
+					}
+				}
+				.dialog__actions {
+					@include contacts-modal-footer;
+				}
+				&:has(.qrcode) {
+					.dialog__content {
+						display: flex;
+						justify-content: center;
+						padding: 24px;
+					}
+					.qrcode {
+						width: 100%;
+						max-width: 320px;
+						height: auto;
+						padding: 12px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-8;
+						background-color: $colour-forground-white;
+					}
+					.dialog__actions {
+						display: none;
+					}
+				}
+			}
+			&:has(.batch) {
+				.batch {
+					display: flex;
+					flex-direction: column;
+					margin: 0;
+					padding: 0;
+					.batch__title {
+						@include contacts-modal-header;
+					}
+					.v-select {
+						@include single-select(false);
+						display: flex;
+						flex-direction: column;
+						gap: 6px;
+						margin: 16px 16px 0;
+						.select__label {
+							position: static;
+							transform: none;
+							margin: 0;
+							padding: 0;
+							background-color: transparent;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground;
+						}
+						.vs__dropdown-toggle {
+							padding: 0 8px 0 4px;
+						}
+						.vs__search {
+							caret-color: transparent;
+							.input-field__label {
+								top: 50%;
+								margin: 0 0 0 8px;
+								padding: 0;
+								background-color: transparent;
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								font-weight: $font-normal;
+								color: $colour-forground-1;
+								transform: translateY(-50%);
+							}
+						}
+						&.vs--open {
+							.vs__search {
+								caret-color: auto;
+								.input-field__label {
+									display: none;
+								}
+							}
+						}
+					}
+					h6 {
+						margin: 20px 16px 8px;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+					.contacts-list {
+						display: grid;
+						grid-template-columns: repeat(2, minmax(0, 1fr));
+						gap: 8px;
+						margin: 0;
+						padding: 0 16px 16px;
+						@media (max-width: $bp-640) {
+							grid-template-columns: minmax(0, 1fr);
+						}
+						.list-item {
+							padding: 8px;
+							border: 1px solid $theme-divider;
+							border-radius: $rounded-6;
+							&:hover,
+							&:focus,
+							&:focus-within,
+							&:active {
+								background-color: transparent;
+							}
+						}
+						.list-item__wrapper--active {
+							.list-item {
+								background-color: transparent;
+							}
+						}
+						.favorite-star {
+							display: none;
+						}
+						.list-item-content__name {
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground;
+						}
+						.list-item-content__subname {
+							font-size: $text-12;
+							line-height: $leading-16;
+							color: $colour-forground-1;
+						}
+						.disabled {
+							opacity: 0.5;
+						}
+					}
+					.notecard {
+						@include notecard;
+						margin: 0 16px 16px !important;
+					}
+					.batch__footer {
+						@include contacts-modal-footer;
+					}
+				}
+			}
+			&:has(.merging) {
+				.merging {
+					display: flex;
+					flex-direction: column;
+					margin: 0;
+					padding: 0;
+					.merging__title {
+						@include contacts-modal-header;
+					}
+					.merging-title__addressbooks {
+						.v-select {
+							@include single-select(false);
+							width: 200px;
+						}
+					}
+					.notecard {
+						@include notecard;
+						margin: 16px 16px 0 !important;
+					}
+					.merging__conflicts {
+						@include scrollbar($thumb-colour: $colour-scrollbar-main);
+						padding: 0 16px;
+					}
+					.merging__conflicts__row {
+						align-items: center;
+						gap: 12px;
+						padding-block: 12px;
+						border-bottom: 1px solid $theme-divider;
+						.needs-action {
+							svg {
+								width: 18px;
+								height: 18px;
+								fill: $colour-yellow;
+							}
+						}
+						.checkbox-radio-switch {
+							@include checkbox-radio-switch;
+							@include checkbox-radio-switch-icon;
+						}
+					}
+					.simple-property {
+						display: flex;
+						flex-direction: column;
+						gap: 4px;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+						.property__label {
+							font-size: $text-12;
+							color: $colour-forground-1;
+						}
+					}
+					.simple-property__title {
+						display: flex;
+						align-items: center;
+						gap: 6px;
+						h3 {
+							margin: 0;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-semibold;
+							color: $colour-forground;
+						}
+						.material-design-icon {
+							svg {
+								width: 16px;
+								height: 16px;
+								fill: $colour-forground-1;
+							}
+						}
+					}
+					.merging__conflicts__property {
+						.property {
+							.property__label {
+								font-size: $text-12;
+								line-height: $leading-16;
+								color: $colour-forground-1;
+								.material-design-icon {
+									svg {
+										width: 16px;
+										height: 16px;
+										fill: $colour-forground-1;
+									}
+								}
+							}
+							.property__value {
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								color: $colour-forground;
+							}
+							&.property--title {
+								.property__value {
+									font-weight: $font-semibold;
+								}
+							}
+						}
+					}
+					.merging__groups {
+						padding: 16px;
+						.merging__groups__header {
+							margin: 0 0 8px;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-semibold;
+							color: $colour-forground;
+						}
+					}
+					.merging__actions {
+						@include contacts-modal-footer;
+					}
+				}
+			}
+		}
+	}
+}

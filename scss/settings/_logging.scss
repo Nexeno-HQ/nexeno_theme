@@ -1,0 +1,241 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+@use '../files/files' as files;
+
+@mixin logging {
+	&.logging{
+		.logreader-container{
+			&__header{
+				padding-inline-start: 0 !important;
+				margin-bottom: 16px;
+				h2{
+					margin: 0;
+					padding: 0;
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					color: $colour-forground;
+					font-weight: $font-semibold;
+				}
+				.settings-toggle{
+					@include outline-button;
+					margin: 0;
+				}
+			}
+			.info-note{
+				@include notecard;
+				&.notecard--info{
+					width: 100%;
+					max-width: 100%;
+				}
+			}
+		}
+
+		.log-table-header{
+			&__wrapper{
+				gap: 6px;
+				.button-vue{
+					padding: 0;
+					margin: 0;
+					border: 0;
+					background-color: transparent !important;
+					position: relative;
+					width: fit-content;
+					justify-content: start;
+					padding-right: 36px;
+					transition: all ease-in-out 300ms;
+					color: $colour-forground-1;
+					.button-vue__wrapper{
+						width: fit-content;
+						.button-vue__text{
+							padding: 0;
+							margin: 0;
+							display: flex;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: inherit;
+						}
+					}
+					.button-vue__icon{
+						display: none !important;
+					}
+					&::after{
+						content: '';
+						position: absolute;
+						top: 50%;
+						right: 10px;
+						transform: translateY(-50%);
+						@include files.sort-down;
+					}
+					&:hover,
+					&:focus,
+					&:focus-visible{
+						background-color: transparent !important;
+						outline: none;
+					}
+					&:hover{
+						color: $colour-forground;
+					}
+				}
+			}
+			&__text{
+				padding-inline-start: 12px;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+				font-weight: $font-medium;
+			}
+		}
+		th[aria-sort="ascending"],
+		th[aria-sort="descending"]{
+			.log-table-header__wrapper .button-vue{
+				color: $colour-forground;
+			}
+		}
+
+		.log-table{
+			border-radius: $rounded-6;
+			box-sizing: border-box;
+			@include module-scrollbar;
+
+			thead{
+				border-bottom: 1px solid $theme-divider;
+				th{
+					background-color: $colour-background;
+					border-bottom: 0;
+				}
+			}
+			tbody{
+				&::before{
+					display: none;
+				}
+				tr{
+					border-bottom: 1px solid $theme-divider;
+					transition: background-color ease-in-out 300ms;
+					&:last-child{
+						border-bottom: 0;
+					}
+					&:hover,
+					&:focus-within{
+						background-color: $colour-gray-100;
+					}
+					td{
+						display: flex;
+						align-items: center;
+						> *{
+							width: 100%;
+						}
+						> span,
+						time{
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							color: $colour-forground;
+							font-weight: $font-normal;
+						}
+						.row-message__text{
+							justify-content: center;
+						}
+					}
+					.row-message{
+						cursor: pointer;
+						&__text_message{
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							color: $colour-forground;
+							font-weight: $font-normal;
+						}
+					}
+				}
+			}
+			&__load-more{
+				button{
+					@include outline-button;
+				}
+			}
+		}
+		.logging-level{
+			border-inline-start: 4px solid $theme-divider;
+			&--debug{
+				border-inline-start-color: $theme-divider;
+			}
+			&--info{
+				border-inline-start-color: $colour-blue-600;
+			}
+			&--warning{
+				border-inline-start-color: $colour-yellow;
+			}
+			&--error,
+			&--fatal{
+				border-inline-start-color: $colour-red-600;
+			}
+		}
+		.log-details{
+			padding: 12px 16px;
+			background-color: $colour-gray-100;
+			&__info{
+				display: flex;
+				justify-content: space-between;
+				margin-block-end: 12px;
+				padding-block: 4px 12px;
+				border-block-end: 4px solid $theme-divider;
+				dt,
+				dd{
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+					font-weight: $font-normal;
+				}
+				dt{
+					color: $colour-forground;
+					font-weight: $font-semibold;
+				}
+				&--debug{
+					border-block-end-color: $theme-divider;
+				}
+				&--info{
+					border-block-end-color: $colour-blue-600;
+				}
+				&--warning{
+					border-block-end-color: $colour-yellow;
+				}
+				&--error,
+				&--fatal{
+					border-block-end-color: $colour-red-600;
+				}
+			}
+			&__raw,
+			&__exception{
+				pre,
+				code{
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+			}
+			&__actions{
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: end;
+				gap: 8px;
+				margin-block-start: 12px;
+				button{
+					&.button-vue--vue-secondary{
+						@include outline-button;
+					}
+					&.button-vue--vue-primary{
+						@include primary-button;
+					}
+				}
+			}
+			hr{
+				border-color: $theme-divider;
+			}
+		}
+	}
+}

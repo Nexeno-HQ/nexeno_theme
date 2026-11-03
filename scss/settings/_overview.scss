@@ -1,0 +1,253 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin overview {
+    &.overview{
+        .settings-section__name{
+            gap: 8px;
+            a{
+                width: 16px;
+                height: 16px;
+                display: block;
+                margin: 0;
+                svg{
+                    width: 16px;
+                    height: 16px;
+                    fill: $colour-forground;
+                }
+            }
+        }
+        p{
+            &.settings-security-warnings__result-hint{
+                font-size: $text-heading-4;
+                line-height: $leading-20;
+                color: $colour-forground;
+                font-weight: $font-medium;
+                margin-bottom: 16px;
+            }
+        }
+        .settings-setup-checks-list{
+            display: flex;
+            flex-direction: column;
+            li{
+                margin-bottom: 0;
+                padding-block: 8px;
+                border-bottom: 1px solid $theme-divider;
+                border-radius: 0;
+                gap: 6px;
+                &:first-child{
+                    padding-top: 0;
+                }
+                .icon-vue{
+                    width: 16px;
+                    height: 16px;
+                    min-width: unset;
+                    min-height: unset;
+                    svg{
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+                .settings-setup-checks-item__wrapper{
+                    padding: 0;
+                    gap: 4px;
+                    .settings-setup-checks-item__name{
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground;
+                        font-weight: $font-medium;
+                    }
+                    .settings-setup-checks-item__description{
+                        font-size: $text-12;
+                        line-height: $leading-16;
+                        color: $colour-forground-1;
+                        font-weight: $font-normal;
+                    }
+                }
+                &:hover{
+                    background-color: transparent;
+                }
+            }
+        }
+        .settings-setup-checks-list:first-of-type{
+            li{
+                padding-block: 8px;
+            }
+        }
+        .settings-security-warnings__hint{
+            margin-top: 16px;
+        }
+        .settings-security-warnings__hint,
+        .settings-security-warnings__footer{
+            font-size: $text-heading-5;
+            line-height: $leading-20;
+            color: $colour-forground-1;
+            font-weight: $font-normal;
+            a{
+                text-decoration: underline;
+                color: $colour-forground;
+                font-weight: $font-medium;
+                transition: all ease-in-out 300ms;
+                &:hover{
+                    color: $colour-blue-600;
+                }
+            }
+        }
+        div{
+            &.section{
+                padding: 20px 0;
+                h2{
+                    font-size: $text-heading-3;
+                    line-height: $leading-22;
+                    color: $colour-forground;
+                    font-weight: $font-semibold;
+                    margin-bottom: 16px;
+                }
+                p{
+                    font-size: $text-heading-5;
+                    line-height: $leading-20;
+                    color: $colour-forground;
+                    font-weight: $font-medium;
+                    margin-bottom: 0;
+                    strong{
+                        font-weight: $font-medium;
+                        a{
+                            transition: all ease-in-out 300ms;
+                            &:hover{
+                                color: $colour-blue-600;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .settings-section{
+            .update{
+                margin-bottom: 0 !important;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                color: $colour-forground;
+                font-weight: $font-medium;
+                padding-bottom: 20px;
+                border-bottom: 1px solid $theme-divider;
+                max-width: 100% !important;
+                .icon-info{
+                    padding: 0px 9px;
+                }
+                p{
+                    margin-bottom: 0 !important;
+                }
+                ul{
+                    &.applist{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                        margin: 0 !important;
+                        li{
+                            a{
+                                font-size: $text-heading-5;
+                                line-height: $leading-20;
+                                font-weight: $font-medium;
+                                color: $colour-forground;
+                                transition: color ease-in-out 300ms;
+                                &:hover{
+                                    color: $colour-blue-600;
+                                }
+                            }
+                        }
+                    }
+                }
+                div{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                    a{
+                        &.button{
+                            display: flex;
+                            width: fit-content;
+                            margin: 0;
+                            border-radius: $rounded-6;
+                            border: 1px solid $theme-divider;
+                            background-color: transparent;
+                            font-weight: $font-normal;
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            color: $colour-forground;
+                            transition: all ease-in-out 300ms;
+                            &:hover{
+                                background-color: $colour-primary-50;
+                                border-color: $colour-blue-600;
+                                color: $colour-blue-600;
+                            }
+                        }
+                    }
+                    span{
+                        display: block;
+                        font-weight: $font-normal;
+                        color: $colour-forground-1;
+                    }
+                }
+            }
+            h3{
+                font-size: $text-heading-3;
+                line-height: $leading-22;
+                color: $colour-forground;
+                font-weight: $font-semibold;
+                margin-bottom: 16px;
+            }
+            p{
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                font-weight: $font-normal;
+                color: $colour-forground-1;
+                margin-bottom: 16px !important;
+                em{
+                    a{
+                        display: block;
+                        margin-top: 16px;
+                        color: $colour-forground;
+                        font-weight: $font-medium;
+                        transition: all ease-in-out 300ms;
+                        &:hover{
+                            color: $colour-blue-600;
+                        }
+                    }
+                }
+            }
+            .update-channel-selector{
+                gap: 8px !important;
+                font-size: $text-heading-5;
+                line-height: $leading-20;
+                font-weight: $font-medium;
+                color: $colour-forground;
+                margin-bottom: 16px;
+                .action-item{
+                    .v-popper{
+                        button{
+                            @include outline-button;
+                            .button-vue__wrapper{
+                                flex-direction: row-reverse;
+                            }
+                        }
+                    }
+                }
+            }
+            .v-select{
+                @include select-field;
+                @include select-box;
+                .vs__selected{
+                    border: 0 !important;
+                    background-color: transparent !important;
+                }
+            }
+        }
+    }
+}

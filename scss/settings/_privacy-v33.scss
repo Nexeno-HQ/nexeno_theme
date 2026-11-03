@@ -1,0 +1,21 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin privacy {
+	&.privacy{
+		.button-vue--vue-secondary{
+			@include outline-button;
+		}
+		p{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground-1;
+		}
+	}
+}

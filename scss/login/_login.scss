@@ -1,0 +1,152 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+@mixin login {
+	@include theme-vars(light);
+	@media (prefers-color-scheme: dark) {
+		@include theme-vars(dark);
+	}
+	.guest-box {
+		&.login-box{
+			padding: 24px;
+			border-radius: $rounded-8;
+			background-color: $colour-background;
+			color: $colour-forground;
+			width: 100%;
+			max-width: 450px;
+			box-shadow: $box-shadow-1;
+			@media (max-width:$bp-512) {
+				max-width: 95%;
+			}
+			.login-form__headline{
+				font-size: $text-heading-3;
+				line-height: $leading-24;
+				font-weight: $font-bold;
+				color: $colour-forground;
+				margin-bottom: 20px;
+			}
+			.checkbox-radio-switch{
+				@include checkbox-radio-switch;
+				--icon-size: 20px;
+				margin-block: 10px;
+				.checkbox-radio-switch__input{
+					width: 20px;
+					height: 20px;
+					min-height: unset;
+					min-width: unset;
+				}
+				.checkbox-content__icon{
+					width: 20px;
+					height: 20px;
+					min-width: unset;
+					min-height: unset;
+					.material-design-icon{
+						width: 20px;
+						height: 20px;
+					}
+					svg{
+						width: 20px;
+						height: 20px;
+					}
+				}
+				.checkbox-blank-outline-icon svg path{
+					fill: $theme-divider;
+				}
+				.checkbox-marked-icon svg path,
+				.minus-box-icon svg path{
+					fill: $colour-blue-600;
+				}
+				.checkbox-content:hover,
+				.checkbox-content:focus,
+				.checkbox-content:focus-visible,
+				.checkbox-content:focus-within,
+				.checkbox-content:active{
+					.checkbox-blank-outline-icon svg path{
+						fill: $colour-blue-600;
+					}
+				}
+			}
+			.button-vue--vue-primary{
+				@include primary-button;
+			}
+			.button-vue--vue-tertiary{
+				@include outline-button;
+			}
+			.login-form__fieldset{
+				gap: 0;	
+			}
+			.input-field{
+				margin-top: 0;
+				margin-bottom: 0;
+				~ .input-field{
+					margin-top: 14px;
+				}
+				.input-field__main-wrapper{
+					padding: 0;
+					height: auto;
+					input{
+						padding: 8px 12px;
+						border: 1px solid $theme-divider !important;
+						border-radius: $rounded-6;
+						min-height: unset;
+						height: auto !important;
+						box-shadow: none;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+						font-weight: $font-medium;
+						+ label{
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							color: $colour-forground-1;
+							font-weight: $font-medium;
+							margin-inline: 6px;
+							padding-inline: 6px;
+							background: $colour-background;
+							margin-top: 2px;
+						}
+						&:focus,
+						&:focus-visible,
+						&:focus-within,
+						&:active{
+							border-color: $colour-blue-600 !important;
+							box-shadow: none !important;
+							outline: 0 !important;
+							+ label{
+								font-size: $text-12;
+								line-height: $leading-16;
+								color: $colour-blue-600;
+								top: -10px;
+							}
+						}
+						&:not(:placeholder-shown):not(:focus){
+							+ label{
+								font-size: $text-12;
+								line-height: $leading-16;
+								color: $colour-forground-1;
+								top: -10px;
+							}
+						}
+						&::placeholder{
+							opacity: 0 !important;
+						}
+					}
+					.input-field__trailing-button{
+						margin-top: 2px;
+						&:hover{
+							background-color: transparent;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.notecard {
+		@include notecard;
+	}
+}

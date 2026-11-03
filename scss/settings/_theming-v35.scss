@@ -1,0 +1,84 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin theming {
+    &.admin-theming{
+        .v-select.select.nc-select.vs--multiple{
+            margin-bottom: 16px;
+            .vs__dropdown-toggle{
+                padding: 0 36px 0 8px !important;
+                align-items: center;
+                border: 1px solid $theme-divider !important;
+                box-shadow: none !important;
+                min-height: 34px;
+                .vs__selected-options{
+                    gap: 6px;
+                    padding-left: 0 !important;
+                    align-self: stretch;
+                    align-items: center;
+                    flex-wrap: nowrap;
+                }
+                .vs__selected{
+                    height: 24px;
+                    margin: 0 !important;
+                    padding: 0 6px 0 10px !important;
+                    gap: 6px;
+                    border: 1px solid $theme-divider !important;
+                    border-radius: $rounded-full !important;
+                    font-size: $text-12;
+                    line-height: $leading-16;
+                    font-weight: $font-medium;
+                    color: $colour-forground;
+                    min-height: unset;
+                    .vs__deselect{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 14px;
+                        height: 14px;
+                        margin: 0;
+                        padding: 0;
+                        svg{
+                            width: 12px;
+                            height: 12px;
+                            fill: $colour-forground-1;
+                        }
+                        &:hover{
+                            svg{
+                                fill: $colour-red-600;
+                            }
+                        }
+                    }
+                }
+            }
+            .vs__search{
+                .input-field__main-wrapper{
+                    height: 100%;
+                    margin: 0;
+                }
+                .input-field__input{
+                    height: 100% !important;
+                    min-height: unset;
+                    padding: 0;
+                    border: 0 !important;
+                    box-shadow: none !important;
+                    background: transparent !important;
+                }
+            }
+            .vs__actions{
+                inset-inline-end: 8px;
+                margin: 0;
+            }
+            &.vs--open{
+                .vs__dropdown-toggle{
+                    border-color: $colour-blue-600 !important;
+                }
+            }
+        }
+    }
+}

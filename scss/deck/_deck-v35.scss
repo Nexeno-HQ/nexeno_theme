@@ -1,0 +1,79 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin deck {
+	.app-deck {
+		main.app-content {
+			.controls {
+				.board-search {
+					@include input;
+					width: 220px;
+					height: 34px;
+					.input-field__main-wrapper {
+						height: 34px;
+						input {
+							padding: 0 10px;
+						}
+					}
+					.input-field__label {
+						inset-inline-start: 10px;
+					}
+					@media (max-width: $bp-640) {
+						order: 10;
+						width: 100%;
+					}
+				}
+			}
+			.stack {
+				.stack__title {
+					display: flex;
+					align-items: center;
+					gap: 8px;
+				}
+				.stack__card-count {
+					flex-shrink: 0;
+					min-width: 20px;
+					height: 20px;
+					padding: 0 6px;
+					border-radius: $rounded-full;
+					background-color: $colour-gray-100;
+					font-size: $text-12;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+					text-align: center;
+				}
+			}
+		}
+	}
+	body:has(.app-deck) {
+		.selector-wrapper {
+			.user-select {
+				.vs__selected {
+					.avatardiv__user-status {
+						display: none;
+					}
+				}
+			}
+			.user-bubble__wrapper {
+				margin-inline-end: 4px;
+			}
+			.user-bubble__content {
+				gap: 4px;
+				border: 1px solid $theme-divider;
+				background-color: $colour-gray-100;
+			}
+			.user-bubble__name {
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+		}
+	}
+}

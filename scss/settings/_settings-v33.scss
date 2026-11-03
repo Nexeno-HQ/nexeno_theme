@@ -1,0 +1,123 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use './usernotification-v33' as *;
+@use './privacy-v33' as *;
+@use './sharing-v33' as *;
+@use './groupware-v33' as *;
+@use './survey-client-v33' as *;
+
+@mixin settings {
+	#content.app-settings{
+		width: 100%;
+		height: calc(100dvh - $header-height);
+		margin: $header-height 0 0;
+		border-radius: 0;
+		border-top: 1px solid $theme-divider;
+		background: $main-page-bg;
+		#app-navigation:not(.vue){
+			background-color: $colour-sidebar-bg;
+			padding-block: 12px;
+			@include scrollbar;
+			.app-navigation-caption{
+				margin: 0;
+				padding: 10px 16px 6px;
+				font-size: $text-10;
+				line-height: $leading-16;
+				letter-spacing: $tracking-12;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				text-transform: uppercase;
+			}
+			nav{
+				ul{
+					padding: 0 16px 12px;
+					gap: 4px;
+					li{
+						margin: 0;
+						border-radius: $rounded-6;
+						background-color: transparent;
+						a{
+							display: flex;
+							align-items: center;
+							justify-content: flex-start;
+							gap: 6px;
+							height: auto;
+							min-height: 40px;
+							padding: 2px 12px;
+							border-radius: $rounded-6;
+							background-color: transparent;
+							img{
+								width: 36px;
+								height: 18px;
+								margin: 0;
+								flex: none;
+								object-fit: contain;
+								filter: $filter-forground;
+							}
+							span{
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								font-weight: $font-medium;
+								color: $colour-forground;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								white-space: nowrap;
+							}
+						}
+						&.active,
+						&:hover,
+						&:focus-within{
+							background-color: $colour-sidebar-link-bg;
+							a{
+								background-color: transparent;
+							}
+						}
+					}
+				}
+			}
+		}
+		main#app-content{
+			padding: 16px;
+			border-left: 1px solid $theme-divider;
+			@media (max-width: $bp-1023) {
+				padding-top: 55px;
+				#app-navigation-toggle{
+					top: calc(#{$header-height} + 16px);
+				}
+			}
+			@include usernotification;
+			@include privacy;
+			@include sharing;
+			@include groupware;
+			@include survey-client;
+			.settings-section,
+			> .section{
+				margin: 0;
+				width: 100%;
+				padding-inline: 0;
+				padding-block: 20px;
+				.settings-section__name,
+				> h2{
+					margin-top: 0;
+					margin-bottom: 16px;
+					font-size: $text-heading-3;
+					line-height: $leading-22;
+					color: $colour-forground;
+					font-weight: $font-semibold;
+				}
+				.settings-section__desc{
+					margin-top: 0;
+					margin-bottom: 16px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+					font-weight: $font-normal;
+				}
+			}
+		}
+	}
+}

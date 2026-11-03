@@ -1,0 +1,431 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin system{
+    &.serverinfo{
+        div{
+            &.section{
+                padding: 20px 0;
+                &:first-of-type{
+                    padding-top: 0;
+                }
+                .row{
+                    margin: 0;
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: 16px;
+                    @media (max-width: $bp-992) {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    .col{
+                        padding: 0;
+                        width: 100%;
+                        flex-basis: auto;
+                        max-width: 100%;
+                        min-width: unset;
+                    }
+                    .infobox{
+                        padding: 20px;
+                        margin: 0;
+                        border-radius: $rounded-6;
+                        border: 1px solid $theme-divider;
+                        margin-bottom: 16px;
+                    }
+                    p{
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground-1;
+                        font-weight: $font-normal;
+                        .rambox,
+                        .swapbox,
+                        .cpubox{
+                            width: 5px;
+                            border-radius: 6px;
+                            display: inline-flex;
+                            height: 100%;
+                            flex-shrink: 0;
+                        }
+                        .swapbox{
+                            background-color: $colour-gray-100;
+                        }
+                    }
+                }
+                h2{
+                    font-size: $text-heading-3;
+                    line-height: $leading-22;
+                    color: $colour-forground;
+                    font-weight: $font-semibold;
+                    gap: 8px;
+                    img{
+                        padding: 0;
+                        width: 20px;
+                        height: 20px;
+                        filter: $filter-forground;
+                    }
+                }
+                .server-info-table{
+                    display: flex;
+                    width: 100%;
+                    min-width: 0;
+                    table{
+                        padding-left: 14px;
+                        width: 100%;
+                        @media (max-width: $bp-640) {
+                            display: block;
+                            padding-left: 0;
+                        }
+                        tbody{
+                            @media (max-width: $bp-640) {
+                                display: block;
+                            }
+                        }
+                        tr{
+                            height: 32px;
+                            @media (max-width: $bp-640) {
+                                display: flex;
+                                flex-direction: column;
+                                height: auto;
+                                gap: 2px;
+                                padding: 8px 0;
+                                border-bottom: 1px solid $theme-divider;
+                            }
+                            td{
+                                font-size: $text-heading-5;
+                                line-height: $leading-20;
+                                font-weight: $font-medium;
+                                color: $colour-forground;
+                                padding: 0;
+                                @media (max-width: $bp-640) {
+                                    display: block;
+                                    width: 100%;
+                                    max-width: 100%;
+                                    overflow-wrap: anywhere;
+                                }
+                                &:first-child{
+                                    padding-left: 16px;
+                                    @media (max-width: $bp-640) {
+                                        padding-left: 0;
+                                    }
+                                }
+                                &.info,
+                                span{
+                                    color: $colour-forground-1;
+                                    font-weight: $font-medium;
+                                    white-space: pre-wrap;
+                                }
+                            }
+                            &:hover,
+                            &:focus,
+                            &:focus-visible{
+                                background-color: transparent;
+                            }
+                        }
+                    }
+                }
+                &.disk-status{
+                    .infobox{
+                        gap: 24px;
+                        margin-bottom: 0;
+                        align-items: start;
+                        .diskchart-container{
+                            margin: 0;
+                        }
+                        .diskinfo-container{
+                            display: flex;
+                            flex-direction: column;
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            color: $colour-forground-1;
+                            font-weight: $font-normal;
+                            @media (max-width: $bp-992) {
+                                align-items: start;
+                                margin-top: 16px;
+                            }
+                            h3{
+                                font-size: $text-heading-3;
+                                line-height: $leading-22;
+                                font-weight: $font-semibold;
+                                color: $colour-forground;
+                                padding: 0;
+                                margin-bottom: 16px;
+                            }
+                            br{
+                                display: none;
+                            }
+                            span{
+                                &.info{
+                                    margin: 4px 0 12px;
+                                    color: $colour-forground;
+                                    font-weight: $font-semibold;
+                                }
+                            }
+                        }
+                    }
+                    p{
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        font-weight: $font-normal;
+                        color: $colour-forground-1;
+                        strong{
+                            font-weight: $font-semibold;
+                        }
+                    }
+                    .row{
+                        margin-bottom: 12px;
+                    }
+                }
+                &.network-infos{
+                    .row{
+                        display: flex;
+                        gap: 6px;
+                        .col-12{
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            font-weight: $font-semibold;
+                            color: $colour-forground;
+                            .info{
+                                font-weight: $font-semibold;
+                                font-weight: $font-medium;
+                                color: $colour-forground-1;
+                            }
+                            &:has(.infobox){
+                                .row{
+                                    display: grid;
+                                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                                    gap: 16px;
+                                    margin-top: 16px;
+                                    @media (max-width: $bp-992) {
+                                        grid-template-columns: repeat(2, minmax(0, 1fr));
+                                    }
+                                    @media (max-width: $bp-640) {
+                                        grid-template-columns: repeat(1, minmax(0, 1fr));
+                                        gap: 12px;
+                                    }
+                                    .col{
+                                        width: 100%;
+                                        min-width: 0;
+                                        .infobox{
+                                            margin-bottom: 0;
+                                            height: 100%;
+                                            overflow-wrap: anywhere;
+                                            padding: 16px;
+                                            .interface-wrapper{
+                                                overflow-wrap: anywhere;
+                                                display: flex;
+                                                flex-direction: column;
+                                                gap: 6px;
+                                                h3{
+                                                    font-size: $text-heading-3;
+                                                    line-height: $leading-22;
+                                                    font-weight: $font-semibold;
+                                                    color: $colour-forground;
+                                                    padding: 0;
+                                                    margin-bottom: 10px;
+                                                }
+                                                br{
+                                                    display: none;
+                                                }
+                                            }
+                                            .info{
+                                                overflow-wrap: anywhere;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    &.active-users{
+                        .row{
+                            margin-top: 0 !important;
+                            gap: 0;
+                            display: flex !important;
+                            .interface-wrapper{
+                                align-items: start;
+                                gap: 6px;
+                                font-size: $text-heading-5;
+                                line-height: $leading-20;
+                                color: $colour-forground;
+                                font-weight: $font-medium;
+                                .active-users-box{
+                                    padding: 0;
+                                    border-left: 0;
+                                    .info{
+                                        font-size: $text-heading-5;
+                                        line-height: $leading-20;
+                                        color: $colour-forground;
+                                        font-weight: $font-medium;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    &.shares{
+                        .row{
+                            margin-top: 0 !important;
+                            gap: 0;
+                            display: flex !important;
+                            .interface-wrapper{
+                                gap: 6px;
+                            }
+                        }
+                    }
+                }
+                &.php-database{
+                    .row{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0;
+                        .server-info-table{
+                            tr{
+                                .info{
+                                    padding-left: 6px;
+                                }
+                                &:last-child{
+                                    .info{
+                                        padding-left: 0;
+                                    }
+                                    td{
+                                        padding-top: 8px;
+                                        &:first-child{
+                                            vertical-align: top;
+                                        }
+                                    }
+                                }
+                                .server-info__tag-wrapper{
+                                    gap: 6px;
+                                    .server-info__php-extension-tag{
+                                        border-radius: $rounded-6;
+                                        border: 1px solid $theme-divider;
+                                        margin: 0;
+                                    }
+                                }
+                            }
+                        }
+                        .col{
+                            &:last-of-type{
+                                padding-top: 16px;
+                                margin-top: 16px;
+                                border-top: 1px solid $theme-divider;
+                                .server-info-table{
+                                    tr{
+                                        &:last-child{
+                                            td{
+                                                padding-top: 0;
+                                                &:first-child{
+                                                    vertical-align: middle;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                &.monitoring{
+                    p{
+                        margin: 0;
+                    }
+                    i{
+                        font-size: $text-heading-5;
+                        line-height: $leading-20;
+                        color: $colour-forground;
+                        font-weight: $font-medium;
+                        margin-block: 10px;
+                        display: block;
+                    }
+                    .monitoring-wrapper{
+                        align-items: center;
+                        margin-block: 12px;
+                        .clipboardButton{
+                            display: flex;
+                            width: 34px;
+                            height: 34px;
+                            border: 1px solid $theme-divider;
+                            border-radius: $rounded-6;
+                            margin-top: 0;
+                            position: static;
+                        }
+                        input{
+                            flex: auto;
+                            border: 1px solid $theme-divider;
+                            border-radius: $rounded-6;
+                            height: auto;
+                            min-height: unset;
+                            padding: 6px 12px;
+                            transition: all ease-in-out 300ms;
+                            margin: 0;
+                            width: 100%;
+                            &:focus,
+                            &:focus-visible{
+                             border-color: $colour-blue-600;
+                            }
+                         }
+                    }
+                    .monitoring-url-params{
+                        margin-bottom: 0;
+                        margin-block: 16px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                        .monitoring-url-param{
+                            gap: 6px;
+                            margin: 0;
+                            align-items: center;
+                            input{
+                                position: absolute;
+                                visibility: hidden;
+                                width: 0;
+                                height: 0;
+                                &.update-monitoring-endpoint-url{
+                                    +label{
+                                        font-size: $text-heading-5;
+                                        line-height: $leading-20;
+                                        color: $colour-forground;
+                                        position: relative;
+                                        padding-left: 24px;
+                                        &::before{
+                                            content: '';
+                                            top: 2px;
+                                            left: 0;
+                                            width: 14px;
+                                            height: 14px;
+                                            border: 1px solid $theme-divider;
+                                            border-radius: $rounded-4;
+                                            margin-bottom: 2px;
+                                            position: absolute;
+                                            margin-bottom: 0;
+                                                
+                                        }
+                                        em{
+                                            color: $colour-forground-1;
+                                        }
+                                    }
+                                    &:checked{
+                                        +label{
+                                            &::before{
+                                                border-color: $colour-blue-600;
+                                                background-color: $colour-blue-600;
+                                                background-image: url(../img/checkbox-mark.svg);
+                                                background-repeat: no-repeat;
+                                                background-position: center;
+                                                background-size: 16px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,308 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+@mixin photos {
+	.content{
+		&.app-photos{
+			.app-navigation__search{
+				&.input-field{
+					padding: 0;	
+					margin-top: 0;
+				}
+			}
+			.album-hero{
+				display: none;
+			}
+			.photo-actions{
+				left: unset;
+				right: 10px;
+				button{
+					@include white-button;
+					width: 28px !important;
+					height: 28px;
+					min-width: unset;
+					min-height: unset;
+					padding: 0;
+				}
+			}
+			.date-scrubber{
+				.date-scrubber__thumb__pill{
+					background-color: $colour-blue-600;
+					border-radius: $rounded-8;
+					box-shadow: $box-shadow-2;
+					height: auto;
+					padding-block: 4px;
+					justify-content: center;
+					.date-scrubber__thumb__date{
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground-white;
+						margin-right: 0;
+					}
+				}
+				.date-scrubber__year-label{
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+					font-weight: $font-medium;
+					padding: 0;
+				}
+			}
+			main{
+				.photos-navigation{
+					.timeline__header__left,
+					.photos-navigation__content__left{
+						.action-item{
+							button{
+								background-color: $colour-gray-100;
+								border-color: $colour-gray-100;
+							}
+						}
+					}
+				}
+				.files-list-viewer .vs-rows-container > div ul li .file-container{
+					&:hover,
+					&:focus-within,
+					&.selected,
+					&:has(.photo-actions--open){
+						.favorite-marker-icon{
+							display: none !important;
+						}
+					}
+				}
+				.nodes-container{
+					padding: 16px;
+					@media (max-width: $bp-768) {
+						padding: 12px;
+					}
+					ul{
+						display: grid;
+						grid-template-columns: repeat(10, minmax(0, 1fr));
+						align-items: start;
+						gap: 16px;
+						@each $width, $count in (3440px: 9, 2560px: 8, 2048px: 7, $bp-1600: 6, $bp-1440: 5, $bp-1280: 4, $bp-1024: 5, 700px: 4, 400px: 3) {
+							@media (max-width: $width) {
+								grid-template-columns: repeat($count, minmax(0, 1fr));
+							}
+						}
+						@media (max-width: $bp-768) {
+							gap: 12px;
+						}
+						li{
+							height: auto !important;
+							min-width: 0;
+							&:has(> .file-container){
+								display: flex;
+								flex-direction: column;
+								gap: 10px;
+								padding: 8px;
+								border: 1px solid $theme-divider;
+								border-radius: $rounded-6;
+								box-sizing: border-box;
+								transition: all ease-in-out 300ms;
+								&:hover,
+								&:focus-within{
+									border-color: $colour-blue-600;
+									.nexeno-file-name{
+										color: $colour-blue-600;
+									}
+								}
+							}
+							.nexeno-file-name{
+								width: 100%;
+								margin: 0;
+								overflow: hidden;
+								white-space: nowrap;
+								text-overflow: ellipsis;
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								color: $colour-forground;
+								font-weight: $font-medium;
+								transition: all ease-in-out 300ms;
+							}
+							.file-container{
+								width: 100%;
+								height: auto;
+								aspect-ratio: 1 / 1;
+								border: 0;
+								border-radius: $rounded-6;
+								&:hover:not(.selected){
+									box-shadow: none;
+								}
+								img{
+									object-fit: cover;
+								}
+							}
+							a.folder{
+								display: flex;
+								padding: 8px;
+								flex-direction: column;
+								border: 1px solid $theme-divider;
+								border-radius: $rounded-6;
+								width: 100%;
+								height: auto;
+								gap: 10px;
+								align-items: start;
+								transition: all ease-in-out 300ms;
+								.folder__image{
+									flex: none;
+									width: 100%;
+									height: auto;
+									aspect-ratio: 1 / 1;
+									object-fit: cover;
+									border-radius: $rounded-6;
+								}
+								.folder__details{
+									width: 100%;
+									margin-top: 0;
+									gap: 6px;
+									.material-design-icon{
+										width: 16px;
+										height: 16px;
+										min-height: unset;
+										min-width: unset;
+										svg{
+											width: 16px;
+											height: 16px;
+											flex-shrink: 0;
+											fill: $colour-forground;
+										}
+									}
+									.folder__title{
+										font-size: $text-heading-5;
+										line-height: $leading-20;
+										color: $colour-forground;
+										font-weight: $font-medium;
+										transition: all ease-in-out 300ms;
+									}
+								}
+								&:hover,
+								&:focus-visible{
+									background-color: transparent;
+									border-color: $colour-blue-600;
+									.folder__details{
+										.material-design-icon{
+											svg{
+												fill: $colour-blue-600;
+											}
+										}
+										.folder__title{
+											color: $colour-blue-600;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				.empty-content{
+					justify-content: center;
+					margin: 0;
+					min-height: calc(100dvh - #{$header-height} - 53px - 64px);
+				}
+				.files-list-viewer{
+					> .empty-content{
+						min-height: calc(100dvh - #{$header-height} - 53px);
+					}
+				}
+				.memories{
+					.memories__recap{
+						margin: 16px 16px 0;
+						&:hover{
+							transform: none;
+							box-shadow: none;
+						}
+						img{
+							border-radius: $rounded-6;
+						}
+						.memories__recap__details{
+							display: flex;
+							flex-direction: column;
+							gap: 6px;
+							span{
+								text-shadow: none;
+							}
+							.memories__recap__details__eyebrow{
+								font-size: $text-12;
+								line-height: $leading-16;
+								font-weight: $font-medium;
+							}
+							.memories__recap__details__title{
+								margin: 0;
+								font-size: $text-heading-2;
+								line-height: $leading-24;
+								font-weight: $font-bold;
+							}
+							.memories__recap__details__meta{
+								font-size: $text-heading-4;
+								line-height: $leading-22;
+								font-weight: $font-medium;
+								span{
+									font-weight: $font-medium;
+								}
+							}
+						}
+						
+					}
+					.memories__list{
+						li{
+							button{
+								margin: 0;
+								img{
+									border-radius: $rounded-6;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	body:has(.content.app-photos) .v-popper__inner{
+		li:has(.action-radio){
+			border-radius: $rounded-6;
+			&:hover{
+				background-color: $secondary-card-bg;
+			}
+		}
+		.action-radio{
+			align-items: center;
+			gap: 8px;
+			padding: 6px 8px;
+			line-height: $leading-20;
+			border-radius: $rounded-6;
+			.action-radio__icon{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 20px;
+				height: 20px;
+				min-width: unset;
+				.material-design-icon,
+				svg{
+					width: 20px;
+					height: 20px;
+					fill: $theme-divider;
+				}
+			}
+			.action-radio__text{
+				padding: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			&[aria-checked="true"]{
+				.action-radio__icon svg{
+					fill: $colour-blue-600;
+				}
+			}
+		}
+	}
+}

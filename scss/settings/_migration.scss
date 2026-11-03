@@ -1,0 +1,152 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use '../variables' as *;
+@use '../themes' as *;
+@use './mixins' as *;
+
+@mixin migration{
+    &.migration{
+        .button-vue--vue-tertiary,
+        .button-vue--vue-secondary{
+            @include outline-button;
+        }
+        .button-vue--vue-primary{
+            @include primary-button;
+        }
+        .section__status{
+            gap: 8px;
+            .settings-hint{
+                font-size: $text-12;
+                line-height: $leading-16;
+                color: $colour-forground-1;
+                font-weight: $font-medium;
+            }
+        }
+        .section__grid{
+            max-width: 700px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 0;
+            @media (max-width: $bp-512) {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+                gap: 16px;
+            }
+            .section__checkbox{
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                .checkbox-radio-switch{
+                    --icon-size : 16px;
+                    .checkbox-radio-switch__input{
+                        width: 16px;
+                        height: 16px;
+                        margin: 0;
+                        min-height: unset;
+                    }
+                    .material-design-icon{
+                        width: 16px;
+                        height: 16px;
+                        overflow: visible;
+                        svg{
+                            width: 16px;
+                            height: 16px;
+                            flex-shrink: 0;
+                            transform: scale(1.15);
+                            transform-origin: center;
+                        }
+                    }
+                    .checkbox-radio-switch__input:focus-visible + .checkbox-radio-switch__content{
+                        outline: 0;
+                        background-color: transparent;
+                    }
+                    .checkbox-blank-outline-icon{
+                        svg{
+                            path{
+                                fill: $theme-divider;
+                            }
+                        }
+                    }
+                    .checkbox-marked-icon,
+                    .minus-box-icon{
+                        svg{
+                            path{
+                                fill: $colour-blue-600;
+                            }
+                        }
+                    }
+                    .checkbox-content{
+                        padding: 0;
+                        min-height: unset;
+                        gap: 8px;
+                        align-items: center;
+                        &,
+                        &:hover,
+                        &:focus,
+                        &:focus-visible,
+                        &:focus-within,
+                        &:active{
+                            background-color: transparent !important;
+                            box-shadow: none !important;
+                            outline: 0 !important;
+                        }
+                        &:hover,
+                        &:focus,
+                        &:focus-visible,
+                        &:focus-within,
+                        &:active{
+                            .checkbox-blank-outline-icon{
+                                svg{
+                                    path{
+                                        fill: $colour-blue-600;
+                                    }
+                                }
+                            }
+                        }
+                        .checkbox-content__text{
+                            font-size: $text-heading-5;
+                            line-height: $leading-20;
+                            font-weight: $font-medium;
+                            color: $colour-forground;
+                        }
+                    }
+                    &--checked{
+                        .checkbox-content{
+                            &,
+                            &:hover,
+                            &:focus,
+                            &:focus-visible,
+                            &:focus-within,
+                            &:active{
+                                background-color: transparent !important;
+                                box-shadow: none !important;
+                                outline: 0 !important;
+                            }
+                        }
+                    }
+                }
+                .section__description{
+                    font-size: $text-12;
+                    line-height: $leading-16;
+                    color: $colour-forground-1;
+                    min-height: unset;
+                }
+            }
+        }
+        .section__picker-error {
+            font-size: $text-12;
+            line-height: $leading-16;
+            color: $colour-red-600;
+            background-color: transparent;
+        }
+        .section__status{
+            margin-top: 16px;
+        }
+        .settings-section__desc{
+            +.section__status{
+                margin-top: 16px;
+            }
+        }
+    }
+}

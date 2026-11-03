@@ -1,0 +1,179 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use 'sass:map';
+
+$themes: (
+	light: (
+		main-page-bg:            '#FFFFFF',
+		main-page-bg-dashboard:  '#F8F9FA',
+		theme-divider:           '#E5E7EB',
+		theme-divider-2:         '#F3F4F6',
+		colour-forground:        '#1F2937',
+		colour-forground-1:      '#6B7280',
+		colour-scrollbar-track:  '#E5E7EB',
+		colour-scrollbar-main:   '#6B7280',
+		colour-forground-2:      '#4B5563',
+		colour-background:       '#FFFFFF',
+		colour-primary-100:      '#DBEAFE',
+		colour-blue-400:         '#BFDBFE',
+		colour-primary-50:       '#EFF6FF',
+		colour-gray-100:         '#F3F4F6',
+		secondary-card-bg:       '#F5F5F5',
+		colour-sidebar-bg:       '#FAFAFA',
+		colour-green-50:         '#F0FDF4',
+		colour-green-700:        '#15803D',
+		colour-blue-600:         '#2563eb',
+		colour-red-50:           '#FEF2F2',
+		colour-red-600:          '#DC2626',
+		colour-semilight:        '#F8FAFC',
+		colour-dark-colour:      '#000000',
+		colour-yellow:           '#EAB308',
+		colour-yellow-50:        '#FEFCE8',
+		colour-forground-white:  '#FFFFFF',
+		colour-white-20:         '#FFFFFF33',
+		colour-mask:             '#00000080',
+		colour-sidebar-link-bg:  '#E8E8E8',
+		colour-cheveron-seprator:'#9CA3AF',
+		gradient-brand-vertical: 'linear-gradient(180deg, #2563EB 0%, #0041D0 100%)',
+		gradient-brand-diagonal: 'linear-gradient(88.92deg, #2563EB 0.6%, #654DC4 37.19%)',
+		box-shadow-1:            '0px 0px 3px rgba(0, 0, 0, 0.1)',
+		box-shadow-2:            '0px 2px 3px rgba(0, 0, 0, 0.1)',
+		box-shadow-3:            '0px 0px 16px rgba(0, 0, 0, 0.12)',
+		box-shadow-4:            '0px 0px 16px rgba(0, 0, 0, 0.08)',
+		filter-primry-600:       'brightness(0) saturate(100%) invert(27%) sepia(63%) saturate(3088%) hue-rotate(216deg) brightness(96%) contrast(92%)',
+		filter-forground:        'brightness(0) saturate(100%) invert(11%) sepia(5%) saturate(4942%) hue-rotate(176deg) brightness(98%) contrast(88%)',
+		filter-forground-1:      'brightness(0) saturate(100%) invert(47%) sepia(24%) saturate(315%) hue-rotate(166deg) brightness(87%) contrast(88%)',
+		filter-red:              'brightness(0) saturate(100%) invert(23%) sepia(62%) saturate(3945%) hue-rotate(350deg) brightness(89%) contrast(92%)',
+		filter-green:            'brightness(0) saturate(100%) invert(78%) sepia(4%) saturate(5942%) hue-rotate(39deg) brightness(92%) contrast(80%)',
+		filter-light-bg:         'brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(96deg) brightness(102%) contrast(104%)',
+	),
+	dark: (
+		main-page-bg:            '#141414',
+		main-page-bg-dashboard:  '#0F0F0F',
+		theme-divider:           '#333333',
+		theme-divider-2:         '#262626',
+		colour-forground:        '#F5F5F5',
+		colour-forground-1:      '#B3B3B3',
+		colour-scrollbar-track:  '#2A2A2A',
+		colour-scrollbar-main:   '#737373',
+		colour-forground-2:      '#A3A3A3',
+		colour-background:       '#1A1A1A',
+		colour-primary-100:      '#1E3A5F',
+		colour-blue-400:         '#60A5FA',
+		colour-primary-50:       '#172554',
+		colour-gray-100:         '#2A2A2A',
+		secondary-card-bg:       '#0A0A0A',
+		colour-sidebar-bg:       '#141414',
+		colour-green-50:         '#052E16',
+		colour-green-700:        '#4ADE80',
+		colour-blue-600:         '#60A5FA',
+		colour-red-50:           '#450A0A',
+		colour-red-600:          '#F87171',
+		colour-semilight:        '#222222',
+		colour-dark-colour:      '#F5F5F5',
+		colour-yellow:           '#FACC15',
+		colour-yellow-50:        '#422006',
+		colour-forground-white:  '#000000',
+		colour-white-20:         '#00000033',
+		colour-mask:             '#000000B3',
+		colour-sidebar-link-bg:  '#2D2D2D',
+		colour-cheveron-seprator: '#737373',
+		gradient-brand-vertical: 'linear-gradient(180deg, #1D4ED8 0%, #002F94 100%)',
+		gradient-brand-diagonal: 'linear-gradient(88.92deg, #1D4ED8 0.6%, #4C3A9C 37.19%)',
+		box-shadow-1:            '0px 0px 3px rgba(0, 0, 0, 0.7)',
+		box-shadow-2:            '0px 2px 6px rgba(0, 0, 0, 0.6)',
+		box-shadow-3:            '0px 0px 20px rgba(0, 0, 0, 0.8)',
+		box-shadow-4:            '0px 0px 20px rgba(0, 0, 0, 0.55)',
+		filter-primry-600:       'brightness(0) saturate(100%) invert(66%) sepia(85%) saturate(1844%) hue-rotate(190deg) brightness(101%) contrast(96%)',
+		filter-forground:        'brightness(0) saturate(100%) invert(96%) sepia(4%) saturate(184%) hue-rotate(180deg) brightness(101%) contrast(96%)',
+		filter-forground-1:      'brightness(0) saturate(100%) invert(72%) sepia(8%) saturate(170%) hue-rotate(180deg) brightness(92%) contrast(88%)',
+		filter-red:              'brightness(0) saturate(100%) invert(48%) sepia(72%) saturate(3271%) hue-rotate(326deg) brightness(102%) contrast(94%)',
+		filter-green:            'brightness(0) saturate(100%) invert(74%) sepia(61%) saturate(442%) hue-rotate(83deg) brightness(96%) contrast(91%)',
+		filter-light-bg:         'brightness(0) saturate(100%) invert(100%)',
+	),
+);
+
+@mixin theme-vars($theme) {
+	@each $name, $value in map.get($themes, $theme) {
+		--#{$name}: #{$value};
+	}
+}
+
+
+$core-bridge: (
+	colour-forground:      color-main-text,
+	colour-background:     color-main-background,
+	colour-gray-100:       color-background-darker,
+	theme-divider:         color-border,
+	theme-divider-2:       color-border-maxcontrast,
+	colour-blue-600:       color-primary-element,
+	colour-primary-50:     color-primary-element-light,
+	colour-red-600:        color-error,
+	colour-green-700:      color-success,
+	colour-yellow:         color-warning,
+);
+
+@mixin root-palette {
+	@each $theme, $vars in $themes {
+		:root[data-nexeno-#{$theme}] {
+			@include theme-vars($theme);
+		}
+	}
+	@each $theme, $vars in $themes {
+		:root[data-nexeno-#{$theme}] {
+			@each $local, $core in $core-bridge {
+				--#{$core}: #{map.get($vars, $local)} !important;
+			}
+		}
+	}
+}
+
+
+
+$main-page-bg:           var(--main-page-bg);
+$main-page-bg-dashboard: var(--main-page-bg-dashboard);
+$theme-divider:          var(--theme-divider);
+$theme-divider-2:        var(--theme-divider-2);
+$colour-forground:       var(--colour-forground);
+$colour-forground-1:     var(--colour-forground-1);
+$colour-forground-2:     var(--colour-forground-2);
+$colour-scrollbar-track: var(--colour-scrollbar-track);
+$colour-scrollbar-main:  var(--colour-scrollbar-main);
+$colour-background:      var(--colour-background);
+$colour-primary-100:     var(--colour-primary-100);
+$colour-blue-400:        var(--colour-blue-400);
+$colour-primary-50:      var(--colour-primary-50);
+$colour-gray-100:        var(--colour-gray-100);
+$secondary-card-bg:      var(--secondary-card-bg);
+$colour-sidebar-bg:      var(--colour-sidebar-bg);
+$colour-green-50:        var(--colour-green-50);
+$colour-green-700:       var(--colour-green-700);
+$colour-blue-600:        var(--colour-blue-600);
+$colour-red-50:          var(--colour-red-50);
+$colour-red-600:         var(--colour-red-600);
+$colour-semilight:       var(--colour-semilight);
+$colour-sidebar-link-bg: var(--colour-sidebar-link-bg);
+$colour-dark-colour:     var(--colour-dark-colour);
+$colour-mask:            var(--colour-mask);
+$colour-yellow:          var(--colour-yellow);
+$colour-yellow-50:       var(--colour-yellow-50);
+$colour-forground-white: var(--colour-forground-white);
+$colour-white-20:        var(--colour-white-20);
+$colour-cheveron-seprator: var(--colour-cheveron-seprator);
+$gradient-brand-vertical: var(--gradient-brand-vertical);
+$gradient-brand-diagonal: var(--gradient-brand-diagonal);
+$box-shadow-1:           var(--box-shadow-1);
+$box-shadow-2:           var(--box-shadow-2);
+$box-shadow-3:           var(--box-shadow-3);
+$box-shadow-4:           var(--box-shadow-4);
+$filter-primry-600:      var(--filter-primry-600);
+$filter-forground:       var(--filter-forground);
+$filter-forground-1:     var(--filter-forground-1);
+$filter-red:             var(--filter-red);
+$filter-green:           var(--filter-green);
+$filter-light-bg:        var(--filter-light-bg);
+
+
+$header-height:          var(--header-height);

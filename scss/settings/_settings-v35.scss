@@ -1,0 +1,47 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+@use './personal-contact-v35' as *;
+@use './language-locale-v35' as *;
+@use './security-v35' as *;
+@use './notifications-v35' as *;
+@use './server-v35' as *;
+@use './theming-v35' as *;
+@use './ai-v35' as *;
+@use './groupware-v35' as *;
+@use './activity-v35' as *;
+@use './serverinfo-v35' as *;
+@use './teams-v35' as *;
+@use './availability-v35' as *;
+@use './groupfolders-v35' as *;
+
+@mixin settings {
+	.app-settings{
+		main{
+			@include personal-contact;
+			@include language-locale;
+			@include security;
+			@include notifications;
+			@include server;
+			@include theming;
+			@include ai;
+			@include groupware;
+			@include activity-settings;
+			@include serverinfo;
+			@include teams;
+			@include availability;
+			@include groupfolders;
+		}
+	}
+	@include personal-contact-popover;
+	@include language-locale-dropdown;
+	@include notifications-dropdown;
+	@include server-dropdown;
+	@include groupware-popup;
+	@include teams-popup;
+	@include availability-dropdown;
+}

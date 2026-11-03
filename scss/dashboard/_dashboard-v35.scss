@@ -1,0 +1,102 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+
+@mixin dashboard {
+	#app-dashboard {
+		> h2 {
+			&:has(+ .panels) {
+				padding-bottom: 16px;
+				border-bottom: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+			}
+		}
+	}
+	.clear-at-select{
+		.v-select{
+			&.select{
+				margin: 0;
+			}
+		}
+	}
+	.clear-at-select{
+		.v-select{
+			&.select.clear-at-select__select{
+				.vs__dropdown-toggle{
+					border: 1px solid $theme-divider !important;
+					border-radius: $rounded-8;
+					&:focus-within{
+						border-color: $colour-blue-600 !important;
+					}
+					.vs__selected-options{
+						padding: 0;
+					}
+				}
+				&.vs--single{
+					.vs__selected{
+						padding-inline: 10px 40px;
+						color: $colour-forground;
+					}
+					&.vs--open{
+						.vs__selected{
+							opacity: 1;
+							padding-inline-start: 16px;
+						}
+					}
+				}
+			}
+		}
+	}
+	.set-status-modal{
+		form{
+			.clear-at-select{
+				.vs__search{
+					padding-inline-start: 10px;
+					.input-field__main-wrapper{
+						input{
+							height: 34px;
+							padding-block: 0;
+							padding-inline-start: 10px;
+							border: 0;
+						}
+					}
+				}
+			}
+		}
+		.status-buttons{
+			padding: 0 !important;
+			gap: 8px;
+		}
+	}
+	.ctm-widget-modal {
+		.modal__content {
+			ol {
+				&.panels {
+					+ ol {
+						&.panels {
+							&:last-child {
+								padding-bottom: 20px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	&:has(li#status-weather) {
+		.v-popper__inner:has(.action-input__icon.icon-rename) {
+			ul{
+				li{
+					&:last-child{
+						.action-input__icon-wrapper{
+							margin-top: 0;
+						}
+					}
+				}
+			}
+		}
+	}
+}
