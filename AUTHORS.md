@@ -4,4 +4,4 @@
 -->
 # Authors
 
-- Nexeno <TODO-author@example.com>
+- Nexeno <support@nexeno.io>

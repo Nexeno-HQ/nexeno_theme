@@ -13,7 +13,7 @@
 ## Reporting a Vulnerability
 
 Please do not report security issues in public GitHub issues.
-Send the details to TODO-security@example.com instead, including:
+Send the details to support@nexeno.io instead, including:
 
 - App version and Nextcloud version
 - A description of the vulnerability

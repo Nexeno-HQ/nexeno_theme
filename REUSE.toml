@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 Nexeno contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+version = 1
+SPDX-PackageName = "nexeno_theme"
+
+[[annotations]]
+path = ["l10n/**.js", "l10n/**.json", "translationfiles/**.po", "translationfiles/**.pot"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Nexeno contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["img/**", "css/**", "js/page/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Nexeno contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = "LICENSE"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2007 Free Software Foundation, Inc."
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["package.json", "package-lock.json", "composer.json", "composer.lock", ".gitignore", ".nextcloudignore", "krankerl.toml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "none"
+SPDX-License-Identifier = "CC0-1.0"
