@@ -11,7 +11,11 @@ Nexeno theme brings the Nexeno brand colours to Nextcloud in a light and a dark 
 - Tailored layouts for Files, Photos, Dashboard, Activity, Calendar, Contacts, Deck, Notes, Tasks, Talk, Collectives, Mail and more
 - Works with Nextcloud 32, 33, 34 and 35
 
-![Nexeno theme - Files](src/assets/images/showcase/files.png)
+![Overview: a clean Light and Dark theme for Nextcloud, switched on from the personal settings](https://nexeno.io/assets/nexeno_theme/overview.png)
+![Files: a refined file browser with clearer icons, folders and previews](https://nexeno.io/assets/nexeno_theme/files.png)
+![Clean layout: consistent spacing, colours and typography across the dashboard, Deck, Office and Files](https://nexeno.io/assets/nexeno_theme/clean-layout.png)
+![Activity: file updates, shares and team actions in a refreshed Activity screen](https://nexeno.io/assets/nexeno_theme/activity.png)
+![Settings: turn the Nexeno theme on or off and choose Light or Dark under Appearance and accessibility](https://nexeno.io/assets/nexeno_theme/settings.png)
 
 ## Installation/Update
 
