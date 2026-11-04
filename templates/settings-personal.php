@@ -33,7 +33,7 @@ $options = [
 		<?php if ($_['excludedApps'] !== []) {
 			p($l->t('Nexeno apps such as %s have their own built-in design, so this setting does not change their appearance.', [implode(', ', $_['excludedApps'])]));
 		} ?>
-		<?php p($l->t('Turn on "Enable Nexeno Theme" below, then choose Light or Dark. When you turn it off, your account goes back to your standard Nextcloud appearance.')); ?>
+		<?php p($l->t('Turn on "Enable Nexeno theme" below, then choose Light or Dark. When you turn it off, your account goes back to your standard Nextcloud appearance.')); ?>
 	</p>
 
 	<p id="nexeno_theme-master-toggle">
@@ -43,7 +43,7 @@ $options = [
 			<?php if ($enabled) {
 				print_unescaped(' checked');
 			} ?>>
-		<label for="nexeno_theme-enabled"><?php p($l->t('Enable Nexeno Theme')); ?></label>
+		<label for="nexeno_theme-enabled"><?php p($l->t('Enable Nexeno theme')); ?></label>
 	</p>
 
 	<div class="nexeno_theme-theme-card">

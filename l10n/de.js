@@ -9,7 +9,6 @@ OC.L10N.register(
     "Enable Nexeno dark" : "Nexeno dunkel aktivieren",
     "Nexeno theme" : "Nexeno-Design",
     "Nexeno is a custom built theme for your account. It only changes CSS — colours and backgrounds — nothing else about Nextcloud is affected. Turn \"Enable Nexeno\" on below, then pick Light or Dark. Switching back to the standard theme automatically restores whatever you had set before Nexeno was turned on." : "Nexeno ist ein eigens für Ihr Konto erstelltes Design. Es ändert nur CSS – Farben und Hintergründe – nichts anderes an Nextcloud wird beeinflusst. Aktivieren Sie unten \"Nexeno aktivieren\" und wählen Sie dann Hell oder Dunkel. Beim Zurückwechseln zum Standarddesign werden automatisch die Einstellungen wiederhergestellt, die vor der Aktivierung von Nexeno galten.",
-    "Enable Nexeno Theme" : "Nexeno-Design aktivieren",
     "Not logged in" : "Nicht angemeldet",
     "Invalid variant" : "Ungültige Variante",
     "Nexeno theme saved — please refresh the page to fully apply it." : "Nexeno-Design gespeichert — bitte laden Sie die Seite neu, um es vollständig anzuwenden.",
@@ -188,6 +187,10 @@ OC.L10N.register(
     "Reuses your content" : "Nutzt Ihre Inhalte wieder",
     "Pull images and documents from your own files." : "Ziehen Sie Bilder und Dokumente direkt aus Ihren eigenen Dateien.",
     "Forms that land somewhere" : "Formulare, die irgendwo ankommen",
-    "Submissions arrive in CRM instead of an inbox." : "Einsendungen landen in CRM statt in einem Posteingang."
+    "Submissions arrive in CRM instead of an inbox." : "Einsendungen landen in CRM statt in einem Posteingang.",
+    "The Nexeno theme gives the standard Nextcloud apps a consistent, modern look." : "Das Nexeno-Design gibt den Standard-Apps von Nextcloud ein einheitliches, modernes Aussehen.",
+    "Nexeno apps such as %s have their own built-in design, so this setting does not change their appearance." : "Nexeno-Apps wie %s haben ein eigenes, integriertes Design. Diese Einstellung ändert ihr Aussehen daher nicht.",
+    "Turn on \"Enable Nexeno theme\" below, then choose Light or Dark. When you turn it off, your account goes back to your standard Nextcloud appearance." : "Aktivieren Sie unten „Nexeno-Design aktivieren“ und wählen Sie dann Hell oder Dunkel. Wenn Sie es ausschalten, erhält Ihr Konto wieder Ihr gewohntes Nextcloud-Erscheinungsbild.",
+    "Nexeno Theme" : "Nexeno-Design"
 },
 "nplurals=2; plural=(n != 1);");

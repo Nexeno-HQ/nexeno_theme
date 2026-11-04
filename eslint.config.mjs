@@ -26,6 +26,16 @@ export default [
 		},
 	},
 	{
+		// Defined at build time by webpack's DefinePlugin.
+		files: ['src/**'],
+		languageOptions: {
+			globals: {
+				appName: 'readonly',
+				appVersion: 'readonly',
+			},
+		},
+	},
+	{
 		// Plain browser scripts loaded by Nextcloud with Util::addScript, not modules.
 		files: ['js/*.js'],
 		languageOptions: {

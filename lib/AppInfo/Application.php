@@ -21,6 +21,7 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'nexeno_theme';
@@ -49,19 +50,20 @@ class Application extends App implements IBootstrap {
 		INavigationManager $navigationManager,
 		IUserSession $userSession,
 		IURLGenerator $urlGenerator,
+		IFactory $l10nFactory,
 	): void {
 		if ($userSession->getUser() === null) {
 			return;
 		}
 
-		$navigationManager->add(static function () use ($urlGenerator): array {
+		$navigationManager->add(static function () use ($urlGenerator, $l10nFactory): array {
 			return [
 				'id' => self::APP_ID,
 				'order' => 10,
 				'type' => 'link',
 				'href' => $urlGenerator->linkToRoute(self::APP_ID . '.page.index'),
 				'icon' => $urlGenerator->imagePath(self::APP_ID, 'app.svg'),
-				'name' => 'Nexeno',
+				'name' => $l10nFactory->get(self::APP_ID)->t('Nexeno Theme'),
 			];
 		});
 	}

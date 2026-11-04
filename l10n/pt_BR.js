@@ -9,7 +9,6 @@ OC.L10N.register(
     "Enable Nexeno dark" : "Ativar Nexeno escuro",
     "Nexeno theme" : "Tema Nexeno",
     "Nexeno is a custom built theme for your account. It only changes CSS — colours and backgrounds — nothing else about Nextcloud is affected. Turn \"Enable Nexeno\" on below, then pick Light or Dark. Switching back to the standard theme automatically restores whatever you had set before Nexeno was turned on." : "Nexeno é um tema personalizado para sua conta. Ele altera apenas o CSS — cores e planos de fundo — nada mais no Nextcloud é afetado. Ative \"Ativar Nexeno\" abaixo e depois escolha Claro ou Escuro. Voltar ao tema padrão restaura automaticamente o que você tinha configurado antes de ativar o Nexeno.",
-    "Enable Nexeno Theme" : "Ativar o tema Nexeno",
     "Not logged in" : "Sessão não iniciada",
     "Invalid variant" : "Variante inválida",
     "Nexeno theme saved — please refresh the page to fully apply it." : "Tema Nexeno salvo — atualize a página para aplicá-lo completamente.",
@@ -188,6 +187,10 @@ OC.L10N.register(
     "Reuses your content" : "Reaproveita seu conteúdo",
     "Pull images and documents from your own files." : "Puxe imagens e documentos diretamente dos seus próprios arquivos.",
     "Forms that land somewhere" : "Formulários que chegam a algum lugar",
-    "Submissions arrive in CRM instead of an inbox." : "Os envios chegam ao CRM em vez de a uma caixa de entrada."
+    "Submissions arrive in CRM instead of an inbox." : "Os envios chegam ao CRM em vez de a uma caixa de entrada.",
+    "The Nexeno theme gives the standard Nextcloud apps a consistent, modern look." : "O tema Nexeno dá aos aplicativos padrão do Nextcloud uma aparência moderna e consistente.",
+    "Nexeno apps such as %s have their own built-in design, so this setting does not change their appearance." : "Aplicativos Nexeno como %s têm seu próprio design integrado, então esta configuração não altera a aparência deles.",
+    "Turn on \"Enable Nexeno theme\" below, then choose Light or Dark. When you turn it off, your account goes back to your standard Nextcloud appearance." : "Ative “Ativar o tema Nexeno” abaixo e escolha Claro ou Escuro. Ao desativá-lo, sua conta volta à sua aparência padrão do Nextcloud.",
+    "Nexeno Theme" : "Tema Nexeno"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

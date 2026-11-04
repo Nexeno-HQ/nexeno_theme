@@ -22,7 +22,7 @@ endif
 OCC ?= php ../../occ
 SIGN_PATH ?= $(CURDIR)/$(package_dir)
 
-.PHONY: all help install-deps build watch lint lint-js lint-css lint-php psalm cs-fix l10n appstore sign clean
+.PHONY: all help install-deps build watch lint lint-js lint-css lint-php psalm cs-fix test l10n appstore sign clean
 
 all: build
 
@@ -32,6 +32,7 @@ help:
 	@echo "make watch          Rebuild the CSS on every change"
 	@echo "make lint           ESLint, Stylelint, PHP syntax, code style and Psalm"
 	@echo "make cs-fix         Fix PHP code style"
+	@echo "make test           Run the PHP unit tests"
 	@echo "make l10n           Update translationfiles/templates/$(app_name).pot"
 	@echo "make appstore       Build $(package)"
 	@echo "make sign           Sign the app files and print the App Store signature"
@@ -65,6 +66,9 @@ psalm:
 
 cs-fix:
 	composer run cs:fix
+
+test:
+	composer run test:unit
 
 l10n:
 	npm run l10n:pot

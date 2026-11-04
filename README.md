@@ -58,6 +58,7 @@ Install the npm and composer packages once with `make install-deps`, then:
 ```bash
 make lint       # ESLint, Stylelint, PHP syntax, PHP code style and Psalm
 make cs-fix     # fix PHP code style
+make test       # PHP unit tests (tests/Unit, no Nextcloud server needed)
 make l10n       # update translationfiles/templates/nexeno_theme.pot
 ```
 
@@ -74,7 +75,7 @@ make sign       # sign the app files (appinfo/signature.json), repack, print the
 
 ## Contributing
 
-Run `make lint` before opening a pull request, and keep each change small enough to review in the browser on every supported Nextcloud version. Report security issues as described in [SECURITY.md](SECURITY.md), not in public issues.
+Run `make lint` and `make test` before opening a pull request, and keep each change small enough to review in the browser on every supported Nextcloud version. Report security issues as described in [SECURITY.md](SECURITY.md), not in public issues.
 
 ## License
 

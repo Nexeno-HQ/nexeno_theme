@@ -34,7 +34,7 @@
 			</div>
 			<div class="hero-image-wrapper">
 				<div class="img-wrapper">
-					<img :src="showcaseImage('hero-slider-perview.jpg')" alt="hero section preview">
+					<img :src="showcaseImage('hero-slider-perview.jpg')" alt="">
 				</div>
 			</div>
 		</section>
@@ -61,7 +61,7 @@
 									</span>
 								</div>
 								<div class="version-wrapper">
-									<span>{{ t('nexeno_theme', 'Version {version}', { version: '1.0.0' }) }}</span>
+									<span>{{ t('nexeno_theme', 'Version {version}', { version: appVersion }) }}</span>
 								</div>
 							</div>
 						</div>
@@ -83,7 +83,7 @@
 
 		<section class="showcase-section">
 			<div class="title">
-				<h2 v-html="betterExperienceHeading" />
+				<h2>{{ betterExperienceHeading.before }}<span>{{ betterExperienceHeading.highlight }}</span>{{ betterExperienceHeading.after }}</h2>
 			</div>
 			<div class="content-small">
 				<p>
@@ -191,7 +191,7 @@
 import { translate as t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import { generateUrl, imagePath } from '@nextcloud/router'
+import { imagePath } from '@nextcloud/router'
 import { state, setThemeVariant } from '../store'
 
 export default {
@@ -209,24 +209,25 @@ export default {
 		themeEnabled() {
 			return state.themeVariant !== 'off'
 		},
+		appVersion() {
+			return appVersion
+		},
+		/**
+		 * The translation marks the highlighted words with <span>. Split it and render each part
+		 * as text, so a translation can never inject HTML.
+		 */
 		betterExperienceHeading() {
-			return t('nexeno_theme', 'A <span>better experience</span> across Nextcloud')
+			const text = t('nexeno_theme', 'A <span>better experience</span> across Nextcloud')
+			const match = text.match(/^([\s\S]*?)<span>([\s\S]*?)<\/span>([\s\S]*)$/)
+			return match
+				? { before: match[1], highlight: match[2], after: match[3] }
+				: { before: text.replace(/<[^>]*>/g, ''), highlight: '', after: '' }
 		},
 	},
 	methods: {
 		t,
 		toggleTheme(enabled) {
 			setThemeVariant(enabled ? (state.themeLastVariant || 'light') : 'off')
-		},
-
-		async enableThemeAndOpenSettings() {
-			if (!this.themeEnabled) {
-				await setThemeVariant(state.themeLastVariant || 'light')
-				if (!this.themeEnabled) {
-					return
-				}
-			}
-			window.location.href = generateUrl('/settings/user/theming')
 		},
 
 		scrollToApps() {

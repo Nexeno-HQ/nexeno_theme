@@ -55,11 +55,6 @@
 	var PASSWORD_CONFIRM_DIALOG_TEXT = t('nexeno_theme', 'Authentication required');
 	var GLOBAL_SEARCH_CLASS = 'global-search';
 	var GLOBAL_SEARCH_SELECTOR = '.unified-search-modal';
-	var AVATAR_INITIALS_WRAPPER = '.avatardiv__initials-wrapper';
-	var AVATAR_TEXT_SELECTOR = '.button-vue__text';
-	var AVATAR_CHECKED_ATTR = 'data-nexeno-avatar-checked';
-	var AVATAR_IMAGE_CLASS = 'avatardiv__nexeno-image';
-	var AVATAR_IMAGE_SIZE = 32;
 	var ENCRYPTION_POPUP_CLASS = 'encryption-popup';
 	var ENCRYPTION_DIALOG_NAME_SELECTOR = '.dialog__name';
 	var ENCRYPTION_DIALOG_TEXT = t('nexeno_theme', 'Confirm enabling encryption');
@@ -129,48 +124,6 @@
 		var rows = modal.querySelectorAll(FILE_PICKER_ROW);
 		for (var i = 0; i < rows.length; i++) {
 			markPicker(rows[i], classOfPickerRow(rows[i]));
-		}
-	}
-
-	function avatarImageUrl(uid) {
-		var query = 'guestFallback=true';
-		if (window.OC && typeof OC.generateUrl === 'function') {
-			return OC.generateUrl('/avatar/{user}/{size}', { user: uid, size: AVATAR_IMAGE_SIZE }) + '?' + query;
-		}
-		return '/avatar/' + encodeURIComponent(uid) + '/' + AVATAR_IMAGE_SIZE + '?' + query;
-	}
-
-	function guessAvatarUserId(avatarEl) {
-		var host = avatarEl.closest('li, button') || avatarEl.parentElement;
-		var textEl = host && host.querySelector(AVATAR_TEXT_SELECTOR);
-		var text = textEl ? (textEl.textContent || '').trim() : '';
-		return text ? text.replace(/\s+/g, '').toLowerCase() : 'guest';
-	}
-
-	function upgradeInitialsAvatar(avatarEl, wrapper) {
-		avatarEl.setAttribute(AVATAR_CHECKED_ATTR, '1');
-		var url = avatarImageUrl(guessAvatarUserId(avatarEl));
-		var img = document.createElement('img');
-		img.alt = '';
-		img.className = AVATAR_IMAGE_CLASS;
-		img.onerror = function () {
-			img.remove();
-			wrapper.style.display = '';
-		};
-		wrapper.style.display = 'none';
-		avatarEl.appendChild(img);
-		img.src = url;
-	}
-
-	function upgradeInitialsAvatars(modal) {
-		var wrappers = modal.querySelectorAll(AVATAR_INITIALS_WRAPPER);
-		for (var i = 0; i < wrappers.length; i++) {
-			var wrapper = wrappers[i];
-			var avatarEl = wrapper.closest('.avatardiv');
-			if (!avatarEl || avatarEl.hasAttribute(AVATAR_CHECKED_ATTR) || avatarEl.querySelector('img')) {
-				continue;
-			}
-			upgradeInitialsAvatar(avatarEl, wrapper);
 		}
 	}
 
@@ -283,7 +236,6 @@
 			}
 			if (modals[i].querySelector(GLOBAL_SEARCH_SELECTOR)) {
 				modals[i].classList.add(GLOBAL_SEARCH_CLASS);
-				upgradeInitialsAvatars(modals[i]);
 			}
 			markFilePickerRows(modals[i]);
 			markSections(modals[i]);
