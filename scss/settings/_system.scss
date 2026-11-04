@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use '../variables' as *;
+@use '../images' as *;
 @use '../themes' as *;
 @use './mixins' as *;
 
@@ -412,7 +413,7 @@
                                             &::before{
                                                 border-color: $colour-blue-600;
                                                 background-color: $colour-blue-600;
-                                                background-image: url(../img/checkbox-mark.svg);
+                                                background-image: $icon-checkbox-mark;
                                                 background-repeat: no-repeat;
                                                 background-position: center;
                                                 background-size: 16px;

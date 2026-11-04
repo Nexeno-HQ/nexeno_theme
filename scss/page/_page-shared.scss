@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use '../variables' as *;
+@use '../images' as *;
 @use '../themes' as *;
 @use '../settings/mixins' as *;
 
@@ -126,7 +127,7 @@
 								inset-inline-start: 0;
 								width: 16px;
 								height: 16px;
-								background: url('../img/badge-check.svg');
+								background: $icon-badge-check;
 								background-repeat: no-repeat;
 							}
 						}

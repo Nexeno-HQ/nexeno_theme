@@ -10,7 +10,7 @@ SPDX-FileCopyrightText = "2026 Nexeno contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["img/**", "css/**", "js/page/**"]
+path = ["img/**", "src/assets/images/**", "css/**", "js/page/**", "scss/_images.scss"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 Nexeno contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

@@ -28,4 +28,7 @@ class ThemeConfig {
 	public const CONFIG_KEY_BG_BACKUP_COLOR = 'bg_backup_color';
 	public const CONFIG_KEY_BG_BACKUP_PRIMARY = 'bg_backup_primary';
 	public const CONFIG_KEY_BG_BACKUP_THEMES = 'bg_backup_themes';
+
+	/** Initial state with the user's own Nextcloud theme ids, so the browser can switch to "off" without waiting for the server. */
+	public const INITIAL_STATE_USER_THEMES = 'user-themes';
 }

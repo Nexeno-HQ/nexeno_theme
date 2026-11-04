@@ -44,9 +44,11 @@ The theme runs fully inside your Nextcloud and loads nothing from outside servic
     <website>https://nexeno.io/</website>
     <bugs>https://github.com/Nexeno-HQ/nexeno_theme/issues</bugs>
     <repository type="git">https://github.com/Nexeno-HQ/nexeno_theme.git</repository>
-    <screenshot>https://nexeno.io/assets/nexeno_theme/dashboard.png</screenshot>
+    <screenshot>https://nexeno.io/assets/nexeno_theme/overview.png</screenshot>
     <screenshot>https://nexeno.io/assets/nexeno_theme/files.png</screenshot>
-    <screenshot>https://nexeno.io/assets/nexeno_theme/photos.png</screenshot>
+    <screenshot>https://nexeno.io/assets/nexeno_theme/clean-layout.png</screenshot>
+    <screenshot>https://nexeno.io/assets/nexeno_theme/activity.png</screenshot>
+    <screenshot>https://nexeno.io/assets/nexeno_theme/settings.png</screenshot>
 
     <dependencies>
         <php min-version="8.1" max-version="8.5"/>

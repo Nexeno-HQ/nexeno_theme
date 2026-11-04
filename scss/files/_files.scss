@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use '../variables' as *;
+@use '../images' as *;
 @use '../themes' as *;
 @use '../settings/mixins' as *;
 
@@ -11,8 +12,8 @@
 	height: 20px;
 	background: none;
 	background-color: currentColor;
-	mask: url(../img/sort-icon.svg) no-repeat center / contain;
-	-webkit-mask: url(../img/sort-icon.svg) no-repeat center / contain;
+	mask: $icon-sort-icon no-repeat center / contain;
+	-webkit-mask: $icon-sort-icon no-repeat center / contain;
 }
 
 

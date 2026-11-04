@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
 */
 @use '../variables' as *;
+@use '../images' as *;
 @use '../themes' as *;
 @use '../settings/mixins' as *;
 
@@ -220,8 +221,8 @@
 												width: 20px;
 												height: 20px;
 												background-color: $colour-blue-600;
-												mask: url(../img/folder.svg) no-repeat center / contain;
-												-webkit-mask: url(../img/folder.svg) no-repeat center / contain;
+												mask: $icon-folder no-repeat center / contain;
+												-webkit-mask: $icon-folder no-repeat center / contain;
 											}
 										}
 									}

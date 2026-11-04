@@ -16,13 +16,11 @@ $options = [
 		'title' => $l->t('Nexeno light'),
 		'description' => $l->t('The Nexeno brand colours on a clean light appearance.'),
 		'label' => $l->t('Enable Nexeno light'),
-		'image' => 'preview-light.svg',
 	],
 	'dark' => [
 		'title' => $l->t('Nexeno dark'),
 		'description' => $l->t('The Nexeno brand colours on a dark appearance that reduces overall luminosity.'),
 		'label' => $l->t('Enable Nexeno dark'),
-		'image' => 'preview-dark.svg',
 	],
 ];
 ?>
@@ -49,9 +47,8 @@ $options = [
 	<div class="nexeno_theme-theme-card">
 		<?php foreach ($options as $value => $option): ?>
 			<div class="nexeno_theme-theme-card__item">
-				<img class="nexeno_theme-theme-card__preview"
-					src="<?php p(image_path('nexeno_theme', $option['image'])); ?>"
-					alt="" aria-hidden="true">
+				<span class="nexeno_theme-theme-card__preview nexeno_theme-theme-card__preview--<?php p($value); ?>"
+					aria-hidden="true"></span>
 				<div class="nexeno_theme-theme-card__body">
 					<h3><?php p($option['title']); ?></h3>
 					<p><?php p($option['description']); ?></p>

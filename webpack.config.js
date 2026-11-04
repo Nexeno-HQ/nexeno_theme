@@ -24,6 +24,11 @@ module.exports = {
 		rules: [
 			{ test: /\.vue$/, loader: 'vue-loader' },
 			{ test: /\.css$/, use: ['style-loader', 'css-loader'] },
+			{
+				test: /\.(png|jpe?g|webp|gif|svg)$/,
+				type: 'asset/resource',
+				generator: { filename: 'img/[name].[contenthash:8][ext]' },
+			},
 		],
 	},
 	plugins: [

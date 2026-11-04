@@ -62,6 +62,10 @@ class BeforeTemplateRenderedListener implements IEventListener {
 
 
 		$this->initialState->provideInitialState(ThemeConfig::CONFIG_KEY_VARIANT, $variant);
+		$this->initialState->provideInitialState(
+			ThemeConfig::INITIAL_STATE_USER_THEMES,
+			$this->coreTheming->enabledThemes($user->getUID()),
+		);
 
 		if ($variant === 'light' || $variant === 'dark') {
 			$nonce = Server::get(ContentSecurityPolicyNonceManager::class)->getNonce();

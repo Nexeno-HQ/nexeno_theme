@@ -13,7 +13,11 @@
 		})
 		.join(', ')
 
+	// Nextcloud themes that stay on while a Nexeno variant is active (mirrors CoreTheming::KEEP_THEMES).
+	const KEEP_THEMES = ['opendyslexic']
+
 	let currentVariant = null
+	let userThemes = null
 
 	let channel = null
 	try {
@@ -22,8 +26,8 @@
 		channel = null
 	}
 
-	function readVariant() {
-		const el = document.getElementById('initial-state-nexeno_theme-variant')
+	function readInitialState(key) {
+		const el = document.getElementById('initial-state-nexeno_theme-' + key)
 		if (!el) {
 			return null
 		}
@@ -92,7 +96,8 @@
 	}
 
 	function apply() {
-		setVariant(readVariant())
+		userThemes = readInitialState('user-themes')
+		setVariant(readInitialState('variant'))
 
 		const mount = document.getElementById('settings-personal-theming')
 		if (mount && window.MutationObserver) {
@@ -165,12 +170,49 @@
 		})
 	}
 
+	function currentBodyThemes() {
+		const value = document.body ? document.body.getAttribute('data-themes') : null
+		return value ? value.split(',').filter(Boolean) : []
+	}
+
+	/**
+	 * The theme ids <body> needs for a variant, worked out in the browser so the whole page switches at
+	 * once. The server sends the same list back (CoreTheming::bodyThemes) and that answer wins.
+	 *
+	 * @param {string} variant 'off', 'light' or 'dark'.
+	 * @return {string[]|null} Theme ids, or null when they are not known yet.
+	 */
+	function bodyThemesFor(variant) {
+		if (variant === 'light' || variant === 'dark') {
+			const kept = (userThemes || currentBodyThemes()).filter(function(id) {
+				return KEEP_THEMES.indexOf(id) !== -1
+			})
+			return [variant].concat(kept)
+		}
+		return Array.isArray(userThemes) && userThemes.length > 0 ? userThemes : null
+	}
+
 	function persistVariant(variant) {
 		if (VARIANTS.indexOf(variant) === -1) {
 			return
 		}
 
+		// While the theme is off, <body> shows the user's own themes; they may have changed them on this page.
+		if (currentVariant !== 'light' && currentVariant !== 'dark') {
+			const live = currentBodyThemes()
+			if (live.length > 0) {
+				userThemes = live
+			}
+		}
+
 		setVariant(variant)
+		const themes = bodyThemesFor(variant)
+		if (themes) {
+			setBodyThemes(themes)
+			if (channel) {
+				channel.postMessage({ variant, themes })
+			}
+		}
 
 		fetch(OC.generateUrl('/apps/nexeno_theme/variant'), {
 			method: 'PUT',

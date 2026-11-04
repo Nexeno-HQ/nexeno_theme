@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use '../variables' as *;
+@use '../images' as *;
 @use '../themes' as *;
 @use '../settings/mixins' as *;
 
@@ -11,8 +12,8 @@
 	height: 12px;
 	background: none;
 	background-color: currentColor;
-	mask: url(../img/chevron-down.svg) no-repeat center / contain;
-	-webkit-mask: url(../img/chevron-down.svg) no-repeat center / contain;
+	mask: $icon-chevron-down no-repeat center / contain;
+	-webkit-mask: $icon-chevron-down no-repeat center / contain;
 }
 
 @mixin dashboard {
@@ -1169,8 +1170,8 @@
 							inset-inline-start: 12px;
 							top:50%;
 							transform: translateY(-50%);
-							mask: url(../img/plus-icon.svg) no-repeat center / contain;
-							-webkit-mask: url(../img/plus-icon.svg) no-repeat center / contain;
+							mask: $icon-plus-icon no-repeat center / contain;
+							-webkit-mask: $icon-plus-icon no-repeat center / contain;
 							background-color: currentColor;
 							transition: all ease-in-out 300ms;
 						}

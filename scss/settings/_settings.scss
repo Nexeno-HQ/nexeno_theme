@@ -4,6 +4,7 @@
  */
 @use '../variables' as *;
 @use '../themes' as *;
+@use '../images' as *;
 @use './mixins' as *;
 @use './sync-clients' as *;
 @use './sharing' as *;
@@ -40,6 +41,24 @@
 	#nexeno_theme-settings .nexeno_theme-theme-card {
 	opacity: 0.5;
 	pointer-events: none;
+}
+
+// Shown whether the theme is on or off, so it lives outside the :root[data-nexeno] rules.
+// Same size the 280 × 160 preview image had as an <img>.
+.nexeno_theme-theme-card__preview {
+	display: block;
+	width: 100%;
+	max-width: 280px;
+	aspect-ratio: 280 / 160;
+	background: center / contain no-repeat;
+
+	&--light {
+		background-image: $preview-light;
+	}
+
+	&--dark {
+		background-image: $preview-dark;
+	}
 }
 
 #nexeno_theme-settings {
