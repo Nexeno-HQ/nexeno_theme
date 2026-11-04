@@ -2,8 +2,8 @@
  * SPDX-FileCopyrightText: 2026 Nexeno contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-(function () {
-	'use strict';
+(function() {
+	'use strict'
 
 	const SELECTORS = {
 		navToggle: ['.app-navigation-toggle', '[data-cy-nav-toggle]', 'button[class*="navigation-toggle"]'],
@@ -21,7 +21,7 @@
 		popupActions: ['.dialog__actions'],
 		popupSettingsNav: ['.app-settings__navigation', '.dialog__navigation'],
 		secondaryPopupApps: ['#content.app-cookbook', '#content.app-news', '.app-cookbook', '.app-news'],
-	};
+	}
 
 	const CLASSES = {
 		navFooter: 'app-navigation__footer',
@@ -31,164 +31,164 @@
 		hasValue: 'nexeno-has-value',
 		secondaryPopup: 'secondary-popup',
 		gridSizes: { s: 'small-view', m: 'medium-view', l: 'large-view' },
-	};
+	}
 
-	const BOUND_ATTR = 'data-nexeno-bound';
-	const FOCUS_SUPPRESS_MS = 500;
+	const BOUND_ATTR = 'data-nexeno-bound'
+	const FOCUS_SUPPRESS_MS = 500
 
-	const query = (list) => list.join(', ');
-	const find = (list, root) => (root || document).querySelector(query(list));
-	const findAll = (list, root) => (root || document).querySelectorAll(query(list));
+	const query = (list) => list.join(', ')
+	const find = (list, root) => (root || document).querySelector(query(list))
+	const findAll = (list, root) => (root || document).querySelectorAll(query(list))
 
 	const defer = window.requestAnimationFrame
 		? (cb) => window.requestAnimationFrame(cb)
-		: (cb) => window.setTimeout(cb, 0);
+		: (cb) => window.setTimeout(cb, 0)
 
 	function wrap(el, className) {
 		if (!el || !el.parentNode || el.closest('.' + className)) {
-			return;
+			return
 		}
-		const wrapper = document.createElement('div');
-		wrapper.className = className;
-		el.parentNode.insertBefore(wrapper, el);
-		wrapper.appendChild(el);
+		const wrapper = document.createElement('div')
+		wrapper.className = className
+		el.parentNode.insertBefore(wrapper, el)
+		wrapper.appendChild(el)
 	}
 
 	function unwrap(el) {
 		if (!el || !el.parentNode) {
-			return;
+			return
 		}
 		while (el.firstChild) {
-			el.parentNode.insertBefore(el.firstChild, el);
+			el.parentNode.insertBefore(el.firstChild, el)
 		}
-		el.parentNode.removeChild(el);
+		el.parentNode.removeChild(el)
 	}
 
 	function accountSettingsFooter() {
-		const nav = find(SELECTORS.accountNav);
+		const nav = find(SELECTORS.accountNav)
 		if (!nav) {
-			return;
+			return
 		}
-		const toggle = find(SELECTORS.accountSettingsToggle, nav);
+		const toggle = find(SELECTORS.accountSettingsToggle, nav)
 		if (!toggle || !toggle.parentElement || toggle.parentElement.classList.contains(CLASSES.navFooter)) {
-			return;
+			return
 		}
-		wrap(toggle, CLASSES.navFooter);
+		wrap(toggle, CLASSES.navFooter)
 	}
 
 	function appstoreTableWrapper() {
-		const main = find(SELECTORS.appstoreMain);
+		const main = find(SELECTORS.appstoreMain)
 		if (!main) {
-			return;
+			return
 		}
-		const wrapper = main.querySelector('.' + CLASSES.tableWrapper);
+		const wrapper = main.querySelector('.' + CLASSES.tableWrapper)
 		if (wrapper && !wrapper.querySelector('table')) {
-			unwrap(wrapper);
+			unwrap(wrapper)
 		}
-		const table = find(SELECTORS.appstoreTable, main);
+		const table = find(SELECTORS.appstoreTable, main)
 		if (table && !table.parentElement.classList.contains(CLASSES.tableWrapper)) {
-			wrap(table, CLASSES.tableWrapper);
+			wrap(table, CLASSES.tableWrapper)
 		}
 	}
 
 	function appstoreGridSize() {
-		const main = find(SELECTORS.appstoreMain);
-		const grid = main && find(SELECTORS.appstoreGrid, main);
+		const main = find(SELECTORS.appstoreMain)
+		const grid = main && find(SELECTORS.appstoreGrid, main)
 		if (!grid) {
-			return;
+			return
 		}
-		const size = new URLSearchParams(window.location.search).get('grid');
-		const active = CLASSES.gridSizes[size] || CLASSES.gridSizes.s;
+		const size = new URLSearchParams(window.location.search).get('grid')
+		const active = CLASSES.gridSizes[size] || CLASSES.gridSizes.s
 		Object.values(CLASSES.gridSizes).forEach((name) => {
-			grid.classList.toggle(name, name === active);
-		});
+			grid.classList.toggle(name, name === active)
+		})
 	}
 
 	const settingsRoutes = [
 		{ className: 'admin-sharing', test: /\/settings\/admin\/sharing(?:\/|$)/i },
 		{ className: 'admin-theming', test: /\/settings\/admin\/theming(?:\/|$)/i },
 		{ className: 'admin-security', test: /\/settings\/admin\/security(?:\/|$)/i },
-	];
+	]
 
-	let appliedSectionClass = null;
+	let appliedSectionClass = null
 
 	function sectionClassFromPath() {
-		const path = window.location.pathname;
-		const match = path.match(/\/settings\/(?:user|admin)\/([a-z0-9_-]+)/i);
+		const path = window.location.pathname
+		const match = path.match(/\/settings\/(?:user|admin)\/([a-z0-9_-]+)/i)
 		if (match) {
-			return match[1];
+			return match[1]
 		}
 		if (/\/settings\/admin\/?$/i.test(path)) {
-			return 'overview';
+			return 'overview'
 		}
 		if (!/\/settings\/user\/?$/i.test(path)) {
-			return null;
+			return null
 		}
-		const original = document.getElementById('original-settings-content');
-		return (original && original.dataset.activeSectionId) || 'personal-info';
+		const original = document.getElementById('original-settings-content')
+		return (original && original.dataset.activeSectionId) || 'personal-info'
 	}
 
 	function wrapLooseText(root) {
 		findAll(SELECTORS.settingsSection, root).forEach((section) => {
 			Array.from(section.childNodes).forEach((node) => {
 				if (node.nodeType !== Node.TEXT_NODE || !node.nodeValue.trim()) {
-					return;
+					return
 				}
-				const paragraph = document.createElement('p');
-				paragraph.className = CLASSES.looseText;
-				paragraph.textContent = node.nodeValue.trim();
-				section.replaceChild(paragraph, node);
-			});
-		});
+				const paragraph = document.createElement('p')
+				paragraph.className = CLASSES.looseText
+				paragraph.textContent = node.nodeValue.trim()
+				section.replaceChild(paragraph, node)
+			})
+		})
 	}
 
 	function settingsRouteClasses() {
-		const main = find(SELECTORS.settingsMain);
+		const main = find(SELECTORS.settingsMain)
 		if (!main) {
-			return;
+			return
 		}
-		const sectionClass = main.dataset.activeSectionId || sectionClassFromPath();
+		const sectionClass = main.dataset.activeSectionId || sectionClassFromPath()
 		if (sectionClass !== appliedSectionClass) {
 			if (appliedSectionClass) {
-				main.classList.remove(appliedSectionClass);
+				main.classList.remove(appliedSectionClass)
 			}
 			if (sectionClass) {
-				main.classList.add(sectionClass);
+				main.classList.add(sectionClass)
 			}
-			appliedSectionClass = sectionClass;
+			appliedSectionClass = sectionClass
 		}
 		settingsRoutes.forEach((route) => {
-			main.classList.toggle(route.className, route.test.test(window.location.pathname));
-		});
+			main.classList.toggle(route.className, route.test.test(window.location.pathname))
+		})
 		if (main.classList.contains('admin-security')) {
-			wrapLooseText(main);
+			wrapLooseText(main)
 		}
 	}
 
 	function tokensTableWrapper() {
-		wrap(find(SELECTORS.tokensTable), CLASSES.tokensWrapper);
+		wrap(find(SELECTORS.tokensTable), CLASSES.tokensWrapper)
 	}
 
 	function textareaValueState() {
 		findAll(SELECTORS.textarea).forEach((el) => {
-			const sync = () => el.classList.toggle(CLASSES.hasValue, el.value.length > 0);
+			const sync = () => el.classList.toggle(CLASSES.hasValue, el.value.length > 0)
 			if (el.hasAttribute(BOUND_ATTR)) {
-				return;
+				return
 			}
-			el.setAttribute(BOUND_ATTR, '1');
-			el.addEventListener('input', sync);
-			sync();
-		});
+			el.setAttribute(BOUND_ATTR, '1')
+			el.addEventListener('input', sync)
+			sync()
+		})
 	}
 
 	function secondaryPopupClass() {
 		if (!find(SELECTORS.secondaryPopupApps)) {
-			return;
+			return
 		}
 		findAll(SELECTORS.generalPopup).forEach((popup) => {
-			const isDialog = !!find(SELECTORS.popupActions, popup) && !find(SELECTORS.popupSettingsNav, popup);
-			popup.classList.toggle(CLASSES.secondaryPopup, isDialog);
-		});
+			const isDialog = !!find(SELECTORS.popupActions, popup) && !find(SELECTORS.popupSettingsNav, popup)
+			popup.classList.toggle(CLASSES.secondaryPopup, isDialog)
+		})
 	}
 
 	const tasks = [
@@ -199,68 +199,68 @@
 		tokensTableWrapper,
 		textareaValueState,
 		secondaryPopupClass,
-	];
+	]
 
 	function runTasks() {
 		tasks.forEach((task) => {
 			try {
-				task();
+				task()
 			} catch (e) {
-				console.debug('[nexeno] navigation task skipped', task.name, e);
+				console.debug('[nexeno] navigation task skipped', task.name, e)
 			}
-		});
+		})
 	}
 
-	let scheduled = false;
+	let scheduled = false
 
 	function schedule() {
 		if (scheduled) {
-			return;
+			return
 		}
-		scheduled = true;
+		scheduled = true
 		defer(() => {
-			scheduled = false;
-			runTasks();
-		});
+			scheduled = false
+			runTasks()
+		})
 	}
 
-	let suppressFocusUntil = 0;
+	let suppressFocusUntil = 0
 
 	function onToggleClick(e) {
 		if (e.target.closest(query(SELECTORS.navToggle))) {
-			suppressFocusUntil = Date.now() + FOCUS_SUPPRESS_MS;
+			suppressFocusUntil = Date.now() + FOCUS_SUPPRESS_MS
 		}
 	}
 
 	function onFocusIn(e) {
 		if (Date.now() > suppressFocusUntil) {
-			return;
+			return
 		}
-		const input = e.target.closest(query(SELECTORS.navSearchInput));
+		const input = e.target.closest(query(SELECTORS.navSearchInput))
 		if (input) {
-			input.blur();
+			input.blur()
 		}
 	}
 
 	function start() {
-		runTasks();
-		document.addEventListener('click', onToggleClick, true);
-		document.addEventListener('focusin', onFocusIn, true);
-		window.addEventListener('popstate', schedule);
+		runTasks()
+		document.addEventListener('click', onToggleClick, true)
+		document.addEventListener('focusin', onFocusIn, true)
+		window.addEventListener('popstate', schedule)
 		if (typeof MutationObserver === 'undefined') {
-			return;
+			return
 		}
 		new MutationObserver(schedule).observe(document.body, {
 			childList: true,
 			subtree: true,
 			attributes: true,
 			attributeFilter: ['class', 'style'],
-		});
+		})
 	}
 
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', start);
+		document.addEventListener('DOMContentLoaded', start)
 	} else {
-		start();
+		start()
 	}
-})();
+})()

@@ -2,108 +2,108 @@
  * SPDX-FileCopyrightText: 2026 Nexeno contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-(function () {
-	'use strict';
+(function() {
+	'use strict'
 
-	var VARIANTS = ['off', 'light', 'dark'];
+	const VARIANTS = ['off', 'light', 'dark']
 
-	var CORE_THEME_INPUTS = ['default', 'light', 'dark', 'light-highcontrast', 'dark-highcontrast', 'opendyslexic']
-		.map(function (id) {
-			return '.theming__preview--' + id + ' input';
+	const CORE_THEME_INPUTS = ['default', 'light', 'dark', 'light-highcontrast', 'dark-highcontrast', 'opendyslexic']
+		.map(function(id) {
+			return '.theming__preview--' + id + ' input'
 		})
-		.join(', ');
+		.join(', ')
 
-	var currentVariant = null;
+	let currentVariant = null
 
-	var channel = null;
+	let channel = null
 	try {
-		channel = new BroadcastChannel('nexeno_theme-variant');
+		channel = new BroadcastChannel('nexeno_theme-variant')
 	} catch (e) {
-		channel = null;
+		channel = null
 	}
 
 	function readVariant() {
-		var el = document.getElementById('initial-state-nexeno_theme-variant');
+		const el = document.getElementById('initial-state-nexeno_theme-variant')
 		if (!el) {
-			return null;
+			return null
 		}
 		try {
-			return JSON.parse(atob(el.value));
+			return JSON.parse(atob(el.value))
 		} catch (e) {
-			return null;
+			return null
 		}
 	}
 
 	function syncCoreThemeLock() {
-		var locked = currentVariant === 'light' || currentVariant === 'dark';
-		var inputs = document.querySelectorAll(CORE_THEME_INPUTS);
-		for (var i = 0; i < inputs.length; i++) {
-			inputs[i].disabled = locked;
+		const locked = currentVariant === 'light' || currentVariant === 'dark'
+		const inputs = document.querySelectorAll(CORE_THEME_INPUTS)
+		for (let i = 0; i < inputs.length; i++) {
+			inputs[i].disabled = locked
 		}
 	}
 
 	function syncSubOptionLock() {
-		var enabled = currentVariant === 'light' || currentVariant === 'dark';
-		var radios = document.querySelectorAll('input[name="nexeno_theme-variant"]');
-		for (var i = 0; i < radios.length; i++) {
-			radios[i].disabled = !enabled;
+		const enabled = currentVariant === 'light' || currentVariant === 'dark'
+		const radios = document.querySelectorAll('input[name="nexeno_theme-variant"]')
+		for (let i = 0; i < radios.length; i++) {
+			radios[i].disabled = !enabled
 		}
-		var toggle = document.getElementById('nexeno_theme-enabled');
+		const toggle = document.getElementById('nexeno_theme-enabled')
 		if (toggle) {
-			toggle.checked = enabled;
+			toggle.checked = enabled
 		}
 	}
 
 	function updateFontOverrideGuard() {
-		var body = document.body;
+		const body = document.body
 		if (!body) {
-			return;
+			return
 		}
-		document.documentElement.toggleAttribute('data-nexeno-no-font-override', body.hasAttribute('data-theme-opendyslexic'));
+		document.documentElement.toggleAttribute('data-nexeno-no-font-override', body.hasAttribute('data-theme-opendyslexic'))
 	}
 
 	function setVariant(variant) {
-		var body = document.body;
+		const body = document.body
 		if (!body) {
-			return;
+			return
 		}
-		currentVariant = variant;
-		var html = document.documentElement;
-		body.removeAttribute('data-nexeno');
-		body.removeAttribute('data-nexeno-light');
-		body.removeAttribute('data-nexeno-dark');
-		html.removeAttribute('data-nexeno');
-		html.removeAttribute('data-nexeno-light');
-		html.removeAttribute('data-nexeno-dark');
+		currentVariant = variant
+		const html = document.documentElement
+		body.removeAttribute('data-nexeno')
+		body.removeAttribute('data-nexeno-light')
+		body.removeAttribute('data-nexeno-dark')
+		html.removeAttribute('data-nexeno')
+		html.removeAttribute('data-nexeno-light')
+		html.removeAttribute('data-nexeno-dark')
 		if (variant === 'light') {
-			body.setAttribute('data-nexeno', '');
-			body.setAttribute('data-nexeno-light', '');
-			html.setAttribute('data-nexeno', '');
-			html.setAttribute('data-nexeno-light', '');
+			body.setAttribute('data-nexeno', '')
+			body.setAttribute('data-nexeno-light', '')
+			html.setAttribute('data-nexeno', '')
+			html.setAttribute('data-nexeno-light', '')
 		} else if (variant === 'dark') {
-			body.setAttribute('data-nexeno', '');
-			body.setAttribute('data-nexeno-dark', '');
-			html.setAttribute('data-nexeno', '');
-			html.setAttribute('data-nexeno-dark', '');
+			body.setAttribute('data-nexeno', '')
+			body.setAttribute('data-nexeno-dark', '')
+			html.setAttribute('data-nexeno', '')
+			html.setAttribute('data-nexeno-dark', '')
 		}
-		updateFontOverrideGuard();
-		syncCoreThemeLock();
-		syncSubOptionLock();
+		updateFontOverrideGuard()
+		syncCoreThemeLock()
+		syncSubOptionLock()
 	}
 
 	function apply() {
-		setVariant(readVariant());
+		setVariant(readVariant())
 
-		var mount = document.getElementById('settings-personal-theming');
+		const mount = document.getElementById('settings-personal-theming')
 		if (mount && window.MutationObserver) {
-			new MutationObserver(syncCoreThemeLock).observe(mount, { childList: true, subtree: true });
+			new MutationObserver(syncCoreThemeLock).observe(mount, { childList: true, subtree: true })
 		}
 	}
 
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', apply);
+		document.addEventListener('DOMContentLoaded', apply)
 	} else {
-		apply();
+		apply()
 	}
 
 	/**
@@ -114,63 +114,63 @@
 	 * @param {string[]} themes Theme ids from the server, e.g. ['dark', 'opendyslexic'].
 	 */
 	function setBodyThemes(themes) {
-		var body = document.body;
+		const body = document.body
 		if (!body || !Array.isArray(themes) || themes.length === 0) {
-			return;
+			return
 		}
 		Array.prototype.slice.call(body.attributes)
-			.map(function (attribute) { return attribute.name; })
-			.filter(function (name) { return name.indexOf('data-theme-') === 0; })
-			.forEach(function (name) { body.removeAttribute(name); });
-		themes.forEach(function (id) {
+			.map(function(attribute) { return attribute.name })
+			.filter(function(name) { return name.indexOf('data-theme-') === 0 })
+			.forEach(function(name) { body.removeAttribute(name) })
+		themes.forEach(function(id) {
 			if (/^[a-z0-9-]+$/.test(id)) {
-				body.setAttribute('data-theme-' + id, '');
+				body.setAttribute('data-theme-' + id, '')
 			}
-		});
-		body.setAttribute('data-themes', themes.join(','));
-		updateFontOverrideGuard();
+		})
+		body.setAttribute('data-themes', themes.join(','))
+		updateFontOverrideGuard()
 	}
 
 	if (channel) {
 		// Other tabs send {variant, themes}; older pages send the variant name only.
-		channel.onmessage = function (event) {
-			var data = event.data;
-			var variant = data && typeof data === 'object' ? data.variant : data;
+		channel.onmessage = function(event) {
+			const data = event.data
+			const variant = data && typeof data === 'object' ? data.variant : data
 			if (VARIANTS.indexOf(variant) !== -1) {
-				setVariant(variant);
+				setVariant(variant)
 				if (data && typeof data === 'object') {
-					setBodyThemes(data.themes);
+					setBodyThemes(data.themes)
 				}
 			}
-		};
+		}
 	}
 
 	function toast(message) {
 		if (window.OC && OC.Notification && OC.Notification.showTemporary) {
-			OC.Notification.showTemporary(message);
+			OC.Notification.showTemporary(message)
 		}
 	}
 
 	function refreshThemeStyles() {
-		var links = document.head.querySelectorAll('link.theme');
-		Array.prototype.forEach.call(links, function (link) {
-			var url = new URL(link.href);
-			url.searchParams.set('v', String(Date.now()));
-			var clone = link.cloneNode();
-			clone.href = url.toString();
-			clone.onload = function () {
-				link.remove();
-			};
-			document.head.appendChild(clone);
-		});
+		const links = document.head.querySelectorAll('link.theme')
+		Array.prototype.forEach.call(links, function(link) {
+			const url = new URL(link.href)
+			url.searchParams.set('v', String(Date.now()))
+			const clone = link.cloneNode()
+			clone.href = url.toString()
+			clone.onload = function() {
+				link.remove()
+			}
+			document.head.appendChild(clone)
+		})
 	}
 
 	function persistVariant(variant) {
 		if (VARIANTS.indexOf(variant) === -1) {
-			return;
+			return
 		}
 
-		setVariant(variant);
+		setVariant(variant)
 
 		fetch(OC.generateUrl('/apps/nexeno_theme/variant'), {
 			method: 'PUT',
@@ -178,46 +178,46 @@
 				'Content-Type': 'application/json',
 				requesttoken: OC.requestToken,
 			},
-			body: JSON.stringify({ variant: variant }),
+			body: JSON.stringify({ variant }),
 		})
-			.then(function (response) {
+			.then(function(response) {
 				if (!response.ok) {
-					throw new Error('HTTP ' + response.status);
+					throw new Error('HTTP ' + response.status)
 				}
-				return response.json();
+				return response.json()
 			})
-			.then(function (data) {
+			.then(function(data) {
 				// The server answers with the theme ids <body> needs for this variant.
-				setBodyThemes(data.enabledThemes);
+				setBodyThemes(data.enabledThemes)
 				if (channel) {
-					channel.postMessage({ variant: variant, themes: data.enabledThemes });
+					channel.postMessage({ variant, themes: data.enabledThemes })
 				}
-				refreshThemeStyles();
+				refreshThemeStyles()
 			})
-			.catch(function (error) {
-				console.warn('[nexeno] variant save failed:', error);
-				toast(t('nexeno_theme', 'Could not save the Nexeno theme setting.'));
-			});
+			.catch(function(error) {
+				console.warn('[nexeno] variant save failed:', error)
+				toast(t('nexeno_theme', 'Could not save the Nexeno theme setting.'))
+			})
 	}
 
-	document.addEventListener('change', function (event) {
-		var input = event.target;
+	document.addEventListener('change', function(event) {
+		const input = event.target
 		if (!input) {
-			return;
+			return
 		}
 
 		if (input.id === 'nexeno_theme-enabled' && input.type === 'checkbox') {
 			if (input.checked) {
-				var selected = document.querySelector('input[name="nexeno_theme-variant"]:checked');
-				persistVariant(selected ? selected.value : 'light');
+				const selected = document.querySelector('input[name="nexeno_theme-variant"]:checked')
+				persistVariant(selected ? selected.value : 'light')
 			} else {
-				persistVariant('off');
+				persistVariant('off')
 			}
-			return;
+			return
 		}
 
 		if (input.type === 'radio' && input.name === 'nexeno_theme-variant') {
-			persistVariant(input.value);
+			persistVariant(input.value)
 		}
-	});
-})();
+	})
+})()

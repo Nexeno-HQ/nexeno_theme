@@ -14,9 +14,9 @@
  *
  * Usage: node scripts/build-version-css.js [--watch]
  */
+const { spawnSync } = require('child_process')
 const fs = require('fs')
 const path = require('path')
-const { spawnSync } = require('child_process')
 
 const root = path.join(__dirname, '..')
 const scssDir = path.join(root, 'scss')

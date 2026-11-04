@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2026 Nexeno contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { reactive } from 'vue'
 import axios from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import { reactive } from 'vue'
 
 const API_BASE = generateUrl('/apps/nexeno_theme')
 

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 const path = require('path')
-const { DefinePlugin } = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
+const { DefinePlugin } = require('webpack')
 const { name, version } = require('./package.json')
 
 module.exports = {

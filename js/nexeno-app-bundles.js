@@ -2,106 +2,106 @@
  * SPDX-FileCopyrightText: 2026 Nexeno contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-(function () {
-	'use strict';
-	var CLASS_NAME = 'table-wrapper-section';
-	var CONTENT_SELECTOR = '[class*="appstoreApp__content"]';
-	var ARROW = '↗';
-	var APPSTORE_SIDEBAR_CLASS = 'appstore-sidebar';
-	var APPSTORE_SIDEBAR_SELECTOR = '.app-appstore .app-sidebar';
+(function() {
+	'use strict'
+	const CLASS_NAME = 'table-wrapper-section'
+	const CONTENT_SELECTOR = '[class*="appstoreApp__content"]'
+	const ARROW = '↗'
+	const APPSTORE_SIDEBAR_CLASS = 'appstore-sidebar'
+	const APPSTORE_SIDEBAR_SELECTOR = '.app-appstore .app-sidebar'
 
 	function wrapArrow(content) {
-		var texts = content.querySelectorAll('.button-vue__text');
-		for (var i = 0; i < texts.length; i++) {
-			var el = texts[i];
+		const texts = content.querySelectorAll('.button-vue__text')
+		for (let i = 0; i < texts.length; i++) {
+			const el = texts[i]
 			if (el.querySelector('.text-arrow-icon')) {
-				continue;
+				continue
 			}
-			var text = el.textContent;
-			var idx = text.indexOf(ARROW);
+			const text = el.textContent
+			const idx = text.indexOf(ARROW)
 			if (idx === -1) {
-				continue;
+				continue
 			}
-			var before = text.slice(0, idx);
-			var after = text.slice(idx + 1);
-			el.textContent = '';
-			el.appendChild(document.createTextNode(before));
-			var span = document.createElement('span');
-			span.className = 'text-arrow-icon';
-			span.textContent = ARROW;
-			el.appendChild(span);
+			const before = text.slice(0, idx)
+			const after = text.slice(idx + 1)
+			el.textContent = ''
+			el.appendChild(document.createTextNode(before))
+			const span = document.createElement('span')
+			span.className = 'text-arrow-icon'
+			span.textContent = ARROW
+			el.appendChild(span)
 			if (after) {
-				el.appendChild(document.createTextNode(after));
+				el.appendChild(document.createTextNode(after))
 			}
 		}
 	}
 
 	function wrapTables(content) {
-		var tables = content.querySelectorAll('table');
-		for (var i = 0; i < tables.length; i++) {
-			var table = tables[i];
+		const tables = content.querySelectorAll('table')
+		for (let i = 0; i < tables.length; i++) {
+			const table = tables[i]
 			if (table.closest('.table-wrapper')) {
-				continue;
+				continue
 			}
-			var wrapper = document.createElement('div');
-			wrapper.className = 'table-wrapper';
-			table.parentNode.insertBefore(wrapper, table);
-			wrapper.appendChild(table);
+			const wrapper = document.createElement('div')
+			wrapper.className = 'table-wrapper'
+			table.parentNode.insertBefore(wrapper, table)
+			wrapper.appendChild(table)
 		}
 	}
 
 	function markAppstoreSidebar() {
-		var sidebars = document.querySelectorAll(APPSTORE_SIDEBAR_SELECTOR);
-		for (var i = 0; i < sidebars.length; i++) {
-			sidebars[i].classList.add(APPSTORE_SIDEBAR_CLASS);
+		const sidebars = document.querySelectorAll(APPSTORE_SIDEBAR_SELECTOR)
+		for (let i = 0; i < sidebars.length; i++) {
+			sidebars[i].classList.add(APPSTORE_SIDEBAR_CLASS)
 		}
 	}
 
 	function sync() {
-		markAppstoreSidebar();
-		var content = document.querySelector(CONTENT_SELECTOR);
+		markAppstoreSidebar()
+		const content = document.querySelector(CONTENT_SELECTOR)
 		if (!content) {
-			return;
+			return
 		}
-		wrapTables(content);
-		wrapArrow(content);
-		var sections = content.querySelectorAll('section');
-		for (var i = 0; i < sections.length; i++) {
-			sections[i].classList.add(CLASS_NAME);
+		wrapTables(content)
+		wrapArrow(content)
+		const sections = content.querySelectorAll('section')
+		for (let i = 0; i < sections.length; i++) {
+			sections[i].classList.add(CLASS_NAME)
 		}
 	}
 
-	var scheduled = false;
-	var defer = window.requestAnimationFrame
-		? function (cb) { window.requestAnimationFrame(cb); }
-		: function (cb) { window.setTimeout(cb, 0); };
+	let scheduled = false
+	const defer = window.requestAnimationFrame
+		? function(cb) { window.requestAnimationFrame(cb) }
+		: function(cb) { window.setTimeout(cb, 0) }
 
 	function scheduleSync() {
 		if (scheduled) {
-			return;
+			return
 		}
-		scheduled = true;
-		defer(function () {
-			scheduled = false;
-			sync();
-		});
+		scheduled = true
+		defer(function() {
+			scheduled = false
+			sync()
+		})
 	}
 
 	function start() {
-		scheduleSync();
+		scheduleSync()
 
 		if (typeof MutationObserver === 'undefined') {
-			return;
+			return
 		}
 		new MutationObserver(scheduleSync).observe(document.body, {
 			childList: true,
 			subtree: true,
-		});
+		})
 	}
 
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', start);
+		document.addEventListener('DOMContentLoaded', start)
 	} else {
-		start();
+		start()
 	}
-})();
+})()

@@ -2,8 +2,8 @@
  * SPDX-FileCopyrightText: 2026 Nexeno contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { createRouter, createWebHistory } from 'vue-router'
 import { generateUrl } from '@nextcloud/router'
+import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '../views/DashboardView.vue'
 
 /**
