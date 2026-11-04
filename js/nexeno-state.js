@@ -106,10 +106,41 @@
 		apply();
 	}
 
+	/**
+	 * Put Nextcloud's own theme markers on <body> (data-theme-<id> and data-themes). Nextcloud's colour
+	 * variables (--color-main-background and the rest) follow these, so without this step the page
+	 * stays half in the old variant until it is reloaded.
+	 *
+	 * @param {string[]} themes Theme ids from the server, e.g. ['dark', 'opendyslexic'].
+	 */
+	function setBodyThemes(themes) {
+		var body = document.body;
+		if (!body || !Array.isArray(themes) || themes.length === 0) {
+			return;
+		}
+		Array.prototype.slice.call(body.attributes)
+			.map(function (attribute) { return attribute.name; })
+			.filter(function (name) { return name.indexOf('data-theme-') === 0; })
+			.forEach(function (name) { body.removeAttribute(name); });
+		themes.forEach(function (id) {
+			if (/^[a-z0-9-]+$/.test(id)) {
+				body.setAttribute('data-theme-' + id, '');
+			}
+		});
+		body.setAttribute('data-themes', themes.join(','));
+		updateFontOverrideGuard();
+	}
+
 	if (channel) {
+		// Other tabs send {variant, themes}; older pages send the variant name only.
 		channel.onmessage = function (event) {
-			if (VARIANTS.indexOf(event.data) !== -1) {
-				setVariant(event.data);
+			var data = event.data;
+			var variant = data && typeof data === 'object' ? data.variant : data;
+			if (VARIANTS.indexOf(variant) !== -1) {
+				setVariant(variant);
+				if (data && typeof data === 'object') {
+					setBodyThemes(data.themes);
+				}
 			}
 		};
 	}
@@ -140,9 +171,6 @@
 		}
 
 		setVariant(variant);
-		if (channel) {
-			channel.postMessage(variant);
-		}
 
 		fetch(OC.generateUrl('/apps/nexeno_theme/variant'), {
 			method: 'PUT',
@@ -156,8 +184,15 @@
 				if (!response.ok) {
 					throw new Error('HTTP ' + response.status);
 				}
+				return response.json();
+			})
+			.then(function (data) {
+				// The server answers with the theme ids <body> needs for this variant.
+				setBodyThemes(data.enabledThemes);
+				if (channel) {
+					channel.postMessage({ variant: variant, themes: data.enabledThemes });
+				}
 				refreshThemeStyles();
-				toast(t('nexeno_theme', 'Nexeno theme saved — please refresh the page to fully apply it.'));
 			})
 			.catch(function (error) {
 				console.warn('[nexeno] variant save failed:', error);

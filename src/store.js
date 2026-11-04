@@ -29,14 +29,16 @@ try {
 	variantChannel = null
 }
 
-const NEXENO_VARIANT_ATTRIBUTES = ['data-nexeno-light', 'data-nexeno-dark']
+const NEXENO_VARIANT_ATTRIBUTES = ['data-nexeno', 'data-nexeno-light', 'data-nexeno-dark']
 
 function applyVariantInPlace(variant, enabledThemes) {
-	variantChannel?.postMessage(variant)
+	// Other tabs (js/nexeno-state.js) apply the same variant and theme markers.
+	variantChannel?.postMessage({ variant, themes: enabledThemes })
 
 	for (const element of [document.documentElement, document.body]) {
 		NEXENO_VARIANT_ATTRIBUTES.forEach((attribute) => element.removeAttribute(attribute))
 		if (variant === 'light' || variant === 'dark') {
+			element.setAttribute('data-nexeno', '')
 			element.setAttribute(`data-nexeno-${variant}`, '')
 		}
 	}
