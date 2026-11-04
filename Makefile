@@ -8,6 +8,14 @@ package_dir := $(build_dir)/$(app_name)
 package := $(artifacts_dir)/$(app_name).tar.gz
 cert_dir := $(HOME)/.nextcloud/certificates
 
+# macOS tar (bsdtar) otherwise adds ._ files, extended attributes and the local user as owner,
+# which the App Store and Nextcloud's integrity check reject.
+ifeq ($(shell uname -s),Darwin)
+TAR = COPYFILE_DISABLE=1 tar --no-xattrs --no-mac-metadata --uid 0 --gid 0 --uname root --gname root
+else
+TAR = tar --owner=0 --group=0 --numeric-owner
+endif
+
 # How occ is run, and where that occ sees the unpacked package. When occ runs in a
 # container, mount the package folder into it and set SIGN_PATH to the container path, e.g.
 #   make sign OCC="docker compose exec -u www-data app php occ" SIGN_PATH=/tmp/nexeno_theme
@@ -64,8 +72,10 @@ l10n:
 # The package holds only what runs on the server; .nextcloudignore lists everything else.
 appstore: clean build
 	mkdir -p "./$(package_dir)" "./$(artifacts_dir)"
-	rsync -a --exclude-from=.nextcloudignore ./ "./$(package_dir)/"
-	tar -czf "./$(package)" -C "./$(build_dir)" "$(app_name)"
+	rsync -a --exclude-from=.nextcloudignore $(if $(wildcard .git/info/exclude),--exclude-from=.git/info/exclude) ./ "./$(package_dir)/"
+	find "./$(package_dir)" -type d -exec chmod 755 {} +
+	find "./$(package_dir)" -type f -exec chmod 644 {} +
+	$(TAR) -czf "./$(package)" -C "./$(build_dir)" "$(app_name)"
 	@echo "Created $(package)"
 
 # Writes appinfo/signature.json into the package (code signing), repacks it, then prints
@@ -79,7 +89,7 @@ sign:
 		--certificate="$(cert_dir)/$(app_name).crt" \
 		--path="$(SIGN_PATH)"
 	@test -f "./$(package_dir)/appinfo/signature.json" || (echo "appinfo/signature.json was not written into $(package_dir)" && exit 1)
-	tar -czf "./$(package)" -C "./$(build_dir)" "$(app_name)"
+	$(TAR) -czf "./$(package)" -C "./$(build_dir)" "$(app_name)"
 	@echo "App Store signature:"
 	@openssl dgst -sha512 -sign "$(cert_dir)/$(app_name).key" "./$(package)" | openssl base64
 
