@@ -6,7 +6,7 @@
 <info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>nexeno_theme</id>
-    <name>Nexeno theme</name>
+    <name>Nexeno Theme</name>
     <summary lang="en">A modern light and dark look for Nextcloud, chosen by each user, across Files, Photos, Talk, Calendar and more.</summary>
     <description lang="en"><![CDATA[
 **Nexeno theme gives Nextcloud a clean, modern look in the Nexeno brand colours, in a light and a dark variant.**
