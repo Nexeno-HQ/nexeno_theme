@@ -19,8 +19,7 @@
 				display: none;
 			}
 			.photo-actions{
-				left: unset;
-				right: 10px;
+				inset-inline: unset 10px;
 				button{
 					@include white-button;
 					width: 28px !important;
@@ -43,7 +42,7 @@
 						line-height: $leading-20;
 						font-weight: $font-medium;
 						color: $colour-forground-white;
-						margin-right: 0;
+						margin-inline-end: 0;
 					}
 				}
 				.date-scrubber__year-label{

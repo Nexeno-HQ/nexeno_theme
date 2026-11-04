@@ -14,7 +14,7 @@
 					margin: 0;
 					padding-top: 8px;
 					padding-bottom: 8px;
-					padding-left: 47px;
+					padding-inline-start: 47px;
 					border-bottom: 1px solid $theme-divider;
 					gap: 6px;
 					min-height: 53px;
@@ -246,7 +246,7 @@
 									}
 									.checkbox-radio-switch{
 										top: 8px;
-										left: 8px;
+										inset-inline-start: 8px;
 										opacity: 100%;
 										width: 20px;
 										height: 20px;
@@ -277,7 +277,7 @@
 									}
 									.favorite-marker-icon{
 										top: 8px;
-										right: 8px;
+										inset-inline-end: 8px;
 										width: 20px;
 										height: 20px;
 										display: block !important;
@@ -339,7 +339,7 @@
 										.collection-cover__image--placeholder{
 											position: absolute;
 											top: 0;
-											left: 0;
+											inset-inline-start: 0;
 											width: 100%;
 											height: 100%;
 											object-fit: cover;
@@ -393,7 +393,7 @@
 											display: flex;
 										}
 										.avatardiv{
-											margin-left: 0;
+											margin-inline-start: 0;
 										}
 									}
 									&:hover{
@@ -458,7 +458,7 @@
 											svg{
 												position: absolute;
 												top: 0;
-												left: 0;
+												inset-inline-start: 0;
 												width: 100%;
 												height: 100%;
 												object-fit: cover;
@@ -547,12 +547,12 @@
 							margin-bottom: 0;
 							padding-top: 17px;
 							padding-bottom: 15px;
-							padding-left: 47px;
+							padding-inline-start: 47px;
 							border-bottom: 1px solid $theme-divider;
 							background-color: $colour-background;
 							position: sticky;
 							top: 0;
-							left: 0;
+							inset-inline-start: 0;
 							z-index: 10;
 						}
 						.tags{
@@ -584,7 +584,7 @@
 									svg{
 										position: absolute;
 										top: 0;
-										left: 0;
+										inset-inline-start: 0;
 										width: 100%;
 										height: 100%;
 										object-fit: cover;

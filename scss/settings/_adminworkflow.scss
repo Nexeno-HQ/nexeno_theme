@@ -104,7 +104,7 @@
 					display: block;
 					max-width: 900px;
 					.section{
-						border-left: 0;
+						border-inline-start: 0;
 						padding: 0;
 						flex-direction: column;
 						margin-bottom: 16px;
@@ -149,14 +149,14 @@
 										align-items: center;
 										gap: 4px;
 										.option__title{
-											margin-left: 0;
+											margin-inline-start: 0;
 											color: $colour-forground;
 										}
 									}
 								}
 								.check{
 									gap: 6px;
-									padding-right: 0;
+									padding-inline-end: 0;
 									.v-select{
 										@include select-field;
 										@include select-box;
@@ -185,13 +185,13 @@
 											gap: 4px;
 											input{
 												&:first-child{
-													margin-right: 6px;
+													margin-inline-end: 6px;
 												}
 											}
 											.invalid-hint{
 												position: absolute;
 												bottom: -20px;
-												left: 0;
+												inset-inline-start: 0;
 												font-size: $text-12;
 												line-height: $leading-16;
 												color: $colour-red-600;
@@ -218,7 +218,7 @@
 											width: 100%;
 											input{
 												width: 100%;
-												margin-right: 0 !important;
+												margin-inline-end: 0 !important;
 											}
 										}
 									}

@@ -309,7 +309,7 @@
 							}
 							.placeholder__icon {
 								+ input.vs__search {
-									padding-left: 40px;
+									padding-inline-start: 40px;
 								}
 							}
 						}
@@ -318,7 +318,7 @@
 				.multiselect__icon {
 					+ .v-select {
 						.vs__dropdown-toggle {
-							margin-left: 0;
+							margin-inline-start: 0;
 						}
 					}
 				}

@@ -229,7 +229,7 @@
 	.file-picker {
 		nav {
 			&.dialog__navigation {
-				border-right: 1px solid $theme-divider;
+				border-inline-end: 1px solid $theme-divider;
 				.file-picker__filter-input {
 					margin: 0;
 
@@ -462,10 +462,10 @@
 
 			.app-settings__content {
 				border-radius: 0;
-				border-left: 1px solid $theme-divider;
+				border-inline-start: 1px solid $theme-divider;
 
 				@media (max-width: $bp-1023) {
-					border-left: 0;
+					border-inline-start: 0;
 				}
 
 				@include scrollbar($thumb-colour: $colour-scrollbar-main);
@@ -598,7 +598,7 @@
 							}
 							&:has(input[type="radio"]){
 								.checkbox-content__icon{
-									padding-right: 4px;
+									padding-inline-end: 4px;
 									svg{
 										width: 20px !important;
 										height: 20px !important;
@@ -607,7 +607,7 @@
 							}
 							&:has(input[type="checkbox"]){
 								.checkbox-content__icon{
-									padding-right: 4px;
+									padding-inline-end: 4px;
 									svg{
 										width: 20px !important;
 										height: 20px !important;
@@ -646,7 +646,6 @@
 									padding-block: 2px;
 									.vs__selected{
 										height: 25px;
-										background-color: transparent;
 										border: 1px solid $theme-divider-2;
 										padding: 4px 8px 4px 6px;
 										background-color: $colour-gray-100;
@@ -687,7 +686,7 @@
 									background-color: $colour-primary-50 !important;
 									color: $colour-blue-600 !important;
 									gap: 5px;
-									border-left: 0;
+									border-inline-start: 0;
 									border-radius: $rounded-6;
 									align-items: center;
 									font-size: $text-12;
@@ -970,7 +969,7 @@
 			}
 
 			.modal-container__close {
-				right: 16px;
+				inset-inline-end: 16px;
 				top: 10px;
 				width: 36px !important;
 				height: 36px;
@@ -1013,7 +1012,7 @@
 			.file-picker {
 				nav {
 					&.dialog__navigation {
-						margin-right: 0;
+						margin-inline-end: 0;
 						gap: 16px;
 						flex: none;
 					}
@@ -1021,7 +1020,7 @@
 
 				.file-picker__main {
 					padding: 16px;
-					padding-right: 0;
+					padding-inline-end: 0;
 					padding-bottom: 0 !important;
 					.file-picker__view{
 						h3{
@@ -1030,7 +1029,7 @@
 							color: $colour-forground;
 							font-weight: $font-semibold;
 							margin: 0;
-							padding-left: 16px;
+							padding-inline-start: 16px;
 						}
 					}
 
@@ -1069,7 +1068,7 @@
 
 										button {
 											padding: 0 !important;
-											padding-right: 24px !important;
+											padding-inline-end: 24px !important;
 											border: 0;
 											position: relative;
 											width: fit-content !important;
@@ -1091,7 +1090,7 @@
 												content: '';
 												position: absolute;
 												top: 50%;
-												right: 4px;
+												inset-inline-end: 4px;
 												transform: translateY(-50%);
 												color: inherit;
 												@include files.sort-down;
@@ -1250,7 +1249,7 @@
 
 						.file-picker__file-extension {
 							flex: none;
-							margin-left: -5px;
+							margin-inline-start: -5px;
 							font-size: $text-heading-5;
 							line-height: $leading-20;
 							font-weight: $font-medium;
@@ -1303,7 +1302,7 @@
 						justify-content: space-between;
 						box-sizing: border-box;
 						padding: 8px;
-						padding-right: 24px;
+						padding-inline-end: 24px;
 
 						nav {
 							padding: 0;
@@ -2185,7 +2184,7 @@
 						margin: 0;
 						padding: 6px 10px;
 						gap: 5px;
-						border-left: 0;
+						border-inline-start: 0;
 						border-radius: $rounded-6;
 						align-items: center;
 						font-size: $text-12;
@@ -2388,7 +2387,7 @@
 						background-color: $colour-primary-50 !important;
 						color: $colour-blue-600 !important;
 						gap: 5px;
-						border-left: 0;
+						border-inline-start: 0;
 						border-radius: $rounded-6;
 						align-items: center;
 						font-size: $text-12;
@@ -2740,7 +2739,7 @@
 											line-height: $leading-20;
 											color: $colour-forground-1;
 											font-weight: $font-medium;
-											left: 10px;
+											inset-inline-start: 10px;
 											margin: 0;
 											top: 7px;
 											padding: 0 6px;
@@ -2765,12 +2764,12 @@
 								border-radius: $rounded-6;
 								box-shadow: none;
 								min-height: 34px;
-								padding-left: 0;
+								padding-inline-start: 0;
 								border: 0;
 								outline: 0 !important;
 
 								.vs__selected-options {
-									padding-left: 16px !important;
+									padding-inline-start: 16px !important;
 								}
 
 								input {
@@ -2790,7 +2789,7 @@
 
 								.vs__actions {
 									padding-inline: 0;
-									right: 10px;
+									inset-inline-end: 10px;
 
 									svg {
 										width: 16px;
@@ -2870,7 +2869,7 @@
 									}
 
 									.nc-chip__icon {
-										margin-right: 0;
+										margin-inline-end: 0;
 										width: 16px;
 										height: 16px;
 										min-height: unset;
@@ -3165,7 +3164,7 @@
 
 											.checkbox-radio-switch {
 												top: 8px;
-												left: 8px;
+												inset-inline-start: 8px;
 												opacity: 100%;
 												width: 20px;
 												height: 20px;
@@ -3202,7 +3201,7 @@
 
 											.favorite-marker-icon {
 												top: 8px;
-												right: 8px;
+												inset-inline-end: 8px;
 												width: 20px;
 												height: 20px;
 												display: block !important;
@@ -3333,7 +3332,7 @@
 
 				.checkbox-radio-switch {
 					top: 8px;
-					left: 8px;
+					inset-inline-start: 8px;
 					opacity: 100%;
 					width: 20px;
 					height: 20px;
@@ -3370,7 +3369,7 @@
 
 				.favorite-marker-icon {
 					top: 8px;
-					right: 8px;
+					inset-inline-end: 8px;
 					width: 20px;
 					height: 20px;
 					display: block !important;
@@ -3444,12 +3443,12 @@
 								color: $colour-forground;
 								font-weight: $font-medium;
 								text-transform: capitalize;
-								padding-left: 10px;
+								padding-inline-start: 10px;
 								position: relative;
 								&::before{
 									position: absolute;
 									content: ':';
-									left: 0;
+									inset-inline-start: 0;
 									top: -1px;
 									color: $colour-forground;
 								}
@@ -3512,7 +3511,7 @@
 										line-height: $leading-20;
 										color: $colour-forground-1;
 										font-weight: $font-medium;
-										left: 10px;
+										inset-inline-start: 10px;
 										margin: 0;
 										top: 7px;
 										padding: 0 6px;
@@ -3553,7 +3552,6 @@
 										padding-block: 2px;
 										.vs__selected{
 											height: 25px;
-											background-color: transparent;
 											border: 1px solid $theme-divider-2;
 											padding: 4px 8px 4px 6px;
 											background-color: $colour-gray-100;
@@ -3609,7 +3607,7 @@
 						min-height: unset;
 						position: sticky;
 						top: 0;
-						left: 0;
+						inset-inline-start: 0;
 						background-color: $colour-background;
 						width: calc(100% + 8px);
 						border-top-left-radius: $rounded-8;
@@ -3619,7 +3617,7 @@
 						margin: 16px 0;
 						padding: 6px 10px;
 						gap: 5px;
-						border-left: 0;
+						border-inline-start: 0;
 						border-radius: $rounded-6;
 						align-items: center;
 						font-size: $text-12;
@@ -3840,7 +3838,7 @@
 										line-height: $leading-20;
 										color: $colour-forground-1;
 										font-weight: $font-medium;
-										left: 10px;
+										inset-inline-start: 10px;
 										margin: 0;
 										top: 7px;
 										padding: 0 6px;
@@ -4128,7 +4126,7 @@
 						min-height: unset;
 						position: sticky;
 						top: 0;
-						left: 0;
+						inset-inline-start: 0;
 						z-index: 1;
 						background-color: $colour-background;
 					}
@@ -4183,7 +4181,7 @@
 						margin-top: 4px;
 						gap: 6px;
 						.icon-vue{
-							margin-right: 0;
+							margin-inline-end: 0;
 							svg{
 								width: 16px;
 								height: 16px;
@@ -4251,7 +4249,7 @@
 
 			&.log-reader-popup{
 				nav{
-					margin-right: 0;
+					margin-inline-end: 0;
 				}
 				li {
 					a {
@@ -4479,7 +4477,7 @@
 							background-color: $colour-background !important;
 						}
 						svg{
-							margin-left: 9px;
+							margin-inline-start: 9px;
 						}
 					}
 				}

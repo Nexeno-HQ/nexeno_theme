@@ -114,7 +114,7 @@
 							font-weight: $font-normal;
 							color: $colour-forground-1;
 							position: relative;
-							padding-left: 22px;
+							padding-inline-start: 22px;
 							strong{
 								font-weight: $font-medium;
 								color: $colour-forground;
@@ -123,7 +123,7 @@
 								content: "";
 								position: absolute;
 								top: 3px;
-								left: 0;
+								inset-inline-start: 0;
 								width: 16px;
 								height: 16px;
 								background: url('../img/badge-check.svg');
@@ -356,7 +356,7 @@
 							grid-template-columns: repeat(1, minmax(0, 1fr));
 						}
 						.showcase-card{
-							padding-right: 0;
+							padding-inline-end: 0;
 							display: flex;
 							flex-direction: column;
 							overflow: hidden;
@@ -370,24 +370,24 @@
 								padding-inline: 0;
 								flex: 1;
 								img{
-									border-right: 0;
+									border-inline-end: 0;
 									border-top-right-radius: 0;
 								}
 							}
 							&.multiple-view{
 								.showcase-card-img{
-									padding-left: 11px;
+									padding-inline-start: 11px;
 									position: relative;
 									display: flex;
 									flex-direction: column;
 									@media (max-width: $bp-1199) {
-										padding-left: 0;
+										padding-inline-start: 0;
 									}
 									img{
 										&.secondary-img{
 											position: absolute;
 											bottom: -8%;
-											left: -18.5%;
+											inset-inline-start: -18.5%;
 											border: 2px solid $theme-divider;
 											border-radius: $rounded-6;
 											max-width: 85%;

@@ -73,7 +73,7 @@
 					.input-field__label {
 						position: absolute;
 						top: -27px;
-						left: -1px;
+						inset-inline-start: -1px;
 						margin: 0;
 						padding: 0;
 						max-width: 100%;
@@ -501,7 +501,7 @@
 			gap: 0;
 		}
 		.proposal-editor__column-left {
-			border-right: 1px solid $theme-divider;
+			border-inline-end: 1px solid $theme-divider;
 		}
 		.proposal-editor__row-title {
 			margin: 0;

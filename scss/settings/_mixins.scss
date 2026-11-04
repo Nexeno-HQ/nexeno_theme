@@ -340,7 +340,7 @@
 		}
 	}
 	.vs__selected-options{
-		padding-left: 8px !important;
+		padding-inline-start: 8px !important;
 	}
 	.vs__dropdown-menu{
 		border: 1px solid $theme-divider !important;
@@ -666,7 +666,7 @@
 		background-color: $colour-primary-50 !important;
 		color: $colour-blue-600 !important;
 		gap: 5px;
-		border-left: 0;
+		border-inline-start: 0;
 		border-radius: $rounded-6;
 		align-items: center;
 		font-size: $text-12;
@@ -689,7 +689,7 @@
 		background-color: $colour-yellow-50 !important;
 		color: $colour-yellow !important;
 		gap: 5px;
-		border-left: 0;
+		border-inline-start: 0;
 		border-radius: $rounded-6;
 		align-items: center;
 		font-size: $text-12;
@@ -712,7 +712,7 @@
 		background-color: $colour-green-50 !important;
 		color: $colour-green-700 !important;
 		gap: 5px;
-		border-left: 0;
+		border-inline-start: 0;
 		border-radius: $rounded-6;
 		align-items: center;
 		font-size: $text-12;
@@ -735,7 +735,7 @@
 		background-color: $colour-red-50 !important;
 		color: $colour-red-600 !important;
 		gap: 5px;
-		border-left: 0;
+		border-inline-start: 0;
 		border-radius: $rounded-6;
 		align-items: center;
 		font-size: $text-12;
@@ -905,7 +905,7 @@
 			}
 			.vs__selected-options{
 				position: relative;
-				padding-left: 0 !important;
+				padding-inline-start: 0 !important;
 				.vs__selected{
 					position: absolute;
 					inset: 0;

@@ -32,7 +32,7 @@
             color: $colour-forground-1;
             cursor: pointer;
             &::file-selector-button{
-                margin-right: 10px;
+                margin-inline-end: 10px;
                 padding: 4px 12px;
                 border: 1px solid $theme-divider;
                 border-radius: $rounded-6;

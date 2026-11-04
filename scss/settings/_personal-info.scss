@@ -27,7 +27,7 @@
 					fill: $colour-forground;
 				}
 				.action-item{
-					margin-left: 0 !important;
+					margin-inline-start: 0 !important;
 				}
 			}
 			.avatar__container{
@@ -110,9 +110,9 @@
 			.headerbar-label {
 				margin-top: 0;
 				button {
-					margin-left: -8px !important;
+					margin-inline-start: -8px !important;
 					&.button-vue--icon-and-text{
-						margin-left: auto !important;
+						margin-inline-start: auto !important;
 						.button-vue__wrapper{
 							gap: 6px;
 							.button-vue__icon{

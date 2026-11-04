@@ -138,7 +138,7 @@
 		main.app-content {
 			background-color: $main-page-bg;
 			.splitpanes__splitter {
-				border-left: 1px solid $theme-divider;
+				border-inline-start: 1px solid $theme-divider;
 				background-color: $main-page-bg;
 			}
 			.app-content-list {
@@ -472,7 +472,7 @@
 							&.nc-select {
 								.vs__dropdown-toggle {
 									.vs__selected-options {
-										padding-left: 10px !important;
+										padding-inline-start: 10px !important;
 										.vs__selected {
 											position: static;
 											height: 24px;

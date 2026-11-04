@@ -97,10 +97,10 @@
                     }
                 }
                 .sharing__labeled-entry{
-                    margin-left: 0;
-                    padding-left: 26px;
+                    margin-inline-start: 0;
+                    padding-inline-start: 26px;
                     @media (max-width: $bp-640) {
-                        padding-left: 16px;
+                        padding-inline-start: 16px;
                     }
                     label,
                     span,
@@ -191,9 +191,9 @@
                 margin: 0;
             }
             fieldset{
-                padding-left: 43px;
+                padding-inline-start: 43px;
                 @media (max-width: $bp-640) {
-                    padding-left: 16px;
+                    padding-inline-start: 16px;
                 }
                 em{
                     font-size: $text-12;
@@ -204,10 +204,10 @@
             }
             .sharing__sub-section{
                 &:has(.textarea){
-                    padding-left: 43px;
+                    padding-inline-start: 43px;
                     gap: 12px;
                     @media (max-width: $bp-640) {
-                        padding-left: 16px;
+                        padding-inline-start: 16px;
                     }
                     em{
                         font-size: $text-12;
@@ -254,10 +254,10 @@
         #vue-admin-federated-teams{
             .federated-teams__sub-section{
                 margin-top: 8px;
-                margin-left: 0;
-                padding-left: 43px;
+                margin-inline-start: 0;
+                padding-inline-start: 43px;
                 @media (max-width: $bp-640) {
-                    padding-left: 16px;
+                    padding-inline-start: 16px;
                 }
                 .federated-teams__hint{
                     font-size: $text-12;

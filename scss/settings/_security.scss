@@ -86,7 +86,7 @@
 						input{
 							&[type="text"]{
 								margin: 0;
-								margin-right: 12px;
+								margin-inline-end: 12px;
 								min-height: unset;
 								padding: 10px;
 								border-radius: $rounded-6;
@@ -236,7 +236,7 @@
 					max-width: 500px;
 					li{
 						.action-item{
-							margin-left: auto;
+							margin-inline-start: auto;
 						}
 					}
 					.webauthn-device{

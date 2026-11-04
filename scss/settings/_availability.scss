@@ -88,12 +88,12 @@
 					}
 					&[aria-label="Add slot"]{
 						@media (max-width: $bp-512) {
-							right: 0;
+							inset-inline-end: 0;
 						}
 					}
 					&[aria-label="Delete slot"]{
 						@media (max-width: $bp-512) {
-							right: 35px;
+							inset-inline-end: 35px;
 							height: auto !important;
 						}
 					}
@@ -171,7 +171,7 @@
 					flex-direction: column;
 					align-items: start;
 					max-width: 100%;
-					text-align: left;
+					text-align: start;
 				}
 			}
 		}

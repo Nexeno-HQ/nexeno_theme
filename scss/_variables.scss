@@ -86,7 +86,7 @@ $bp-511: 511px;
 	&::-webkit-scrollbar-thumb {
 		background: $thumb-colour;
 		background-clip: padding-box;
-		border-right: 4px solid transparent;
+		border-inline-end: 4px solid transparent;
 		border-radius: $rounded-full;
 		cursor: pointer;
 	}
@@ -186,7 +186,7 @@ $bp-511: 511px;
 		min-height: 44px;
 		outline: 0 !important;
 		.vs__selected-options{
-			padding-left: 16px;
+			padding-inline-start: 16px;
 			flex-wrap: wrap;
 			gap: 6px;
 		}
@@ -244,7 +244,7 @@ $bp-511: 511px;
 		}
 		.vs__actions{
 			padding-inline: 0;
-			right: 10px;
+			inset-inline-end: 10px;
 			svg{
 				width: 16px;
 				height: 16px;

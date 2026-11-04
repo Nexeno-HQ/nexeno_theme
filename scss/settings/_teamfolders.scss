@@ -9,7 +9,7 @@
 @mixin teamfolders {
 	#groupfolders-react-root{
 		.groupfolders-pagination{
-			right: 24px;
+			inset-inline-end: 24px;
 			.groupfolders-pagination__list{
 				.groupfolders-pagination__button{
 					font-size: 0;

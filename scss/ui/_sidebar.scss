@@ -382,7 +382,7 @@
 						}
 						.overlap-icon{
 							top: -4px;
-							right:  -4px;
+							inset-inline-end:  -4px;
 						}
 					}
 				}
@@ -520,7 +520,7 @@
 						li{
 							.action-text,
 							.action-input{
-								padding-right: 0;
+								padding-inline-end: 0;
 								.icon-vue,
 								.action-input__icon-wrapper{
 									display: none !important;
@@ -544,7 +544,7 @@
 							}
 							.action-input__form{
 								margin: 0;
-								padding-right: 0;
+								padding-inline-end: 0;
 								.action-input__container{
 									display: flex;
 									flex-direction: column;
@@ -606,7 +606,6 @@
 										button{
 											padding: 0;
 											svg{
-
 												fill: $colour-forground-1;
 											}
 										}
@@ -931,7 +930,7 @@
 					}
 					.vs__actions{
 						padding-inline: 0;
-						right: 10px;
+						inset-inline-end: 10px;
 						svg{
 							@include square(16px);
 						}
@@ -1002,7 +1001,7 @@
 						}
 					}
 					.nc-chip__icon{
-						margin-right: 0;
+						margin-inline-end: 0;
 						@include square(16px);
 						min-height: unset;
 						min-width: unset;
@@ -1052,7 +1051,6 @@
 		.app-navigation-new{
 			padding: 0 16px;
 			button{
-				border-radius: $rounded-6;
 				background-color: $colour-blue-600;
 				border: 1px solid $colour-blue-600;
 				box-shadow: none;
@@ -2067,7 +2065,7 @@
 				}
 				.button-vue__icon,
 				.button-vue__text{
-					margin-left: 0;
+					margin-inline-start: 0;
 				}
 				.button-vue__text{
 					font-weight: $font-medium;
@@ -2087,7 +2085,7 @@
 			padding: 12px 16px 0;
 			background-color: $colour-sidebar-bg;
 			.collective-selector-trigger-row{
-				padding-left: 0;
+				padding-inline-start: 0;
 			}
 			.collective-selector-trigger{
 				padding: 2px 12px;

@@ -197,7 +197,7 @@
 							.vs__selected-options{
 								@include noscrollbar;
 								overflow-y: hidden;
-								padding-left: 12px !important;
+								padding-inline-start: 12px !important;
 							}
 						}
 					}

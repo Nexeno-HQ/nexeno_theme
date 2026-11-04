@@ -168,7 +168,7 @@
 		&.app-sidebar:not(.modal__card *){
 			position: absolute;
 			top: 0;
-			right: 0;
+			inset-inline-end: 0;
 			transition: all ease-in-out 300ms;
 			height: 100%;
 			background-color: $colour-background;
@@ -195,7 +195,7 @@
 				.app-sidebar__close{
 					position: absolute;
 					top: 0;
-					right: 0;
+					inset-inline-end: 0;
 					@include outline-button;
 					background-color: $colour-background;
 				}
@@ -216,9 +216,9 @@
 					}
 					.app-sidebar-header__menu{
 						position: absolute;
-						right: 38px;
+						inset-inline-end: 38px;
 						top: 0;
-						margin-left: 0 !important;
+						margin-inline-start: 0 !important;
 						button{
 							@include outline-button;
 						}
@@ -517,7 +517,7 @@
 										line-height: $leading-20;
 										font-weight: $font-medium;
 										color: $colour-forground;
-										padding-left: 0;
+										padding-inline-start: 0;
 									}
 								}
 							}
@@ -622,7 +622,7 @@
 									.checkbox-content{
 										gap: 8px;
 										&.checkbox-content--has-text{
-											padding-right: 0;
+											padding-inline-end: 0;
 										}
 										.checkbox-content__text{
 											font-size: $text-heading-5;
@@ -703,7 +703,7 @@
 								}
 							}
 							.activity-entry__date{
-								margin-left: 0;
+								margin-inline-start: 0;
 								font-size: $text-12;
 								line-height: $leading-16;
 								color: $colour-forground-1;
@@ -731,7 +731,7 @@
 								align-items: center;
 								.avatardiv{
 									border-radius: $rounded-full;
-									margin-left: 0;
+									margin-inline-start: 0;
 								}
 								.user-bubble__name{
 									font-size: $text-12;
@@ -760,7 +760,7 @@
 										gap: 12px;
 									}
 									.list-item-content{
-										padding-left: 0;
+										padding-inline-start: 0;
 									}
 									.version__image{
 										border: 0;
@@ -850,13 +850,13 @@
 				&:not(:has(.app-sidebar-header__figure:has(svg))){
 					.app-sidebar__close{
 						top: 8px;
-						right: 8px;
+						inset-inline-end: 8px;
 					}
 				}
 				&:has(.app-sidebar-header__figure:has(svg)){
 					.app-sidebar__close{
 						top: 0;
-						right: 0;
+						inset-inline-end: 0;
 					}
 				}
 			}

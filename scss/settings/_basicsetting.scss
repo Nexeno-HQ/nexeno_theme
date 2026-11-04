@@ -75,7 +75,7 @@
                         font-weight: $font-medium;
                         margin: 6px 0 16px;
                         display: block;
-                        padding-left: 24px;
+                        padding-inline-start: 24px;
                     }
                 }
                 
@@ -141,7 +141,7 @@
                 }
                 &:not(.sanitize-filenames__form) fieldset .input-field{
                     &:has(.input-field__icon) input{
-                        padding-left: 32px;
+                        padding-inline-start: 32px;
                     }
                 }
                 &.sanitize-filenames__form{
@@ -167,7 +167,7 @@
             }
             .hint{
                 margin: 8px 0 0;
-                padding-left: 41px;
+                padding-inline-start: 41px;
                 font-size: $text-heading-5;
                 line-height: $leading-20;
                 color: $colour-forground-1;

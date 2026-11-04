@@ -39,7 +39,7 @@
 		main.app-content {
 			background-color: $main-page-bg;
 			.splitpanes__splitter {
-				border-left: 1px solid $theme-divider;
+				border-inline-start: 1px solid $theme-divider;
 				background-color: $main-page-bg;
 			}
 			.app-content-list {

@@ -74,11 +74,11 @@
                     width: 100%;
                     min-width: 0;
                     table{
-                        padding-left: 14px;
+                        padding-inline-start: 14px;
                         width: 100%;
                         @media (max-width: $bp-640) {
                             display: block;
-                            padding-left: 0;
+                            padding-inline-start: 0;
                         }
                         tbody{
                             @media (max-width: $bp-640) {
@@ -108,9 +108,9 @@
                                     overflow-wrap: anywhere;
                                 }
                                 &:first-child{
-                                    padding-left: 16px;
+                                    padding-inline-start: 16px;
                                     @media (max-width: $bp-640) {
-                                        padding-left: 0;
+                                        padding-inline-start: 0;
                                     }
                                 }
                                 &.info,
@@ -255,7 +255,7 @@
                                 font-weight: $font-medium;
                                 .active-users-box{
                                     padding: 0;
-                                    border-left: 0;
+                                    border-inline-start: 0;
                                     .info{
                                         font-size: $text-heading-5;
                                         line-height: $leading-20;
@@ -285,11 +285,11 @@
                         .server-info-table{
                             tr{
                                 .info{
-                                    padding-left: 6px;
+                                    padding-inline-start: 6px;
                                 }
                                 &:last-child{
                                     .info{
-                                        padding-left: 0;
+                                        padding-inline-start: 0;
                                     }
                                     td{
                                         padding-top: 8px;
@@ -390,16 +390,15 @@
                                         line-height: $leading-20;
                                         color: $colour-forground;
                                         position: relative;
-                                        padding-left: 24px;
+                                        padding-inline-start: 24px;
                                         &::before{
                                             content: '';
                                             top: 2px;
-                                            left: 0;
+                                            inset-inline-start: 0;
                                             width: 14px;
                                             height: 14px;
                                             border: 1px solid $theme-divider;
                                             border-radius: $rounded-4;
-                                            margin-bottom: 2px;
                                             position: absolute;
                                             margin-bottom: 0;
                                                 

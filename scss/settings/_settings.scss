@@ -61,7 +61,7 @@
 	margin-block: 20px;
 	input#nexeno_theme-enabled.checkbox {
 		position: relative !important;
-		left: auto !important;
+		inset-inline-start: auto !important;
 		top: auto !important;
 		z-index: auto !important;
 		width: 32px !important;
@@ -89,7 +89,7 @@
 			content: "" !important;
 			position: absolute;
 			top: 2px;
-			left: 2px;
+			inset-inline-start: 2px;
 			width: 12px;
 			height: 12px;
 			border-radius: 50%;

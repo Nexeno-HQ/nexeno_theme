@@ -76,7 +76,7 @@
 							content: '';
 							position: absolute;
 							top: 50%;
-							right: 10px;
+							inset-inline-end: 10px;
 							transform: translateY(-50%);
 							@include chevron-down;
 						}
@@ -97,7 +97,7 @@
 							content: '';
 							position: absolute;
 							top: 50%;
-							right: 10px;
+							inset-inline-end: 10px;
 							transform: translateY(-50%);
 							@include chevron-down;
 						}
@@ -207,7 +207,7 @@
 							}
 						}
 						.item__details {
-							padding-left: 0;
+							padding-inline-start: 0;
 							min-width: 0;
 							h3 {
 								font-size: $text-heading-5;
@@ -475,7 +475,7 @@
 								gap: 12px;
 								.nexeno-activity-icon {
 									position: absolute;
-									left: 28px;
+									inset-inline-start: 28px;
 									top: 28px;
 									margin: 0;
 									padding: 2px;
@@ -810,7 +810,7 @@
 					a {
 						&#profile {
 							.list-item-content {
-								padding-left: 0;
+								padding-inline-start: 0;
 								.list-item-content__name {
 									font-size: $text-heading-5;
 									line-height: $leading-20;
@@ -878,7 +878,7 @@
 						height: auto;
 						gap: 12px;
 						.list-item-content {
-							padding-left: 0;
+							padding-inline-start: 0;
 						}
 						.list-item-content__name {
 							font-size: $text-heading-5;
@@ -960,7 +960,7 @@
 			max-width: 95% !important;
 		}
 		.modal-container__close {
-			right: 16px;
+			inset-inline-end: 16px;
 			top: 10px;
 			width: 36px !important;
 			height: 36px;
@@ -986,7 +986,7 @@
 					border-bottom: 1px solid $theme-divider;
 					@media (max-width: $bp-640) {
 						position: sticky;
-						left: 0;
+						inset-inline-start: 0;
 						top: 0;
 						z-index: 1;
 						background-color: $colour-background;
@@ -1037,14 +1037,14 @@
 							padding: 14px 16px;
 							align-items: center;
 							justify-content: space-between;
-							padding-left: 38px;
+							padding-inline-start: 38px;
 							font-size: $text-heading-4;
 							color: $colour-forground;
 							line-height: $leading-24;
 							span {
 								top: 50%;
 								transform: translateY(-50%);
-								left: 16px;
+								inset-inline-start: 16px;
 								width: 16px;
 								height: 16px;
 								background-size:16px;
@@ -1052,7 +1052,7 @@
 							img {
 								top: 50%;
 								transform: translateY(-50%);
-								left: 16px;
+								inset-inline-start: 16px;
 								width: 16px;
 								height: 16px;
 								background-size:16px;
@@ -1117,7 +1117,7 @@
 							line-height: $leading-20;
 							color: $colour-forground;
 							font-weight: $font-medium;
-							padding-left: 38px;
+							padding-inline-start: 38px;
 							position: relative;
 							transition: all ease-in-out 300ms;
 							border: 1px solid $colour-gray-100;
@@ -1166,7 +1166,7 @@
 							content: '';
 							width: 20px;
 							height: 20px;
-							left: 12px;
+							inset-inline-start: 12px;
 							top:50%;
 							transform: translateY(-50%);
 							mask: url(../img/plus-icon.svg) no-repeat center / contain;
@@ -1188,7 +1188,7 @@
 			padding: 0;
 		}
 		.modal-container__close {
-			right: 16px;
+			inset-inline-end: 16px;
 			top: 10px;
 			width: 36px !important;
 			height: 36px;
@@ -1378,7 +1378,7 @@
 					}
 				}
 				+ a{
-					margin-left: 0;
+					margin-inline-start: 0;
 					padding: 8px 12px;
 					background-color: $colour-gray-100;
 					border-radius: $rounded-8;
@@ -1478,7 +1478,7 @@
 				.predefined-status__clear-at{
 					color: $colour-forground-1;
 					&::before{
-						margin-left: -3px;
+						margin-inline-start: -3px;
 					}
 				}
 				.backup-status__reset-button{
@@ -1628,7 +1628,7 @@
 								border: 0;
 								top:50%;
 								transform: translateY(-50%);
-								right: 12px;
+								inset-inline-end: 12px;
 								svg,
 								.icon-vue{
 									width: 16px;
@@ -1647,7 +1647,7 @@
 							z-index: 1;
 							top: 50%;
 							transform: translateY(-50%);
-							left: 12px;
+							inset-inline-start: 12px;
 							width: 14px;
 							height: 14px;
 							.action-input__icon{
@@ -1669,7 +1669,7 @@
 								position: absolute;
 								top: 50%;
 								transform: translateY(-50%);
-								left: 32px;
+								inset-inline-start: 32px;
 								font-size: $text-heading-5;
 								line-height: $leading-20;
 								font-weight: $font-medium;
@@ -1679,7 +1679,6 @@
 							.input-field__input{
 								border: 1px solid $theme-divider;
 								border-radius: $rounded-8;
-								box-shadow: none;
 								padding: 8px 12px 8px 32px;
 								min-height: unset;
 								height: auto !important;
@@ -1729,7 +1728,7 @@
 		> a {
 			order: 3;
 			flex: 0 0 auto;
-			margin-left: auto;
+			margin-inline-start: auto;
 			background-color: $colour-gray-100;
 			border: none;
 		}
@@ -1776,7 +1775,7 @@
 			box-shadow: none;
 			.vs__selected-options {
 				padding: 0;
-				padding-left: 10px;
+				padding-inline-start: 10px;
 			}
 			.vs__open-indicator-button{
 				svg{
@@ -1858,7 +1857,7 @@
 			border-bottom: 1px solid $theme-divider;
 			position: sticky;
 			top: 0;
-			left: 0;
+			inset-inline-start: 0;
 			background-color: $colour-background;
 			z-index: 1;
 		}

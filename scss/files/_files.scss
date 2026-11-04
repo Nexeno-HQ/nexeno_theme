@@ -69,8 +69,7 @@
 
 @mixin batch-actions {
     .files-list__selected{
-        padding-right: 8px;
-        padding-left: 2px;
+        padding-inline: 2px 8px;
         font-size: $text-heading-5;
         line-height: $leading-20;
         font-weight: $font-medium;
@@ -177,7 +176,6 @@
                 margin-bottom: 0;
                 font-size: $text-heading-4;
                 line-height: $leading-24;
-                color: $colour-forground-1;
                 +p{
                     margin-bottom: 10px;
                 }
@@ -210,7 +208,7 @@
                         .thumbnail{
                             width: 24px;
                             height: 24px;
-                            margin-right: 0;
+                            margin-inline-end: 0;
                         }
                         .details{
                             display: flex;
@@ -385,7 +383,7 @@
                                         transition: all ease-in-out 300ms;
                                     }
                                     @media (max-width: $bp-768) {
-                                      padding-right: 0 !important;
+                                      padding-inline-end: 0 !important;
                                     }
                                 }
                             }
@@ -491,7 +489,7 @@
                             }
                             &.files-list__row-checkbox{
                                 top: 16px;
-                                left: 16px;
+                                inset-inline-start: 16px;
                                 width: fit-content;
                                 height: fit-content;
                                 .checkbox-radio-switch{
@@ -545,9 +543,8 @@
                                 margin-bottom: 4px;
                                 @media (max-width: $bp-512) {
                                     inset-inline-start: unset;
-                                    inset-inline-end: unset;
                                     margin-bottom: 0;
-                                    right: 8px;
+                                    inset-inline-end: 8px;
                                     bottom: 7px;
                                 }
                                 button{
@@ -660,7 +657,7 @@
                         .files-list__row-name{
                             gap: 16px;
                             .files-list__row-icon{
-                                margin-right: 0;
+                                margin-inline-end: 0;
                                 .files-list__row-icon-preview-container{
                                     img{
                                         width: 24px;
@@ -768,7 +765,7 @@
                         .files-list__row-actions{
                             gap: 10px;
                             .files-list__row-action--inline{
-                                margin-right: 0;
+                                margin-inline-end: 0;
                                 .files-list__system-tags{
                                     min-width: auto;
                                     li{
@@ -812,7 +809,7 @@
                         outline: 0 !important;
                     }
                     input{
-                        margin-left: 0;
+                        margin-inline-start: 0;
                         height: auto;
                         min-height: unset;
                         padding: 5px 6px;
@@ -874,8 +871,7 @@
                     td{
                         &.files-list__row-size{
                             justify-content: start;
-                            margin-left: 0;
-                            margin-right: 81px;
+                            margin-inline: 0 81px;
                         }
                     }
                     th{
@@ -1194,7 +1190,7 @@
                                     content: '';
                                     position: absolute;
                                     top: 50%;
-                                    right: 10px;
+                                    inset-inline-end: 10px;
                                     transform: translateY(-50%);
                                     @include sort-down;
                                 }
@@ -1255,7 +1251,7 @@
                 width: fit-content;
                 justify-content: start;
                 min-width: unset !important;
-                padding-right: 36px;
+                padding-inline-end: 36px;
                 transition: all ease-in-out 300ms;
                 color: $colour-forground-1;
                 .button-vue__wrapper{
@@ -1285,7 +1281,7 @@
                     content: '';
                     position: absolute;
                     top: 50%;
-                    right: 10px;
+                    inset-inline-end: 10px;
                     transform: translateY(-50%);
                     @include sort-down;
                 }
@@ -1364,8 +1360,7 @@
                     }
                     &.files-list__row-size{
                         justify-content: start;
-                        margin-left: 0;
-                        margin-right: 52px;
+                        margin-inline: 0 52px;
                     }
                 }
             }
@@ -1753,7 +1748,7 @@
     }
 
     .files-list__header-upload-button--narrow{
-        right: 16px;
+        inset-inline-end: 16px;
         bottom: 16px;
     }
 }

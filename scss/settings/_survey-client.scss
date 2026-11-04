@@ -51,7 +51,7 @@
 						&::before{
 							content: '';
 							display: inline-block;
-							margin-right: 6px;
+							margin-inline-end: 6px;
 							transition: transform 200ms ease;
 							@include dash.chevron-down;
 						}

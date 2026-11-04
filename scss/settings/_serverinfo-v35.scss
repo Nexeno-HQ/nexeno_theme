@@ -275,7 +275,7 @@
             }
         }
         .active-users-box{
-            border-left-color: $theme-divider;
+            border-inline-start-color: $theme-divider;
             .info{
                 font-size: $text-heading-1;
                 line-height: $leading-36;

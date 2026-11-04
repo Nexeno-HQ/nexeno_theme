@@ -131,7 +131,7 @@
                     }
                     #{css-module("hint")}{
                         margin-top: 12px;
-                        margin-left: 0;
+                        margin-inline-start: 0;
                         font-size: $text-heading-5;
                         line-height: $leading-20;
                         color: $colour-forground-1;
@@ -144,13 +144,13 @@
                     border-radius: $rounded-6;
                     min-width: unset;
                     width: 50%;
-                    margin-left: 16px;
+                    margin-inline-start: 16px;
                     max-width: 100%;
                     @media (max-width: $bp-1199) {
                         width: 100%;
                     }
                     @media (max-width: $bp-1199) {
-                        margin-left: 0;
+                        margin-inline-start: 0;
                     }
                 }
             }

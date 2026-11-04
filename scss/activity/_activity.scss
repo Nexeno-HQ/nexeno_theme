@@ -10,7 +10,7 @@
         margin: 0;
         padding-top: 16px;
         padding-bottom: 15px;
-        padding-left: 47px;
+        padding-inline-start: 47px;
         font-size: $text-heading-3;
         font-weight: $font-semibold;
         line-height: $leading-22;
@@ -59,7 +59,7 @@
                         }
                         .activity-entry__content__subject,
                         .comments-activity__title{
-                            padding-left: 0;
+                            padding-inline-start: 0;
                             font-size: $text-heading-5;
                             line-height: $leading-20;
                             color: $colour-forground-1;
@@ -98,7 +98,7 @@
                                 align-items: center;
                                 .avatardiv{
                                     border-radius: $rounded-full;
-                                    margin-left: 0;
+                                    margin-inline-start: 0;
                                 }
                                 .user-bubble__name{
                                     font-size: $text-12;
@@ -158,7 +158,7 @@
                             }
                         }
                         padding: 0;
-                        padding-left: 26px;
+                        padding-inline-start: 26px;
                         li{
                             .whiteboard{
                                 position: static;
