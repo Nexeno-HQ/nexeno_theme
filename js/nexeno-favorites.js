@@ -104,8 +104,14 @@
 		}
 		favPreview[probe] = 'pending'
 		const im = new Image()
-		im.onload = function() { favPreview[probe] = true; scheduleMark() }
-		im.onerror = function() { favPreview[probe] = false; scheduleMark() }
+		im.onload = function() {
+			favPreview[probe] = true
+			scheduleMark()
+		}
+		im.onerror = function() {
+			favPreview[probe] = false
+			scheduleMark()
+		}
 		im.src = probe
 		return null
 	}
@@ -245,7 +251,7 @@
 		for (let i = 0; i < imgs.length; i++) {
 			const img = imgs[i]
 			const src = img.getAttribute('src') || ''
-			var cls
+			let cls
 			if (src.indexOf(FOLDER_ICON) !== -1) {
 				cls = 'folder'
 			} else {
@@ -321,8 +327,8 @@
 		markActionInputs()
 	}
 
-	var scheduled = false
-	var defer = window.requestAnimationFrame
+	let scheduled = false
+	const defer = window.requestAnimationFrame
 		? function(cb) { window.requestAnimationFrame(cb) }
 		: function(cb) { window.setTimeout(cb, 0) }
 	function scheduleMark() {

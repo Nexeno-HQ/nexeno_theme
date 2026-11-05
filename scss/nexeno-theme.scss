@@ -248,16 +248,7 @@
 		--image-background: none !important;
 		--primary-invert-if-bright: no !important;
 		--primary-invert-if-dark: invert(100%) !important;
-		--color-primary: #2563eb !important;
-		--color-primary-text: #ffffff !important;
-		--color-primary-hover: #5082ef !important;
-		--color-primary-element: #2563eb !important;
-		--color-primary-element-hover: #1451d8 !important;
-		--color-primary-element-text: #ffffff !important;
-		--color-primary-element-text-dark: #ededed !important;
-		--color-primary-light: #e9effd !important;
-		--color-primary-light-hover: #dde3f0 !important;
-		--color-primary-light-text: #0e275e !important;
+		@include nextcloud-primary-vars(light);
 	}
 
 	#header {
@@ -276,16 +267,7 @@
 		--image-background: none !important;
 		--primary-invert-if-bright: invert(100%) !important;
 		--primary-invert-if-dark: no !important;
-		--color-primary: #2563eb !important;
-		--color-primary-text: #ffffff !important;
-		--color-primary-hover: #2253c0 !important;
-		--color-primary-element: #6d87eb !important;
-		--color-primary-element-hover: #8ca1ef !important;
-		--color-primary-element-text: #000000 !important;
-		--color-primary-element-text-dark: #121212 !important;
-		--color-primary-light: #1f222c !important;
-		--color-primary-light-hover: #2a2d36 !important;
-		--color-primary-light-text: #a7c0f7 !important;
+		@include nextcloud-primary-vars(dark);
 	}
 
 	#header {

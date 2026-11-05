@@ -26,19 +26,17 @@
 						}
 					}
 					.photos-navigation__title{
+						font-size: $text-heading-3;
+						font-weight: $font-semibold;
+						line-height: $leading-22;
+						color: $colour-forground;
+						margin-top: 2px;
 						h1{
 							font-size: $text-heading-3;
 							font-weight: $font-semibold;
 							line-height: $leading-22;
 							color: $colour-forground;
 						}
-					}
-					.photos-navigation__title{
-						font-size: $text-heading-3;
-						font-weight: $font-semibold;
-						line-height: $leading-22;
-						color: $colour-forground;
-						margin-top: 2px;
 					}
 					.timeline__header__left,
 					.photos-navigation__content__left{
@@ -358,7 +356,6 @@
 											}
 										}
 									}
-									.collection-cover__details,
 									.collection-cover__details{
 										width: fit-content;
 										margin-top: 0;

@@ -185,6 +185,9 @@
 				outline: 0;
 				box-shadow: none !important;
 				border-color: $colour-blue-600;
+				+ label{
+					color: $colour-blue-600;
+				}
 			}
 			&::placeholder,
 			+ label{
@@ -197,13 +200,6 @@
 			&:not(:placeholder-shown){
 				+ label{
 					font-size: $text-12;
-				}
-			}
-			&:focus,
-			&:focus-visible,
-			&:focus-within{
-				+ label{
-					color: $colour-blue-600;
 				}
 			}
 		}
@@ -224,7 +220,7 @@
 	border-radius: $rounded-6;
 	height: auto;
 	min-height: unset;
-	@if $margin != null {
+	@if $margin {
 		margin: $margin;
 	}
 	.button-vue__wrapper{
@@ -319,7 +315,6 @@
 		.import-and-new-contact-buttons{
 			flex-direction: column;
 			gap: 5px;
-			.button-vue--secondary,
 			.button-vue--secondary{
 				@include primary-button;
 			}
@@ -899,7 +894,6 @@
 				border-radius: $rounded-6;
 				width: 100%;
 				.v-select{
-					margin-bottom: 0;
 					min-width: unset;
 					width: 100%;
 					margin: 0;
@@ -1904,6 +1898,8 @@
 	@at-root &:has(.app-collectives){
 		.page-list-headerbar{
 			@include nav-search-base;
+			// The wrapper keeps these declarations after the mixin's nested rules without a Sass warning.
+			// stylelint-disable-next-line no-duplicate-selectors
 			& {
 				flex-direction: row;
 				align-items: center;

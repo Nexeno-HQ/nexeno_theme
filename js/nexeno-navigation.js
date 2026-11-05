@@ -205,8 +205,8 @@
 		tasks.forEach((task) => {
 			try {
 				task()
-			} catch (e) {
-				console.debug('[nexeno] navigation task skipped', task.name, e)
+			} catch {
+				// A task whose target is missing on this page is skipped.
 			}
 		})
 	}

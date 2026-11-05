@@ -40,8 +40,12 @@
 	]
 
 	const GROUPED = {}
-	IMAGE_EXT.forEach(function(ext) { GROUPED[ext] = 'image' })
-	VIDEO_EXT.forEach(function(ext) { GROUPED[ext] = 'video' })
+	IMAGE_EXT.forEach(function(ext) {
+		GROUPED[ext] = 'image'
+	})
+	VIDEO_EXT.forEach(function(ext) {
+		GROUPED[ext] = 'video'
+	})
 
 	const FOLDER_ICONS = '.folder-icon, .folder-open-icon'
 	const SHARE_OVERLAYS = ['account-plus-icon', 'account-group-icon', 'link-icon']

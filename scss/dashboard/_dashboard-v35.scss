@@ -20,10 +20,6 @@
 			&.select{
 				margin: 0;
 			}
-		}
-	}
-	.clear-at-select{
-		.v-select{
 			&.select.clear-at-select__select{
 				.vs__dropdown-toggle{
 					border: 1px solid $theme-divider !important;

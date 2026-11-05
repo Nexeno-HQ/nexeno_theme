@@ -3059,7 +3059,6 @@
 					}
 
 					.date-range-picker-dialog__picker {
-						flex-grow: 0;
 						flex: none;
 						min-width: 0;
 
@@ -3937,6 +3936,19 @@
 									flex-shrink: 0;
 									fill: $colour-forground;
 								}
+								.avatardiv{
+									--avatar-size: 16px !important;
+									width: 16px;
+									height: 16px;
+									line-height: 16px !important;
+									font-size: 8px !important;
+									img{
+										border-radius: $rounded-full;
+									}
+									.avatardiv__user-status{
+										display: none;
+									}
+								}
 							}
 							.text{
 								padding-inline: 4px;
@@ -3959,25 +3971,6 @@
 									height: 10px;
 									flex-shrink: 0;
 									filter: $filter-forground;
-								}
-							}
-						}
-					}
-					.unified-search-modal__filters-applied{
-						.chip{
-							.icon{
-								.avatardiv{
-									--avatar-size: 16px !important;
-									width: 16px;
-									height: 16px;
-									line-height: 16px !important;
-									font-size: 8px !important;
-									img{
-										border-radius: $rounded-full;
-									}
-									.avatardiv__user-status{
-										display: none;
-									}
 								}
 							}
 						}

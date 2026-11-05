@@ -17,7 +17,7 @@
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import AppSidebar from './components/AppSidebar.vue'
-import { refresh } from './store'
+import { refresh } from './store.js'
 
 export default {
 	name: 'App',

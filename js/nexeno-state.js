@@ -22,7 +22,7 @@
 	let channel = null
 	try {
 		channel = new BroadcastChannel('nexeno_theme-variant')
-	} catch (e) {
+	} catch {
 		channel = null
 	}
 
@@ -33,7 +33,7 @@
 		}
 		try {
 			return JSON.parse(atob(el.value))
-		} catch (e) {
+		} catch {
 			return null
 		}
 	}
@@ -236,8 +236,7 @@
 				}
 				refreshThemeStyles()
 			})
-			.catch(function(error) {
-				console.warn('[nexeno] variant save failed:', error)
+			.catch(function() {
 				toast(t('nexeno_theme', 'Could not save the Nexeno theme setting.'))
 			})
 	}

@@ -203,7 +203,7 @@ import filesShowcase from '../assets/images/showcase/files.png'
 import heroSliderPreview from '../assets/images/showcase/hero-slider-perview.jpg'
 import officeShowcase from '../assets/images/showcase/office.png'
 import photosShowcase from '../assets/images/showcase/photos.png'
-import { setThemeVariant, state } from '../store'
+import { setThemeVariant, state } from '../store.js'
 
 export default {
 	name: 'DashboardView',

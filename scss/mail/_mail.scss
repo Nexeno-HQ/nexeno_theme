@@ -2185,6 +2185,8 @@
 				font-size: $text-heading-5;
 				line-height: $leading-20;
 				color: $colour-forground;
+				// Kept as is: swapping it for overflow-wrap could change how long words wrap in mail.
+				// stylelint-disable-next-line declaration-property-value-keyword-no-deprecated
 				word-break: break-word;
 			}
 			.quoted-text{

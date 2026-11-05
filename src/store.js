@@ -25,7 +25,7 @@ export async function refresh() {
 let variantChannel = null
 try {
 	variantChannel = new BroadcastChannel('nexeno_theme-variant')
-} catch (e) {
+} catch {
 	variantChannel = null
 }
 

@@ -7,7 +7,6 @@
 
 	const MODAL = '.modal-container'
 	const FILES_APP = '.app-files'
-	const OFFICE_APP = '.office-overview__content'
 	const PHOTOS_APP = '.app-photos'
 	const USERS_SETTINGS_PATH = /\/settings\/users/
 	const GROUPWARE_SETTINGS_PATH = /\/settings\/admin\/groupware/
@@ -97,8 +96,12 @@
 		'ogv',
 	]
 	const GROUPED = {}
-	IMAGE_EXT.forEach(function(ext) { GROUPED[ext] = 'image' })
-	VIDEO_EXT.forEach(function(ext) { GROUPED[ext] = 'video' })
+	IMAGE_EXT.forEach(function(ext) {
+		GROUPED[ext] = 'image'
+	})
+	VIDEO_EXT.forEach(function(ext) {
+		GROUPED[ext] = 'video'
+	})
 
 	const FILE_PICKER_ROW = 'tr.file-picker__row'
 	const FILE_PICKER_FOLDER_ICONS = '.folder-icon, .folder-open-icon'

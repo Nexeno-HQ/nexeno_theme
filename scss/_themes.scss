@@ -95,6 +95,40 @@ $themes: (
 	),
 );
 
+// Nextcloud's own primary colours, fixed per variant so they match the Nexeno blue.
+$nextcloud-primary: (
+	light: (
+		primary:                    '#2563eb',
+		primary-text:               '#ffffff',
+		primary-hover:              '#5082ef',
+		primary-element:            '#2563eb',
+		primary-element-hover:      '#1451d8',
+		primary-element-text:       '#ffffff',
+		primary-element-text-dark:  '#ededed',
+		primary-light:              '#e9effd',
+		primary-light-hover:        '#dde3f0',
+		primary-light-text:         '#0e275e',
+	),
+	dark: (
+		primary:                    '#2563eb',
+		primary-text:               '#ffffff',
+		primary-hover:              '#2253c0',
+		primary-element:            '#6d87eb',
+		primary-element-hover:      '#8ca1ef',
+		primary-element-text:       '#000000',
+		primary-element-text-dark:  '#121212',
+		primary-light:              '#1f222c',
+		primary-light-hover:        '#2a2d36',
+		primary-light-text:         '#a7c0f7',
+	),
+);
+
+@mixin nextcloud-primary-vars($theme) {
+	@each $name, $value in map.get($nextcloud-primary, $theme) {
+		--color-#{$name}: #{$value} !important;
+	}
+}
+
 @mixin theme-vars($theme) {
 	@each $name, $value in map.get($themes, $theme) {
 		--#{$name}: #{$value};
