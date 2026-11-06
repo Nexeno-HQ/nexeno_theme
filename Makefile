@@ -74,7 +74,9 @@ l10n:
 	npm run l10n:pot
 
 # The package holds only what runs on the server; .nextcloudignore lists everything else.
-appstore: clean build
+appstore: clean
+	rm -rf ./css ./js/page
+	$(MAKE) build
 	mkdir -p "./$(package_dir)" "./$(artifacts_dir)"
 	rsync -a --exclude-from=.nextcloudignore $(if $(wildcard .git/info/exclude),--exclude-from=.git/info/exclude) ./ "./$(package_dir)/"
 	find "./$(package_dir)" -type d -exec chmod 755 {} +
