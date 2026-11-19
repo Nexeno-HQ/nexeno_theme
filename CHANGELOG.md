@@ -6,7 +6,7 @@
 
 All notable changes to this project are documented in this file.
 
-## 1.1.0 - 2026-11-16
+## 1.1.0 - 2026-11-19
 
 ### Added
 - A "System default theme" option, listed first, that shows Nexeno Light or Nexeno Dark to match the device's light
@@ -20,11 +20,19 @@ All notable changes to this project are documented in this file.
   full-width card below. Mobile keeps a stacked layout.
 - Translations in Czech, Danish, Finnish and Norwegian, and German in both forms: informal (du, `de`) and formal
   (Sie, `de_DE`), as Nextcloud offers them.
+- Nexeno styling for Cospend.
+- A "Nexeno project" banner on the "Nexeno Theme" overview page and a "Coming soon" page about Nexeno Project, with
+  its project views, privacy and FAQs. "Notify me" and "Talk to us about your requirements" open nexeno.io. Closing
+  the banner is remembered in the user's browser.
+- A rating popup on the "Nexeno Theme" overview page, shown 7 days after the app was installed: "Rate it" opens the
+  App Store, "Do not show again" hides it for good, and closing it asks again 7 days later.
+- "Rate this app" and "Report a problem" links in the overview page's side menu.
 
 ### Removed
 - The Polish translation. Polish accounts see the theme in English.
 
 ### Changed
+- Updated styling for Tasks, Dashboard, Files, Office and Deck.
 - The theme options are listed one per row, preview beside the text, as Nextcloud lists its own themes, and are
   titled "System default theme", "Nexeno light theme" and "Nexeno dark theme".
 - The "Nexeno Theme" overview page shows the same three options as cards with a preview. Clicking a preview or its

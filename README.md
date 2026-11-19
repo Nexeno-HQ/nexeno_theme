@@ -19,8 +19,9 @@ appearance settings, which the theme never changes.
 
 ## Features
 
-- **🌗 Light and Dark:** two variants, switched on under *Personal settings → Appearance and accessibility*. The
-  change applies straight away, in every open tab, and follows the user on every device.
+- **🌗 System default, Light and Dark:** three options under *Personal settings → Appearance and accessibility*.
+  System default shows Nexeno Light or Nexeno Dark to match the device's light or dark setting, and follows it when it
+  changes. The change applies straight away, in every open tab, and follows the user on every device.
 - **🧭 The whole interface:** restyled navigation, header menus, dialogs, sidebars, search, settings pages and the
   login page. Administrators can switch the Nexeno login page off under *Personal settings → Appearance and
   accessibility*, or with `occ config:app:set nexeno_theme login_style --value=no`.
@@ -33,9 +34,13 @@ appearance settings, which the theme never changes.
 
 ## Privacy
 
-The theme runs fully inside your Nextcloud and loads nothing from outside services. It stores one setting per user,
-the chosen variant, which is included when the user exports their account with Nextcloud's account migration. It
-also stores one site-wide setting, whether the login page uses the Nexeno look, which holds no personal data.
+The theme runs fully inside your Nextcloud and loads nothing from outside services. For each user it stores:
+
+- the chosen variant, which is included when the user exports their account with Nextcloud's account migration;
+- whether the user answered the rating popup, and, after closing it, the date to ask again.
+
+For the whole instance it stores whether the login page uses the Nexeno look and the date the app was installed,
+which hold no personal data. Closing the Nexeno project banner is remembered only in the user's own browser.
 
 ## Requirements
 
