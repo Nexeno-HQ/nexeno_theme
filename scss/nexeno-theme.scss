@@ -26,7 +26,9 @@
 @use 'talk/talk' as talk;
 @use 'collectives/collectives' as collectives;
 @use 'tasks/tasks' as tasks;
+@use 'cospend/cospend' as cospend;
 @use 'mail/mail' as mail;
+@use 'profile/profile' as profile;
 
 @include root-palette;
 
@@ -93,7 +95,8 @@
 		&.app-notes,
 		&.app-calendar,
 		&.app-circles,
-		&.app-tasks{
+		&.app-tasks,
+		&.app-cospend{
 			margin-inline: 0;
 			border-radius: 0;
 			width: 100%;
@@ -193,6 +196,7 @@
 	@include act.activity;
 	@include pho.photos;
 	@include apps.apps;
+	@include profile.profile;
 	@include set.settings;
 	@include cal.calendar-settings;
 	@include cal.calendar-trashbin;
@@ -229,6 +233,11 @@
 	@include tasks.tasks-main;
 	@include tasks.tasks-sidebar;
 	@include tasks.tasks-popovers;
+	@include tasks.tasks-create-dialog;
+	@include cospend.cospend-navigation;
+	@include cospend.cospend-main;
+	@include cospend.cospend-sidebar;
+	@include cospend.cospend-dialogs;
 	@include mail.mail-account-settings;
 	@include mail.mail-settings;
 	@include mail.mail-dialogs;

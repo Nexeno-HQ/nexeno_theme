@@ -28,9 +28,9 @@ class VariantMigrator implements IMigrator {
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
 		$userId = $user->getUID();
 		$variant = $this->userConfig->getValueString($userId, ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_VARIANT, 'off');
-		$lastVariant = $this->userConfig->getValueString($userId, ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_LAST_VARIANT, 'light');
+		$lastVariant = $this->userConfig->getValueString($userId, ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_LAST_VARIANT, ThemeConfig::DEFAULT_LAST_VARIANT);
 
-		if ($variant === 'off' && $lastVariant === 'light') {
+		if ($variant === 'off' && $lastVariant === ThemeConfig::DEFAULT_LAST_VARIANT) {
 			return;
 		}
 
@@ -49,7 +49,7 @@ class VariantMigrator implements IMigrator {
 		$userId = $user->getUID();
 
 		$this->userConfig->setValueString($userId, ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_VARIANT, $data['variant'] ?? 'off');
-		$this->userConfig->setValueString($userId, ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_LAST_VARIANT, $data['last_variant'] ?? 'light');
+		$this->userConfig->setValueString($userId, ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_LAST_VARIANT, $data['last_variant'] ?? ThemeConfig::DEFAULT_LAST_VARIANT);
 	}
 
 	public function getId(): string {
@@ -61,7 +61,7 @@ class VariantMigrator implements IMigrator {
 	}
 
 	public function getDescription(): string {
-		return 'Your selected Nexeno theme variant (light/dark/off).';
+		return 'Your selected Nexeno theme variant (system/light/dark/off).';
 	}
 
 	public function getVersion(): int {

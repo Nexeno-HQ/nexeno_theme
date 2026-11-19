@@ -46,6 +46,10 @@ final class CoreThemingTest extends TestCase {
 		self::assertSame(['dark', 'opendyslexic'], $this->withEnabledThemes('["light","opendyslexic"]')->bodyThemes('alice', 'dark'));
 	}
 
+	public function testBodyThemesForSystemUsesNextcloudDefaultTheme(): void {
+		self::assertSame(['default', 'opendyslexic'], $this->withEnabledThemes('["dark","opendyslexic"]')->bodyThemes('alice', 'system'));
+	}
+
 	public function testBodyThemesWhenOffReturnsUserThemesUnchanged(): void {
 		self::assertSame(['dark', 'opendyslexic'], $this->withEnabledThemes('["dark","opendyslexic"]')->bodyThemes('alice', 'off'));
 	}

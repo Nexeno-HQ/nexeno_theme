@@ -43,52 +43,25 @@
 			}
 		}
 		.nexeno_theme-theme-card{
-			display: grid;
-			grid-template-columns: repeat(4, minmax(0, 1fr));
-			gap: 20px;
 			margin-bottom: 20px;
-			@media (max-width: $bp-1366) {
-				grid-template-columns: repeat(3, minmax(0, 1fr));
-			}
-			@media (max-width: $bp-1199) {
-				grid-template-columns: repeat(2, minmax(0, 1fr));
-			}
-			@media (max-width: $bp-1023) {
-				grid-template-columns: repeat(3, minmax(0, 1fr));
-			}
-			@media (max-width: $bp-768) {
-				grid-template-columns: repeat(2, minmax(0, 1fr));
-			}
-			@media (max-width: $bp-512) {
-				grid-template-columns: repeat(1, minmax(0, 1fr));
-			}
 			.nexeno_theme-theme-card__item{
-				display: flex;
-				flex-direction: column;
-				gap: 16px;
 				.nexeno_theme-theme-card__preview{
-					max-width: none;
 					border-radius: $rounded-6;
 				}
 				.nexeno_theme-theme-card__body{
-					display: flex;
-					flex-direction: column;
-					gap: 16px;
-					flex-grow: 1;
+					gap: 8px;
 					p,h3{
-						margin-bottom: 0;
+						margin: 0;
 					}
-					p{
-						&:has(input[type="radio"]){
-							margin-top: auto;
-						}
+					h3{
+						text-transform: none;
 					}
 					label{
 						font-size: $text-heading-5;
 						line-height: $leading-20;
 						color: $colour-forground;
 						font-weight: $font-medium;
-						text-transform: capitalize;
+						text-transform: none;
 						&::before{
 							box-shadow: inset 0px 0px 0px 2.8px var(--color-main-background);
 						}

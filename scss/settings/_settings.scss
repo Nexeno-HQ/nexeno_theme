@@ -45,12 +45,76 @@
 
 // Shown whether the theme is on or off, so it lives outside the :root[data-nexeno] rules.
 // Same size the 280 × 160 preview image had as an <img>.
+.nexeno_theme-theme-card {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+// Admin-only login page setting, below the theme cards, set apart by a divider.
+// Starting from the id makes these spacing rules stronger than the shared switch rule below.
+#nexeno_theme-settings .nexeno_theme-login-style {
+	margin-block-start: 30px;
+	padding-block: 24px;
+	border-block-start: 1px solid var(--color-border);
+
+	.settings-hint {
+		margin: 0;
+
+		// "Only admins see this setting." – medium weight in the main text colour, so it stands out
+		// from the muted hint text around it.
+		strong {
+			font-weight: 500;
+			color: var(--color-main-text);
+		}
+	}
+
+	.nexeno_theme-switch {
+		margin-block-start: 12px;
+		margin-block-end: 0;
+	}
+}
+
+.nexeno_theme-theme-card__item {
+	display: flex;
+	align-items: center;
+	gap: 30px;
+
+	@media (max-width: $bp-576) {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+}
+
+.nexeno_theme-theme-card__body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 0;
+
+	h3,
+	p {
+		margin: 0;
+	}
+
+	h3 {
+		text-transform: none;
+	}
+}
+
 .nexeno_theme-theme-card__preview {
 	display: block;
-	width: 100%;
-	max-width: 280px;
+	flex: 0 0 256px;
+	width: 256px;
+	max-width: 100%;
 	aspect-ratio: 280 / 160;
 	background: center / contain no-repeat;
+	cursor: pointer;
+
+	@media (max-width: $bp-576) {
+		flex: none;
+	}
 
 	&--light {
 		background-image: $preview-light;
@@ -58,6 +122,10 @@
 
 	&--dark {
 		background-image: $preview-dark;
+	}
+
+	&--system {
+		background-image: $preview-system;
 	}
 }
 
@@ -73,12 +141,14 @@
 	}
 }
 
-#nexeno_theme-master-toggle {
+// Toggle switch shared by "Enable Nexeno theme" and the admin-only login page setting.
+// The id keeps it stronger than Nextcloud's own checkbox styles.
+#nexeno_theme-settings .nexeno_theme-switch {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 	margin-block: 20px;
-	input#nexeno_theme-enabled.checkbox {
+	input.checkbox {
 		position: relative !important;
 		inset-inline-start: auto !important;
 		top: auto !important;
@@ -129,9 +199,14 @@
 			outline: 2px solid var(--color-primary-element);
 			outline-offset: 2px;
 		}
+
+		&:disabled {
+			cursor: wait;
+			opacity: 0.6 !important;
+		}
 	}
 
-	label[for="nexeno_theme-enabled"] {
+	label {
 		cursor: pointer;
 		font-size: $text-heading-5;
 		line-height: $leading-20;

@@ -5,7 +5,39 @@
 (function() {
 	'use strict'
 
-	const VARIANTS = ['off', 'light', 'dark']
+	const VARIANTS = ['off', 'system', 'light', 'dark']
+	const ENABLED_VARIANTS = ['system', 'light', 'dark']
+
+	// "system" follows the device's light or dark setting, also when it changes while the page is open.
+	const darkSchemeQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null
+
+	function isEnabled(variant) {
+		return ENABLED_VARIANTS.indexOf(variant) !== -1
+	}
+
+	function resolveVariant(variant) {
+		if (variant !== 'system') {
+			return variant
+		}
+		return darkSchemeQuery && darkSchemeQuery.matches ? 'dark' : 'light'
+	}
+
+	/**
+	 * For "system" the server sends Nextcloud's "default" theme as a placeholder. Swap it for "light" or
+	 * "dark" so the page gets exactly the same Nextcloud colours as the Nexeno light or dark option.
+	 *
+	 * @param {string[]} themes Theme ids, e.g. ['default', 'opendyslexic'].
+	 * @param {string} variant 'off', 'system', 'light' or 'dark'.
+	 * @return {string[]} Theme ids to put on <body>.
+	 */
+	function resolveThemes(themes, variant) {
+		if (variant !== 'system' || !Array.isArray(themes)) {
+			return themes
+		}
+		return themes.map(function(id) {
+			return id === 'default' ? resolveVariant('system') : id
+		})
+	}
 
 	const CORE_THEME_INPUTS = ['default', 'light', 'dark', 'light-highcontrast', 'dark-highcontrast', 'opendyslexic']
 		.map(function(id) {
@@ -39,7 +71,7 @@
 	}
 
 	function syncCoreThemeLock() {
-		const locked = currentVariant === 'light' || currentVariant === 'dark'
+		const locked = isEnabled(currentVariant)
 		const inputs = document.querySelectorAll(CORE_THEME_INPUTS)
 		for (let i = 0; i < inputs.length; i++) {
 			inputs[i].disabled = locked
@@ -47,7 +79,7 @@
 	}
 
 	function syncSubOptionLock() {
-		const enabled = currentVariant === 'light' || currentVariant === 'dark'
+		const enabled = isEnabled(currentVariant)
 		const radios = document.querySelectorAll('input[name="nexeno_theme-variant"]')
 		for (let i = 0; i < radios.length; i++) {
 			radios[i].disabled = !enabled
@@ -72,6 +104,7 @@
 			return
 		}
 		currentVariant = variant
+		const resolved = resolveVariant(variant)
 		const html = document.documentElement
 		body.removeAttribute('data-nexeno')
 		body.removeAttribute('data-nexeno-light')
@@ -79,12 +112,12 @@
 		html.removeAttribute('data-nexeno')
 		html.removeAttribute('data-nexeno-light')
 		html.removeAttribute('data-nexeno-dark')
-		if (variant === 'light') {
+		if (resolved === 'light') {
 			body.setAttribute('data-nexeno', '')
 			body.setAttribute('data-nexeno-light', '')
 			html.setAttribute('data-nexeno', '')
 			html.setAttribute('data-nexeno-light', '')
-		} else if (variant === 'dark') {
+		} else if (resolved === 'dark') {
 			body.setAttribute('data-nexeno', '')
 			body.setAttribute('data-nexeno-dark', '')
 			html.setAttribute('data-nexeno', '')
@@ -99,7 +132,10 @@
 		userThemes = readInitialState('user-themes')
 		setVariant(readInitialState('variant'))
 
+		// NC33+ wraps the Appearance section in #settings-personal-theming. NC32 mounts it
+		// over <span id="theming">, which Vue 2 replaces, so watch the settings content instead.
 		const mount = document.getElementById('settings-personal-theming')
+			|| document.getElementById('app-content')
 		if (mount && window.MutationObserver) {
 			new MutationObserver(syncCoreThemeLock).observe(mount, { childList: true, subtree: true })
 		}
@@ -109,6 +145,15 @@
 		document.addEventListener('DOMContentLoaded', apply)
 	} else {
 		apply()
+	}
+
+	if (darkSchemeQuery && darkSchemeQuery.addEventListener) {
+		darkSchemeQuery.addEventListener('change', function() {
+			if (currentVariant === 'system') {
+				setVariant('system')
+				setBodyThemes(bodyThemesFor('system'))
+			}
+		})
 	}
 
 	/**
@@ -144,14 +189,23 @@
 			if (VARIANTS.indexOf(variant) !== -1) {
 				setVariant(variant)
 				if (data && typeof data === 'object') {
-					setBodyThemes(data.themes)
+					setBodyThemes(resolveThemes(data.themes, variant))
 				}
 			}
 		}
 	}
 
-	function toast(message) {
-		if (window.OC && OC.Notification && OC.Notification.showTemporary) {
+	/**
+	 * Shows a Nextcloud toast (top right). OCP.Toast is core's wrapper around @nextcloud/dialogs; the
+	 * older OC.Notification is only a fallback and has no success or error styling.
+	 *
+	 * @param {string} message The translated text.
+	 * @param {'success'|'error'} type The toast style.
+	 */
+	function toast(message, type = 'success') {
+		if (window.OCP && OCP.Toast && typeof OCP.Toast[type] === 'function') {
+			OCP.Toast[type](message)
+		} else if (window.OC && OC.Notification && OC.Notification.showTemporary) {
 			OC.Notification.showTemporary(message)
 		}
 	}
@@ -179,26 +233,30 @@
 	 * The theme ids <body> needs for a variant, worked out in the browser so the whole page switches at
 	 * once. The server sends the same list back (CoreTheming::bodyThemes) and that answer wins.
 	 *
-	 * @param {string} variant 'off', 'light' or 'dark'.
+	 * @param {string} variant 'off', 'system', 'light' or 'dark'.
 	 * @return {string[]|null} Theme ids, or null when they are not known yet.
 	 */
 	function bodyThemesFor(variant) {
-		if (variant === 'light' || variant === 'dark') {
+		if (isEnabled(variant)) {
 			const kept = (userThemes || currentBodyThemes()).filter(function(id) {
 				return KEEP_THEMES.indexOf(id) !== -1
 			})
-			return [variant].concat(kept)
+			return [resolveVariant(variant)].concat(kept)
 		}
 		return Array.isArray(userThemes) && userThemes.length > 0 ? userThemes : null
 	}
 
-	function persistVariant(variant) {
+	/**
+	 * @param {string} variant 'off', 'system', 'light' or 'dark'.
+	 * @param {string} [successMessage] Toast shown once the server has saved it (the on/off switch only).
+	 */
+	function persistVariant(variant, successMessage) {
 		if (VARIANTS.indexOf(variant) === -1) {
 			return
 		}
 
 		// While the theme is off, <body> shows the user's own themes; they may have changed them on this page.
-		if (currentVariant !== 'light' && currentVariant !== 'dark') {
+		if (!isEnabled(currentVariant)) {
 			const live = currentBodyThemes()
 			if (live.length > 0) {
 				userThemes = live
@@ -230,14 +288,52 @@
 			})
 			.then(function(data) {
 				// The server answers with the theme ids <body> needs for this variant.
-				setBodyThemes(data.enabledThemes)
+				const themes = resolveThemes(data.enabledThemes, variant)
+				setBodyThemes(themes)
 				if (channel) {
-					channel.postMessage({ variant, themes: data.enabledThemes })
+					channel.postMessage({ variant, themes })
 				}
 				refreshThemeStyles()
+				if (successMessage) {
+					toast(successMessage)
+				}
 			})
 			.catch(function() {
-				toast(t('nexeno_theme', 'Could not save the Nexeno theme setting.'))
+				toast(t('nexeno_theme', 'Could not save the Nexeno theme setting.'), 'error')
+			})
+	}
+
+	/**
+	 * Saves the site-wide login page switch (admins only). On failure the switch flips back, so it
+	 * always shows what the server actually stores.
+	 *
+	 * @param {HTMLInputElement} input The login page checkbox.
+	 */
+	function persistLoginStyle(input) {
+		const enabled = input.checked
+		input.disabled = true
+		fetch(OC.generateUrl('/apps/nexeno_theme/login-style'), {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				requesttoken: OC.requestToken,
+			},
+			body: JSON.stringify({ enabled }),
+		})
+			.then(function(response) {
+				if (!response.ok) {
+					throw new Error('HTTP ' + response.status)
+				}
+				toast(enabled
+					? t('nexeno_theme', 'The login page now shows the Nexeno look for everyone.')
+					: t('nexeno_theme', 'The login page now shows the standard Nextcloud look.'))
+			})
+			.catch(function() {
+				input.checked = !enabled
+				toast(t('nexeno_theme', 'Could not save the login page setting.'), 'error')
+			})
+			.finally(function() {
+				input.disabled = false
 			})
 	}
 
@@ -247,12 +343,19 @@
 			return
 		}
 
+		if (input.id === 'nexeno_theme-login-style-enabled' && input.type === 'checkbox') {
+			persistLoginStyle(input)
+			return
+		}
+
 		if (input.id === 'nexeno_theme-enabled' && input.type === 'checkbox') {
 			if (input.checked) {
 				const selected = document.querySelector('input[name="nexeno_theme-variant"]:checked')
-				persistVariant(selected ? selected.value : 'light')
+				const message = t('nexeno_theme', 'Nexeno theme turned on. Your account now uses the Nexeno look.')
+				persistVariant(selected ? selected.value : 'system', message)
 			} else {
-				persistVariant('off')
+				const message = t('nexeno_theme', 'Nexeno theme turned off. Your standard Nextcloud appearance is back.')
+				persistVariant('off', message)
 			}
 			return
 		}

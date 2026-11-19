@@ -20,6 +20,15 @@ class ThemeConfig {
 		'nexeno_project',
 	];
 
+	/**
+	 * Saved variants. "system" follows the device's light or dark setting and is resolved in the browser.
+	 */
+	public const VARIANT_OFF = 'off';
+	public const VARIANT_SYSTEM = 'system';
+	public const VARIANTS = [self::VARIANT_OFF, self::VARIANT_SYSTEM, 'light', 'dark'];
+	public const ENABLED_VARIANTS = [self::VARIANT_SYSTEM, 'light', 'dark'];
+	/** Variant preselected for users who have not chosen one yet. */
+	public const DEFAULT_LAST_VARIANT = self::VARIANT_SYSTEM;
 
 	public const CONFIG_KEY_VARIANT = 'variant';
 	public const CONFIG_KEY_LAST_VARIANT = 'last_variant';
@@ -28,6 +37,33 @@ class ThemeConfig {
 	public const CONFIG_KEY_BG_BACKUP_COLOR = 'bg_backup_color';
 	public const CONFIG_KEY_BG_BACKUP_PRIMARY = 'bg_backup_primary';
 	public const CONFIG_KEY_BG_BACKUP_THEMES = 'bg_backup_themes';
+
+	/**
+	 * Site-wide switch (app config, "yes" or "no") for the Nexeno look on the login page. The login page
+	 * is shown before anyone signs in, so it cannot follow a per-user choice. Only admins can change it.
+	 */
+	public const APP_CONFIG_KEY_LOGIN_STYLE = 'login_style';
+	public const LOGIN_STYLE_ON = 'yes';
+	public const LOGIN_STYLE_OFF = 'no';
+	/** On by default, so existing installs keep the styled login page. */
+	public const DEFAULT_LOGIN_STYLE = self::LOGIN_STYLE_ON;
+
+	/**
+	 * "Rate this app" popup. The instance install time (app config, Unix seconds) starts the clock;
+	 * each user then sees the popup once RATE_PROMPT_DELAY has passed, again RATE_PROMPT_DELAY after
+	 * closing it, and never after "Rate it" or "Do not show again".
+	 */
+	public const APP_CONFIG_KEY_INSTALLED_AT = 'installed_at';
+	public const CONFIG_KEY_RATE_PROMPT_SNOOZED_UNTIL = 'rate_prompt_snoozed_until';
+	public const CONFIG_KEY_RATE_PROMPT_DONE = 'rate_prompt_done';
+	public const RATE_PROMPT_DELAY = 7 * 24 * 60 * 60;
+	/**
+	 * Test mode for the rating popup: true shows it on every page load for every user, ignoring
+	 * the 7 days and any earlier answer. Set to false before a release.
+	 */
+	public const RATE_PROMPT_TEST_MODE = false;
+	/** Answers the popup sends: "later" (close button), "never" (do not show again), "rated" (rate it). */
+	public const RATE_PROMPT_ACTIONS = ['later', 'never', 'rated'];
 
 	/** Initial state with the user's own Nextcloud theme ids, so the browser can switch to "off" without waiting for the server. */
 	public const INITIAL_STATE_USER_THEMES = 'user-themes';

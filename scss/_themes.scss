@@ -4,6 +4,21 @@
  */
 @use 'sass:map';
 
+// Dark-mode brand scale: the one source for every primary blue in dark mode.
+// Both $themes (Nexeno tokens) and $nextcloud-primary (Nextcloud's own variables)
+// read from here, so Nexeno screens and Nextcloud components show the same blue.
+// The tints are the primary mixed into the dark surface (#1A1A1A), not a separate navy,
+// so selected rows and chips sit naturally on the grey dark UI.
+// Contrast (WCAG): primary on page bg 7.3:1, black text on primary 8.3:1,
+// primary on tint-50 5.6:1, light-text on tint-50 10.1:1.
+$dark-primary:            '#60A5FA'; // Tailwind blue-400: links, icons, buttons, focus
+$dark-primary-hover:      '#7AB5FC'; // lighter on hover, as dark UIs go up in lightness
+$dark-primary-on:         '#000000'; // text and icons on a filled primary button
+$dark-primary-tint-50:    '#222B35'; // 12% primary: selected row, active nav, light chip
+$dark-primary-tint-100:   '#283647'; // 20% primary: hover on a tint, stronger chip
+$dark-primary-tint-text:  '#BFDBFE'; // text on a tint
+$dark-primary-filter:     'brightness(0) saturate(100%) invert(62%) sepia(59%) saturate(533%) hue-rotate(184deg) brightness(86%) contrast(133%)'; // renders #60A5FA
+
 $themes: (
 	light: (
 		main-page-bg:            '#FFFFFF',
@@ -32,6 +47,8 @@ $themes: (
 		colour-yellow:           '#EAB308',
 		colour-yellow-50:        '#FEFCE8',
 		colour-forground-white:  '#FFFFFF',
+		// Always white, in light and dark: text and buttons on the brand-blue panels.
+		colour-white:            '#FFFFFF',
 		colour-white-20:         '#FFFFFF33',
 		colour-mask:             '#00000080',
 		colour-sidebar-link-bg:  '#E8E8E8',
@@ -60,15 +77,15 @@ $themes: (
 		colour-scrollbar-main:   '#737373',
 		colour-forground-2:      '#A3A3A3',
 		colour-background:       '#1A1A1A',
-		colour-primary-100:      '#1E3A5F',
+		colour-primary-100:      $dark-primary-tint-100,
 		colour-blue-400:         '#60A5FA',
-		colour-primary-50:       '#172554',
+		colour-primary-50:       $dark-primary-tint-50,
 		colour-gray-100:         '#2A2A2A',
 		secondary-card-bg:       '#0A0A0A',
 		colour-sidebar-bg:       '#141414',
 		colour-green-50:         '#052E16',
 		colour-green-700:        '#4ADE80',
-		colour-blue-600:         '#60A5FA',
+		colour-blue-600:         $dark-primary,
 		colour-red-50:           '#450A0A',
 		colour-red-600:          '#F87171',
 		colour-semilight:        '#222222',
@@ -76,17 +93,20 @@ $themes: (
 		colour-yellow:           '#FACC15',
 		colour-yellow-50:        '#422006',
 		colour-forground-white:  '#000000',
+		colour-white:            '#FFFFFF',
 		colour-white-20:         '#00000033',
 		colour-mask:             '#000000B3',
 		colour-sidebar-link-bg:  '#2D2D2D',
 		colour-cheveron-seprator: '#737373',
 		gradient-brand-vertical: 'linear-gradient(180deg, #1D4ED8 0%, #002F94 100%)',
-		gradient-brand-diagonal: 'linear-gradient(88.92deg, #1D4ED8 0.6%, #4C3A9C 37.19%)',
+		// Used as gradient text ("Free Forever"), so dark mode needs lighter stops to stay readable:
+		// blue-400 (the dark primary) to violet-400.
+		gradient-brand-diagonal: 'linear-gradient(88.92deg, #60A5FA 0.6%, #A78BFA 37.19%)',
 		box-shadow-1:            '0px 0px 3px rgba(0, 0, 0, 0.7)',
 		box-shadow-2:            '0px 2px 6px rgba(0, 0, 0, 0.6)',
 		box-shadow-3:            '0px 0px 20px rgba(0, 0, 0, 0.8)',
 		box-shadow-4:            '0px 0px 20px rgba(0, 0, 0, 0.55)',
-		filter-primry-600:       'brightness(0) saturate(100%) invert(66%) sepia(85%) saturate(1844%) hue-rotate(190deg) brightness(101%) contrast(96%)',
+		filter-primry-600:       $dark-primary-filter,
 		filter-forground:        'brightness(0) saturate(100%) invert(96%) sepia(4%) saturate(184%) hue-rotate(180deg) brightness(101%) contrast(96%)',
 		filter-forground-1:      'brightness(0) saturate(100%) invert(72%) sepia(8%) saturate(170%) hue-rotate(180deg) brightness(92%) contrast(88%)',
 		filter-red:              'brightness(0) saturate(100%) invert(48%) sepia(72%) saturate(3271%) hue-rotate(326deg) brightness(102%) contrast(94%)',
@@ -109,17 +129,23 @@ $nextcloud-primary: (
 		primary-light-hover:        '#dde3f0',
 		primary-light-text:         '#0e275e',
 	),
+	// Every dark value comes from the dark brand scale above. Before, Nextcloud's buttons
+	// used #6d87eb, Nexeno's own UI #60A5FA and --color-primary #2563eb, and the
+	// element-light variables were left to Nextcloud's own calculation.
 	dark: (
-		primary:                    '#2563eb',
-		primary-text:               '#ffffff',
-		primary-hover:              '#2253c0',
-		primary-element:            '#6d87eb',
-		primary-element-hover:      '#8ca1ef',
-		primary-element-text:       '#000000',
-		primary-element-text-dark:  '#121212',
-		primary-light:              '#1f222c',
-		primary-light-hover:        '#2a2d36',
-		primary-light-text:         '#a7c0f7',
+		primary:                          $dark-primary,
+		primary-text:                     $dark-primary-on,
+		primary-hover:                    $dark-primary-hover,
+		primary-element:                  $dark-primary,
+		primary-element-hover:            $dark-primary-hover,
+		primary-element-text:             $dark-primary-on,
+		primary-element-text-dark:        '#121212',
+		primary-light:                    $dark-primary-tint-50,
+		primary-light-hover:              $dark-primary-tint-100,
+		primary-light-text:               $dark-primary-tint-text,
+		primary-element-light:            $dark-primary-tint-50,
+		primary-element-light-hover:      $dark-primary-tint-100,
+		primary-element-light-text:       $dark-primary-tint-text,
 	),
 );
 
@@ -194,6 +220,7 @@ $colour-mask:            var(--colour-mask);
 $colour-yellow:          var(--colour-yellow);
 $colour-yellow-50:       var(--colour-yellow-50);
 $colour-forground-white: var(--colour-forground-white);
+$colour-white:           var(--colour-white);
 $colour-white-20:        var(--colour-white-20);
 $colour-cheveron-seprator: var(--colour-cheveron-seprator);
 $gradient-brand-vertical: var(--gradient-brand-vertical);

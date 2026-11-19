@@ -7,9 +7,34 @@
 @use '../themes' as *;
 @use '../settings/mixins' as *;
 
+// Swaps the overview showcase screenshots to their dark versions (see the showcase rules in `shared`).
+@mixin showcase-dark-images {
+	.showcase-img--light {
+		display: none;
+	}
+	.showcase-img--dark {
+		display: block;
+	}
+}
+
 @mixin shared {
 	.app-nexeno_theme {
 		font-family: var(--font-face);
+
+		// "Apps" caption: line up with the nav items' 12px inner padding and drop the
+		// default top margin Nextcloud adds to captions that are not first in the list.
+		// #content raises specificity above Nextcloud's scoped caption styles.
+		&#content .app-navigation-list .app-navigation-caption {
+			margin: 0;
+			padding: 10px 12px 6px;
+		}
+
+		// Footer links (Rate this app, Report a problem): same 4px gap as the menu items above.
+		&#content .app-navigation-entry__settings {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+		}
 	}
 
 	.v-popper__inner {
@@ -19,8 +44,33 @@
 		}
 	}
 
+	// "Coming soon" status chip right after a sidebar item's name (Figma: Nexeno Suite, node 3120:9084).
+	// The label comes from --nexeno-badge-label, set (translated) on the item in AppSidebar.vue.
+	.nexeno-nav-item--new .app-navigation-entry__name::after {
+		content: var(--nexeno-badge-label, 'Coming soon');
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		margin-inline-start: 8px;
+		vertical-align: middle;
+		font-size: $text-12;
+		line-height: $leading-16;
+		font-weight: $font-medium;
+		padding: 2px 6px;
+		border-radius: $rounded-full;
+		// Primary at 8%, mixed from the token so dark mode gets the dark-mode blue.
+		background: color-mix(in srgb, #{$colour-blue-600} 8%, transparent);
+		color: $colour-blue-600;
+		white-space: nowrap;
+	}
+
+	// On the active (grey) row the see-through chip turns greyish, so it gets the solid light blue.
+	.nexeno-nav-item--new .app-navigation-entry.active .app-navigation-entry__name::after {
+		background: $colour-primary-100;
+	}
+
 	.nexeno-content {
-		padding: 55px 16px 0;
+		padding: 55px 24px 0;
 		.badge-pill {
 			display: inline-flex;
 			font-size: $text-12;
@@ -49,13 +99,130 @@
 		}
 
 		.suite-app-wrapper{
+			// "Nexeno project coming soon" bar (Figma: Nexeno Suite, node 3122:14202). On narrow screens
+			// it stacks: badge, message, then the links, with the close button pinned top-right.
+			.nexeno-project-banner{
+				position: relative;
+				padding: 16px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 8px 16px;
+				flex-wrap: wrap;
+				border-radius: $rounded-8;
+				background-color: $colour-primary-50;
+				@media (max-width: $bp-1023) {
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 12px;
+				}
+				.nexeno-project-banner__message{
+					display: flex;
+					align-items: center;
+					gap: 8px;
+					min-width: 0;
+					@media (max-width: $bp-1023) {
+						flex-direction: column;
+						align-items: flex-start;
+						// Room for the close button pinned in the corner.
+						padding-inline-end: 36px;
+					}
+					p{
+						margin: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+						strong{
+							font-weight: $font-semibold;
+							color: $colour-blue-600;
+						}
+					}
+				}
+				.nexeno-project-banner__badge{
+					flex-shrink: 0;
+					padding: 4px 8px;
+					border-radius: $rounded-full;
+					background-color: $colour-blue-600;
+					color: $colour-forground-white;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+					white-space: nowrap;
+				}
+				.nexeno-project-banner__actions{
+					display: flex;
+					align-items: center;
+					gap: 8px;
+					flex-shrink: 0;
+					@media (max-width: $bp-1023) {
+						flex-wrap: wrap;
+						// Line the first link's text up with the message above (links have 8px side padding).
+						margin-inline-start: -8px;
+					}
+				}
+				.nexeno-project-banner__link{
+					height: 28px;
+					padding: 0 8px;
+					display: inline-flex;
+					align-items: center;
+					gap: 4px;
+					border-radius: $rounded-6;
+					color: $colour-blue-600;
+					font-size: $text-12;
+					line-height: $leading-16;
+					font-weight: $font-medium;
+					white-space: nowrap;
+					text-decoration: none;
+					&:hover{
+						text-decoration: underline;
+					}
+					img{
+						width: 16px;
+						height: 16px;
+						// The bell is drawn in light-mode blue; match the link text in dark mode too.
+						filter: $filter-primry-600;
+					}
+				}
+				// button.<class> outranks Nextcloud's global button margin, border and hover styles.
+				button.nexeno-project-banner__close{
+					width: 28px;
+					height: 28px;
+					min-width: 0;
+					min-height: 0;
+					margin: 0;
+					padding: 0;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					border: 0;
+					border-radius: $rounded-6;
+					background-color: transparent;
+					cursor: pointer;
+					@media (max-width: $bp-1023) {
+						position: absolute;
+						top: 12px;
+						inset-inline-end: 12px;
+					}
+					&:not(:disabled):hover,
+					&:not(:disabled):focus,
+					&:not(:disabled):active{
+						border: 0;
+						background-color: transparent;
+					}
+					img{
+						width: 28px;
+						height: 28px;
+						filter: $filter-forground;
+					}
+				}
+			}
 			.hero-section{
-				padding: 24px;
+				padding: 24px 0;
 				border-radius: $rounded-6;
 				display: flex;
 				align-items: center;
 				gap: 24px;
-				padding-top: 0;
+				padding-top: 36px;
 				.hero-section-text,
 				.hero-image-wrapper{
 					width: 50%;
@@ -96,6 +263,45 @@
 								color: $colour-blue-600;
 							}
 						}
+						// Nexeno project page: "native to Nextcloud." on its own line on desktop, inline on
+						// mobile; only "Nextcloud." is blue.
+						&.title--inline-highlight h1{
+							.title__line{
+								display: block;
+								color: $colour-forground;
+								@media (max-width: $bp-768) {
+									display: inline;
+								}
+							}
+							.title__highlight{
+								display: inline;
+								color: $colour-blue-600;
+							}
+						}
+					}
+					// "Talk to us about your requirements": the theme's outline button look as a link.
+					.hero-cta{
+						display: inline-flex;
+						align-items: center;
+						padding: 8px 12px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						background-color: $colour-background;
+						color: $colour-forground;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						text-decoration: none;
+						transition: all ease-in-out 300ms;
+						&:hover{
+							border-color: $colour-blue-600;
+							background-color: $colour-primary-50;
+							color: $colour-blue-600;
+						}
+						&:focus-visible{
+							outline: 2px solid $colour-blue-600;
+							outline-offset: 2px;
+						}
 					}
 					.content-small{
 						p{
@@ -129,20 +335,22 @@
 								height: 16px;
 								background: $icon-badge-check;
 								background-repeat: no-repeat;
+								// The icon is drawn in light-mode blue; this recolours it to the theme's primary.
+								filter: $filter-primry-600;
 							}
-						}
-					}
-					.button-wrapper{
-						.button-vue--primary{
-							@include primary-button;
 						}
 					}
 				}
 				.hero-image-wrapper{
+					// The images have square corners; the wrapper rounds and clips them, so no
+					// background shows through at the corners in either theme.
 					.img-wrapper{
+						border-radius: $rounded-6;
+						overflow: hidden;
 						img{
+							// Not display: block, which would override the light/dark image swap.
+							vertical-align: top;
 							width: 100%;
-							border-radius: $rounded-6;
 							height: 100%;
 							object-fit: cover;
 						}
@@ -157,110 +365,719 @@
 					padding-bottom: 0;
 				}
 			}
-			.apps-system-section {
+			// Nexeno project page: the hero starts right under the sidebar toggle (the Overview keeps
+			// its 36px because the Nexeno project bar sits above it).
+			// Nexeno project hero (Figma: Nexeno Suite, node 3120:3200): same structure as the Overview
+			// hero; only the left column's content differs. No top padding: there is no project bar
+			// above it (the Overview keeps 36px for that bar).
+			&.marketing-wrapper .hero-section{
+				padding-top: 0;
+				.hero-chips{
+					margin: 0;
+					padding: 0;
+					list-style: none;
+					display: flex;
+					flex-wrap: wrap;
+					gap: 8px;
+					li{
+						padding: 4px 8px;
+						display: inline-flex;
+						align-items: center;
+						gap: 6px;
+						border-radius: $rounded-full;
+						background-color: $secondary-card-bg;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground;
+						white-space: nowrap;
+					}
+					img{
+						width: 14px;
+						height: 14px;
+						// Recolours the blue icons to the theme's primary, so they also fit dark mode.
+						filter: $filter-primry-600;
+					}
+				}
+			}
+			// Small uppercase blue label above a section heading ("Who it is for", "Privacy by …").
+			.section-eyebrow{
+				margin: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				letter-spacing: $tracking-12;
+				text-transform: uppercase;
+				color: $colour-blue-600;
+			}
+			// Nexeno project page, "Who it is for" (Figma: Nexeno Suite, node 3122:14979).
+			.audience-section{
+				padding-block: 24px;
 				display: flex;
-				align-items: start;
-				gap: 12px;
+				flex-direction: column;
+				gap: 24px;
+				h2{
+					margin: 0;
+					font-size: $text-heading-1;
+					line-height: $leading-36;
+					font-weight: $font-bold;
+					color: $colour-forground;
+					@media (max-width: $bp-768) {
+						font-size: $text-heading-1;
+					}
+				}
+				.audience-grid{
+					margin: 0;
+					padding: 0;
+					list-style: none;
+					display: grid;
+					grid-template-columns: repeat(3, minmax(0, 1fr));
+					gap: 16px;
+					@media (max-width: $bp-1023) {
+						grid-template-columns: minmax(0, 1fr);
+					}
+				}
+				.audience-card{
+					padding: 24px;
+					display: flex;
+					flex-direction: column;
+					gap: 16px;
+					// Outlined card on the page background (Figma updated from the light-blue fill).
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-6;
+					img{
+						display: block;
+						width: 36px;
+						height: 36px;
+						// Recolours the icon to the theme's primary blue, so it also fits dark mode.
+						filter: $filter-primry-600;
+					}
+					.audience-card__text{
+						display: flex;
+						flex-direction: column;
+						gap: 4px;
+						h3{
+							margin: 0;
+							font-size: $text-heading-3;
+							line-height: $leading-28;
+							font-weight: $font-semibold;
+							color: $colour-forground;
+						}
+						p{
+							margin: 0;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							color: $colour-forground-1;
+						}
+					}
+				}
+			}
+			// Nexeno project page, "Privacy by Nexeno project" (Figma: Nexeno Suite, node 3122:9655).
+			.privacy-section{
+				padding-block: 24px;
+				display: flex;
+				flex-direction: column;
+				gap: 24px;
+				.privacy-section__header{
+					display: flex;
+					flex-direction: column;
+					gap: 24px;
+				}
+				h2{
+					margin: 0;
+					font-size: $text-heading-1;
+					line-height: $leading-36;
+					font-weight: $font-bold;
+					color: $colour-forground;
+					span{
+						color: $colour-blue-600;
+					}
+					@media (max-width: $bp-768) {
+						font-size: $text-heading-2;
+						line-height: $leading-28;
+					}
+				}
+				.privacy-grid{
+					margin: 0;
+					padding: 0;
+					list-style: none;
+					display: grid;
+					grid-template-columns: repeat(3, minmax(0, 1fr));
+					gap: 16px;
+					@media (max-width: $bp-1199) {
+						grid-template-columns: repeat(2, minmax(0, 1fr));
+					}
+					@media (max-width: $bp-768) {
+						grid-template-columns: minmax(0, 1fr);
+					}
+				}
+				// Light blue card with a 2px blue line on the start edge (left in left-to-right languages).
+				.privacy-card{
+					padding: 24px;
+					display: flex;
+					flex-direction: column;
+					gap: 16px;
+					border-inline-start: 2px solid $colour-blue-600;
+					border-radius: $rounded-6;
+					background-color: $colour-primary-50;
+					h3{
+						margin: 0;
+						font-size: $text-heading-3;
+						line-height: $leading-28;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+					}
+					p{
+						margin: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-forground-1;
+					}
+				}
+			}
+			// Nexeno project page, "The same work, six ways." (Figma: Nexeno Suite, node 3120:4698).
+			.views-section{
+				padding: 24px 0;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 24px;
+				text-align: center;
+				.views-section__header{
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					gap: 16px;
+				}
+				h2{
+					margin: 0;
+					font-size: $text-heading-1;
+					line-height: $leading-36;
+					font-weight: $font-bold;
+					color: $colour-forground;
+					span{
+						color: $colour-blue-600;
+					}
+					@media (max-width: $bp-768) {
+						font-size: $text-heading-1;
+					}
+				}
+				.views-section__intro{
+					margin: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+				.views-tabs{
+					max-width: 100%;
+					display: flex;
+					gap: 8px;
+					// Narrow screens scroll the tabs sideways instead of wrapping them.
+					overflow-x: auto;
+					scrollbar-width: none;
+				}
+				// button.<class> outranks Nextcloud's global button margin, border and hover styles.
+				button.views-tabs__tab{
+					flex-shrink: 0;
+					height: 34px;
+					min-height: 0;
+					margin: 0;
+					padding: 0 8px;
+					border: 0;
+					border-bottom: 1px solid transparent;
+					border-radius: 0;
+					background-color: transparent;
+					color: $colour-forground;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					white-space: nowrap;
+					cursor: pointer;
+					&:not(:disabled):hover,
+					&:not(:disabled):focus,
+					&:not(:disabled):active{
+						border: 0;
+						border-bottom: 1px solid transparent;
+						background-color: transparent;
+						color: $colour-blue-600;
+					}
+					&.views-tabs__tab--active,
+					&.views-tabs__tab--active:not(:disabled):hover,
+					&.views-tabs__tab--active:not(:disabled):focus,
+					&.views-tabs__tab--active:not(:disabled):active{
+						border-bottom-color: $colour-blue-600;
+						color: $colour-blue-600;
+					}
+				}
+				// Light grey stage (1015 x 521 in Figma). The screenshot frame is 814 wide, starts 48px
+				// from the top and runs past the bottom edge, so it is cut off there. Percentages keep
+				// those proportions at every width.
+				.views-stage{
+					position: relative;
+					// Full content width, as the sections around it.
+					width: 100%;
+					aspect-ratio: 1015 / 521;
+					overflow: hidden;
+					border-radius: $rounded-6;
+					background-color: $secondary-card-bg;
+					@media (max-width: $bp-768) {
+						aspect-ratio: 4 / 3;
+					}
+				}
+				.views-stage__frame{
+					position: absolute;
+					top: 9.2%;
+					// Centred with logical insets and auto margins, so it also works right to left.
+					inset-inline: 0;
+					width: 80.2%;
+					margin-inline: auto;
+					padding: 8px;
+					border-radius: $rounded-20;
+					background-color: $colour-white-20;
+					@media (max-width: $bp-768) {
+						width: 92%;
+					}
+					img{
+						// Not display: block, which would override the light/dark image swap.
+						vertical-align: top;
+						width: 100%;
+						height: auto;
+						aspect-ratio: 1440 / 1024;
+						object-fit: cover;
+						border: 2px solid $theme-divider;
+						border-radius: $rounded-10;
+						// Figma value; $box-shadow-3 is close but lighter (12%).
+						box-shadow: 0 0 16px rgba(0, 0, 0, 0.16);
+					}
+				}
+			}
+			// Nexeno project page, "Common questions" (Figma: Nexeno Suite, node 3184:38035).
+			.faq-section{
+				padding-block: 24px;
+				display: flex;
+				flex-direction: column;
+				gap: 24px;
+				.faq-section__header{
+					display: flex;
+					flex-direction: column;
+					gap: 24px;
+				}
+				h2{
+					margin: 0;
+					font-size: $text-heading-1;
+					line-height: $leading-36;
+					font-weight: $font-bold;
+					color: $colour-forground;
+					@media (max-width: $bp-768) {
+						font-size: $text-heading-2;
+						line-height: $leading-28;
+					}
+				}
+				.faq-list{
+					margin: 0;
+					padding: 0;
+					list-style: none;
+				}
+				.faq-item{
+					padding: 16px;
+					display: flex;
+					flex-direction: column;
+					border-bottom: 1px solid $theme-divider;
+					h3{
+						margin: 0;
+					}
+					// Full-width row button; resets Nextcloud's default button look.
+					.faq-item__question{
+						width: 100%;
+						min-height: 0;
+						margin: 0;
+						padding: 0;
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						gap: 8px;
+						border: 0;
+						border-radius: 0;
+						background-color: transparent;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+						text-align: start;
+						cursor: pointer;
+						transition: color 0.2s ease;
+						&:hover,
+						&:focus,
+						&:active{
+							border: 0;
+							background-color: transparent;
+						}
+						// Blue on hover (open questions are blue too, see .faq-item--open).
+						&:hover{
+							color: $colour-blue-600;
+							img{
+								filter: $filter-primry-600;
+							}
+						}
+						&:focus-visible{
+							outline: 2px solid $colour-blue-600;
+							outline-offset: 2px;
+						}
+						img{
+							flex-shrink: 0;
+							width: 20px;
+							height: 20px;
+							// Nextcloud core sets cursor: default on img directly.
+							cursor: pointer;
+							// The icon is drawn dark; this recolours it for dark mode too.
+							filter: $filter-forground;
+							transition: transform 0.2s ease;
+						}
+					}
+					// Smooth open and close: the grid row animates from 0fr to 1fr (the content's own height).
+					// visibility hides the closed answer from screen readers and keyboard focus; it switches
+					// at the end of closing and at the start of opening, so the animation stays visible.
+					.faq-item__answer{
+						display: grid;
+						grid-template-rows: 0fr;
+						visibility: hidden;
+						transition: grid-template-rows 0.25s ease, visibility 0s linear 0.25s;
+						.faq-item__answer-inner{
+							min-height: 0;
+							overflow: hidden;
+						}
+						p{
+							// Keeps long answers at a readable line length on wide screens.
+							max-width: 900px;
+							margin: 0;
+							// Space below the question; inside the clipped area, so it collapses too.
+							padding-top: 8px;
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+							font-weight: $font-medium;
+							color: $colour-forground-1;
+						}
+					}
+					// Open: the answer expands, the question turns blue and the chevron points up.
+					&.faq-item--open{
+						.faq-item__answer{
+							grid-template-rows: 1fr;
+							visibility: visible;
+							transition: grid-template-rows 0.25s ease, visibility 0s;
+						}
+						.faq-item__question{
+							color: $colour-blue-600;
+							img{
+								transform: rotate(180deg);
+								filter: $filter-primry-600;
+							}
+						}
+					}
+					// No motion for people who ask their system to reduce it.
+					@media (prefers-reduced-motion: reduce) {
+						.faq-item__answer,
+						.faq-item__question img{
+							transition: none;
+						}
+					}
+				}
+			}
+			// Nexeno project page, "Still deciding?" (Figma: Nexeno Suite, node 3126:15179).
+			// Content on the blue panel uses $colour-white, which stays white in dark mode too
+			// ($colour-forground-white turns black there); the panel is blue in both modes.
+			.decide-section{
+				padding-block: 24px;
+				.decide-panel{
+					position: relative;
+					// Figma width; centred on wider screens.
+					max-width: 1015px;
+					margin-inline: auto;
+					// Figma: 296px high, content 76px from the top, note ends 52px from the bottom.
+					min-height: 296px;
+					padding: 76px 24px 52px;
+					overflow: hidden;
+					border-radius: $rounded-6;
+					// In Figma the gradient spans 521px, so the 296px panel shows its top 57% (521 / 296).
+					background-image: $gradient-brand-vertical;
+					background-size: 100% 176%;
+					background-repeat: no-repeat;
+					color: $colour-white;
+					text-align: center;
+					@media (max-width: $bp-768) {
+						min-height: 0;
+						padding: 48px 16px;
+					}
+				}
+				.decide-panel__dots{
+					position: absolute;
+					top: -402px;
+					inset-inline-start: 0;
+					width: 1280px;
+					max-width: none;
+					height: 960px;
+					// Wider than the panel: start half its width before the centre, so it stays centred.
+					margin-inline-start: calc(50% - 640px);
+					object-fit: cover;
+					pointer-events: none;
+				}
+				.decide-panel__layers{
+					position: absolute;
+					width: 214px;
+					height: 214px;
+					pointer-events: none;
+					&--start{
+						top: -42px;
+						inset-inline-start: 11px;
+					}
+					&--end{
+						top: 124px;
+						inset-inline-end: 19px;
+					}
+					@media (max-width: $bp-768) {
+						width: 120px;
+						height: 120px;
+					}
+				}
+				.decide-panel__content{
+					position: relative;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					gap: 24px;
+				}
+				.decide-panel__text{
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					gap: 8px;
+					h2{
+						margin: 0;
+						font-size: $text-heading-1;
+						line-height: $leading-36;
+						font-weight: $font-bold;
+						color: $colour-white;
+					}
+					p{
+						margin: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						color: $colour-white;
+					}
+				}
+				.decide-panel__actions{
+					display: flex;
+					flex-wrap: wrap;
+					justify-content: center;
+					gap: 10px;
+					@media (max-width: $bp-768) {
+						flex-direction: column;
+						align-items: stretch;
+						.decide-panel__button{
+							justify-content: center;
+						}
+					}
+				}
+				// Hover swaps fill and outline, like the theme's other primary and outline buttons.
+				.decide-panel__button{
+					height: 36px;
+					padding: 0 10px;
+					display: inline-flex;
+					align-items: center;
+					border: 1px solid $colour-white;
+					border-radius: $rounded-6;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					white-space: nowrap;
+					text-decoration: none;
+					transition: all ease-in-out 300ms;
+					&--solid{
+						background-color: $colour-white;
+						color: $colour-blue-600;
+						&:hover{
+							background-color: transparent;
+							color: $colour-white;
+						}
+					}
+					&--outline{
+						background-color: transparent;
+						color: $colour-white;
+						&:hover{
+							background-color: $colour-white;
+							color: $colour-blue-600;
+						}
+					}
+					&:focus-visible{
+						outline: 2px solid $colour-white;
+						outline-offset: 2px;
+					}
+				}
+				.decide-panel__note{
+					margin: 0;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-white;
+					opacity: 0.7;
+				}
+			}
+			.apps-system-section {
 				padding: 12px 0;
 				.system-apps-wrapper{
-					width: 50%;
-					.apps-grid-wrapper{
-						.app-card{
-							padding: 24px;
-							border: 1px solid $theme-divider;
-							border-radius: $rounded-6;
-							box-shadow: none;
+					width: 100%;
+					.app-card{
+						padding: 24px;
+						border: 1px solid $theme-divider;
+						border-radius: $rounded-6;
+						box-shadow: none;
+						display: flex;
+						flex-direction: column;
+						gap: 24px;
+						.app-card__header{
 							display: flex;
-							flex-direction: column;
+							align-items: center;
+							justify-content: space-between;
 							gap: 16px;
-							.icon-name-wrapper{
+							flex-wrap: wrap;
+						}
+						.icon-name-wrapper{
+							display: flex;
+							align-items: center;
+							gap: 8px;
+							.icon{
+								color: $colour-blue-600;
+								width: 36px;
+								height: 36px;
+								flex-shrink: 0;
+								border: 1px solid $theme-divider;
+								border-radius: $rounded-8;
 								display: flex;
+								justify-content: center;
 								align-items: center;
-								gap: 8px;
-								.icon{
-									color: $colour-blue-600;
-									width: 36px;
-									height: 36px;
-									border: 1px solid $theme-divider;
-									border-radius: $rounded-8;
+								svg{
+									width: 16px;
+									height: 16px;
+								}
+							}
+							.app-name{
+								display: flex;
+								flex-direction: column;
+								gap: 2px;
+								.name-wrapper{
 									display: flex;
-									justify-content: center;
 									align-items: center;
-									svg{
-										width: 16px;
-										height: 16px;
+									gap: 8px;
+									h3{
+										margin: 0;
+										font-size: $text-heading-3;
+										line-height: $leading-28;
+										color: $colour-forground;
+										font-weight: $font-semibold;
 									}
 								}
-								.app-name{
+								.version-wrapper{
 									display: flex;
-									flex-direction: column;
-									.name-wrapper{
-										display: flex;
-										align-items: center;
-										gap: 8px;
-										h3{
-											margin: 0;
-											font-size: $text-heading-3;
-											line-height: $leading-28;
-											color: $colour-forground;
-											font-weight: $font-semibold;
-										}
-									}
-									.version-wrapper{
-										display: flex;
-										span{
-											font-size: $text-12;
-											line-height: $leading-16;
-											color: $colour-forground-1;
-											font-weight: $font-normal;
-										}
+									span{
+										font-size: $text-heading-5;
+										line-height: $leading-20;
+										color: $colour-forground-1;
+										font-weight: $font-normal;
 									}
 								}
 							}
-							.app-desc{
+						}
+						.app-desc{
+							p{
+								margin: 0;
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								text-align: start;
+								color: $colour-forground-1;
+								font-weight: $font-normal;
+							}
+						}
+						.app-action{
+							.checkbox-radio-switch{
+								@include checkbox-radio-switch;
+							}
+						}
+						// Three variant cards; spare width stays empty on the right, as in the design.
+						.variant-grid{
+							display: grid;
+							grid-template-columns: repeat(3, minmax(0, 266px));
+							gap: 24px;
+							&.variant-grid--disabled .variant-card__preview{
+								opacity: 0.5;
+								cursor: default;
+							}
+							&.variant-grid--disabled .variant-card__preview img,
+							&.variant-grid--disabled .variant-card__text h4{
+								cursor: default;
+							}
+							@media (max-width: $bp-1023) {
+								grid-template-columns: repeat(2, minmax(0, 266px));
+							}
+							@media (max-width: $bp-640) {
+								grid-template-columns: minmax(0, 1fr);
+							}
+						}
+						.variant-card{
+							display: flex;
+							flex-direction: column;
+							gap: 14px;
+							min-width: 0;
+							// The preview peeks out from the top-left padding and is cut off at the right and bottom.
+							.variant-card__preview{
+								padding: 16px 0 0 16px;
+								border: 1px solid transparent;
+								border-radius: $rounded-6;
+								background-color: $colour-primary-100;
+								overflow: hidden;
+								cursor: pointer;
+								img{
+									display: block;
+									width: 100%;
+									aspect-ratio: 250 / 150;
+									object-fit: cover;
+									object-position: left top;
+									border-start-start-radius: $rounded-6;
+									// Nextcloud core sets cursor: default on img directly, so it must be set here too.
+									cursor: pointer;
+								}
+							}
+							&.variant-card--selected .variant-card__preview{
+								border-color: $colour-blue-600;
+							}
+							.variant-card__text{
+								display: flex;
+								flex-direction: column;
+								gap: 8px;
+								h4{
+									margin: 0;
+									font-size: $text-heading-3;
+									line-height: normal;
+									cursor: pointer;
+									color: $colour-forground;
+									font-weight: $font-bold;
+								}
 								p{
+									margin: 0;
 									font-size: $text-heading-5;
 									line-height: $leading-20;
-									text-align: start;
 									color: $colour-forground-1;
 									font-weight: $font-normal;
 								}
 							}
-							.app-action{
-								.checkbox-radio-switch{
-									@include checkbox-radio-switch;
-								}
-							}
-							@media (max-width: $bp-1366) {
-								padding: 16px;
+							.checkbox-radio-switch{
+								@include checkbox-radio-switch;
+								@include checkbox-radio-switch-icon;
+								// Grid rows stretch the cards to equal height; pushing the radio to the bottom
+								// keeps all three radios on one line when a description wraps to more lines.
+								margin-top: auto;
 							}
 						}
 						@media (max-width: $bp-1366) {
-							grid-template-columns: repeat(3, minmax(0, 1fr));
-						}
-						@media (max-width: $bp-1199) {
-							grid-template-columns: repeat(2, minmax(0, 1fr));
-						}
-						@media (max-width: $bp-640) {
-							grid-template-columns: repeat(1, minmax(0, 1fr));
+							padding: 16px;
 						}
 					}
-					@media (max-width: $bp-1366) {
-						width: 100%;
-					}
-				}
-				.title{
-					h2{
-						font-size: $text-heading-5;
-						line-height: $leading-20;
-						font-weight: $font-semibold;
-						color: $colour-forground;
-						margin-top: 0;
-						margin-bottom: 10px;
-					}
-				}
-				@media (max-width: $bp-1366) {
-					flex-direction: column;
 				}
 			}
 			.showcase-section{
@@ -318,8 +1135,9 @@
 								margin-bottom: 14px;
 							}
 							p{
-								font-size: $text-12;
-								line-height: $leading-16;
+								// 14/20, as in Figma (Text-sm/Regular).
+								font-size: $text-heading-5;
+								line-height: $leading-20;
 								font-weight: $font-normal;
 								color: $colour-forground-1;
 							}
@@ -343,6 +1161,23 @@
 					}
 					&.two-column{
 						grid-template-columns: repeat(2, minmax(0, 1fr));
+						// As in Figma, the screenshot starts 46px from the card edge and runs off the
+						// right side; the images are cropped to the part the design shows.
+						.showcase-card{
+							overflow: hidden;
+							.showcase-card-img{
+								padding-inline: 22px 0;
+								margin-inline-end: -24px;
+								@media (max-width: $bp-1199) {
+									padding-inline: 0;
+									margin-inline-end: -16px;
+								}
+								img{
+									border-inline-end: 0;
+									border-top-right-radius: 0;
+								}
+							}
+						}
 						@media (max-width: $bp-768) {
 							grid-template-columns: repeat(1, minmax(0, 1fr));
 						}
@@ -368,8 +1203,12 @@
 								}
 							}
 							.showcase-card-img{
-								padding-inline: 0;
+								// 46px from the card edge, as in Figma; it already runs off the right side.
+								padding-inline: 22px 0;
 								flex: 1;
+								@media (max-width: $bp-1199) {
+									padding-inline: 0;
+								}
 								img{
 									border-inline-end: 0;
 									border-top-right-radius: 0;
@@ -377,7 +1216,7 @@
 							}
 							&.multiple-view{
 								.showcase-card-img{
-									padding-inline-start: 11px;
+									padding-inline-start: 22px;
 									position: relative;
 									display: flex;
 									flex-direction: column;
@@ -398,6 +1237,200 @@
 							}
 						}
 					}
+				}
+			}
+		}
+	}
+
+	// Overview hero and showcase screenshots come in a light and a dark version (Figma: Nexeno Suite,
+	// hero light 3122:12440 / dark 3211:8272, showcase light 3122:13458 / dark 3211:9478). The dark one shows whenever the page itself is dark: Nexeno dark,
+	// or with the Nexeno theme off, Nextcloud's dark theme or a dark device setting. Nexeno light
+	// always keeps the light screenshots.
+	.showcase-img--dark {
+		display: none;
+	}
+	:root[data-nexeno-dark] {
+		@include showcase-dark-images;
+	}
+	:root:not([data-nexeno-light]) {
+		body[data-theme-dark],
+		body[data-theme-dark-highcontrast] {
+			@include showcase-dark-images;
+		}
+		@media (prefers-color-scheme: dark) {
+			body:not([data-theme-light]):not([data-theme-light-highcontrast]):not([data-theme-dark]):not([data-theme-dark-highcontrast]) {
+				@include showcase-dark-images;
+			}
+		}
+	}
+
+	// "Rate this app" popup (Figma: Nexeno Suite, node 3152:48136). Teleported to <body>, so the
+	// overlay (50% black, 10px blur) covers the whole screen including the Nextcloud header.
+	.nexeno-rate-prompt-backdrop {
+		position: fixed;
+		inset: 0;
+		z-index: 10000;
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+		padding: 24px;
+		// 50% black as requested; $colour-mask is 50% in light mode but 70% in dark mode.
+		background-color: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+		@media (max-width: $bp-640) {
+			padding: 16px;
+		}
+	}
+
+	// Fade in and out: the overlay fades, the card also rises 8px.
+	.nexeno-rate-prompt-fade-enter-active,
+	.nexeno-rate-prompt-fade-leave-active {
+		transition: opacity 0.25s ease;
+		.nexeno-rate-prompt {
+			transition: transform 0.25s ease;
+		}
+	}
+	.nexeno-rate-prompt-fade-enter-from,
+	.nexeno-rate-prompt-fade-leave-to {
+		opacity: 0;
+		.nexeno-rate-prompt {
+			transform: translateY(8px);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.nexeno-rate-prompt-fade-enter-active,
+		.nexeno-rate-prompt-fade-leave-active,
+		.nexeno-rate-prompt-fade-enter-active .nexeno-rate-prompt,
+		.nexeno-rate-prompt-fade-leave-active .nexeno-rate-prompt {
+			transition: none;
+		}
+	}
+
+	// Scoped under the backdrop and written as button.<class> so these rules outrank Nextcloud's
+	// global `button:not(.button-vue)` styles (3px margin, border and hover colours).
+	.nexeno-rate-prompt-backdrop .nexeno-rate-prompt {
+		width: 370px;
+		max-width: 100%;
+		padding-bottom: 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+		overflow: hidden;
+		border: 1px solid $theme-divider;
+		border-radius: $rounded-6;
+		background-color: $colour-background;
+		box-shadow: $box-shadow-1;
+		font-family: var(--font-face);
+
+		// Full-bleed image area, 230px high, light blue behind the exported Figma collage.
+		.nexeno-rate-prompt__image {
+			position: relative;
+			height: 230px;
+			border-radius: $rounded-6;
+			background-color: $colour-primary-100;
+			overflow: hidden;
+			img {
+				display: block;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+
+		// No hover effect, as in the design. Hover, focus and active repeat the base look so
+		// Nextcloud's global button states do not change it.
+		button.nexeno-rate-prompt__close {
+			position: absolute;
+			top: 10px;
+			inset-inline-end: 10px;
+			width: 28px;
+			height: 28px;
+			min-width: 0;
+			min-height: 0;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 0;
+			border-radius: $rounded-8;
+			background-color: $colour-blue-600;
+			cursor: pointer;
+			&:not(:disabled):hover,
+			&:not(:disabled):focus,
+			&:not(:disabled):active {
+				border: 0;
+				background-color: $colour-blue-600;
+			}
+			img {
+				width: 20px;
+				height: 20px;
+			}
+		}
+
+		.nexeno-rate-prompt__text {
+			padding-inline: 16px;
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			h2 {
+				margin: 0;
+				display: flex;
+				align-items: center;
+				font-size: $text-heading-3;
+				line-height: $leading-28;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			p {
+				margin: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+		}
+
+		.nexeno-rate-prompt__actions {
+			padding-inline: 16px;
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+		}
+
+		// Same hover as the theme's other buttons: outline turns light blue, primary turns
+		// transparent with a blue border and text (scss/settings/_mixins.scss, scss/ui/_modal.scss).
+		button.nexeno-rate-prompt__button {
+			width: 100%;
+			height: 36px;
+			min-height: 0;
+			margin: 0;
+			padding: 8px 16px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-10;
+			background-color: $secondary-card-bg;
+			color: $colour-forground;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			cursor: pointer;
+			transition: all ease-in-out 300ms;
+			&:not(:disabled):hover,
+			&:not(:disabled):active {
+				border-color: $colour-blue-600;
+				background-color: $colour-primary-50;
+				color: $colour-blue-600;
+			}
+			&.nexeno-rate-prompt__button--primary {
+				border-color: $colour-blue-600;
+				border-radius: $rounded-8;
+				background-color: $colour-blue-600;
+				color: $colour-forground-white;
+				&:not(:disabled):hover,
+				&:not(:disabled):active {
+					border-color: $colour-blue-600;
+					background-color: transparent;
+					color: $colour-blue-600;
 				}
 			}
 		}

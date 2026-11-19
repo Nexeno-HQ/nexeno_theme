@@ -1,0 +1,1455 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+// Cospend (apps.nextcloud.com/apps/cospend, written against 4.3.0). Every rule is scoped to
+// .app-cospend, or to :has(.app-cospend) for the sidebar and popups that Nextcloud can render
+// outside the app container, so no other app is affected.
+// Cospend mixes Nextcloud components with plain <input> and <select> elements; both get the
+// same field look here.
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+@use '../ui/sidebar' as sidebar;
+
+// Plain <input>/<select> in Cospend forms, matched to the theme's 34px text fields.
+@mixin cospend-native-field {
+	height: 34px;
+	min-height: unset;
+	margin: 0;
+	padding: 0 10px;
+	border: 1px solid $theme-divider;
+	border-radius: $rounded-6;
+	box-shadow: none;
+	background-color: $colour-background;
+	outline: 0;
+	font-size: $text-heading-5;
+	line-height: $leading-20;
+	font-weight: $font-medium;
+	color: $colour-forground;
+	&::placeholder {
+		color: $colour-forground-1;
+	}
+	&:hover {
+		border-color: $theme-divider-2;
+	}
+	&:focus,
+	&:focus-visible {
+		border-color: $colour-blue-600;
+		box-shadow: none;
+	}
+}
+
+// Puts an NcInputField label above its field in every state (empty, filled, focused).
+// Nextcloud floats it onto the border with inset-block-start, so that is what is overridden.
+// The field needs 26px of top margin to make room.
+// $in-select: for an NcSelect's label. Once a value is chosen, Nextcloud makes the select's
+// search box absolute with no width, so a 100% max-width would shrink the label to nothing;
+// the label sizes to its own text instead.
+@mixin cospend-label-above($in-select: false) {
+	.input-field__input + .input-field__label,
+	.input-field__input:focus + .input-field__label,
+	.input-field__input:not(:placeholder-shown) + .input-field__label {
+		position: absolute;
+		inset-block-start: -26px;
+		inset-inline-start: 0;
+		@if $in-select {
+			width: max-content;
+			max-width: none;
+			white-space: nowrap;
+		} @else {
+			max-width: 100%;
+		}
+		margin: 0;
+		padding: 0;
+		border-radius: 0;
+		background: transparent;
+		font-size: $text-heading-5;
+		line-height: $leading-20;
+		font-weight: $font-medium;
+		color: $colour-forground;
+		opacity: 1;
+	}
+}
+
+// Section headings inside the details area and the sidebar (h2/h3/h4 with a leading icon).
+@mixin cospend-heading($size: $text-heading-3, $leading: $leading-28) {
+	margin: 0;
+	font-size: $size;
+	line-height: $leading;
+	font-weight: $font-semibold;
+	color: $colour-forground;
+	.material-design-icon svg {
+		fill: $colour-forground-1;
+	}
+}
+
+@mixin cospend-divider {
+	hr {
+		height: 0;
+		margin: 24px 0;
+		border: 0;
+		border-top: 1px solid $theme-divider;
+		background: none;
+	}
+}
+
+// Shared button variants used throughout Cospend.
+@mixin cospend-buttons {
+	.button-vue--primary,
+	.button-vue--vue-primary {
+		@include primary-button;
+	}
+	.button-vue--secondary,
+	.button-vue--vue-secondary {
+		@include outline-button;
+	}
+	.button-vue--error,
+	.button-vue--vue-error {
+		@include error-button;
+	}
+	.button-vue--warning,
+	.button-vue--vue-warning {
+		@include warning-button;
+	}
+}
+
+// The sortable tables of the settlement and statistics views (VTable with .coloredTable).
+@mixin cospend-table {
+	.coloredTable {
+		max-width: 100%;
+		margin: 16px 0 24px;
+		overflow: auto;
+		border: 1px solid $theme-divider;
+		border-radius: $rounded-8;
+		border-collapse: collapse;
+		border-spacing: 0;
+		background-color: $colour-background;
+		@include scrollbar($thumb-colour: $colour-scrollbar-main);
+		th,
+		td {
+			padding: 8px 12px;
+			border: 0 !important;
+			border-bottom: 1px solid $theme-divider !important;
+			border-radius: 0;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			white-space: nowrap;
+		}
+		th {
+			background-color: $secondary-card-bg;
+			font-size: $text-12;
+			line-height: $leading-16;
+			font-weight: $font-semibold;
+			color: $colour-forground-1;
+			span {
+				max-width: 160px;
+			}
+		}
+		td {
+			color: $colour-forground;
+		}
+		tr:last-child td {
+			border-bottom: 0 !important;
+		}
+		tbody tr:hover td {
+			background-color: $colour-gray-100;
+		}
+		.left-aligned-cell-content {
+			gap: 8px;
+		}
+		th.selected,
+		td.selected {
+			background-color: $colour-primary-50 !important;
+			color: $colour-blue-600;
+		}
+		.all-members td {
+			font-weight: $font-semibold;
+		}
+	}
+	// Sticky header and first/last columns keep the theme background instead of Nextcloud's.
+	.memberMonthlyTable,
+	.monthlyTable,
+	#statsTable,
+	#paidForTable {
+		th {
+			background-color: $secondary-card-bg;
+		}
+		td:first-child,
+		td:last-child {
+			background-color: $colour-background;
+		}
+	}
+}
+
+@mixin cospend-balances {
+	.balancePositive {
+		color: $colour-green-700 !important;
+	}
+	.balanceNegative {
+		color: $colour-red-600 !important;
+	}
+}
+
+@mixin cospend-navigation {
+	.app-cospend .app-navigation {
+		@include cospend-balances;
+		// "No projects yet" in the project list.
+		.empty-content {
+			margin-top: 32px;
+			.empty-content__icon {
+				opacity: 1;
+				svg {
+					fill: $colour-forground-1;
+				}
+			}
+			.empty-content__name {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+		}
+		// Project being dragged over (moving a bill to another project).
+		.draggedOver {
+			border: 1px dashed $colour-green-700;
+			border-radius: $rounded-6;
+			&.dropError {
+				border-color: $colour-red-600;
+			}
+			&.dropWarning {
+				border-color: $colour-yellow;
+			}
+		}
+		// Members under a project: avatar, name and balance bubble.
+		.memberItem {
+			.app-navigation-entry {
+				min-height: 36px;
+			}
+			.app-navigation-entry__name {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground;
+			}
+			.counter-bubble__counter {
+				max-width: 80px;
+				padding: 0 6px;
+				border-radius: $rounded-full;
+				background-color: $colour-gray-100;
+				font-size: $text-12;
+				line-height: $leading-16;
+				font-weight: $font-medium;
+			}
+		}
+		.counter-bubble__counter {
+			background-color: $colour-gray-100;
+			color: $colour-forground-1;
+			font-weight: $font-medium;
+		}
+		// Footer (my balance, pending invitations, archived toggle, Cospend settings).
+		// Cospend renders it as #app-settings > #app-settings-header instead of
+		// .app-navigation-entry__settings, so it gets the same divider, padding and rows here.
+		#app-settings {
+			padding: 12px 16px;
+			border-top: 1px solid $theme-divider;
+			background-color: $colour-sidebar-bg;
+		}
+		#app-settings-header {
+			display: flex;
+			flex-direction: column;
+			margin: 0;
+			padding: 0;
+			// Core apps.css rounds this wrapper to a pill and clips it (overflow: hidden),
+			// which cut the row's 6px corners into a pill shape.
+			border-radius: 0;
+			overflow: visible;
+			@include sidebar.nav-entry-rows;
+			// The hover/active background sits on the <li>, which keeps Nextcloud's pill radius;
+			// use the 6px radius of the project rows above instead.
+			.app-navigation-entry {
+				margin: 0;
+				border-radius: $rounded-6;
+			}
+		}
+	}
+}
+
+@mixin cospend-main {
+	.app-cospend {
+		@include cospend-balances;
+		main.app-content {
+			background-color: $main-page-bg;
+			.splitpanes__splitter {
+				border-inline-start: 1px solid $theme-divider;
+				background-color: $main-page-bg;
+			}
+		}
+
+		// Bill list column.
+		.app-content-list {
+			background-color: $main-page-bg;
+			@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			.list-header {
+				background-color: $main-page-bg;
+				border-bottom: 1px solid $theme-divider;
+				.list-header-header {
+					align-items: center;
+					gap: 8px;
+					padding: 8px 12px 8px 56px;
+					.input-field {
+						@include input;
+						.input-field__main-wrapper {
+							height: 34px;
+							input {
+								padding: 0 10px 0 34px;
+								background-color: $colour-background;
+							}
+						}
+					}
+					.button-vue--tertiary,
+					.action-item__menutoggle {
+						@include outline-button;
+						--button-size: 34px;
+						width: 34px;
+						height: 34px;
+						min-width: unset;
+						min-height: unset;
+						padding: 0;
+						justify-content: center;
+					}
+					.header-trashbin-icon svg {
+						fill: $colour-red-600;
+					}
+				}
+				// Filter and multi-select panels under the header.
+				.filterOptions,
+				.selectionOptions {
+					gap: 8px;
+					padding: 8px 12px 12px;
+					border-top: 1px solid $theme-divider;
+					.header {
+						gap: 8px;
+						padding: 0;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-semibold;
+						color: $colour-forground;
+						.icon svg,
+						> .material-design-icon svg {
+							fill: $colour-forground-1;
+						}
+					}
+					.multiselect-container {
+						gap: 8px;
+						padding: 0;
+					}
+					.multiSelectFooter {
+						gap: 8px;
+						font-size: $text-12;
+						line-height: $leading-16;
+						color: $colour-forground-1;
+						.material-design-icon svg {
+							fill: $colour-forground-1;
+						}
+					}
+				}
+			}
+			// One bill.
+			.list-item__wrapper.billitem {
+				padding: 2px 8px;
+				.list-item {
+					padding: 8px 10px;
+					border-radius: $rounded-6;
+					background-color: transparent;
+					transition: background-color ease-in-out 300ms;
+					&::before {
+						display: none;
+					}
+					&:hover {
+						background-color: $colour-gray-100;
+					}
+				}
+				&.list-item__wrapper--active .list-item,
+				.list-item--active,
+				.list-item.active {
+					background-color: $colour-primary-50 !important;
+				}
+				&.newBill .list-item {
+					background-color: $colour-primary-50;
+					box-shadow: inset 0 0 0 1px $colour-primary-100;
+				}
+				.list-item-content__name {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground;
+				}
+				.list-item-content__subname,
+				.list-item-content__details,
+				.subname {
+					font-size: $text-12;
+					line-height: $leading-16;
+					color: $colour-forground-1;
+				}
+				.subname .material-design-icon svg {
+					fill: $colour-forground-1;
+				}
+				.icon-move svg {
+					fill: $colour-green-700;
+				}
+				.icon-selector .selected svg {
+					fill: $colour-blue-600;
+				}
+				.list-item-content__actions .button-vue {
+					--button-size: 28px;
+					width: 28px;
+					height: 28px;
+				}
+			}
+			// "No more bills" and loading rows at the end of the list.
+			.infinite-status-prompt,
+			[class*="infinite"] {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+		}
+
+		// Empty states in the main area ("Select a project", "No bills yet").
+		.empty-content {
+			.empty-content__icon {
+				opacity: 1;
+				svg {
+					fill: $colour-forground-1;
+				}
+			}
+			.empty-content__name {
+				font-size: $text-heading-3;
+				line-height: $leading-28;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.empty-content__description {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+			.empty-content__action {
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 8px;
+				.button-vue {
+					@include outline-button;
+				}
+			}
+		}
+
+		// Details pane (right of the bill list): bill form, statistics, settlement, or the project
+		// start screen ("What do you want to do?") when no bill is open.
+		.app-content-details {
+			display: flex;
+			flex-direction: column;
+			box-sizing: border-box;
+			min-height: 100%;
+			background-color: $main-page-bg;
+			@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			> .content-details-wrapper {
+				flex: 1 0 auto;
+			}
+		}
+		.content-details-wrapper {
+			padding-bottom: 32px;
+			// Start screen (empty state + actions visible, toggled by v-show): centre the
+			// group vertically in the pane instead of pinning it to the top.
+			&:has(> .central-empty-content:not([style*="none"])) {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				box-sizing: border-box;
+				min-height: 100%;
+				padding: 32px 0;
+			}
+			> .central-empty-content {
+				flex-grow: 0;
+				margin: 0 auto 24px;
+				padding: 0 24px;
+				.empty-content__icon {
+					width: 64px;
+					height: 64px;
+					margin: 0 auto 16px;
+					border-radius: $rounded-full;
+					background-color: $secondary-card-bg;
+					// Nextcloud forces the icon to 64px with !important; shrink it to sit inside the badge.
+					svg {
+						width: 32px !important;
+						height: 32px !important;
+						max-width: 32px !important;
+						max-height: 32px !important;
+					}
+				}
+				.empty-content__name {
+					margin-bottom: 4px;
+				}
+				.empty-content__description {
+					max-width: 420px;
+					text-align: center;
+				}
+			}
+		}
+		// Project start-screen actions. Cospend renders them as a separate stack of default
+		// (tinted) NcButtons; here they become one column of equal-width outline buttons.
+		.project-actions {
+			gap: 8px;
+			width: 100%;
+			max-width: 320px;
+			margin: 0 auto;
+			padding: 0 24px;
+			box-sizing: content-box;
+			.button-vue {
+				@include outline-button;
+				width: 100%;
+				min-height: 36px;
+				background-color: $colour-background;
+				&:hover {
+					background-color: $colour-gray-100;
+				}
+				.button-vue__wrapper {
+					justify-content: flex-start;
+				}
+				.button-vue__icon svg {
+					fill: $colour-forground-1;
+				}
+			}
+		}
+		// Button that reopens the project sidebar (top-right of the details pane).
+		.app-sidebar__toggle {
+			@include outline-button;
+			--button-size: 34px;
+			width: 34px;
+			height: 34px;
+			min-width: unset;
+			min-height: unset;
+			padding: 0;
+			justify-content: center;
+			background-color: $colour-background;
+			.button-vue__wrapper {
+				justify-content: center;
+			}
+		}
+
+		// Details area: bill form, settlement and statistics share headings, fields and dividers.
+		.bill-form-content,
+		.settlement-content,
+		.statistics-content {
+			@include cospend-buttons;
+			@include cospend-divider;
+			@include cospend-table;
+			color: $colour-forground;
+			h2 {
+				@include cospend-heading($text-heading-2, $leading-28);
+				gap: 8px;
+			}
+			h3 {
+				@include cospend-heading($text-heading-4, $leading-24);
+				margin-top: 8px;
+			}
+			label {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+			.material-design-icon svg {
+				fill: $colour-forground-1;
+			}
+			.input-field {
+				@include input;
+				.input-field__main-wrapper {
+					height: 34px;
+					input {
+						padding: 0 10px;
+						background-color: $colour-background;
+						color: $colour-forground;
+					}
+				}
+			}
+			select,
+			input[type="text"],
+			input[type="number"],
+			input[type="date"],
+			input:not([type]) {
+				@include cospend-native-field;
+			}
+			.datetime-picker,
+			.native-datetime-picker {
+				width: 100%;
+				input {
+					@include datepicker;
+					max-height: none;
+					height: 34px;
+					background-color: $colour-background;
+				}
+			}
+			.checkbox-radio-switch {
+				@include checkbox-radio-switch;
+			}
+			.notecard {
+				@include notecard;
+			}
+		}
+
+		// Bill form.
+		.bill-form-content {
+			.bill-title {
+				padding: 24px 0 16px;
+				gap: 8px;
+				> * {
+					margin: 0 4px;
+				}
+				a {
+					font-size: $text-heading-5;
+					font-weight: $font-medium;
+					color: $colour-blue-600;
+				}
+			}
+			.bill-form {
+				gap: 32px;
+				margin: 0 32px;
+				.bill-left {
+					gap: 16px;
+				}
+			}
+			.bill-field {
+				gap: 10px;
+				> .material-design-icon svg {
+					width: 18px;
+					height: 18px;
+				}
+				.input {
+					gap: 6px;
+				}
+			}
+			.input-bill-comment {
+				min-height: 68px;
+				padding: 8px 10px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				background-color: $colour-background;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground;
+				&:focus,
+				&:focus-within {
+					border-color: $colour-blue-600;
+				}
+			}
+			.modehint {
+				max-width: 420px;
+				margin-top: 8px;
+				padding: 8px 12px;
+				border-radius: $rounded-6;
+				background-color: $secondary-card-bg;
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			.bill-owers {
+				margin-top: 16px;
+			}
+			.bill-owers-label {
+				gap: 6px;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.owerAllNoneDiv,
+			.owerEntry {
+				gap: 8px;
+				margin: 6px 0 6px 26px;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground;
+			}
+			.amountinput {
+				@include cospend-native-field;
+				width: 120px;
+			}
+			.spentlabel,
+			.numberlabel {
+				font-size: $text-12;
+				font-weight: $font-normal;
+				color: $colour-forground-1;
+			}
+		}
+
+		// Settlement plan.
+		.settlement-content {
+			padding: 0 24px 32px;
+			#settlementTitle,
+			.individualTitle {
+				gap: 8px;
+			}
+			.centered-option {
+				gap: 8px;
+			}
+			#individual-form {
+				gap: 8px;
+			}
+		}
+
+		// Statistics.
+		.statistics-content {
+			padding: 0 24px 32px;
+			#statsTitle {
+				gap: 8px;
+			}
+			.header {
+				margin-inline-start: 0;
+			}
+			.stats-filters {
+				gap: 16px 32px;
+				padding: 16px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-8;
+				background-color: $colour-background;
+				.block .line {
+					gap: 12px;
+					label {
+						gap: 6px;
+					}
+				}
+			}
+			.totalPayedText {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.statTableTitle {
+				padding: 0 !important;
+			}
+		}
+	}
+}
+
+// Square icon-only NcButton (info, edit, delete, colour and emoji pickers in sidebar rows).
+@mixin cospend-icon-button($size: 30px) {
+	--button-size: #{$size};
+	width: $size;
+	min-width: unset;
+	height: $size;
+	min-height: unset;
+	padding: 0;
+	border-radius: $rounded-6;
+	.button-vue__wrapper {
+		justify-content: center;
+	}
+	.button-vue__icon {
+		width: 16px;
+		min-width: unset;
+		height: 16px;
+		min-height: unset;
+		svg {
+			width: 16px;
+			height: 16px;
+			fill: $colour-forground-1;
+		}
+	}
+}
+
+@mixin cospend-sidebar {
+	&:has(.app-cospend) aside.app-sidebar:not(.modal__card *) {
+		// Header: project folder figure, name, "Rename" action and close button.
+		// The shared sidebar theme pins the actions menu absolutely inside the title row,
+		// which in Cospend's compact header (figure on the left) lands under the close
+		// button. Here the menu sits in the title row's flow, right after the name.
+		.app-sidebar-header--compact.app-sidebar-header--with-figure {
+			.app-sidebar-header__info {
+				align-items: center;
+				gap: 12px;
+				.app-sidebar-header__figure {
+					--figure-size: 48px;
+					width: 48px;
+					height: 48px;
+					margin: 0;
+					border-radius: $rounded-8;
+					background-color: $secondary-card-bg;
+					background-size: 28px;
+				}
+				.app-sidebar-header__desc {
+					padding: 0 42px 0 0 !important;
+				}
+			}
+		}
+		.app-sidebar-header__mainname-container {
+			gap: 8px;
+			.app-sidebar-header__mainname {
+				flex: 1 1 auto;
+				min-width: 0;
+				max-width: none;
+			}
+			.app-sidebar-header__menu {
+				position: static;
+				flex: 0 0 auto;
+				margin: 0 !important;
+				.button-vue {
+					@include cospend-icon-button(34px);
+				}
+			}
+		}
+		.app-sidebar-header__subname {
+			margin-top: 2px;
+		}
+		// Inline rename of the project name (header pencil).
+		.app-sidebar-header__mainname-form {
+			gap: 8px;
+			input.app-sidebar-header__mainname-input {
+				@include cospend-native-field;
+				flex: 1 1 auto;
+				font-size: $text-heading-4;
+				font-weight: $font-semibold;
+			}
+			.button-vue {
+				@include cospend-icon-button(34px);
+			}
+		}
+
+		// Section headings ("Members", "Add a category", ...) and their info buttons.
+		.settings,
+		.manage-elements,
+		#manage-currencies {
+			h3 {
+				margin: 0 0 12px;
+			}
+			h4 {
+				margin: 0 0 8px;
+			}
+			h3 .button-vue {
+				@include cospend-icon-button(28px);
+				flex: 0 0 auto;
+			}
+			// Cospend spaces sections with <br><hr>; the divider margin does that job.
+			br {
+				display: none;
+			}
+			hr {
+				margin: 20px 0;
+			}
+		}
+		// Empty lists ("No categories", ...) are smaller inside the sidebar.
+		.empty-content {
+			margin: 16px 0;
+			padding: 0;
+			.empty-content__icon {
+				width: 40px;
+				height: 40px;
+				margin-bottom: 8px;
+				opacity: 1;
+				svg {
+					width: 24px !important;
+					height: 24px !important;
+					max-width: 24px !important;
+					max-height: 24px !important;
+					fill: $colour-forground-1;
+				}
+			}
+			.empty-content__name {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground-1;
+			}
+		}
+		@include cospend-buttons;
+		@include cospend-divider;
+		@include cospend-balances;
+		h3,
+		h4 {
+			@include cospend-heading($text-heading-5, $leading-20);
+			gap: 8px;
+		}
+		.input-field {
+			@include input;
+			.input-field__main-wrapper {
+				height: 34px;
+				input {
+					padding: 0 10px;
+				}
+			}
+		}
+		select,
+		input.new-name,
+		input.editElementNameInput,
+		input.editCurrencyNameInput,
+		input.editCurrencyRateInput,
+		input.editMainCurrencyInput {
+			@include cospend-native-field;
+		}
+
+		// Sharing tab.
+		.shareInput {
+			width: 100%;
+			margin: 0;
+		}
+		.shareWithList {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+			margin: 12px 0 20px;
+			.action-item__menutoggle,
+			.action-item > .button-vue {
+				@include cospend-icon-button(30px);
+				&:hover {
+					background-color: $theme-divider;
+				}
+			}
+			.success svg {
+				fill: $colour-green-700;
+			}
+			li {
+				min-height: 44px;
+				gap: 10px;
+				padding: 4px 8px;
+				border-radius: $rounded-6;
+				&:hover {
+					background-color: $colour-gray-100;
+				}
+			}
+			.username {
+				padding: 8px 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.project-owner-label {
+				opacity: 1;
+				color: $colour-forground-1;
+			}
+			.avatardiv {
+				background-color: $colour-gray-100;
+				&.link-icon {
+					justify-content: center;
+					background-color: $colour-blue-600;
+					color: $colour-white;
+					svg {
+						fill: $colour-white;
+					}
+				}
+			}
+		}
+		.shareSelectOption,
+		.addUserSelectOption,
+		.affectUserSelectOption {
+			gap: 8px;
+			.multiselect-name,
+			.select-display-name {
+				font-size: $text-heading-5;
+				color: $colour-forground;
+			}
+			.multiselect-icon,
+			.select-icon {
+				opacity: 1;
+				svg {
+					fill: $colour-forground-1;
+				}
+			}
+		}
+
+		// Settings tab.
+		.settings-project {
+			gap: 16px;
+			// "Rename project X": label above the field, folder icon inside it.
+			.renameProject .input-field {
+				margin-top: 26px;
+				@include cospend-label-above;
+				&.input-field--leading-icon .input-field__main-wrapper .input-field__input {
+					padding-inline-start: 36px;
+				}
+			}
+			// "Allow bill deletion" (NcFormBoxSwitch): a plain bordered row like the theme's
+			// fields, instead of Nextcloud's tinted box with a thick bottom border.
+			.deletion-disabled-line #{css-module('formBoxItem')} {
+				min-height: 40px;
+				padding-inline: 12px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				background-color: $colour-background;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				&:hover:not(:has(:disabled)) {
+					border-color: $theme-divider-2;
+					background-color: $colour-gray-100;
+					color: $colour-forground;
+				}
+				&:active:not(:disabled) {
+					transform: none;
+				}
+			}
+			// "Automatic export": label above, value inside a 36px field. Same recipe as the
+			// Cospend settings dialog; .nc-select.vs--single outranks @nextcloud/vue 9's NcSelect.
+			> .v-select.select.nc-select.vs--single {
+				@include single-select($dropdown: false);
+				width: 100%;
+				min-width: unset;
+				&:has(.input-field__label) {
+					margin-top: 26px;
+				}
+				.vs__dropdown-toggle {
+					overflow: visible;
+				}
+				.vs__selected-options {
+					min-height: 36px;
+					.vs__selected {
+						inset-block: 0;
+						padding-inline: 12px 36px;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+					}
+				}
+				.vs__search .input-field__main-wrapper {
+					height: 36px;
+				}
+				.vs__search {
+					@include cospend-label-above($in-select: true);
+				}
+			}
+			> .button-vue {
+				align-self: flex-start;
+			}
+		}
+		.addUserInput {
+			margin: 0 0 12px !important;
+		}
+		#affectDiv {
+			gap: 8px;
+			.affectMemberInput,
+			.affectUserInput {
+				width: 100%;
+				margin: 0;
+			}
+		}
+
+		// Categories and payment modes tabs.
+		.manage-elements {
+			.add-element {
+				gap: 8px;
+				padding: 0;
+				> * {
+					margin: 0;
+				}
+				.new-name {
+					flex: 1 1 auto;
+					width: auto;
+					min-width: 0;
+				}
+				.button-vue--primary,
+				.button-vue--vue-primary {
+					@include cospend-icon-button(34px);
+					.button-vue__icon svg {
+						fill: $colour-forground-white;
+					}
+				}
+			}
+			#order-selection {
+				gap: 8px;
+				select {
+					width: 100%;
+				}
+			}
+			.hint {
+				gap: 8px;
+				margin-bottom: 8px;
+				opacity: 1;
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+				span {
+					margin: 0;
+				}
+			}
+			.element-list {
+				margin-inline-start: 0;
+			}
+		}
+		// Colour and emoji pickers (add row and edit row): 34px square buttons. The colour
+		// button keeps Cospend's inline background colour.
+		.add-element,
+		.one-element-edit {
+			.app-navigation-entry-bullet-wrapper .button-vue,
+			.emojiButton {
+				@include cospend-icon-button(34px);
+				border: 1px solid $theme-divider;
+			}
+			// The colour button's background is the category colour, which can be dark or
+			// light: a white palette icon with a dark outline reads on both.
+			.app-navigation-entry-bullet-wrapper .button-vue .button-vue__icon svg {
+				fill: $colour-white;
+				filter: drop-shadow(0 0 1px rgb(0 0 0 / 60%));
+			}
+			.emojiButton {
+				background-color: $colour-background;
+				font-size: $text-heading-4;
+				.button-vue__text {
+					margin: 0;
+					padding: 0;
+				}
+			}
+		}
+		.one-element,
+		.one-currency {
+			align-items: center;
+			.move-icon {
+				margin-inline-end: 4px;
+				svg {
+					fill: $colour-forground-1;
+				}
+			}
+		}
+		.one-element-label,
+		.one-currency-label {
+			gap: 8px;
+			min-height: 40px;
+			margin-inline-end: 0;
+			padding: 4px 8px;
+			border-radius: $rounded-6;
+			font-size: $text-heading-5;
+			color: $colour-forground;
+			> * {
+				margin: 0;
+			}
+			label {
+				line-height: $leading-20;
+				color: $colour-forground;
+			}
+			.colorDot {
+				flex: 0 0 auto;
+				width: 14px;
+				height: 14px;
+			}
+			.button-vue {
+				@include cospend-icon-button(28px);
+				flex: 0 0 auto;
+				&:hover {
+					background-color: $theme-divider;
+				}
+			}
+			.deleteItemButton:hover svg,
+			.deleteCurrencyButton:hover svg {
+				fill: $colour-red-600;
+			}
+			.one-element-label-timer,
+			.one-currency-label-timer {
+				inset-inline-end: -16px;
+			}
+			&:hover {
+				background-color: $colour-gray-100;
+			}
+		}
+		.one-element-edit,
+		.one-currency-edit {
+			gap: 6px;
+			margin-inline-end: 0;
+			padding: 6px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-8;
+			background-color: $secondary-card-bg;
+			> * {
+				margin: 0;
+			}
+			input {
+				min-width: 0;
+			}
+			// Cancel and save buttons. The save button is primary (blue), so its icon is white;
+			// the modifier is nested here because :not() would otherwise outrank a separate rule.
+			> .button-vue {
+				@include cospend-icon-button(34px);
+				&.button-vue--primary,
+				&.button-vue--vue-primary {
+					.button-vue__icon svg {
+						fill: $colour-forground-white;
+					}
+				}
+			}
+		}
+
+		// Currencies tab.
+		.title-label {
+			gap: 8px;
+		}
+		#main-currency-label {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			min-height: 40px;
+			padding: 4px 8px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-6;
+			#main-currency-label-label {
+				flex: 1 1 auto;
+				line-height: $leading-20;
+				font-size: $text-heading-5;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+			.button-vue {
+				@include cospend-icon-button(28px);
+			}
+		}
+		#main-currency-edit {
+			gap: 6px;
+			> * {
+				margin: 0;
+			}
+			.button-vue {
+				@include cospend-icon-button(34px);
+			}
+			.button-vue--primary .button-vue__icon svg,
+			.button-vue--vue-primary .button-vue__icon svg {
+				fill: $colour-forground-white;
+			}
+		}
+		// "Currency name" and "Exchange rate": labels above the fields.
+		#add-currency {
+			gap: 0;
+			.input-field {
+				margin-top: 26px;
+				@include cospend-label-above;
+			}
+			.addCurrencyRateHint {
+				margin-top: 8px;
+				line-height: $leading-16;
+			}
+		}
+		.addCurrencyButtonWrapper {
+			margin-top: 12px;
+		}
+		#currency-list {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+			margin-inline-start: 0;
+		}
+		.one-currency-label .one-currency-label-label {
+			width: auto;
+			&:first-child {
+				flex: 1 1 auto;
+			}
+		}
+		.addCurrencyRateHint,
+		.no-currencies {
+			font-size: $text-12;
+			line-height: $leading-16;
+			color: $colour-forground-1;
+		}
+		.no-currencies {
+			padding: 16px;
+		}
+
+		// Activity tab.
+		.activity-tab {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+		}
+		.activity-entry {
+			gap: 10px;
+			margin: 0;
+			padding: 8px;
+			border-radius: $rounded-6;
+			&:hover {
+				background-color: $colour-gray-100;
+			}
+			.activity-entry-icon {
+				width: 16px;
+				height: 16px;
+				margin: 0;
+			}
+			.subject {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground;
+			}
+			.time {
+				width: auto;
+				flex: 0 0 auto;
+				font-size: $text-12;
+				line-height: $leading-16;
+				white-space: nowrap;
+				color: $colour-forground-1;
+			}
+		}
+	}
+}
+
+// Popups are rendered at the end of <body>, outside .app-cospend.
+@mixin cospend-dialogs {
+	&:has(.app-cospend) {
+		.creation-modal-content,
+		.pending-modal-content,
+		.qrcode-modal-content {
+			@include cospend-buttons;
+			gap: 12px;
+			padding: 24px;
+			h2 {
+				@include cospend-heading($text-heading-3, $leading-28);
+			}
+			.input-field {
+				@include input;
+				.input-field__main-wrapper {
+					height: 34px;
+					input {
+						padding: 0 10px;
+					}
+				}
+			}
+		}
+		.pending-modal-content .invite {
+			gap: 10px;
+			padding: 8px;
+			border-radius: $rounded-6;
+			font-size: $text-heading-5;
+			color: $colour-forground;
+			&:hover {
+				background-color: $colour-gray-100;
+			}
+		}
+		.qrcode-modal-content {
+			margin: 0;
+			p {
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+			hr {
+				border: 0;
+				border-top: 1px solid $theme-divider;
+			}
+		}
+		// Cospend settings (gear in the navigation footer).
+		// Section frame, headings and switches come from the shared app-settings styles
+		// (ui/_modal.scss); this only covers Cospend's own content.
+		.cospend-settings-dialog {
+			.app-settings-section__content {
+				display: flex;
+				flex-direction: column;
+				gap: 12px;
+				margin-top: 16px;
+				> * {
+					margin: 0;
+				}
+			}
+			.app-settings-section__hint {
+				font-size: $text-12;
+				line-height: $leading-16;
+				color: $colour-forground-1;
+			}
+			// Import / Select export directory: outline buttons sized to their label, as in Calendar.
+			.app-settings-section__content > .button-vue {
+				@include outline-button;
+				width: fit-content;
+			}
+			// Export directory and decimal precision: 36px field with the label above it, not on the border.
+			.app-settings-section__content > .input-field {
+				@include input;
+				&:has(.input-field__label) {
+					margin-top: 26px;
+				}
+				.input-field__main-wrapper {
+					height: 36px;
+					.input-field__input {
+						height: 36px !important;
+						padding: 0 12px;
+						border: 1px solid $theme-divider !important;
+						border-radius: $rounded-6;
+						box-shadow: none !important;
+						background-color: $colour-background;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+						&:hover {
+							border-color: $theme-divider-2 !important;
+						}
+						&:focus,
+						&:focus-visible {
+							border-color: $colour-blue-600 !important;
+						}
+					}
+				}
+				@include cospend-label-above;
+				// Export directory: room for the folder icon and the clear button.
+				&.input-field--leading-icon .input-field__main-wrapper .input-field__input {
+					padding-inline-start: 36px;
+				}
+				&.input-field--trailing-icon .input-field__main-wrapper .input-field__input {
+					padding-inline-end: 36px;
+				}
+				.input-field__icon--leading {
+					inset-inline-start: 0;
+					svg {
+						fill: $colour-forground-1;
+					}
+				}
+			}
+			// Projects order / Members order: label above, selected value inside the 36px field.
+			// Cospend bundles @nextcloud/vue 9, whose NcSelect floats the label onto the border
+			// and offsets the value by 6px; .nc-select.vs--single raises specificity above it.
+			.v-select.select.nc-select.vs--single {
+				@include single-select($dropdown: false);
+				width: 100%;
+				min-width: unset;
+				&:has(.input-field__label) {
+					margin-top: 26px;
+				}
+				.vs__dropdown-toggle {
+					overflow: visible;
+				}
+				// The shared settings-dialog styles (ui/_modal.scss) draw every selected value as a
+				// 25px chip with 12px text, meant for multi-selects. Their selector also counts a
+				// `section` element, so .vs__dropdown-toggle is repeated here to outrank it. A single
+				// value fills the field instead and is centred vertically.
+				.vs__dropdown-toggle .vs__selected-options {
+					min-height: 36px;
+					padding-block: 0;
+					.vs__selected {
+						inset-block: 0;
+						height: auto;
+						padding-inline: 12px 36px;
+						border: 0;
+						background-color: transparent;
+						font-size: $text-heading-5;
+						line-height: $leading-20;
+						font-weight: $font-medium;
+						color: $colour-forground;
+						.name-parts {
+							font-size: $text-heading-5;
+							line-height: $leading-20;
+						}
+					}
+				}
+				.vs__search .input-field__main-wrapper {
+					height: 36px;
+				}
+				.vs__search {
+					@include cospend-label-above($in-select: true);
+				}
+			}
+			// About: "Thanks for using Cospend" line above the links.
+			.about {
+				display: flex;
+				flex-direction: column;
+				gap: 12px;
+				> label {
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					font-weight: $font-medium;
+					color: $colour-forground-1;
+				}
+			}
+		}
+	}
+}

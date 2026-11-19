@@ -1664,7 +1664,108 @@
 	@include deck-activity-list;
 }
 
+// "Create a new card" dialog (also the move-card selector). Used inside
+// Deck and on the dashboard "Upcoming cards" widget, which opens the same
+// dialog outside .app-deck.
+@mixin deck-create-card-modal {
+	border-radius: $rounded-12;
+	.modal-scroller {
+		width: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	#modal-inner {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		margin: 0;
+		padding: 0 16px;
+		@include deck-card-fields;
+		.selector-wrapper {
+			margin: 0;
+			.v-select {
+				margin: 0;
+			}
+		}
+		h2 {
+			margin: 0 -16px 4px;
+			padding: 16px;
+			border-bottom: 1px solid $theme-divider;
+			text-align: start;
+			font-size: $text-heading-3;
+			line-height: $leading-22;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+		input.card-title {
+			width: 100%;
+			height: 36px;
+			margin: 0;
+			padding: 0 10px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-6;
+			box-shadow: none;
+			@include deck-field-text;
+			&:focus {
+				border-color: $colour-blue-600;
+			}
+		}
+		.row {
+			flex-direction: column;
+			gap: 12px;
+			.selector-wrapper {
+				width: 100%;
+				min-width: 0;
+			}
+		}
+		.modal-buttons {
+			gap: 8px;
+			margin: 4px -16px 0;
+			padding: 12px 16px;
+			border-top: 1px solid $theme-divider;
+			.button-vue--secondary,
+			.button-vue--vue-secondary {
+				@include outline-button;
+			}
+			.button-vue--primary,
+			.button-vue--vue-primary {
+				@include primary-button;
+			}
+		}
+		.empty-content {
+			.empty-content__name {
+				font-size: $text-heading-4;
+				line-height: $leading-24;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.empty-content__action {
+				gap: 8px;
+			}
+			button {
+				height: 34px;
+				padding: 0 12px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				background-color: transparent;
+				font-size: $text-heading-5;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				&.primary {
+					border-color: $colour-blue-600;
+					background-color: $colour-blue-600;
+					color: $colour-forground-white;
+				}
+			}
+		}
+	}
+}
+
 @mixin deck-modals {
+	// Same dialog opened from the dashboard widget, outside .app-deck.
+	.card-selector .modal-container:has(#modal-inner) {
+		@include deck-create-card-modal;
+	}
 	body:has(.app-deck) {
 		.modal-mask {
 			&:has(.modal__card) {
@@ -1837,97 +1938,7 @@
 				}
 			}
 			&:has(#modal-inner) {
-				border-radius: $rounded-12;
-				.modal-scroller {
-					width: 100%;
-					margin: 0;
-					padding: 0;
-				}
-				#modal-inner {
-					display: flex;
-					flex-direction: column;
-					gap: 12px;
-					margin: 0;
-					padding: 0 16px;
-					@include deck-card-fields;
-					.selector-wrapper {
-						margin: 0;
-						.v-select {
-							margin: 0;
-						}
-					}
-					h2 {
-						margin: 0 -16px 4px;
-						padding: 16px;
-						border-bottom: 1px solid $theme-divider;
-						text-align: start;
-						font-size: $text-heading-3;
-						line-height: $leading-22;
-						font-weight: $font-semibold;
-						color: $colour-forground;
-					}
-					input.card-title {
-						width: 100%;
-						height: 36px;
-						margin: 0;
-						padding: 0 10px;
-						border: 1px solid $theme-divider;
-						border-radius: $rounded-6;
-						box-shadow: none;
-						@include deck-field-text;
-						&:focus {
-							border-color: $colour-blue-600;
-						}
-					}
-					.row {
-						flex-direction: column;
-						gap: 12px;
-						.selector-wrapper {
-							width: 100%;
-							min-width: 0;
-						}
-					}
-					.modal-buttons {
-						gap: 8px;
-						margin: 4px -16px 0;
-						padding: 12px 16px;
-						border-top: 1px solid $theme-divider;
-						.button-vue--secondary,
-						.button-vue--vue-secondary {
-							@include outline-button;
-						}
-						.button-vue--primary,
-						.button-vue--vue-primary {
-							@include primary-button;
-						}
-					}
-					.empty-content {
-						.empty-content__name {
-							font-size: $text-heading-4;
-							line-height: $leading-24;
-							font-weight: $font-semibold;
-							color: $colour-forground;
-						}
-						.empty-content__action {
-							gap: 8px;
-						}
-						button {
-							height: 34px;
-							padding: 0 12px;
-							border: 1px solid $theme-divider;
-							border-radius: $rounded-6;
-							background-color: transparent;
-							font-size: $text-heading-5;
-							font-weight: $font-medium;
-							color: $colour-forground;
-							&.primary {
-								border-color: $colour-blue-600;
-								background-color: $colour-blue-600;
-								color: $colour-forground-white;
-							}
-						}
-					}
-				}
+				@include deck-create-card-modal;
 			}
 			&:has(.modal__content > progress) {
 				border-radius: $rounded-12;

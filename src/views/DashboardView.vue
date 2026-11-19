@@ -4,6 +4,7 @@
 -->
 <template>
 	<div class="suite-app-wrapper">
+		<ProjectBanner />
 		<section class="hero-section">
 			<div class="hero-section-text">
 				<div class="pre-heading">
@@ -26,26 +27,20 @@
 						<span><strong>{{ t('nexeno_theme', 'Stay familiar.') }}</strong> {{ t("nexeno_theme", "Built around Nextcloud's ecosystem while giving your workspace a fresh, premium identity.") }}</span>
 					</li>
 				</ul>
-				<div class="button-wrapper">
-					<NcButton variant="primary" @click="scrollToApps">
-						{{ t('nexeno_theme', "Get started - It's FREE!") }}
-					</NcButton>
-				</div>
 			</div>
 			<div class="hero-image-wrapper">
 				<div class="img-wrapper">
-					<img :src="images.heroSliderPreview" alt="">
+					<!-- Light and dark versions; CSS shows the one that matches the current theme. -->
+					<img class="showcase-img--light" :src="images.heroPreviewLight" alt="">
+					<img class="showcase-img--dark" :src="images.heroPreviewDark" alt="">
 				</div>
 			</div>
 		</section>
 
-		<section ref="apps" class="apps-system-section">
+		<section class="apps-system-section">
 			<div class="system-apps-wrapper">
-				<div class="title">
-					<h2>{{ t('nexeno_theme', 'Your Nexeno applications') }}</h2>
-				</div>
-				<div class="apps-grid-wrapper">
-					<div class="app-card">
+				<div class="app-card">
+					<div class="app-card__header">
 						<div class="icon-name-wrapper">
 							<div class="icon">
 								<svg
@@ -61,24 +56,50 @@
 							<div class="app-name">
 								<div class="name-wrapper">
 									<h3>{{ t('nexeno_theme', 'Nexeno theme') }}</h3>
-									<span class="badge-pill" :class="themeEnabled ? 'badge-pill--green' : 'badge-pill--gray'">
-										{{ themeEnabled ? t('nexeno_theme', 'Enabled') : t('nexeno_theme', 'Disabled') }}
-									</span>
 								</div>
-								<div class="version-wrapper">
-									<span>{{ t('nexeno_theme', 'Version {version}', { version: appVersion }) }}</span>
+								<div v-if="state.appVersion" class="version-wrapper">
+									<span>{{ t('nexeno_theme', 'Version {version}', { version: state.appVersion }) }}</span>
 								</div>
 							</div>
-						</div>
-						<div class="app-desc">
-							<p>{{ t('nexeno_theme', 'Nexeno Light and Dark colour themes for your nextcloud.') }}</p>
 						</div>
 						<div class="app-action">
 							<NcCheckboxRadioSwitch
 								:modelValue="themeEnabled"
+								:disabled="state.themeSaving"
 								type="switch"
 								@update:modelValue="toggleTheme">
 								{{ t('nexeno_theme', 'Enable Nexeno theme') }}
+							</NcCheckboxRadioSwitch>
+						</div>
+					</div>
+					<div class="app-desc">
+						<p>{{ t('nexeno_theme', 'Nexeno Light and Dark colour themes for your Nextcloud.') }}</p>
+					</div>
+					<div class="variant-grid" :class="{ 'variant-grid--disabled': !themeEnabled }">
+						<div
+							v-for="option in variantOptions"
+							:key="option.value"
+							class="variant-card"
+							:class="{ 'variant-card--selected': selectedVariant === option.value }">
+							<!-- The preview selects the variant like the radio below; the radio is the accessible control. -->
+							<div class="variant-card__preview" aria-hidden="true" @click="selectVariant(option.value)">
+								<img :src="option.preview" alt="">
+							</div>
+							<div class="variant-card__text">
+								<!-- Clicking the title selects the variant too, like the preview above. -->
+								<h4 @click="selectVariant(option.value)">
+									{{ option.title }}
+								</h4>
+								<p>{{ option.description }}</p>
+							</div>
+							<NcCheckboxRadioSwitch
+								:modelValue="selectedVariant"
+								:value="option.value"
+								:disabled="!themeEnabled || state.themeSaving"
+								name="nexeno_theme-overview-variant"
+								type="radio"
+								@update:modelValue="selectVariant">
+								{{ option.label }}
 							</NcCheckboxRadioSwitch>
 						</div>
 					</div>
@@ -108,8 +129,14 @@
 						</p>
 					</div>
 					<div class="showcase-card-img">
+						<!-- Light and dark screenshots; CSS shows the one that matches the current theme. -->
 						<img
+							class="showcase-img--light"
 							:src="images.filesShowcase"
+							:alt="t('nexeno_theme', 'The Nextcloud Files app in the Nexeno theme')">
+						<img
+							class="showcase-img--dark"
+							:src="images.filesShowcaseDark"
 							:alt="t('nexeno_theme', 'The Nextcloud Files app in the Nexeno theme')">
 					</div>
 				</div>
@@ -126,7 +153,12 @@
 					</div>
 					<div class="showcase-card-img">
 						<img
+							class="showcase-img--light"
 							:src="images.photosShowcase"
+							:alt="t('nexeno_theme', 'The Nextcloud Photos app in the Nexeno theme')">
+						<img
+							class="showcase-img--dark"
+							:src="images.photosShowcaseDark"
 							:alt="t('nexeno_theme', 'The Nextcloud Photos app in the Nexeno theme')">
 					</div>
 				</div>
@@ -145,11 +177,20 @@
 					</div>
 					<div class="showcase-card-img">
 						<img
+							class="showcase-img--light"
 							:src="images.dashboardShowcase"
 							:alt="t('nexeno_theme', 'The Nextcloud dashboard in the Nexeno theme')">
 						<img
-							class="secondary-img"
+							class="showcase-img--dark"
+							:src="images.dashboardShowcaseDark"
+							:alt="t('nexeno_theme', 'The Nextcloud dashboard in the Nexeno theme')">
+						<img
+							class="secondary-img showcase-img--light"
 							:src="images.dashboardOverlayShowcase"
+							alt="">
+						<img
+							class="secondary-img showcase-img--dark"
+							:src="images.dashboardOverlayShowcaseDark"
 							alt="">
 					</div>
 				</div>
@@ -166,7 +207,12 @@
 					</div>
 					<div class="showcase-card-img">
 						<img
+							class="showcase-img--light"
 							:src="images.officeShowcase"
+							:alt="t('nexeno_theme', 'Nextcloud Office in the Nexeno theme')">
+						<img
+							class="showcase-img--dark"
+							:src="images.officeShowcaseDark"
 							:alt="t('nexeno_theme', 'Nextcloud Office in the Nexeno theme')">
 					</div>
 				</div>
@@ -183,7 +229,12 @@
 					</div>
 					<div class="showcase-card-img">
 						<img
+							class="showcase-img--light"
 							:src="images.appstoreShowcase"
+							:alt="t('nexeno_theme', 'The Nextcloud app store in the Nexeno theme')">
+						<img
+							class="showcase-img--dark"
+							:src="images.appstoreShowcaseDark"
 							:alt="t('nexeno_theme', 'The Nextcloud app store in the Nexeno theme')">
 					</div>
 				</div>
@@ -194,35 +245,53 @@
 
 <script>
 import { translate as t } from '@nextcloud/l10n'
-import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import ProjectBanner from '../components/ProjectBanner.vue'
+import previewDark from '../assets/images/previews/preview-dark.svg'
+import previewLight from '../assets/images/previews/preview-light.svg'
+import previewSystem from '../assets/images/previews/preview-system.svg'
+import appstoreShowcaseDark from '../assets/images/showcase/appstore-dark.png'
 import appstoreShowcase from '../assets/images/showcase/appstore.png'
+import dashboardShowcaseDark from '../assets/images/showcase/dashboard-dark.png'
+import dashboardOverlayShowcaseDark from '../assets/images/showcase/dashboard-overlay-dark.png'
 import dashboardOverlayShowcase from '../assets/images/showcase/dashboard-overlay.png'
 import dashboardShowcase from '../assets/images/showcase/dashboard.png'
+import filesShowcaseDark from '../assets/images/showcase/files-dark.png'
 import filesShowcase from '../assets/images/showcase/files.png'
-import heroSliderPreview from '../assets/images/showcase/hero-slider-perview.jpg'
+import heroPreviewDark from '../assets/images/showcase/hero-preview-dark.webp'
+import heroPreviewLight from '../assets/images/showcase/hero-preview-light.webp'
+import officeShowcaseDark from '../assets/images/showcase/office-dark.png'
 import officeShowcase from '../assets/images/showcase/office.png'
+import photosShowcaseDark from '../assets/images/showcase/photos-dark.png'
 import photosShowcase from '../assets/images/showcase/photos.png'
+import { splitHighlight } from '../highlight.js'
 import { setThemeVariant, state } from '../store.js'
 
 export default {
 	name: 'DashboardView',
 	components: {
-		NcButton,
 		NcCheckboxRadioSwitch,
+		ProjectBanner,
 	},
 
 	data() {
 		return {
 			state,
 			images: {
-				heroSliderPreview,
+				heroPreviewLight,
+				heroPreviewDark,
 				filesShowcase,
+				filesShowcaseDark,
 				photosShowcase,
+				photosShowcaseDark,
 				dashboardShowcase,
+				dashboardShowcaseDark,
 				dashboardOverlayShowcase,
+				dashboardOverlayShowcaseDark,
 				officeShowcase,
+				officeShowcaseDark,
 				appstoreShowcase,
+				appstoreShowcaseDark,
 			},
 		}
 	},
@@ -232,31 +301,57 @@ export default {
 			return state.themeVariant !== 'off'
 		},
 
-		appVersion() {
-			return appVersion
+		/**
+		 * The variant shown as chosen: the active one, or while the theme is off the one that comes back
+		 * when it is turned on again.
+		 */
+		selectedVariant() {
+			return this.themeEnabled ? state.themeVariant : (state.themeLastVariant || 'system')
 		},
 
-		/**
-		 * The translation marks the highlighted words with <span>. Split it and render each part
-		 * as text, so a translation can never inject HTML.
-		 */
+		variantOptions() {
+			return [
+				{
+					value: 'system',
+					preview: previewSystem,
+					title: t('nexeno_theme', 'System default theme'),
+					description: t('nexeno_theme', 'Nexeno light or dark, matching the light or dark setting of your device.'),
+					label: t('nexeno_theme', 'Enable system default'),
+				},
+				{
+					value: 'light',
+					preview: previewLight,
+					title: t('nexeno_theme', 'Nexeno light theme'),
+					description: t('nexeno_theme', 'The Nexeno brand colours on a clean light appearance.'),
+					label: t('nexeno_theme', 'Enable Nexeno light'),
+				},
+				{
+					value: 'dark',
+					preview: previewDark,
+					title: t('nexeno_theme', 'Nexeno dark theme'),
+					description: t('nexeno_theme', 'The Nexeno brand colours on a dark appearance that reduces overall luminosity.'),
+					label: t('nexeno_theme', 'Enable Nexeno dark'),
+				},
+			]
+		},
+
 		betterExperienceHeading() {
-			const text = t('nexeno_theme', 'A <span>better experience</span> across Nextcloud')
-			const match = text.match(/^([\s\S]*?)<span>([\s\S]*?)<\/span>([\s\S]*)$/)
-			return match
-				? { before: match[1], highlight: match[2], after: match[3] }
-				: { before: text.replace(/<[^>]*>/g, ''), highlight: '', after: '' }
+			return splitHighlight(t('nexeno_theme', 'A <span>better experience</span> across Nextcloud'))
 		},
 	},
 
 	methods: {
 		t,
 		toggleTheme(enabled) {
-			setThemeVariant(enabled ? (state.themeLastVariant || 'light') : 'off')
+			setThemeVariant(enabled ? (state.themeLastVariant || 'system') : 'off')
 		},
 
-		scrollToApps() {
-			this.$refs.apps.scrollIntoView({ behavior: 'smooth', block: 'start' })
+		selectVariant(variant) {
+			// Variants can only be picked while the theme is on, as on the settings page.
+			if (!this.themeEnabled || state.themeSaving || variant === state.themeVariant) {
+				return
+			}
+			setThemeVariant(variant)
 		},
 	},
 }

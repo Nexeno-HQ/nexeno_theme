@@ -269,9 +269,37 @@
 							border-bottom: 1px solid $theme-divider;
 							.list-item{
 								padding: 0;
+								align-items: center;
 								transition: all ease-in-out 300ms;
+								// File preview in the icon slot: fixed page-shaped box so it
+								// never overlaps the name (the core gap comes from
+								// .list-item-content padding, which is reset below).
+								.office-overview__list-thumb{
+									width: 36px;
+									height: 44px;
+									min-width: 36px;
+									flex-shrink: 0;
+									overflow: hidden;
+									border-radius: $rounded-6;
+									border: 1px solid $theme-divider;
+									background-color: $colour-gray-100;
+									transition: all ease-in-out 300ms;
+									.file-preview__image,
+									img{
+										width: 100%;
+										height: 100%;
+										object-fit: cover;
+										object-position: top center;
+									}
+									.file-preview__fallback{
+										margin: auto;
+										color: $colour-forground-1;
+									}
+								}
 								.list-item-content{
 									padding: 0;
+									padding-inline-start: 12px;
+									align-self: center;
 									align-items: start;
 									justify-content: start;
 									gap: 6px;
@@ -322,6 +350,9 @@
 								}
 								&:hover{
 									background-color: transparent;
+									.office-overview__list-thumb{
+										border-color: $colour-blue-600;
+									}
 									.list-item-content{
 										.list-item-content__name{
 											color: $colour-blue-600;

@@ -35,14 +35,16 @@ class CoreTheming {
 
 	/**
 	 * Theme ids to put on <body> while the given Nexeno variant is active.
+	 * For "system" the browser swaps the "default" placeholder for "light" or "dark" once it knows the device setting.
 	 */
 	public function bodyThemes(string $userId, string $variant): array {
 		$themes = $this->enabledThemes($userId);
-		if ($variant !== 'light' && $variant !== 'dark') {
+		if (!in_array($variant, ThemeConfig::ENABLED_VARIANTS, true)) {
 			return $themes;
 		}
+		$base = $variant === ThemeConfig::VARIANT_SYSTEM ? 'default' : $variant;
 
-		return array_values(array_merge([$variant], array_intersect($themes, self::KEEP_THEMES)));
+		return array_values(array_merge([$base], array_intersect($themes, self::KEEP_THEMES)));
 	}
 
 	/**

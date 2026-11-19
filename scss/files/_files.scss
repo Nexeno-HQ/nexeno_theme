@@ -467,6 +467,31 @@
                                 }
                             }
                         }
+                        // A file with no thumbnail gets Nextcloud's file-type icon from /core/mimeicon.
+                        // Show it at the folder icon's size, centred, whatever the extension, so the
+                        // .image/.md/... cover rules above only stretch real thumbnails.
+                        // [class] and [src] lift the specificity above those extension rules.
+                        &[class] .files-list__row-icon:has(img[src*="/core/mimeicon"]){
+                            height: 100%;
+                            .files-list__row-icon-preview-container{
+                                display: flex;
+                                justify-content: center !important;
+                                align-items: center;
+                                width: 100%;
+                                height: 100%;
+                                img[src*="/core/mimeicon"]{
+                                    object-fit: contain;
+                                    width: 80px;
+                                    height: 80px;
+                                    aspect-ratio: auto;
+                                    border-radius: 0;
+                                    @media (max-width: $bp-512) {
+                                        width: 60px;
+                                        height: 60px;
+                                    }
+                                }
+                            }
+                        }
                         &:not(:has(> td.files-list__row-mtime)){
                             @media (min-width: $bp-512 + 1px) {
                                 td{

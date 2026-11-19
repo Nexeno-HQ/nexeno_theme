@@ -1,0 +1,479 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Nexeno contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ *
+ * Profile page (/u/<user>), Nextcloud 32 to 35.
+ * The class names used here exist in the profile app of all four versions
+ * (NC32: views/Profile.vue, NC33+: views/ProfileApp.vue). NC35-only parts
+ * (shared resources) are styled too; they simply do not match on older versions.
+ *
+ * Desktop: one identity row inside the cover banner (avatar, name, pronouns,
+ * "Edit profile", primary action and contact buttons), and the content card
+ * full width below it.
+ * Mobile (<= 1024px, where Nextcloud moves the avatar into the header): the
+ * banner holds avatar + name, the actions sit in a card, then the content card.
+*/
+@use '../variables' as *;
+@use '../themes' as *;
+@use '../settings/mixins' as *;
+
+// Desktop identity row geometry. The avatar and actions live in .profile__sidebar,
+// below the banner in the DOM, so the sidebar is pulled up into the banner and
+// vertically centred on the name block (name 36px + 8px gap + button 36px).
+$banner-height: 240px;
+$avatar-size: 128px;
+$row-gap: 24px;
+$row-bottom: 28px;
+$name-block-height: 80px;
+$actions-width: 400px;
+$avatar-top: $banner-height - $row-bottom - ($name-block-height * 0.5) - ($avatar-size * 0.5);
+
+@mixin profile-avatar {
+	.avatar.avatardiv{
+		padding: 0;
+		border: 4px solid $colour-background;
+		border-radius: $rounded-full;
+		box-shadow: $box-shadow-2;
+		.avatardiv__user-status{
+			border: 3px solid $colour-background;
+			box-shadow: none;
+		}
+	}
+}
+
+@mixin profile-card {
+	border: 1px solid $theme-divider;
+	border-radius: $rounded-12;
+	background-color: $colour-background;
+	box-shadow: $box-shadow-4;
+}
+
+@mixin profile {
+	#content.app-profile{
+		margin-inline: 0;
+		margin-bottom: 0;
+		margin-top: $header-height;
+		width: 100%;
+		min-height: calc(100dvh - $header-height);
+		border-radius: 0;
+		border-top: 1px solid $theme-divider;
+		background: $main-page-bg-dashboard;
+		#app-content-vue{
+			border-inline-start: 0 !important;
+			background-color: $main-page-bg-dashboard;
+			@include module-scrollbar;
+		}
+	}
+
+	.app-profile{
+		// Cover banner
+		.profile__header{
+			background-color: $colour-primary-50;
+			// Soft dot pattern over a primary wash; both colours are theme tokens.
+			background-image:
+				radial-gradient(color-mix(in srgb, #{$colour-blue-400} 45%, transparent) 1px, transparent 1px),
+				linear-gradient(135deg, $colour-primary-100 0%, $colour-primary-50 55%, $main-page-bg-dashboard 100%);
+			background-size: 20px 20px, 100% 100%;
+			backdrop-filter: none;
+			-webkit-backdrop-filter: none;
+			border-bottom: 1px solid $theme-divider;
+			@include profile-avatar;
+		}
+		.profile__header__container{
+			box-sizing: border-box;
+		}
+		.profile__header__container__displayname{
+			min-width: 0;
+			gap: 10px;
+			h2{
+				font-size: $text-heading-1;
+				line-height: $leading-36;
+				font-weight: $font-bold;
+				color: $colour-forground;
+				overflow-wrap: anywhere;
+			}
+			span{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground-2;
+			}
+		}
+		.profile__header__container__pronouns{
+			flex-shrink: 0;
+			padding: 2px 10px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-full;
+			background-color: $colour-background;
+		}
+		.profile__header__container__pronoun-separator,
+		// NC32: the "·" separator is a bare <span> without a class.
+		.profile__header__container__displayname > span:not([class]){
+			display: none;
+		}
+		// NC32 (@nextcloud/vue 8): "Edit Profile" sits inside the name block and uses
+		// the vue-8 class; the status button is a direct child of the header grid.
+		.profile__header__container__displayname .button-vue--vue-primary{
+			@include primary-button;
+		}
+		.profile__header__container > .button-vue{
+			@include outline-button;
+			justify-self: start;
+			background-color: $colour-background;
+			&:disabled{
+				opacity: 1;
+			}
+		}
+		.profile__header__container__controls{
+			padding-inline: 0;
+			gap: 8px;
+			.button-vue--primary{
+				@include primary-button;
+			}
+			.profile__header__container__status{
+				@include outline-button;
+				background-color: $colour-background;
+				&:disabled{
+					opacity: 1;
+				}
+			}
+		}
+		// NC32 renders the status as plain text instead of a button.
+		.profile__header__container__status-text{
+			padding: 6px 12px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-6;
+			background-color: $colour-background;
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			color: $colour-forground-2;
+		}
+		.profile__header__container__status-content{
+			font-size: $text-heading-5;
+			line-height: $leading-20;
+			font-weight: $font-medium;
+			color: $colour-forground-2;
+			svg{
+				width: 16px;
+				height: 16px;
+				fill: $colour-forground-1;
+			}
+		}
+
+		// Body
+		.profile__wrapper{
+			background-color: $main-page-bg-dashboard;
+		}
+		.profile__content{
+			box-sizing: border-box;
+		}
+		.profile__sidebar{
+			@include profile-avatar;
+		}
+
+		// Primary action (Talk) and contact buttons (email, phone, website, socials)
+		.user-actions{
+			max-width: none;
+			gap: 8px;
+			.user-actions__primary{
+				@include primary-button;
+				justify-content: center;
+				.user-actions__primary__icon{
+					width: 16px;
+					height: 16px;
+					filter: none;
+				}
+			}
+			.user-actions__other{
+				gap: 8px;
+				.button-vue{
+					width: 40px;
+					height: 40px;
+					min-width: 40px;
+					min-height: 40px;
+					background-color: $colour-background;
+					border: 1px solid $theme-divider;
+					border-radius: $rounded-8 !important;
+					transition: all ease-in-out 300ms;
+					&:hover,
+					&:focus-visible{
+						background-color: $colour-primary-50 !important;
+						border-color: $colour-blue-600;
+					}
+				}
+			}
+			// With a single extra action NcActions renders the button itself with this class.
+			.button-vue.user-actions__other{
+				width: 40px;
+				height: 40px;
+				min-width: 40px;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-8 !important;
+				background-color: $colour-background;
+			}
+			// Action icons are dark <img> files; tint them to the variant's text colour.
+			.user-actions__other__icon{
+				width: 18px;
+				height: 18px;
+				margin: 0;
+				filter: $filter-forground;
+			}
+			.user-actions__other .button-vue svg{
+				fill: $colour-forground;
+			}
+		}
+
+		// Shared resources ("You & <user>"), NC35, on other people's profiles
+		.shared-resources{
+			@include profile-card;
+			max-width: none;
+			padding: 16px;
+			box-sizing: border-box;
+			.shared-resources__title{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+		}
+
+		// Content card: details, headline, biography, extra sections
+		.profile__blocks{
+			@include profile-card;
+			min-width: 0;
+			padding: 28px 32px 32px;
+			gap: 0;
+			box-sizing: border-box;
+		}
+		.profile__blocks-details{
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+			gap: 12px;
+			margin-bottom: 24px;
+			padding: 16px;
+			border: 1px solid $theme-divider;
+			border-radius: $rounded-8;
+			background-color: $colour-semilight;
+			.detail{
+				min-width: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				p{
+					display: flex;
+					align-items: center;
+					gap: 10px;
+					margin: 0;
+				}
+				// Icon tile in front of each detail
+				.detail-icon,
+				.map-icon{
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					flex-shrink: 0;
+					width: 32px;
+					height: 32px;
+					border-radius: $rounded-8;
+					background-color: $colour-primary-50;
+					svg{
+						width: 16px;
+						height: 16px;
+						fill: $colour-blue-600;
+					}
+				}
+			}
+		}
+		.profile__blocks-headline{
+			margin: 0 0 12px;
+			font-size: $text-heading-2;
+			line-height: $leading-28;
+			font-weight: $font-semibold;
+			color: $colour-forground;
+		}
+		.rich-text--wrapper{
+			max-width: 80ch;
+			font-size: $text-heading-4;
+			line-height: $leading-24;
+			color: $colour-forground-2;
+			p + p{
+				margin-top: 12px;
+			}
+			strong{
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			a{
+				color: $colour-blue-600;
+				text-decoration: underline;
+				text-underline-offset: 2px;
+			}
+		}
+		// NC32 wraps the biography in its own section.
+		.profile__blocks-biography{
+			font-size: $text-heading-4;
+			line-height: $leading-24;
+			color: $colour-forground-2;
+		}
+
+		// Empty state, same look as the hover card's empty state
+		.profile__blocks-empty-info{
+			margin: 0;
+			padding: 40px 16px;
+			border: 1px dashed $theme-divider;
+			border-radius: $rounded-8;
+			background-color: $colour-semilight;
+			.empty-content__icon{
+				width: 56px;
+				height: 56px;
+				margin: 0 auto 16px;
+				border-radius: $rounded-full;
+				background-color: $colour-primary-50;
+				opacity: 1;
+				svg{
+					width: 28px !important;
+					height: 28px !important;
+					max-width: 28px !important;
+					max-height: 28px !important;
+					fill: $colour-blue-600;
+				}
+			}
+			.empty-content__name{
+				margin-bottom: 4px;
+				font-size: $text-heading-4;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.empty-content__description{
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				color: $colour-forground-1;
+			}
+		}
+
+		// Desktop: identity row in the banner, content card full width below.
+		@media only screen and (min-width: ($bp-1024 + 1)) {
+			.profile__header{
+				position: relative;
+				top: 0;
+				height: $banner-height;
+			}
+			// Column 1 keeps room for the avatar, column 3 for the actions;
+			// both are drawn by .profile__sidebar laid over the banner.
+			.profile__header__container{
+				grid-template-columns: ($avatar-size + $row-gap) minmax(0, 1fr) $actions-width;
+				column-gap: 0;
+				row-gap: 8px;
+				margin: 0 auto $row-bottom;
+				padding-inline: 24px;
+			}
+			.profile__header__container__displayname{
+				grid-column: 2;
+				grid-row: 1;
+				width: auto;
+				height: auto;
+				margin: 0;
+				padding-inline: 0;
+			}
+			.profile__header__container__controls,
+			.profile__header__container > .button-vue{
+				grid-column: 2;
+				grid-row: 2;
+			}
+			.profile__content{
+				flex-direction: column;
+				padding-inline: 24px;
+			}
+			.profile__sidebar{
+				position: relative;
+				top: 0;
+				z-index: 1;
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: space-between;
+				align-self: stretch;
+				width: auto;
+				min-width: 0;
+				margin: (-$banner-height - 1px + $avatar-top) 0 0;
+				padding: 0;
+				// The row overlays the name; only its own controls take clicks.
+				pointer-events: none;
+				> *{
+					pointer-events: auto;
+				}
+				.avatar.avatardiv{
+					--avatar-size: #{$avatar-size} !important;
+					margin: 0;
+					font-size: 56px !important;
+				}
+			}
+			.user-actions{
+				flex-direction: row;
+				align-items: center;
+				margin: 0;
+				.user-actions__primary{
+					width: auto !important;
+					margin: 0;
+				}
+			}
+			.shared-resources{
+				flex-basis: 100%;
+				margin-top: 24px;
+			}
+			.profile__blocks{
+				width: 100%;
+				margin: 32px 0 48px;
+			}
+		}
+
+		// Mobile: Nextcloud puts the avatar next to the name in the banner.
+		@media only screen and (max-width: $bp-1024) {
+			.profile__header{
+				height: auto;
+				padding-block: 24px;
+			}
+			.profile__header__container{
+				margin: 0 auto;
+				padding-inline: 16px;
+			}
+			.profile__header__container__displayname{
+				gap: 6px;
+				h2{
+					font-size: $text-heading-2;
+					line-height: $leading-28;
+				}
+			}
+			.profile__content{
+				padding: 16px;
+			}
+			.profile__sidebar{
+				@include profile-card;
+				margin: 0 0 16px;
+				padding: 16px;
+			}
+			.user-actions{
+				padding: 0;
+				margin-top: 0;
+				gap: 12px;
+				.user-actions__primary{
+					width: 100% !important;
+				}
+				.user-actions__other{
+					flex-wrap: wrap;
+					padding-top: 12px;
+					border-top: 1px solid $theme-divider;
+				}
+			}
+			.shared-resources{
+				margin-top: 16px;
+			}
+			.profile__blocks{
+				margin: 0;
+				padding: 20px 16px;
+			}
+		}
+	}
+}

@@ -57,7 +57,8 @@
 				</template>
 			</NcAppNavigationItem>
 
-			<NcAppNavigationItem v-if="isAdmin" :name="t('nexeno_theme', 'Settings')" :href="themingSettingsUrl">
+			<!-- Shown to every user: it opens the personal appearance page where each user turns the theme on. -->
+			<NcAppNavigationItem :name="t('nexeno_theme', 'Settings')" :href="themingSettingsUrl">
 				<template #icon>
 					<svg
 						width="16"
@@ -73,6 +74,96 @@
 					</svg>
 				</template>
 			</NcAppNavigationItem>
+
+			<NcAppNavigationCaption :name="t('nexeno_theme', 'Apps')" />
+
+			<!--
+				The "Coming soon" chip sits right after the name (Figma). NcAppNavigationItem only offers a
+				right-aligned counter slot, so the chip is drawn by CSS (.nexeno-nav-item--new) and its
+				translated label is passed in as a CSS string; the whole row stays one clickable link.
+			-->
+			<NcAppNavigationItem
+				class="nexeno-nav-item--new"
+				:style="{ '--nexeno-badge-label': JSON.stringify(t('nexeno_theme', 'Coming soon')) }"
+				:name="t('nexeno_theme', 'Nexeno project')"
+				:to="{ name: 'marketing' }">
+				<template #icon>
+					<!-- Layers icon -->
+					<svg
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						aria-hidden="true">
+						<path
+							d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round" />
+						<path
+							d="m2 12 9.17 4.17a2 2 0 0 0 1.66 0L22 12"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round" />
+						<path
+							d="m2 17 9.17 4.17a2 2 0 0 0 1.66 0L22 17"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round" />
+					</svg>
+				</template>
+			</NcAppNavigationItem>
+		</template>
+
+		<!-- Rating and problem-report links, pinned below the menu. An external href opens in a new tab (NcAppNavigationItem). -->
+		<template #footer>
+			<ul class="app-navigation-entry__settings">
+				<NcAppNavigationItem :name="t('nexeno_theme', 'Rate this app')" :href="appStoreUrl">
+					<template #icon>
+						<!-- Star icon -->
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							aria-hidden="true">
+							<path
+								d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round" />
+						</svg>
+					</template>
+				</NcAppNavigationItem>
+				<NcAppNavigationItem :name="t('nexeno_theme', 'Report a problem')" :href="issuesUrl">
+					<template #icon>
+						<!-- Circle-alert icon -->
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							aria-hidden="true">
+							<circle
+								cx="12"
+								cy="12"
+								r="10"
+								stroke="currentColor"
+								stroke-width="2" />
+							<path
+								d="M12 8v4M12 16h.01"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round" />
+						</svg>
+					</template>
+				</NcAppNavigationItem>
+			</ul>
 		</template>
 	</NcAppNavigation>
 </template>
@@ -81,18 +172,25 @@
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
+import NcAppNavigationCaption from '@nextcloud/vue/components/NcAppNavigationCaption'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import { APP_STORE_URL, ISSUES_URL } from '../constants.js'
 
 export default {
 	name: 'AppSidebar',
 	components: {
 		NcAppNavigation,
+		NcAppNavigationCaption,
 		NcAppNavigationItem,
 	},
 
 	computed: {
-		isAdmin() {
-			return Boolean(window.OC?.isUserAdmin?.())
+		appStoreUrl() {
+			return APP_STORE_URL
+		},
+
+		issuesUrl() {
+			return ISSUES_URL
 		},
 
 		themingSettingsUrl() {

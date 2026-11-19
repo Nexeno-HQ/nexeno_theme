@@ -11,8 +11,11 @@ namespace OCA\NexenoTheme\Tests\Unit\Controller;
 
 use OCA\NexenoTheme\Controller\ThemeSettingsController;
 use OCA\NexenoTheme\Service\CoreTheming;
+use OCA\NexenoTheme\Service\LoginStyle;
+use OCA\NexenoTheme\Service\RatePrompt;
 use OCA\NexenoTheme\ThemeConfig;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\Config\IUserConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -33,7 +36,7 @@ final class ThemeSettingsControllerTest extends TestCase {
 		return $session;
 	}
 
-	private function controller(IUserConfig $userConfig, CoreTheming $coreTheming, IUserSession $session): ThemeSettingsController {
+	private function controller(IUserConfig $userConfig, CoreTheming $coreTheming, IUserSession $session, ?LoginStyle $loginStyle = null, ?RatePrompt $ratePrompt = null): ThemeSettingsController {
 		$l = $this->createStub(IL10N::class);
 		$l->method('t')->willReturnArgument(0);
 		return new ThemeSettingsController(
@@ -43,6 +46,8 @@ final class ThemeSettingsControllerTest extends TestCase {
 			$coreTheming,
 			$session,
 			$l,
+			$loginStyle ?? $this->createStub(LoginStyle::class),
+			$ratePrompt ?? $this->createStub(RatePrompt::class),
 		);
 	}
 
@@ -87,7 +92,7 @@ final class ThemeSettingsControllerTest extends TestCase {
 	}
 
 	public static function enabledVariants(): array {
-		return [['light'], ['dark']];
+		return [['system'], ['light'], ['dark']];
 	}
 
 	#[DataProvider('enabledVariants')]
@@ -119,5 +124,56 @@ final class ThemeSettingsControllerTest extends TestCase {
 		self::assertSame(Http::STATUS_OK, $response->getStatus());
 		self::assertSame(['variant' => 'off', 'enabledThemes' => ['default']], $response->getData());
 		self::assertSame(['alice/nexeno_theme/' . ThemeConfig::CONFIG_KEY_VARIANT => 'off'], $saved);
+	}
+
+	public static function loginStyleValues(): array {
+		return [[true], [false]];
+	}
+
+	#[DataProvider('loginStyleValues')]
+	public function testSavesLoginStyle(bool $enabled): void {
+		$loginStyle = $this->createMock(LoginStyle::class);
+		$loginStyle->expects(self::once())->method('setEnabled')->with($enabled);
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects(self::never())->method('setValueString');
+
+		$response = $this->controller($userConfig, $this->createStub(CoreTheming::class), $this->session('admin'), $loginStyle)
+			->setLoginStyle($enabled);
+
+		self::assertSame(Http::STATUS_OK, $response->getStatus());
+		self::assertSame(['enabled' => $enabled], $response->getData());
+	}
+
+	public function testLoginStyleIsAdminOnly(): void {
+		// Nextcloud only lets non-admins call methods marked #[NoAdminRequired]; setLoginStyle must not have it.
+		$method = new \ReflectionMethod(ThemeSettingsController::class, 'setLoginStyle');
+		self::assertSame([], $method->getAttributes(NoAdminRequired::class));
+	}
+
+	public function testAnswerRatePromptSavesTheAnswer(): void {
+		$ratePrompt = $this->createMock(RatePrompt::class);
+		$ratePrompt->expects(self::once())->method('answer')->with('alice', 'later');
+
+		$response = $this->controller($this->createStub(IUserConfig::class), $this->createStub(CoreTheming::class), $this->session('alice'), null, $ratePrompt)
+			->answerRatePrompt('later');
+
+		self::assertSame(['visible' => false], $response->getData());
+	}
+
+	public function testAnswerRatePromptRejectsUnknownAction(): void {
+		$ratePrompt = $this->createMock(RatePrompt::class);
+		$ratePrompt->expects(self::never())->method('answer');
+
+		$response = $this->controller($this->createStub(IUserConfig::class), $this->createStub(CoreTheming::class), $this->session('alice'), null, $ratePrompt)
+			->answerRatePrompt('maybe');
+
+		self::assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
+	}
+
+	public function testAnswerRatePromptNeedsALoggedInUser(): void {
+		$response = $this->controller($this->createStub(IUserConfig::class), $this->createStub(CoreTheming::class), $this->session(null))
+			->answerRatePrompt('never');
+
+		self::assertSame(Http::STATUS_UNAUTHORIZED, $response->getStatus());
 	}
 }

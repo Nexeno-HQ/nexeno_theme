@@ -31,7 +31,7 @@ final class VariantMigratorTest extends TestCase {
 		$config = $this->createStub(IUserConfig::class);
 		$config->method('getValueString')->willReturnMap([
 			['alice', ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_VARIANT, 'off', false, $variant],
-			['alice', ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_LAST_VARIANT, 'light', false, $lastVariant],
+			['alice', ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_LAST_VARIANT, 'system', false, $lastVariant],
 		]);
 		return $config;
 	}
@@ -47,7 +47,7 @@ final class VariantMigratorTest extends TestCase {
 		$destination = $this->createMock(IExportDestination::class);
 		$destination->expects(self::never())->method('addFileContents');
 
-		(new VariantMigrator($this->storedSettings('off', 'light')))
+		(new VariantMigrator($this->storedSettings('off', 'system')))
 			->export($this->user(), $destination, $this->createStub(OutputInterface::class));
 	}
 

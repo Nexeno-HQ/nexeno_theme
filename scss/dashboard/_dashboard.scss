@@ -16,6 +16,19 @@
 	-webkit-mask: $icon-chevron-down no-repeat center / contain;
 }
 
+// Check badge drawn as a ::before on empty widget states that bring no icon of their own:
+// 60px light-blue circle with a blue check, matching the icon badges of the other widgets.
+@mixin empty-check-badge {
+	content: '';
+	flex-shrink: 0;
+	width: 60px;
+	height: 60px;
+	border-radius: $rounded-full;
+	background: $icon-check center / 26px no-repeat, $colour-primary-100;
+	outline: 7px solid $colour-primary-50;
+	outline-offset: -7px;
+}
+
 @mixin dashboard {
 	#app-dashboard {
 		> h2 {
@@ -135,6 +148,10 @@
 			width: 100%;
 			max-width: 100%;
 			grid-template-columns: repeat(5, minmax(0, 1fr));
+			// Every card at least as tall as a default Nextcloud card (424px content + 53px header),
+			// so rows of short or empty cards match the rest; fuller cards still grow. Cards stretch
+			// to their row, which also gives the empty states a height to centre in.
+			grid-auto-rows: minmax(480px, auto);
 			padding-inline: 16px;
 			@media (max-width: $bp-1600) {
 				grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -147,6 +164,7 @@
 			}
 			@media (max-width: $bp-992) {
 				grid-template-columns: repeat(1, minmax(0, 1fr));
+				grid-auto-rows: minmax(320px, auto);
 			}
 			.panel {
 				margin: 0;
@@ -545,10 +563,67 @@
 							}
 						}
 					}
+					// Analytics "Reports": a plain-JS widget whose empty state ("Add a report to the
+					// favorites…") is a bare <div> inside its list, outside Nextcloud's empty-state
+					// component. It gets the same look: badge, centred text, centred in the card.
+					&:has(#ulAnalytics > div:only-child) {
+						height: calc(100% - 53px);
+						// The dashboard's per-widget mount div sits between the card body and the list;
+						// it needs the full height too, or the list has nothing to fill.
+						> div:has(> #ulAnalytics) {
+							height: 100%;
+						}
+						#ulAnalytics {
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							justify-content: center;
+							height: 100%;
+							margin: 0;
+							padding: 16px;
+							> div {
+								display: flex;
+								flex-direction: column;
+								align-items: center;
+								gap: 6px;
+								text-align: center;
+								font-size: $text-heading-5;
+								line-height: $leading-20;
+								color: $colour-forground-1;
+								&::before {
+									@include empty-check-badge;
+								}
+							}
+						}
+					}
 					&:has(.empty-content) {
 						height: calc(100% - 53px);
 						.dashboard-widget {
 							height: 100%;
+						}
+						// Apps mount their widget inside one or two wrapper divs (Cospend: one, Deck: two).
+						// Without a height on them, the 100% above has nothing to fill and the empty state
+						// sits at the top instead of centred, so the wrappers are stretched too.
+						> div:has(.dashboard-widget .empty-content),
+						> div > div:has(.dashboard-widget .empty-content) {
+							height: 100%;
+						}
+						// Deck puts its "New card" button after the widget, in the same wrapper: the empty
+						// state and the button are centred together as one group.
+						div:has(> .dashboard-widget .empty-content):has(> .center-button) {
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							> .dashboard-widget {
+								flex: 0 0 auto;
+								height: auto;
+							}
+							.empty-content {
+								height: auto;
+							}
+							> .center-button {
+								margin-top: 12px;
+							}
 						}
 					}
 					.teams-list{
@@ -635,9 +710,30 @@
 						font-size: $text-heading-5;
 						line-height: $leading-20;
 					}
+					// Widgets whose empty state has no icon (Deck: "No upcoming cards") get the same
+					// check badge as the others: 60px circle, blue check. Deck still passes its icon
+					// through an old prop that current Nextcloud ignores, so its icon slot is empty.
+					&:not(:has(.empty-content__icon *))::before {
+						@include empty-check-badge;
+					}
 					.empty-content__action{
 						a{
 							@include outline-button;
+						}
+						// Some widgets (Cospend: "Go to Cospend") wrap an NcButton in the link. Styled as
+						// a button, the inline link draws its border and padding as a thin strip around
+						// the button, so the button carries the outline style and the link stays bare.
+						a:has(> .button-vue){
+							display: inline-flex;
+							padding: 0;
+							border: 0;
+							background-color: transparent;
+							&:hover{
+								background-color: transparent;
+							}
+							.button-vue{
+								@include outline-button;
+							}
 						}
 					}
 				}

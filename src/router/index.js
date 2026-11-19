@@ -5,6 +5,7 @@
 import { generateUrl } from '@nextcloud/router'
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '../views/DashboardView.vue'
+import MarketingView from '../views/MarketingView.vue'
 
 /**
  * The page can be opened as /apps/nexeno_theme/ or /index.php/apps/nexeno_theme/ (also under a
@@ -22,6 +23,7 @@ const router = createRouter({
 	history: createWebHistory(routerBase()),
 	routes: [
 		{ path: '/', name: 'dashboard', component: DashboardView },
+		{ path: '/nexeno-project', name: 'marketing', component: MarketingView },
 	],
 	scrollBehavior() {
 		return { top: 0 }

@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OCA\NexenoTheme\Controller;
 
 use OCA\NexenoTheme\Service\CoreTheming;
+use OCA\NexenoTheme\Service\LoginStyle;
+use OCA\NexenoTheme\Service\RatePrompt;
 use OCA\NexenoTheme\ThemeConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -21,8 +23,6 @@ use OCP\IRequest;
 use OCP\IUserSession;
 
 class ThemeSettingsController extends Controller {
-	private const VARIANTS = ['off', 'light', 'dark'];
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -30,6 +30,8 @@ class ThemeSettingsController extends Controller {
 		private CoreTheming $coreTheming,
 		private IUserSession $userSession,
 		private IL10N $l,
+		private LoginStyle $loginStyle,
+		private RatePrompt $ratePrompt,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -40,7 +42,7 @@ class ThemeSettingsController extends Controller {
 		if ($user === null) {
 			return new JSONResponse(['message' => $this->l->t('Not logged in')], Http::STATUS_UNAUTHORIZED);
 		}
-		if (!in_array($variant, self::VARIANTS, true)) {
+		if (!in_array($variant, ThemeConfig::VARIANTS, true)) {
 			return new JSONResponse(['message' => $this->l->t('Invalid variant')], Http::STATUS_BAD_REQUEST);
 		}
 		$userId = $user->getUID();
@@ -61,5 +63,30 @@ class ThemeSettingsController extends Controller {
 			'variant' => $variant,
 			'enabledThemes' => $this->coreTheming->bodyThemes($userId, $variant),
 		]);
+	}
+
+	/**
+	 * Stores the user's answer to the "Rate this app" popup: "later", "never" or "rated".
+	 */
+	#[NoAdminRequired]
+	public function answerRatePrompt(string $action): JSONResponse {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new JSONResponse(['message' => $this->l->t('Not logged in')], Http::STATUS_UNAUTHORIZED);
+		}
+		if (!in_array($action, ThemeConfig::RATE_PROMPT_ACTIONS, true)) {
+			return new JSONResponse(['message' => $this->l->t('Invalid action')], Http::STATUS_BAD_REQUEST);
+		}
+		$this->ratePrompt->answer($user->getUID(), $action);
+		return new JSONResponse(['visible' => false]);
+	}
+
+	/**
+	 * Turns the Nexeno look on the login page on or off for the whole instance.
+	 * Admin only: without #[NoAdminRequired], Nextcloud refuses the request for everyone else.
+	 */
+	public function setLoginStyle(bool $enabled): JSONResponse {
+		$this->loginStyle->setEnabled($enabled);
+		return new JSONResponse(['enabled' => $enabled]);
 	}
 }

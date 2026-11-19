@@ -4,8 +4,12 @@
 -->
 # Nexeno Theme
 
+[![Nextcloud App Store](https://img.shields.io/badge/Nextcloud%20App%20Store-Nexeno%20Theme-0082c9.svg?logo=nextcloud&logoColor=white)](https://apps.nextcloud.com/apps/nexeno_theme)
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)](LICENSE)
 ![Nextcloud 32–35](https://img.shields.io/badge/Nextcloud-32%E2%80%9335-0082c9.svg)
+
+⭐ **Enjoying Nexeno Theme? [Rate this app on the Nextcloud App Store](https://apps.nextcloud.com/apps/nexeno_theme)** – it helps
+other people find it.
 
 **🎨 A clean, modern Light and Dark look for Nextcloud, switched on by each user.**
 
@@ -18,18 +22,20 @@ appearance settings, which the theme never changes.
 - **🌗 Light and Dark:** two variants, switched on under *Personal settings → Appearance and accessibility*. The
   change applies straight away, in every open tab, and follows the user on every device.
 - **🧭 The whole interface:** restyled navigation, header menus, dialogs, sidebars, search, settings pages and the
-  login page.
+  login page. Administrators can switch the Nexeno login page off under *Personal settings → Appearance and
+  accessibility*, or with `occ config:app:set nexeno_theme login_style --value=no`.
 - **📁 Your everyday apps:** tailored layouts for Files, Photos, Dashboard, Activity, Calendar, Contacts, Deck,
   Notes, Tasks, Talk, Collectives, Teams, Text, Mail, Office and the App store.
 - **♿ Accessibility kept:** the OpenDyslexic font stays on for users who chose it.
 - **🧩 Nexeno apps keep their design:** Nexeno apps such as Nexeno Project have their own built-in design, and the
   theme leaves them unchanged.
-- **🌍 Your language:** English, German, French, Dutch, Italian, Spanish, Swedish, Polish and Portuguese (Brazil).
+- **🌍 Your language:** English, German (informal and formal), French, Dutch, Italian, Spanish, Swedish, Danish, Norwegian, Finnish, Czech and Portuguese (Brazil).
 
 ## Privacy
 
 The theme runs fully inside your Nextcloud and loads nothing from outside services. It stores one setting per user,
-the chosen variant, which is included when the user exports their account with Nextcloud's account migration.
+the chosen variant, which is included when the user exports their account with Nextcloud's account migration. It
+also stores one site-wide setting, whether the login page uses the Nexeno look, which holds no personal data.
 
 ## Requirements
 
@@ -78,6 +84,10 @@ npm run watch
 - `scss/nexeno-theme.scss` is the base stylesheet for every supported version.
 - `scss/nexeno-theme-vNN.scss` holds version-specific fixes, loaded after the base stylesheet.
 - Colours come only from the theme variables in `scss/_themes.scss`, so Light and Dark stay in sync.
+- Screenshots on the app's own pages come in pairs, `<name>-light` and `<name>-dark`, in `src/assets/images/`. Render
+  both, with the classes `showcase-img--light` and `showcase-img--dark`: `scss/page/_page-shared.scss` shows the one
+  that matches the current theme. Export images without rounded corners (Figma bakes white corners into exports of
+  rounded frames) and let the CSS round them.
 - `css/` and `js/page/` are build output: they are not in git, so run `npm run build` after cloning. The other files in `js/` are hand-written and committed.
 
 ### Checks

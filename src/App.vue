@@ -10,6 +10,7 @@
 				<router-view />
 			</div>
 		</NcAppContent>
+		<RatePrompt />
 	</NcContent>
 </template>
 
@@ -17,6 +18,7 @@
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import AppSidebar from './components/AppSidebar.vue'
+import RatePrompt from './components/RatePrompt.vue'
 import { refresh } from './store.js'
 
 export default {
@@ -25,6 +27,7 @@ export default {
 		NcContent,
 		NcAppContent,
 		AppSidebar,
+		RatePrompt,
 	},
 
 	mounted() {

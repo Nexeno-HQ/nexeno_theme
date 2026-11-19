@@ -67,24 +67,37 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			$this->coreTheming->enabledThemes($user->getUID()),
 		);
 
-		if ($variant === 'light' || $variant === 'dark') {
+		if (in_array($variant, ThemeConfig::ENABLED_VARIANTS, true)) {
 			$nonce = Server::get(ContentSecurityPolicyNonceManager::class)->getNonce();
-			$property = $variant === 'light' ? 'nexenoLight' : 'nexenoDark';
+			// "system" is resolved here from the device setting, before the first paint, so the page does not flash.
+			$resolve = $variant === ThemeConfig::VARIANT_SYSTEM
+				? 'var v=window.matchMedia&&window.matchMedia(`(prefers-color-scheme: dark)`).matches?`Dark`:`Light`;'
+				: 'var v=`' . ($variant === 'light' ? 'Light' : 'Dark') . '`;';
 			$bodyThemes = '[`' . implode('`,`', $this->coreTheming->bodyThemes($user->getUID(), $variant)) . '`]';
+			// Wrapped in a function so its variables (t, v, s, n) stay private. As page-level
+			// variables they clashed with other apps' scripts: a global "t" makes an app's own
+			// "const t" fail with "Identifier 't' has already been declared" (Countdown).
 			Util::addHeader('script', ['nonce' => $nonce],
-				'document.documentElement.dataset.nexeno=``;'
-				. 'document.documentElement.dataset.' . $property . '=``;'
+				'(function(){'
+				. $resolve
+				. 'document.documentElement.dataset.nexeno=``;'
+				. 'document.documentElement.dataset[`nexeno`+v]=``;'
 				. 'var t=' . $bodyThemes . ';'
+				// "system": swap Nextcloud's "default" theme for the resolved light or dark one, as nexeno-state.js does.
+				. 't=t.map(function(i){return i===`default`?v.toLowerCase():i});'
 				. 'function s(b){Array.from(b.attributes).forEach(function(a){if(a.name.indexOf(`data-theme-`)===0)b.removeAttribute(a.name)});'
 				. 't.forEach(function(i){b.setAttribute(`data-theme-`+i,``)});b.dataset.themes=t.join(`,`)}'
 				. 'if(document.body){s(document.body)}else{var n=new MutationObserver(function(){if(document.body){n.disconnect();s(document.body)}});'
-				. 'n.observe(document.documentElement,{childList:true})}');
+				. 'n.observe(document.documentElement,{childList:true})}'
+				. '})();');
 			if ((int)Util::getVersion()[0] < 34 && str_starts_with($this->request->getPathInfo() ?: '', '/settings/')) {
 				Util::addHeader('script', ['nonce' => $nonce],
-					'var o=new MutationObserver(function(){var m=document.querySelector(`main[data-active-section-id]`);'
+					// Wrapped for the same reason: "o" must not become a page-level variable.
+					'(function(){var o=new MutationObserver(function(){var m=document.querySelector(`main[data-active-section-id]`);'
 					. 'if(m){m.classList.add(m.dataset.activeSectionId);o.disconnect()}});'
 					. 'o.observe(document.documentElement,{childList:true,subtree:true});'
-					. 'document.addEventListener(`DOMContentLoaded`,function(){o.disconnect()});');
+					. 'document.addEventListener(`DOMContentLoaded`,function(){o.disconnect()});'
+					. '})();');
 			}
 		}
 

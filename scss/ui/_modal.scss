@@ -754,10 +754,14 @@
 									border-color: $colour-blue-600;
 									transition: all ease-in-out 300ms;
 
+									// Icon takes the label's colour, as on the active sidebar tabs. A fixed white
+									// filter left it white beside a dark label in dark mode, where the theme's
+									// text-on-blue colour is dark.
 									#{css-module('radioGroupButton__icon')},
 									.icon-vue {
 										svg {
-											filter: $filter-light-bg;
+											filter: none;
+											fill: $colour-forground-white;
 										}
 									}
 
@@ -4191,8 +4195,19 @@
 					margin-bottom: 0;
 					border-bottom: 0;
 				}
+				// Switches ("Set as the default daemon", "Enable HaRP", "Disable FRP"): plain rows
+				// like the switches in other dialogs, without Nextcloud's tinted fill and press effect.
 				#{css-module("formBoxItem")}{
 					@include form-item;
+					background-color: transparent;
+					color: $colour-forground;
+					&:hover:not(:has(:disabled)){
+						background-color: transparent;
+						color: $colour-forground;
+					}
+					&:active:not(:disabled){
+						transform: none;
+					}
 				}
 				form{
 					padding-top: 12px;

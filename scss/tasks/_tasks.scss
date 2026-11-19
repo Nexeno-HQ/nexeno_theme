@@ -226,6 +226,24 @@
 				}
 			}
 		}
+		// "Share with users or groups" field under a list in the navigation (CalendarShare.vue).
+		// Its dropdown is rendered in place (append-to-body is off), so it is styled here too.
+		.app-navigation .calendar-shares {
+			.v-select {
+				@include single-select(false);
+				width: 100%;
+			}
+			.vs__dropdown-menu {
+				@include select-dropdown-menu;
+				background-color: $colour-background;
+				.vs__no-options {
+					padding: 6px 10px;
+					font-size: $text-heading-5;
+					line-height: $leading-20;
+					color: $colour-forground-1;
+				}
+			}
+		}
 	}
 }
 
@@ -420,6 +438,153 @@
 						@include outline-button;
 					}
 				}
+			}
+		}
+	}
+}
+
+// "Create a new task" dialog (Tasks TaskCreateDialog). Opened from the
+// dashboard "Upcoming tasks" widget and from Talk, so it is not scoped to
+// .app-tasks. Scoped by the dialog's own task-selector class (NcModal puts it
+// on the .modal-mask): Deck's create-card dialog also has #modal-inner and
+// .modal-buttons, so matching on markup alone leaked these styles into it.
+@mixin tasks-create-dialog {
+	.task-selector .modal-container {
+		border-radius: $rounded-12;
+		.modal-container__close {
+			inset-inline-end: 16px;
+			top: 9px;
+			width: 36px !important;
+			height: 36px;
+			border-radius: $rounded-full;
+			background-color: $colour-gray-100;
+			&:hover {
+				background-color: $colour-primary-50;
+			}
+		}
+		#modal-inner {
+			gap: 16px;
+			padding: 0;
+			> h3 {
+				margin: 0;
+				// Leaves room for the close button on the inline end.
+				padding: 16px 64px 16px 16px;
+				border-bottom: 1px solid $theme-divider;
+				font-size: $text-heading-3;
+				line-height: $leading-22;
+				font-weight: $font-semibold;
+				color: $colour-forground;
+			}
+			.loading-overlay {
+				inset-inline-start: calc(50% - 20px);
+			}
+		}
+		// Calendar picker (NcSelect wrapped in .property__item).
+		// width: auto stops a width: 100% from the app adding to the side
+		// margins, which overflowed the modal and showed a horizontal scrollbar.
+		.property__item,
+		.property {
+			box-sizing: border-box;
+			width: auto;
+			min-width: 0;
+		}
+		.property__item {
+			margin: 0 16px;
+			padding: 0;
+			.v-select.select {
+				@include single-select;
+				box-sizing: border-box;
+				width: 100%;
+				min-width: 0;
+				max-width: 100%;
+			}
+			.vs__dropdown-menu {
+				@include select-dropdown-menu;
+			}
+			.calendar-picker-option__color-indicator {
+				width: 12px;
+				height: 12px;
+				flex-basis: 12px;
+				margin: 0 8px 0 4px;
+			}
+			.calendar-picker-option__label {
+				margin: 0;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+			}
+		}
+		// Summary input and notes textarea share the leading-icon layout.
+		.property {
+			margin: 0 16px;
+			.material-design-icon {
+				// Reset the app's physical left offset so RTL works too.
+				// stylelint-disable-next-line csstools/use-logical
+				left: auto;
+				top: 12px;
+				inset-inline-start: 12px;
+				width: 16px;
+				height: 16px;
+				svg {
+					width: 16px;
+					height: 16px;
+					fill: $colour-forground-1;
+				}
+			}
+			input,
+			textarea {
+				margin: 0;
+				padding: 9px 12px !important;
+				padding-inline-start: 38px !important;
+				border: 1px solid $theme-divider;
+				border-radius: $rounded-6;
+				box-shadow: none;
+				outline: 0;
+				background-color: transparent;
+				font-size: $text-heading-5;
+				line-height: $leading-20;
+				font-weight: $font-medium;
+				color: $colour-forground;
+				&::placeholder {
+					color: $colour-forground-1;
+				}
+				&:hover:not(:disabled) {
+					border-color: $colour-blue-600;
+				}
+				&:focus,
+				&:focus-visible {
+					border-color: $colour-blue-600;
+					box-shadow: none !important;
+					outline: 0;
+					background-color: $colour-background;
+				}
+			}
+			input {
+				height: 40px !important;
+			}
+			textarea {
+				min-height: 100px;
+				resize: vertical;
+				@include scrollbar($thumb-colour: $colour-scrollbar-main);
+			}
+			&:focus-within .material-design-icon svg {
+				fill: $colour-blue-600;
+			}
+		}
+		.modal-buttons {
+			gap: 8px;
+			padding: 12px 16px;
+			border-top: 1px solid $theme-divider;
+			button {
+				margin: 0;
+			}
+			.button-vue--secondary,
+			.button-vue--tertiary {
+				@include outline-button;
+			}
+			.button-vue--primary {
+				@include primary-button;
 			}
 		}
 	}

@@ -8,7 +8,11 @@
     <id>nexeno_theme</id>
     <name>Nexeno Theme</name>
     <summary lang="en">A modern light and dark look for Nextcloud, chosen by each user, across Files, Photos, Talk, Calendar and more.</summary>
+    <summary lang="de">Modernes helles und dunkles Design für Nextcloud, von jedem Benutzer gewählt – für Dateien, Fotos, Talk, Kalender und mehr.</summary>
+    <summary lang="fr">Apparence moderne claire ou sombre pour Nextcloud, choisie par chaque utilisateur : Fichiers, Photos, Talk, Agenda et plus.</summary>
     <description lang="en"><![CDATA[
+⭐ **Enjoying Nexeno Theme? [Rate this app on the Nextcloud App Store](https://apps.nextcloud.com/apps/nexeno_theme)** – it helps other people find it.
+
 **Nexeno theme gives Nextcloud a clean, modern look in the Nexeno brand colours, in a light and a dark variant.**
 
 Each user decides for themselves: the theme is off until a user turns it on, and turning it off brings back their own Nextcloud appearance settings, which the theme never changes.
@@ -18,21 +22,73 @@ Each user decides for themselves: the theme is off until a user turns it on, and
 - **Light and Dark** – two variants in the Nexeno brand colours. Users switch them on under *Personal settings → Appearance and accessibility*, and the choice follows them on every device.
 - **The whole interface** – restyled navigation, header menus, dialogs, sidebars, search, settings pages and the app store.
 - **Your everyday apps** – tailored layouts for Files, Photos, Dashboard, Activity, Calendar, Contacts, Deck, Notes, Tasks, Talk, Collectives, Teams, Text, Mail and Office.
-- **Login page** – the sign-in page uses the Nexeno look for every visitor.
+- **Login page** – the sign-in page uses the Nexeno look for every visitor. Administrators can switch this off under *Personal settings → Appearance and accessibility*.
 - **Accessibility kept** – the OpenDyslexic font stays on for users who chose it.
 - **Nexeno apps keep their design** – Nexeno apps such as Nexeno Project have their own built-in design, and the theme leaves them unchanged.
-- **Your language** – available in English, German, French, Dutch, Italian, Spanish, Swedish, Polish and Portuguese (Brazil).
+- **Your language** – available in English, German (informal and formal), French, Dutch, Italian, Spanish, Swedish, Danish, Norwegian, Finnish, Czech and Portuguese (Brazil).
 
 ### Privacy
 
-The theme runs fully inside your Nextcloud and loads nothing from outside services. It stores one setting per user, the chosen variant, which is included when the user exports their account with Nextcloud's account migration.
+The theme runs fully inside your Nextcloud and loads nothing from outside services. It stores one setting per user, the chosen variant, which is included when the user exports their account with Nextcloud's account migration. It also stores one site-wide setting, whether the login page uses the Nexeno look, which holds no personal data.
 
 ### Requirements
 
 - Nextcloud 32, 33, 34 or 35.
 - No background jobs, email server or extra apps are needed.
     ]]></description>
-    <version>1.0.0</version>
+    <description lang="de"><![CDATA[
+⭐ **Gefällt Ihnen Nexeno Theme? [Bewerten Sie die App im Nextcloud App Store](https://apps.nextcloud.com/apps/nexeno_theme)** – so finden auch andere sie.
+
+**Nexeno-Design gibt Nextcloud ein klares, modernes Erscheinungsbild in den Nexeno-Markenfarben – in einer hellen und einer dunklen Variante.**
+
+Jeder Benutzer entscheidet selbst: Das Design ist ausgeschaltet, bis ein Benutzer es einschaltet. Beim Ausschalten kehren seine eigenen Nextcloud-Darstellungseinstellungen zurück, die das Design nie verändert.
+
+### Was das Nexeno-Design bietet
+
+- **Hell und Dunkel** – zwei Varianten in den Nexeno-Markenfarben. Benutzer schalten sie unter *Persönliche Einstellungen → Design und Barrierefreiheit* ein, und die Wahl gilt auf jedem Gerät.
+- **Die gesamte Oberfläche** – überarbeitete Navigation, Kopfzeilenmenüs, Dialoge, Seitenleisten, Suche, Einstellungsseiten und App-Store.
+- **Ihre täglichen Apps** – angepasste Layouts für Dateien, Fotos, Dashboard, Aktivität, Kalender, Kontakte, Deck, Notizen, Aufgaben, Talk, Collectives, Teams, Text, Mail und Office.
+- **Anmeldeseite** – die Anmeldeseite zeigt das Nexeno-Design für alle Besucher. Administratoren können dies unter *Persönliche Einstellungen → Design und Barrierefreiheit* ausschalten.
+- **Barrierefreiheit bleibt erhalten** – die Schriftart OpenDyslexic bleibt für Benutzer aktiv, die sie gewählt haben.
+- **Nexeno-Apps behalten ihr Design** – Nexeno-Apps wie Nexeno Project haben ein eigenes, integriertes Design, das unverändert bleibt.
+- **Ihre Sprache** – verfügbar auf Englisch, Deutsch (Du und Sie), Französisch, Niederländisch, Italienisch, Spanisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Tschechisch und Portugiesisch (Brasilien).
+
+### Datenschutz
+
+Das Design läuft vollständig in Ihrer Nextcloud und lädt nichts von externen Diensten. Es speichert eine Einstellung pro Benutzer, die gewählte Variante, die beim Export des Kontos über die Nextcloud-Kontomigration enthalten ist. Außerdem speichert es eine instanzweite Einstellung – ob die Anmeldeseite das Nexeno-Design verwendet –, die keine personenbezogenen Daten enthält.
+
+### Voraussetzungen
+
+- Nextcloud 32, 33, 34 oder 35.
+- Es werden keine Hintergrundjobs, kein E-Mail-Server und keine zusätzlichen Apps benötigt.
+    ]]></description>
+    <description lang="fr"><![CDATA[
+⭐ **Vous aimez Nexeno Theme ? [Notez cette application sur le Nextcloud App Store](https://apps.nextcloud.com/apps/nexeno_theme)** – cela aide d'autres personnes à la trouver.
+
+**Le thème Nexeno donne à Nextcloud une apparence épurée et moderne aux couleurs de la marque Nexeno, en version claire et en version sombre.**
+
+Chaque utilisateur décide pour lui-même : le thème reste désactivé jusqu'à ce qu'un utilisateur l'active, et le désactiver rétablit ses propres réglages d'apparence Nextcloud, que le thème ne modifie jamais.
+
+### Ce que propose le thème Nexeno
+
+- **Clair et Sombre** – deux variantes aux couleurs de la marque Nexeno. Les utilisateurs les activent dans *Paramètres personnels → Apparence et accessibilité*, et leur choix les suit sur tous leurs appareils.
+- **Toute l'interface** – navigation, menus d'en-tête, boîtes de dialogue, barres latérales, recherche, pages de paramètres et magasin d'applications redessinés.
+- **Vos applications du quotidien** – des mises en page adaptées pour Fichiers, Photos, Tableau de bord, Activité, Agenda, Contacts, Deck, Notes, Tâches, Talk, Collectives, Équipes, Text, Mail et Office.
+- **Page de connexion** – la page de connexion utilise l'apparence Nexeno pour tous les visiteurs. Les administrateurs peuvent la désactiver dans *Paramètres personnels → Apparence et accessibilité*.
+- **Accessibilité préservée** – la police OpenDyslexic reste active pour les utilisateurs qui l'ont choisie.
+- **Les applications Nexeno gardent leur design** – les applications Nexeno comme Nexeno Project ont leur propre design intégré, que le thème laisse intact.
+- **Votre langue** – disponible en anglais, allemand (tutoiement et vouvoiement), français, néerlandais, italien, espagnol, suédois, danois, norvégien, finnois, tchèque et portugais (Brésil).
+
+### Confidentialité
+
+Le thème fonctionne entièrement dans votre Nextcloud et ne charge rien depuis des services externes. Il enregistre un réglage par utilisateur, la variante choisie, inclus lorsque l'utilisateur exporte son compte avec la migration de compte de Nextcloud. Il enregistre aussi un réglage pour toute l'instance – l'utilisation ou non de l'apparence Nexeno sur la page de connexion – qui ne contient aucune donnée personnelle.
+
+### Prérequis
+
+- Nextcloud 32, 33, 34 ou 35.
+- Aucune tâche d'arrière-plan, aucun serveur de messagerie ni aucune application supplémentaire n'est nécessaire.
+    ]]></description>
+    <version>1.1.0</version>
     <licence>AGPL-3.0-or-later</licence>
     <author mail="support@nexeno.io" homepage="https://nexeno.io/">Nexeno</author>
     <namespace>NexenoTheme</namespace>
@@ -42,6 +98,7 @@ The theme runs fully inside your Nextcloud and loads nothing from outside servic
     <category>customization</category>
 
     <website>https://nexeno.io/</website>
+    <discussion>https://github.com/Nexeno-HQ/nexeno_theme/discussions</discussion>
     <bugs>https://github.com/Nexeno-HQ/nexeno_theme/issues</bugs>
     <repository type="git">https://github.com/Nexeno-HQ/nexeno_theme.git</repository>
     <screenshot>https://nexeno.io/assets/nexeno_theme/overview.png</screenshot>
@@ -54,6 +111,12 @@ The theme runs fully inside your Nextcloud and loads nothing from outside servic
         <php min-version="8.1" max-version="8.5"/>
         <nextcloud min-version="32" max-version="35"/>
     </dependencies>
+
+    <repair-steps>
+        <install>
+            <step>OCA\NexenoTheme\Migration\RecordInstallTime</step>
+        </install>
+    </repair-steps>
 
     <settings>
         <personal>OCA\NexenoTheme\Settings\Personal</personal>
