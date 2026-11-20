@@ -6,6 +6,11 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.1.1 - 2026-11-20
+
+### Changed
+- The App Store description no longer includes a rating request.
+
 ## 1.1.0 - 2026-11-19
 
 ### Added

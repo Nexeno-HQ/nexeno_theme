@@ -11,8 +11,6 @@
     <summary lang="de">Modernes helles und dunkles Design für Nextcloud, von jedem Benutzer gewählt – für Dateien, Fotos, Talk, Kalender und mehr.</summary>
     <summary lang="fr">Apparence moderne claire ou sombre pour Nextcloud, choisie par chaque utilisateur : Fichiers, Photos, Talk, Agenda et plus.</summary>
     <description lang="en"><![CDATA[
-⭐ **Enjoying Nexeno Theme? [Rate this app on the Nextcloud App Store](https://apps.nextcloud.com/apps/nexeno_theme)** – it helps other people find it.
-
 **Nexeno theme gives Nextcloud a clean, modern look in the Nexeno brand colours, in a light and a dark variant.**
 
 Each user decides for themselves: the theme is off until a user turns it on, and turning it off brings back their own Nextcloud appearance settings, which the theme never changes.
@@ -37,8 +35,6 @@ The theme runs fully inside your Nextcloud and loads nothing from outside servic
 - No background jobs, email server or extra apps are needed.
     ]]></description>
     <description lang="de"><![CDATA[
-⭐ **Gefällt Ihnen Nexeno Theme? [Bewerten Sie die App im Nextcloud App Store](https://apps.nextcloud.com/apps/nexeno_theme)** – so finden auch andere sie.
-
 **Nexeno-Design gibt Nextcloud ein klares, modernes Erscheinungsbild in den Nexeno-Markenfarben – in einer hellen und einer dunklen Variante.**
 
 Jeder Benutzer entscheidet selbst: Das Design ist ausgeschaltet, bis ein Benutzer es einschaltet. Beim Ausschalten kehren seine eigenen Nextcloud-Darstellungseinstellungen zurück, die das Design nie verändert.
@@ -63,8 +59,6 @@ Das Design läuft vollständig in Ihrer Nextcloud und lädt nichts von externen 
 - Es werden keine Hintergrundjobs, kein E-Mail-Server und keine zusätzlichen Apps benötigt.
     ]]></description>
     <description lang="fr"><![CDATA[
-⭐ **Vous aimez Nexeno Theme ? [Notez cette application sur le Nextcloud App Store](https://apps.nextcloud.com/apps/nexeno_theme)** – cela aide d'autres personnes à la trouver.
-
 **Le thème Nexeno donne à Nextcloud une apparence épurée et moderne aux couleurs de la marque Nexeno, en version claire et en version sombre.**
 
 Chaque utilisateur décide pour lui-même : le thème reste désactivé jusqu'à ce qu'un utilisateur l'active, et le désactiver rétablit ses propres réglages d'apparence Nextcloud, que le thème ne modifie jamais.
@@ -88,7 +82,7 @@ Le thème fonctionne entièrement dans votre Nextcloud et ne charge rien depuis 
 - Nextcloud 32, 33, 34 ou 35.
 - Aucune tâche d'arrière-plan, aucun serveur de messagerie ni aucune application supplémentaire n'est nécessaire.
     ]]></description>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <licence>AGPL-3.0-or-later</licence>
     <author mail="support@nexeno.io" homepage="https://nexeno.io/">Nexeno</author>
     <namespace>NexenoTheme</namespace>
