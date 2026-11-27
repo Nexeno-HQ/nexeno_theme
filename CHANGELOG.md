@@ -36,6 +36,7 @@ All notable changes to this project are documented in this file.
   `data-nexeno-app` attribute on `<html>`, set before the first paint. The look does not change.
 - Backups of users' own Nextcloud background and colours, kept by older versions, are given back once during the
   app update instead of being checked on every page load.
+- Updated the bundled libraries (Nextcloud Vue components, Vue and fast-xml-parser) to include their security fixes.
 
 ### Fixed
 - Files trash bin: the theme's script no longer runs on every frame while the trash bin is open.
