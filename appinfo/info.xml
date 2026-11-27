@@ -112,12 +112,12 @@ Le thème fonctionne entièrement dans votre Nextcloud et ne charge rien depuis 
     </dependencies>
 
     <repair-steps>
-        <install>
-            <step>OCA\NexenoTheme\Migration\RecordInstallTime</step>
-        </install>
         <post-migration>
             <step>OCA\NexenoTheme\Migration\RestoreOldBackups</step>
         </post-migration>
+        <install>
+            <step>OCA\NexenoTheme\Migration\RecordInstallTime</step>
+        </install>
     </repair-steps>
 
     <commands>
