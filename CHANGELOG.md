@@ -6,6 +6,47 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.2.0 - 2026-11-27
+
+### Added
+- Nextcloud 36 support as a pre-release. The app can be installed on Nextcloud 36 and uses the Nextcloud 35
+  adjustments there; full support follows once Nextcloud 36 is final and tested.
+- Reduced motion: when the device asks for less motion, the theme's hover fades and other transitions end at once
+  and settings pages no longer scroll smoothly. Loading spinners keep turning. Nothing changes for others.
+- High contrast with Nexeno Light and Dark. Nextcloud's high-contrast themes no longer get switched off while the
+  theme is on: choosing one, or a device that asks for more contrast, shows the Nexeno look in high-contrast colours
+  (text at 7:1 or more, WCAG AAA) together with Nextcloud's own high-contrast theme, so the two never mix. A
+  high-contrast theme chosen in Nextcloud decides light or dark ("Dark theme with high contrast mode" is always
+  dark); with the device setting, the Nexeno variant does. The last choice wins: picking System default, Light or
+  Dark in the Nexeno section (or on the overview page) turns Nextcloud's high contrast off again and applies that
+  option. While high contrast is on, none of the three shows as chosen and a short note says so. Nextcloud's other
+  themes stay locked while the Nexeno theme is on. Pages for users without high contrast are unchanged.
+- A "Show Nexeno Theme in the app menu" switch below the theme options, shown to administrators only. Turning it off
+  hides the *Nexeno Theme* entry from the app menu for everyone; the theme and its settings keep working. It is on by
+  default. Also available as `occ config:app:set nexeno_theme app_menu --value=no`.
+- `occ nexeno_theme:purge-settings --force` erases every Nexeno theme setting (all users' settings and the
+  site-wide switches) before the app is removed, and first gives users back any backed-up Nextcloud background and
+  colours. Disabling the app still keeps every setting.
+- An accessibility statement (`ACCESSIBILITY.md`) listing what the theme supports and its known gaps, and the README
+  in German and French.
+
+### Changed
+- Faster pages: the stylesheet's 3,478 "which app is open" checks no longer use `:has()`, which made the browser
+  re-check the whole page on every change. The build (`scripts/lower-app-has.mjs`) rewrites them to a
+  `data-nexeno-app` attribute on `<html>`, set before the first paint. The look does not change.
+- Backups of users' own Nextcloud background and colours, kept by older versions, are given back once during the
+  app update instead of being checked on every page load.
+
+### Fixed
+- Files trash bin: the theme's script no longer runs on every frame while the trash bin is open.
+- Files: shared files get their shared styling in every language, not only in English.
+- Photos: the "Tagged photos" list gets its layout in every language, not only in English.
+- High contrast: when Nextcloud refuses to turn it off (for example after the session ended), the settings page now
+  shows an error instead of silently keeping it.
+- High contrast: turning the theme off and on again on the settings page keeps the chosen variant instead of
+  switching to System default.
+- Pages for users who have not turned the theme on no longer depend on an internal Nextcloud class.
+
 ## 1.1.1 - 2026-11-20
 
 ### Changed

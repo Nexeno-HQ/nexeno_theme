@@ -192,6 +192,9 @@
 						:aria-labelledby="`nexeno-faq-question-${faq.id}`">
 						<div class="faq-item__answer-inner">
 							<p>{{ faq.answer }}</p>
+							<p v-if="faq.link">
+								<a :href="faq.link.href" target="_blank" rel="noopener noreferrer">{{ faq.link.label }}</a>
+							</p>
 						</div>
 					</div>
 				</li>
@@ -315,7 +318,12 @@ export default {
 				{
 					id: 'pricing',
 					question: t('nexeno_theme', 'How is Nexeno Project priced?'),
-					answer: t('nexeno_theme', 'Per seat: you pay for the people who use it. The first 5 seats are free, so a small team can start at no cost. Clients you invite to a project don\'t take a seat.'),
+					// No seat counts or prices here: they change, and the app only updates with a release.
+					answer: t('nexeno_theme', 'Per seat: you pay for the people who use it, and small teams can start for free. Clients you invite to a project don\'t take a seat.'),
+					link: {
+						href: CONTACT_URL,
+						label: t('nexeno_theme', 'Ask us about current plans and prices'),
+					},
 				},
 				{
 					id: 'data',

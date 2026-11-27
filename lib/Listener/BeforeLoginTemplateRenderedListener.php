@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCA\NexenoTheme\Listener;
 
 use OCA\NexenoTheme\Service\LoginStyle;
-use OCA\NexenoTheme\Service\VersionedStyles;
+use OCA\NexenoTheme\Service\VersionedFiles;
 use OCA\NexenoTheme\ThemeConfig;
 use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\EventDispatcher\Event;
@@ -35,8 +35,7 @@ class BeforeLoginTemplateRenderedListener implements IEventListener {
 			return;
 		}
 
-		Util::addStyle(ThemeConfig::APP_ID, 'nexeno-login');
-		foreach (VersionedStyles::forBase('nexeno-login') as $name) {
+		foreach (VersionedFiles::withBase('nexeno-login', 'css') as $name) {
 			Util::addStyle(ThemeConfig::APP_ID, $name);
 		}
 	}

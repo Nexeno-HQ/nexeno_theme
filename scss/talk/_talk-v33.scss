@@ -58,9 +58,10 @@
 				background-color: $colour-sidebar-bg;
 				border-top: 1px solid $theme-divider;
 				.button-vue {
-					min-height: 40px;
-					padding: 2px 12px;
-					border-radius: $rounded-8;
+					height: 34px;
+					min-height: 34px;
+					padding: 0 12px;
+					border-radius: $rounded-6;
 					background-color: transparent;
 					.button-vue__wrapper {
 						justify-content: flex-start;

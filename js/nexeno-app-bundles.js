@@ -58,6 +58,10 @@
 	}
 
 	function sync() {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		markAppstoreSidebar()
 		const content = document.querySelector(CONTENT_SELECTOR)
 		if (!content) {

@@ -192,6 +192,201 @@ $core-bridge: (
 
 
 
+// The user's own or the organisation's primary colour (PrimaryColour::forUser()), in place of the Nexeno blue
+// (data-nexeno-own-primary on <html>).
+// The listener's ownPrimaryScript() sets --nexeno-own-primary-light/-dark, already made readable on each
+// variant's background by PrimaryColour; everything else is mixed from it, as nexeno_project does.
+// $toward: black in light (darker hover, deeper gradient), white in dark (lighter hover, readable gradient text).
+// $surface: the background the tints are mixed into, the same as the Nexeno blue's own tints.
+// $on: text on a filled primary button, readable because the colour reads on $surface.
+@mixin own-primary($theme, $surface, $toward, $on, $tint-50, $tint-100) {
+	$primary: var(--nexeno-own-primary-#{$theme});
+	$hover: color-mix(in srgb, #{$primary} 85%, #{$toward});
+	$light: color-mix(in srgb, #{$primary} #{$tint-50}, #{$surface});
+	$light-hover: color-mix(in srgb, #{$primary} #{$tint-100}, #{$surface});
+	$light-text: color-mix(in srgb, #{$primary} 60%, #{$toward});
+	// A pale tint in light, like #BFDBFE; in dark it is the primary itself, like #60A5FA.
+	$blue-400: $primary;
+	@if $theme == light {
+		$blue-400: color-mix(in srgb, #{$primary} 30%, #{$surface});
+	}
+
+	:root[data-nexeno-#{$theme}][data-nexeno-own-primary],
+	:root[data-nexeno-#{$theme}][data-nexeno-own-primary] body {
+		--colour-blue-600: #{$primary} !important;
+		--colour-blue-400: #{$blue-400} !important;
+		--colour-primary-50: #{$light} !important;
+		--colour-primary-100: #{$light-hover} !important;
+		--gradient-brand-vertical: linear-gradient(180deg, #{$primary} 0%, color-mix(in srgb, #{$primary} 70%, #000000) 100%) !important;
+		--gradient-brand-diagonal: linear-gradient(88.92deg, #{$primary} 0.6%, color-mix(in srgb, #{$primary} 65%, #{$toward}) 37.19%) !important;
+		// Paints an icon's shape in the colour; the fixed filter chains can only make the Nexeno blue.
+		--filter-primry-600: url(#nexeno-primary-tint) !important;
+
+		@each $name in (primary, primary-element) {
+			--color-#{$name}: #{$primary} !important;
+			--color-#{$name}-hover: #{$hover} !important;
+			--color-#{$name}-text: #{$on} !important;
+			--color-#{$name}-text-dark: #{$on} !important;
+			--color-#{$name}-light: #{$light} !important;
+			--color-#{$name}-light-hover: #{$light-hover} !important;
+			--color-#{$name}-light-text: #{$light-text} !important;
+		}
+	}
+}
+
+@mixin own-primary-palette {
+	@include own-primary(light, #FFFFFF, #000000, #FFFFFF, 8%, 16%);
+	@include own-primary(dark, #1A1A1A, #FFFFFF, #000000, 12%, 20%);
+
+	// The hidden SVG the listener adds; its flood colour is what the filter paints.
+	#nexeno-primary-filter {
+		position: absolute;
+		width: 0;
+		height: 0;
+		overflow: hidden;
+
+		feFlood {
+			flood-color: var(--colour-blue-600);
+		}
+	}
+}
+
+// High contrast, on top of Nexeno Light or Dark (data-nexeno-hc on <html>). It is on when the user chose one of
+// Nextcloud's high-contrast themes or the device asks for more contrast; <body> then carries Nextcloud's own
+// light-highcontrast or dark-highcontrast theme for the same variant, so Nextcloud's components and Nexeno's
+// screens share one palette: white and black like Nextcloud's high-contrast themes, the Nexeno blue darkened
+// (light) or lightened (dark). Measured contrast: text 7:1 or more (WCAG AAA), borders and icons 3:1 or more.
+// Only the values that change are listed; the rest stay as in $themes.
+$themes-high-contrast: (
+	light: (
+		main-page-bg:            '#FFFFFF',
+		main-page-bg-dashboard:  '#FFFFFF',
+		theme-divider:           '#595959',
+		theme-divider-2:         '#767676',
+		colour-forground:        '#000000',
+		colour-forground-1:      '#262626',
+		colour-forground-2:      '#262626',
+		colour-scrollbar-track:  '#767676',
+		colour-scrollbar-main:   '#000000',
+		colour-background:       '#FFFFFF',
+		colour-primary-100:      '#BFDBFE',
+		colour-primary-50:       '#DBEAFE',
+		colour-gray-100:         '#F0F0F0',
+		secondary-card-bg:       '#FFFFFF',
+		colour-sidebar-bg:       '#FFFFFF',
+		colour-green-700:        '#14532D',
+		colour-blue-600:         '#1E40AF',
+		colour-red-600:          '#991B1B',
+		colour-semilight:        '#FFFFFF',
+		colour-dark-colour:      '#000000',
+		colour-yellow:           '#A16207',
+		colour-mask:             '#000000CC',
+		colour-sidebar-link-bg:  '#E0E0E0',
+		colour-cheveron-seprator:'#000000',
+		gradient-brand-vertical: 'linear-gradient(180deg, #1E40AF 0%, #1E40AF 100%)',
+		gradient-brand-diagonal: 'linear-gradient(88.92deg, #1E40AF 0%, #1E40AF 100%)',
+		// Soft shadows become a thin solid edge, so cards and popovers keep a visible outline.
+		box-shadow-1:            '0px 0px 0px 1px #000000',
+		box-shadow-2:            '0px 0px 0px 1px #000000',
+		box-shadow-3:            '0px 0px 0px 1px #000000',
+		box-shadow-4:            '0px 0px 0px 1px #000000',
+		// Tinted icons become black, the strongest contrast on the white surfaces.
+		filter-primry-600:       'brightness(0)',
+		filter-forground:        'brightness(0)',
+		filter-forground-1:      'brightness(0)',
+	),
+	dark: (
+		main-page-bg:            '#000000',
+		main-page-bg-dashboard:  '#000000',
+		theme-divider:           '#A6A6A6',
+		theme-divider-2:         '#8C8C8C',
+		colour-forground:        '#FFFFFF',
+		colour-forground-1:      '#E6E6E6',
+		colour-forground-2:      '#E6E6E6',
+		colour-scrollbar-track:  '#8C8C8C',
+		colour-scrollbar-main:   '#FFFFFF',
+		colour-background:       '#000000',
+		colour-primary-100:      '#1E3A8A',
+		colour-blue-400:         '#93C5FD',
+		colour-primary-50:       '#172554',
+		colour-gray-100:         '#1A1A1A',
+		secondary-card-bg:       '#000000',
+		colour-sidebar-bg:       '#000000',
+		colour-green-700:        '#86EFAC',
+		colour-blue-600:         '#93C5FD',
+		colour-red-600:          '#FCA5A5',
+		colour-semilight:        '#1A1A1A',
+		colour-dark-colour:      '#FFFFFF',
+		colour-yellow:           '#FDE047',
+		colour-mask:             '#000000E6',
+		colour-sidebar-link-bg:  '#262626',
+		colour-cheveron-seprator:'#FFFFFF',
+		gradient-brand-vertical: 'linear-gradient(180deg, #1E40AF 0%, #1E40AF 100%)',
+		gradient-brand-diagonal: 'linear-gradient(88.92deg, #93C5FD 0%, #93C5FD 100%)',
+		box-shadow-1:            '0px 0px 0px 1px #FFFFFF',
+		box-shadow-2:            '0px 0px 0px 1px #FFFFFF',
+		box-shadow-3:            '0px 0px 0px 1px #FFFFFF',
+		box-shadow-4:            '0px 0px 0px 1px #FFFFFF',
+		// Tinted icons become white, the strongest contrast on the black surfaces.
+		filter-primry-600:       'brightness(0) invert(100%)',
+		filter-forground:        'brightness(0) invert(100%)',
+		filter-forground-1:      'brightness(0) invert(100%)',
+	),
+);
+
+// Nextcloud's primary colours in high contrast, the same blue as colour-blue-600 above.
+$nextcloud-primary-high-contrast: (
+	light: (
+		primary:                    '#1E40AF',
+		primary-text:               '#FFFFFF',
+		primary-hover:              '#1E3A8A',
+		primary-element:            '#1E40AF',
+		primary-element-hover:      '#1E3A8A',
+		primary-element-text:       '#FFFFFF',
+		primary-element-text-dark:  '#FFFFFF',
+		primary-light:              '#DBEAFE',
+		primary-light-hover:        '#BFDBFE',
+		primary-light-text:         '#000000',
+		primary-element-light:      '#DBEAFE',
+		primary-element-light-hover:'#BFDBFE',
+		primary-element-light-text: '#000000',
+	),
+	dark: (
+		primary:                    '#93C5FD',
+		primary-text:               '#000000',
+		primary-hover:              '#BFDBFE',
+		primary-element:            '#93C5FD',
+		primary-element-hover:      '#BFDBFE',
+		primary-element-text:       '#000000',
+		primary-element-text-dark:  '#000000',
+		primary-light:              '#172554',
+		primary-light-hover:        '#1E3A8A',
+		primary-light-text:         '#FFFFFF',
+		primary-element-light:      '#172554',
+		primary-element-light-hover:'#1E3A8A',
+		primary-element-light-text: '#FFFFFF',
+	),
+);
+
+// Included last in the stylesheet, and !important, so high contrast also wins over the user's or the
+// organisation's own colour (own-primary-palette), which is only made readable to 4.5:1.
+@mixin high-contrast-palette {
+	@each $theme, $vars in $themes-high-contrast {
+		// <body> too: own-primary-palette sets some of these colours there as well.
+		:root[data-nexeno-#{$theme}][data-nexeno-hc],
+		:root[data-nexeno-#{$theme}][data-nexeno-hc] body {
+			@each $name, $value in $vars {
+				--#{$name}: #{$value} !important;
+			}
+		}
+		:root[data-nexeno-#{$theme}][data-nexeno-hc] body {
+			@each $name, $value in map.get($nextcloud-primary-high-contrast, $theme) {
+				--color-#{$name}: #{$value} !important;
+			}
+		}
+	}
+}
+
 $main-page-bg:           var(--main-page-bg);
 $main-page-bg-dashboard: var(--main-page-bg-dashboard);
 $theme-divider:          var(--theme-divider);

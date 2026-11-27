@@ -7,6 +7,12 @@
 # App Store package, written by `make appstore`
 /build/
 
+# Browser test screenshots and reports, specific to each test instance
+/tests/browser/.screenshots/
+/tests/browser/.results/
+/tests/browser/.report/
+/tests/browser/.auth/
+
 node_modules/
 /vendor/
 

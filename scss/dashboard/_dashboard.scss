@@ -16,17 +16,34 @@
 	-webkit-mask: $icon-chevron-down no-repeat center / contain;
 }
 
-// Check badge drawn as a ::before on empty widget states that bring no icon of their own:
-// 60px light-blue circle with a blue check, matching the icon badges of the other widgets.
-@mixin empty-check-badge {
-	content: '';
-	flex-shrink: 0;
-	width: 60px;
-	height: 60px;
-	border-radius: $rounded-full;
-	background: $icon-check center / 26px no-repeat, $colour-primary-100;
-	outline: 7px solid $colour-primary-50;
-	outline-offset: -7px;
+// Check badge on empty widget states that bring no icon of their own: 60px tinted circle with a
+// primary check, matching the icon badges of the other widgets. ::before draws the circle, ::after
+// the check as a mask, so it takes the primary colour (also a user's own); a background image
+// keeps the colour baked into its SVG. $gap is the parent's flex gap: ::after is pulled up by
+// 60px + gap onto the circle, so the layout is the same as with the circle alone.
+@mixin empty-check-badge($gap) {
+	&::before {
+		content: '';
+		order: -2;
+		flex-shrink: 0;
+		width: 60px;
+		height: 60px;
+		border-radius: $rounded-full;
+		background-color: $colour-primary-100;
+		outline: 7px solid $colour-primary-50;
+		outline-offset: -7px;
+	}
+	&::after {
+		content: '';
+		order: -1;
+		flex-shrink: 0;
+		width: 60px;
+		height: 60px;
+		margin-block-start: calc(-60px - #{$gap});
+		background-color: $colour-blue-600;
+		mask: $icon-check center / 26px no-repeat;
+		-webkit-mask: $icon-check center / 26px no-repeat;
+	}
 }
 
 @mixin dashboard {
@@ -590,9 +607,7 @@
 								font-size: $text-heading-5;
 								line-height: $leading-20;
 								color: $colour-forground-1;
-								&::before {
-									@include empty-check-badge;
-								}
+								@include empty-check-badge(6px);
 							}
 						}
 					}
@@ -713,8 +728,8 @@
 					// Widgets whose empty state has no icon (Deck: "No upcoming cards") get the same
 					// check badge as the others: 60px circle, blue check. Deck still passes its icon
 					// through an old prop that current Nextcloud ignores, so its icon slot is empty.
-					&:not(:has(.empty-content__icon *))::before {
-						@include empty-check-badge;
+					&:not(:has(.empty-content__icon *)) {
+						@include empty-check-badge(6px);
 					}
 					.empty-content__action{
 						a{

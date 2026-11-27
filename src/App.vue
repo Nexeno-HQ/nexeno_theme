@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { translate as t } from '@nextcloud/l10n'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import AppSidebar from './components/AppSidebar.vue'
@@ -31,7 +32,10 @@ export default {
 	},
 
 	mounted() {
-		refresh()
+		// Without this the page would show the theme as off, as if the user had turned it off.
+		refresh().catch(() => {
+			window.OCP?.Toast?.error(t('nexeno_theme', 'Could not load your theme settings. Reload the page to try again.'))
+		})
 	},
 }
 </script>

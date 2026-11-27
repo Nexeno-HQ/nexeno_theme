@@ -5,6 +5,10 @@
 (function() {
 	'use strict'
 	function markAdminWorkflow() {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		if (!/^\/settings\/admin\/workflow(?:\/|$)/.test(window.location.pathname.replace(/^\/index\.php/, ''))) {
 			return
 		}

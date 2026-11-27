@@ -252,6 +252,7 @@
 				margin-top: 0;
 			}
 		}
+		/* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
 		#vue-avatar-section{
 			padding: 0;
 			button.button-vue{

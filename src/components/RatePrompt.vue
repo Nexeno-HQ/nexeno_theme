@@ -65,7 +65,7 @@
 import { translate as t } from '@nextcloud/l10n'
 import closeIcon from '../assets/images/rate-prompt/close.svg'
 import previewImage from '../assets/images/rate-prompt/rate-prompt-preview.png'
-import { RATE_URL } from '../constants.js'
+import { APP_STORE_URL } from '../constants.js'
 import { answerRatePrompt, state } from '../store.js'
 
 export default {
@@ -102,7 +102,7 @@ export default {
 
 		/** Opens the rating page in a new tab; someone who rated is not asked again. */
 		rate() {
-			window.open(RATE_URL, '_blank', 'noopener,noreferrer')
+			window.open(APP_STORE_URL, '_blank', 'noopener,noreferrer')
 			answerRatePrompt('rated')
 		},
 

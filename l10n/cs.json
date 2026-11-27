@@ -50,6 +50,7 @@
         "Explore and manage your Nextcloud apps from a cleaner, more consistent interface built to fit your workspace.": "Procházejte a spravujte své aplikace Nextcloud v čistším a jednotnějším rozhraní, které ladí s vaším pracovním prostorem.",
         "The Nextcloud app store in the Nexeno theme": "Katalog aplikací Nextcloud s motivem Nexeno",
         "Could not save the theme setting.": "Nastavení motivu vzhledu se nepodařilo uložit.",
+        "Could not load your theme settings. Reload the page to try again.": "Nastavení motivu vzhledu se nepodařilo načíst. Znovu načtěte stránku a zkuste to znovu.",
         "Calendar": "Kalendář",
         "The Nexeno theme gives the standard Nextcloud apps a consistent, modern look.": "Motiv vzhledu Nexeno dodává standardním aplikacím Nextcloud jednotný, moderní vzhled.",
         "Nexeno apps such as %s have their own built-in design, so this setting does not change their appearance.": "Aplikace Nexeno, jako je %s, mají vlastní vestavěný vzhled, takže toto nastavení jejich vzhled nemění.",
@@ -121,7 +122,8 @@
         "Do we need a new server or account?": "Potřebujeme nový server nebo účet?",
         "No. Nexeno Project installs as an app in the Nextcloud you already run. People sign in with their existing Nextcloud accounts, including single sign-on.": "Ne. Nexeno Project se instaluje jako aplikace do Nextcloud, který už provozujete. Lidé se přihlašují svými stávajícími účty Nextcloud, včetně jednotného přihlášení (SSO).",
         "How is Nexeno Project priced?": "Kolik Nexeno Project stojí?",
-        "Per seat: you pay for the people who use it. The first 5 seats are free, so a small team can start at no cost. Clients you invite to a project don't take a seat.": "Platí se za uživatelské místo: platíte za lidi, kteří ho používají. Prvních 5 míst je zdarma, takže malý tým může začít bez nákladů. Klienti, které pozvete do projektu, místo nezabírají.",
+        "Per seat: you pay for the people who use it, and small teams can start for free. Clients you invite to a project don't take a seat.": "Platí se za uživatelské místo: platíte za lidi, kteří ho používají, a malé týmy mohou začít zdarma. Klienti, které pozvete do projektu, místo nezabírají.",
+        "Ask us about current plans and prices": "Zeptejte se nás na aktuální tarify a ceny",
         "Where is our data stored?": "Kde jsou naše data uložena?",
         "On your own Nextcloud server. Projects, tasks, comments, files and time entries never leave it. To check your licence, the app tells our licence service only your server's ID, how many seats are in use and which Nexeno apps are installed. It sends no project content and no personal data about your team.": "Na vašem vlastním serveru Nextcloud. Projekty, úkoly, komentáře, soubory a záznamy času ho nikdy neopustí. Kvůli ověření licence aplikace sděluje naší licenční službě jen ID vašeho serveru, počet využitých míst a to, které aplikace Nexeno jsou nainstalované. Neposílá žádný obsah projektů ani osobní údaje o vašem týmu.",
         "Which Nextcloud apps does it work with?": "Se kterými aplikacemi Nextcloud spolupracuje?",
@@ -142,7 +144,18 @@
         "Talk to us about your requirements, or get notified the moment Nexeno Project launches.": "Proberte s námi své požadavky, nebo se nechte upozornit, jakmile Nexeno Project vyjde.",
         "Talk to us about your requirements": "Proberte s námi své požadavky",
         "Notify me at launch": "Upozornit při spuštění",
-        "No migration risk — it runs on the Nextcloud you already have.": "Žádné riziko migrace – běží na Nextcloud, který už máte."
+        "No migration risk — it runs on the Nextcloud you already have.": "Žádné riziko migrace – běží na Nextcloud, který už máte.",
+        "Shows the primary colour from Administration settings → Theming in place of the Nexeno blue, for everyone who uses the Nexeno theme. A colour someone picks for themselves still comes first.": "Místo modré Nexeno zobrazí hlavní barvu z Nastavení pro správu → Motiv vzhledu, a to všem, kdo používají motiv Nexeno. Barva, kterou si někdo vybere sám, má přednost.",
+        "Use the organisation's colour": "Použít barvu organizace",
+        "The Nexeno theme now uses the organisation's colour. Reload the page to see it.": "Motiv Nexeno nyní používá barvu organizace. Pro zobrazení znovu načtěte stránku.",
+        "The Nexeno theme now uses the Nexeno blue. Reload the page to see it.": "Motiv Nexeno nyní používá modrou Nexeno. Pro zobrazení znovu načtěte stránku.",
+        "Could not save the organisation's colour setting.": "Nastavení barvy organizace se nepodařilo uložit.",
+        "Shows the \"Nexeno Theme\" entry in the app menu for everyone. Turn it off to hide it; the theme settings stay here.": "Zobrazí položku „Nexeno Theme“ v nabídce aplikací pro všechny. Vypněte ji, chcete-li ji skrýt; nastavení motivu zůstanou zde.",
+        "Show Nexeno Theme in the app menu": "Zobrazit Nexeno Theme v nabídce aplikací",
+        "Nexeno Theme is now shown in the app menu. Reload the page to see it.": "Nexeno Theme je nyní zobrazen v nabídce aplikací. Načtěte stránku znovu, abyste to viděli.",
+        "Nexeno Theme is now hidden from the app menu. Reload the page to see it.": "Nexeno Theme je nyní skrytý v nabídce aplikací. Načtěte stránku znovu, abyste to viděli.",
+        "Could not save the app menu setting.": "Nastavení nabídky aplikací se nepodařilo uložit.",
+        "High contrast is on. Choose one of these options to turn it off and use the Nexeno theme instead.": "Vysoký kontrast je zapnutý. Vyberte jednu z těchto možností, abyste ho vypnuli a místo něj používali motiv Nexeno."
     },
     "pluralForm": "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

@@ -4,7 +4,7 @@
  */
 import axios from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import { reactive } from 'vue'
 
 const API_BASE = generateUrl('/apps/nexeno_theme')
@@ -15,9 +15,11 @@ export const state = reactive({
 	// Installed version, read from the server (appinfo/info.xml).
 	appVersion: '',
 	themeSaving: false,
-	themeError: '',
 	// The server decides: 7 days after install, and not closed in the last 7 days or turned off.
 	ratePromptVisible: false,
+	// The high-contrast theme chosen in Nextcloud ('light-highcontrast' or 'dark-highcontrast'), or null. It is
+	// applied instead of the Nexeno variant until the user picks one, which turns it off (setThemeVariant()).
+	highContrastTheme: null,
 	// "Nexeno project coming soon" bar; false once the user closed it in this browser.
 	projectBannerVisible: !isProjectBannerDismissed(),
 })
@@ -44,6 +46,7 @@ export async function refresh() {
 	state.themeLastVariant = data.themeLastVariant ?? 'system'
 	state.appVersion = data.appVersion ?? ''
 	state.ratePromptVisible = data.ratePromptVisible === true
+	state.highContrastTheme = typeof data.highContrastTheme === 'string' ? data.highContrastTheme : null
 }
 
 /**
@@ -76,54 +79,51 @@ export async function answerRatePrompt(action) {
 let variantChannel = null
 try {
 	variantChannel = new BroadcastChannel('nexeno_theme-variant')
+	// Another tab (or the settings page) changed the variant: show it here too, otherwise a click on the
+	// option still shown as selected is ignored (DashboardView's selectVariant() skips the current variant).
+	// A channel never receives its own messages, so this tab's saves do not come back here.
+	variantChannel.onmessage = (event) => {
+		const variant = event.data && typeof event.data === 'object' ? event.data.variant : event.data
+		// Only this app's own pages post on this channel; they check the variant before sending it.
+		if (typeof variant !== 'string') {
+			return
+		}
+		state.themeVariant = variant
+		if (variant !== 'off') {
+			state.themeLastVariant = variant
+		}
+	}
 } catch {
 	variantChannel = null
 }
 
-const NEXENO_VARIANT_ATTRIBUTES = ['data-nexeno', 'data-nexeno-light', 'data-nexeno-dark']
+function applyVariantInPlace(variant, enabledThemes, userThemes) {
+	// js/nexeno-state.js, loaded on every page including this one, applies the variant and theme markers
+	// when this message arrives, and resolves the theme ids itself (normalizeThemes). userThemes tells it the
+	// user's Nextcloud themes, which change when high contrast was turned off. A channel also delivers to the
+	// other listeners in the same tab.
+	// Nextcloud's own theme stylesheets are not reloaded: they are all on the page already and follow the
+	// data-theme-* markers.
+	variantChannel?.postMessage({ variant, themes: enabledThemes, userThemes })
+}
 
-function applyVariantInPlace(variant, enabledThemes) {
-	// "system" shows Nexeno light or dark to match the device setting.
-	const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches
-	const resolved = variant === 'system' ? (prefersDark ? 'dark' : 'light') : variant
-	// The server sends Nextcloud's "default" theme for "system"; use the same light or dark theme as the Nexeno option.
-	if (variant === 'system' && Array.isArray(enabledThemes)) {
-		enabledThemes = enabledThemes.map((id) => (id === 'default' ? resolved : id))
+/**
+ * Turns Nextcloud's high contrast off the way Nextcloud's own theme list does: its default theme on, the
+ * high-contrast theme off. Picking a Nexeno option is the way out of high contrast (the last click wins).
+ */
+async function leaveHighContrast() {
+	const chosen = state.highContrastTheme
+	if (!chosen) {
+		return
 	}
-
-	// Other tabs (js/nexeno-state.js) apply the same variant and theme markers.
-	variantChannel?.postMessage({ variant, themes: enabledThemes })
-
-	for (const element of [document.documentElement, document.body]) {
-		NEXENO_VARIANT_ATTRIBUTES.forEach((attribute) => element.removeAttribute(attribute))
-		if (resolved === 'light' || resolved === 'dark') {
-			element.setAttribute('data-nexeno', '')
-			element.setAttribute(`data-nexeno-${resolved}`, '')
-		}
-	}
-
-	if (Array.isArray(enabledThemes) && enabledThemes.length > 0) {
-		const body = document.body
-		Array.from(body.attributes)
-			.map((attribute) => attribute.name)
-			.filter((name) => name.startsWith('data-theme-'))
-			.forEach((name) => body.removeAttribute(name))
-		enabledThemes.forEach((id) => body.setAttribute(`data-theme-${id}`, ''))
-		body.dataset.themes = enabledThemes.join(',')
-	}
-
-	document.head.querySelectorAll('link.theme').forEach((link) => {
-		const url = new URL(link.href)
-		url.searchParams.set('v', String(Date.now()))
-		const replacement = link.cloneNode()
-		replacement.href = url.toString()
-		replacement.onload = () => link.remove()
-		document.head.appendChild(replacement)
-	})
+	await axios.put(generateOcsUrl('apps/theming/api/v1/theme/{themeId}/enable', { themeId: 'default' }))
+	await axios.delete(generateOcsUrl('apps/theming/api/v1/theme/{themeId}', { themeId: chosen }))
+	state.highContrastTheme = null
 }
 
 export async function setThemeVariant(variant) {
 	const previous = state.themeVariant
+	const previousLast = state.themeLastVariant
 
 	state.themeVariant = variant
 	if (variant !== 'off') {
@@ -132,11 +132,18 @@ export async function setThemeVariant(variant) {
 
 	state.themeSaving = true
 	try {
+		// Only when a Nexeno option is picked while the theme is on (also the one saved before, which is not
+		// shown as chosen during high contrast); turning the theme on or off keeps the user's high contrast.
+		if (variant !== 'off' && previous !== 'off') {
+			await leaveHighContrast()
+		}
 		const { data } = await axios.put(`${API_BASE}/variant`, { variant })
-		applyVariantInPlace(variant, data.enabledThemes)
+		applyVariantInPlace(variant, data.enabledThemes, data.userThemes)
 	} catch (e) {
 		state.themeVariant = previous
-		state.themeError = e.response?.data?.message || t('nexeno_theme', 'Could not save the theme setting.')
+		state.themeLastVariant = previousLast
+		// The same toast the settings page shows (OCP.Toast is Nextcloud core's).
+		window.OCP?.Toast?.error(e.response?.data?.message || t('nexeno_theme', 'Could not save the theme setting.'))
 	} finally {
 		state.themeSaving = false
 	}

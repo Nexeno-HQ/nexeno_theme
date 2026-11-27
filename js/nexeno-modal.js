@@ -6,7 +6,6 @@
 	'use strict'
 
 	const MODAL = '.modal-container'
-	const FILES_APP = '.app-files'
 	const PHOTOS_APP = '.app-photos'
 	const USERS_SETTINGS_PATH = /\/settings\/users/
 	const GROUPWARE_SETTINGS_PATH = /\/settings\/admin\/groupware/
@@ -37,14 +36,11 @@
 	const CUSTOM_DATE_POPUP_SELECTOR = '.date-range-picker-dialog'
 	const ADD_PHOTOS_POPUP_CLASS = 'add-photos-popup'
 	const ADD_PHOTOS_POPUP_SELECTOR = '.photos-picker'
-	const ADD_TEAM_POPUP_CLASS = 'add-team-popup'
-	const ADD_TEAM_POPUP_SELECTOR = 'input[placeholder="New team name"]'
 	const APP_API_POPUP_CLASS = 'app-api-popup'
 	const APP_API_POPUP_SELECTOR = '.register-daemon-config-body, .daemon-config-modal-details'
 	const APP_API_INFO_DIALOG_SELECTOR = '.dialog__name'
 	const PHOTOS_SETTING_INNER_CLASS = 'photos-setting-inner'
 	const PHOTOS_SETTING_INNER_SELECTOR = '.file-picker'
-	const MOVE_COPY_MODAL_CLASS = 'move-copy-modal'
 	const ACCOUNT_POPUP_CLASS = 'account-popup'
 	const ACCOUNT_MGT_POPUP_CLASS = 'account-mgt-popup'
 	const CONFIRM_DIALOG_SELECTOR = '.modal__header, .modal__button-row'
@@ -52,6 +48,7 @@
 	const AUTH_POPUP_CLASS = 'auth-popup'
 	const PASSWORD_CONFIRM_DIALOG_SELECTOR = '.dialog__name'
 	const PASSWORD_CONFIRM_DIALOG_TEXT = t('nexeno_theme', 'Authentication required')
+	const PASSWORD_DIALOG_CLASS_SELECTOR = '[class*="_passwordDialog_"]'
 	const GLOBAL_SEARCH_CLASS = 'global-search'
 	const GLOBAL_SEARCH_SELECTOR = '.unified-search-modal'
 	const ENCRYPTION_POPUP_CLASS = 'encryption-popup'
@@ -63,67 +60,12 @@
 	const LOG_READER_DIALOG_NAME_SELECTOR = '.dialog__name'
 	const LOG_READER_DIALOG_TEXT = t('nexeno_theme', 'Log reader settings')
 
-	const IMAGE_EXT = [
-		'jpg',
-		'jpeg',
-		'jpe',
-		'png',
-		'gif',
-		'webp',
-		'svg',
-		'bmp',
-		'ico',
-		'tif',
-		'tiff',
-		'heic',
-		'heif',
-		'avif',
-		'psd',
-		'ai',
-		'eps',
-	]
-	const VIDEO_EXT = [
-		'mp4',
-		'm4v',
-		'mkv',
-		'mov',
-		'avi',
-		'webm',
-		'wmv',
-		'flv',
-		'mpg',
-		'mpeg',
-		'ogv',
-	]
-	const GROUPED = {}
-	IMAGE_EXT.forEach(function(ext) {
-		GROUPED[ext] = 'image'
-	})
-	VIDEO_EXT.forEach(function(ext) {
-		GROUPED[ext] = 'video'
-	})
+	// Shared rule, from nexeno-filetypes.js (loaded first).
+	const classOfFile = window.nexenoFileType
 
 	const FILE_PICKER_ROW = 'tr.file-picker__row'
 	const FILE_PICKER_FOLDER_ICONS = '.folder-icon, .folder-open-icon'
 	const PICKER_MARK_ATTR = 'data-nexeno-type'
-	const TRASHBIN_SUFFIX = /\.d\d+$/
-
-	function extensionOf(name) {
-		name = name.replace(TRASHBIN_SUFFIX, '')
-		const dot = name.lastIndexOf('.')
-		if (dot <= 0 || dot === name.length - 1) {
-			return ''
-		}
-		return name.slice(dot + 1).toLowerCase()
-	}
-
-	function classOfFile(name) {
-		const ext = extensionOf(name)
-		if (GROUPED[ext]) {
-			return GROUPED[ext]
-		}
-		return /^[a-z0-9][a-z0-9-]*$/.test(ext) ? ext : 'file'
-	}
 
 	function classOfPickerRow(row) {
 		if (row.querySelector(FILE_PICKER_FOLDER_ICONS)) {
@@ -154,19 +96,33 @@
 		}
 	}
 
+	/**
+	 * Whether the dialog's title is one of the given texts. Each title is checked against the theme's own
+	 * copy and against the owning app's translation, read when the dialog opens: the theme ships fewer
+	 * languages than Nextcloud, so its copy alone misses the title in the other languages.
+	 *
+	 * @param {Element} modal The dialog.
+	 * @param {string} selector The title element.
+	 * @param {string[]} texts Titles that identify the dialog.
+	 */
+	function hasTitle(modal, selector, texts) {
+		const name = modal.querySelector(selector)
+		return !!name && texts.indexOf((name.textContent || '').trim()) !== -1
+	}
+
 	function isEncryptionConfirmDialog(modal) {
-		const name = modal.querySelector(ENCRYPTION_DIALOG_NAME_SELECTOR)
-		return !!name && (name.textContent || '').trim() === ENCRYPTION_DIALOG_TEXT
+		return hasTitle(modal, ENCRYPTION_DIALOG_NAME_SELECTOR, [ENCRYPTION_DIALOG_TEXT, t('settings', 'Confirm enabling encryption')])
 	}
 
 	function isLogReaderSettingsDialog(modal) {
-		const name = modal.querySelector(LOG_READER_DIALOG_NAME_SELECTOR)
-		return !!name && (name.textContent || '').trim() === LOG_READER_DIALOG_TEXT
+		return hasTitle(modal, LOG_READER_DIALOG_NAME_SELECTOR, [LOG_READER_DIALOG_TEXT, t('logreader', 'Log reader settings')])
 	}
 
 	function isPasswordConfirmDialog(modal) {
-		const name = modal.querySelector(PASSWORD_CONFIRM_DIALOG_SELECTOR)
-		return !!name && (name.textContent || '').trim() === PASSWORD_CONFIRM_DIALOG_TEXT
+		// The password dialog brings its own translations (@nextcloud/password-confirmation), so no t() call
+		// returns its title; its CSS module class is the same in every language.
+		return !!modal.querySelector(PASSWORD_DIALOG_CLASS_SELECTOR)
+			|| hasTitle(modal, PASSWORD_CONFIRM_DIALOG_SELECTOR, [PASSWORD_CONFIRM_DIALOG_TEXT])
 	}
 
 	function isSecondaryPopup(modal) {
@@ -190,6 +146,10 @@
 	}
 
 	function mark() {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		if (!document.querySelector(MODAL)) {
 			return
 		}
@@ -240,17 +200,11 @@
 			if (modals[i].querySelector(ADD_PHOTOS_POPUP_SELECTOR)) {
 				modals[i].classList.add(ADD_PHOTOS_POPUP_CLASS)
 			}
-			if (modals[i].querySelector(ADD_TEAM_POPUP_SELECTOR)) {
-				modals[i].classList.add(ADD_TEAM_POPUP_CLASS)
-			}
 			if (modals[i].querySelector(APP_API_POPUP_SELECTOR)) {
 				modals[i].classList.add(APP_API_POPUP_CLASS)
 			}
 			if (document.querySelector(PHOTOS_APP) && modals[i].querySelector(PHOTOS_SETTING_INNER_SELECTOR)) {
 				modals[i].classList.add(PHOTOS_SETTING_INNER_CLASS)
-			}
-			if (document.querySelector(FILES_APP) && modals[i].querySelector(PHOTOS_SETTING_INNER_SELECTOR)) {
-				modals[i].classList.add(MOVE_COPY_MODAL_CLASS)
 			}
 			if (isEncryptionConfirmDialog(modals[i])) {
 				modals[i].classList.add(ENCRYPTION_POPUP_CLASS)

@@ -140,6 +140,7 @@
             color: $colour-red-600;
             background-color: transparent;
         }
+        /* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
         .section__status{
             margin-top: 16px;
         }

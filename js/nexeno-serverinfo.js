@@ -5,6 +5,10 @@
 (function() {
 	'use strict'
 	function markSections() {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		const wrapper = document.querySelector('.section.network-infos .active-users-wrapper')
 		const activeUsers = wrapper && wrapper.closest('.section.network-infos')
 		if (activeUsers) {

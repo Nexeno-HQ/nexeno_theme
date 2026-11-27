@@ -5,47 +5,8 @@
 (function() {
 	'use strict'
 
-	const IMAGE_EXT = [
-		'jpg',
-		'jpeg',
-		'jpe',
-		'png',
-		'gif',
-		'webp',
-		'svg',
-		'bmp',
-		'ico',
-		'tif',
-		'tiff',
-		'heic',
-		'heif',
-		'avif',
-		'psd',
-		'ai',
-		'eps',
-	]
-
-	const VIDEO_EXT = [
-		'mp4',
-		'm4v',
-		'mkv',
-		'mov',
-		'avi',
-		'webm',
-		'wmv',
-		'flv',
-		'mpg',
-		'mpeg',
-		'ogv',
-	]
-
-	const GROUPED = {}
-	IMAGE_EXT.forEach(function(ext) {
-		GROUPED[ext] = 'image'
-	})
-	VIDEO_EXT.forEach(function(ext) {
-		GROUPED[ext] = 'video'
-	})
+	// Shared rule, from nexeno-filetypes.js (loaded first).
+	const classOfFile = window.nexenoFileType
 
 	const FOLDER_ICONS = '.folder-icon, .folder-open-icon'
 	const SHARE_OVERLAYS = ['account-plus-icon', 'account-group-icon', 'link-icon']
@@ -60,28 +21,7 @@
 	const FILES_LIST = '.files-list'
 	const DELETED_FILES_CLASS = 'deleted-files'
 	const TRASHBIN_PATH = /\/apps\/files\/trashbin(\/|$)/
-	const AVATAR_SVG = 'svg.sharing-status__avatar'
-	const AVATAR_CLASS = 'avatar-view'
 	const MARK_ATTR = 'data-nexeno-type'
-
-	const TRASHBIN_SUFFIX = /\.d\d+$/
-
-	function extensionOf(name) {
-		name = name.replace(TRASHBIN_SUFFIX, '')
-		const dot = name.lastIndexOf('.')
-		if (dot <= 0 || dot === name.length - 1) {
-			return ''
-		}
-		return name.slice(dot + 1).toLowerCase()
-	}
-
-	function classOfFile(name) {
-		const ext = extensionOf(name)
-		if (GROUPED[ext]) {
-			return GROUPED[ext]
-		}
-		return /^[a-z0-9][a-z0-9-]*$/.test(ext) ? ext : 'file'
-	}
 
 	function isVisible(el) {
 		return !!el && el.offsetWidth > 0 && el.offsetHeight > 0
@@ -133,16 +73,21 @@
 		el.setAttribute(MARK_ATTR, next)
 	}
 
+	// The share button's text in the user's language ("Geteilt" in German); English if the translation is not loaded.
+	function sharedLabel() {
+		return typeof window.t === 'function' ? window.t('files_sharing', 'Shared') : 'Shared'
+	}
+
 	function markShared(row) {
 		const button = row.querySelector(SHARE_BUTTON)
 		if (button) {
 			const text = (button.textContent || '').trim()
-			button.classList.toggle(SHARED_CLASS, text === 'Shared')
-			button.classList.toggle(AVATAR_CLASS, !!button.querySelector(AVATAR_SVG))
+			button.classList.toggle(SHARED_CLASS, text === sharedLabel())
 		}
 		const restore = row.querySelector(RESTORE_BUTTON)
 		if (restore) {
-			restore.classList.add(SHARED_CLASS)
+			// toggle(…, true), not add(): add() counts as a change even when the class is there, which woke this script every frame.
+			restore.classList.toggle(SHARED_CLASS, true)
 		}
 	}
 
@@ -155,6 +100,10 @@
 	}
 
 	function markRows() {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		markFilesList()
 
 		const rows = document.querySelectorAll('tr.files-list__row')

@@ -11,6 +11,8 @@ namespace OCA\NexenoTheme\AppInfo;
 
 use OCA\NexenoTheme\Listener\BeforeLoginTemplateRenderedListener;
 use OCA\NexenoTheme\Listener\BeforeTemplateRenderedListener;
+use OCA\NexenoTheme\Service\AppMenuEntry;
+use OCA\NexenoTheme\ThemeConfig;
 use OCA\NexenoTheme\UserMigration\VariantMigrator;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -24,10 +26,8 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
 class Application extends App implements IBootstrap {
-	public const APP_ID = 'nexeno_theme';
-
 	public function __construct() {
-		parent::__construct(self::APP_ID);
+		parent::__construct(ThemeConfig::APP_ID);
 	}
 
 	public function register(IRegistrationContext $context): void {
@@ -51,19 +51,20 @@ class Application extends App implements IBootstrap {
 		IUserSession $userSession,
 		IURLGenerator $urlGenerator,
 		IFactory $l10nFactory,
+		AppMenuEntry $appMenuEntry,
 	): void {
-		if ($userSession->getUser() === null) {
+		if ($userSession->getUser() === null || !$appMenuEntry->isShown()) {
 			return;
 		}
 
 		$navigationManager->add(static function () use ($urlGenerator, $l10nFactory): array {
 			return [
-				'id' => self::APP_ID,
+				'id' => ThemeConfig::APP_ID,
 				'order' => 10,
 				'type' => 'link',
-				'href' => $urlGenerator->linkToRoute(self::APP_ID . '.page.index'),
-				'icon' => $urlGenerator->imagePath(self::APP_ID, 'app.svg'),
-				'name' => $l10nFactory->get(self::APP_ID)->t('Nexeno Theme'),
+				'href' => $urlGenerator->linkToRoute(ThemeConfig::APP_ID . '.page.index'),
+				'icon' => $urlGenerator->imagePath(ThemeConfig::APP_ID, 'app.svg'),
+				'name' => $l10nFactory->get(ThemeConfig::APP_ID)->t('Nexeno Theme'),
 			];
 		});
 	}

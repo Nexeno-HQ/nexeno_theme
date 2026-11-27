@@ -32,6 +32,19 @@
 
 @include root-palette;
 
+// Scroll bars stay invisible until their area scrolls, as in Nexeno Project. :where() keeps this below the
+// scrollbar mixins, which style their own areas the same way.
+:root[data-nexeno],
+:root[data-nexeno] :where(*) {
+	scrollbar-width: thin;
+	scrollbar-color: transparent transparent;
+}
+
+:root[data-nexeno][data-nexeno-scrolling],
+:root[data-nexeno] :where([data-nexeno-scrolling]) {
+	scrollbar-color: $colour-scrollbar-main transparent;
+}
+
 :root[data-nexeno] {
 	font-family: var(--font-face);
 	letter-spacing: $tracking-05;
@@ -284,3 +297,40 @@
 		background-image: none;
 	}
 }
+
+// Reduced motion (WCAG 2.3.3): when the device asks for less motion, transitions end at once and scrolling jumps
+// instead of gliding, on the whole page while the theme is on. A cascade layer, like the focus ring below, so it wins
+// over the about 190 transitions in the rules above whatever their specificity. 0.01ms rather than none: some
+// Nextcloud screens wait for the transitionend event, which a transition of none never sends. Animations are left
+// alone: the theme has none of its own, and Nextcloud's loading spinners are essential motion that would flicker.
+@layer nexeno-reduced-motion {
+	@media (prefers-reduced-motion: reduce) {
+		:root[data-nexeno],
+		:root[data-nexeno] *,
+		:root[data-nexeno] *::before,
+		:root[data-nexeno] *::after {
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+	}
+}
+
+// Keyboard focus ring (WCAG 2.1 AA, 2.4.7 Focus Visible). Rules above remove outlines in about 80 places, some with
+// !important and selectors up to three ids deep, so this sits in a cascade layer: an !important declaration in a layer
+// beats every unlayered !important one, whatever its specificity. :focus-visible only, so mouse clicks show no ring.
+// --color-primary-element is Nextcloud's variable: the Nexeno blue, or the user's or organisation's own colour, which
+// PrimaryColour already makes readable on each variant's background.
+@layer nexeno-focus {
+	:root[data-nexeno] :focus-visible,
+	// The checkbox input is visually hidden, so its ring goes on the visible box next to it.
+	:root[data-nexeno] .checkbox-radio-switch__input:focus-visible + .checkbox-radio-switch__content {
+		outline: 2px solid var(--color-primary-element) !important;
+		outline-offset: 2px !important;
+	}
+}
+
+// Last, so the user's own colour wins over the Nexeno blue above.
+@include own-primary-palette;
+
+// After that: in high contrast the measured high-contrast colours win over the user's own colour too.
+@include high-contrast-palette;

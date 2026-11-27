@@ -8,7 +8,7 @@
  *   scss/nexeno-login-v36.scss → css/nexeno-login-nc36.css
  *
  * Output goes straight into css/ so relative url()s resolve the same as in the
- * base stylesheets, and so lib/Service/VersionedStyles.php finds them. Every
+ * base stylesheets, and so lib/Service/VersionedFiles.php finds them. Every
  * <base>-v<major>.scss entry in scss/ is picked up, so a new release
  * needs no change here.
  *

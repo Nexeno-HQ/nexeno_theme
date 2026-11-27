@@ -22,8 +22,6 @@ class RatePrompt {
 		private IAppConfig $appConfig,
 		private IUserConfig $userConfig,
 		private ITimeFactory $timeFactory,
-		// A parameter, not a direct constant read, so tests can check both modes.
-		private bool $testMode = ThemeConfig::RATE_PROMPT_TEST_MODE,
 	) {
 	}
 
@@ -40,19 +38,12 @@ class RatePrompt {
 		return $installedAt;
 	}
 
-	private function delay(): int {
-		return ThemeConfig::RATE_PROMPT_DELAY;
-	}
-
 	public function isVisible(string $userId): bool {
-		if ($this->testMode) {
-			return true;
-		}
 		if ($this->userConfig->getValueBool($userId, ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_RATE_PROMPT_DONE, false)) {
 			return false;
 		}
 		$now = $this->timeFactory->getTime();
-		if ($now < $this->installedAt() + $this->delay()) {
+		if ($now < $this->installedAt() + ThemeConfig::RATE_PROMPT_DELAY) {
 			return false;
 		}
 		$snoozedUntil = $this->userConfig->getValueInt($userId, ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_RATE_PROMPT_SNOOZED_UNTIL, 0);
@@ -68,7 +59,7 @@ class RatePrompt {
 				$userId,
 				ThemeConfig::APP_ID,
 				ThemeConfig::CONFIG_KEY_RATE_PROMPT_SNOOZED_UNTIL,
-				$this->timeFactory->getTime() + $this->delay(),
+				$this->timeFactory->getTime() + ThemeConfig::RATE_PROMPT_DELAY,
 			);
 			return;
 		}

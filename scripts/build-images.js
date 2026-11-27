@@ -5,7 +5,7 @@
  * Turns the SVGs used by the stylesheets into Sass variables holding data URIs, in scss/_images.scss:
  *
  *   src/assets/images/icons/chevron-down.svg     → $icon-chevron-down
- *   src/assets/images/previews/preview-light.svg → $preview-light
+ *   src/assets/images/icons/check.svg            → $icon-check
  *
  * The images end up inside the compiled CSS, so the app ships no separate files for them
  * (src/ is not part of the app package). Run it before the stylesheets are built.
@@ -22,7 +22,6 @@ const target = path.join(root, 'scss', '_images.scss')
 // Folder under src/assets/images → prefix of the Sass variable.
 const SOURCES = [
 	{ dir: 'icons', prefix: 'icon-' },
-	{ dir: 'previews', prefix: '' },
 ]
 
 const lines = [

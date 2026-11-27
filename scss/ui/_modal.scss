@@ -372,6 +372,14 @@
 	}
 
 	.modal-container {
+		// Every button in a modal is 34px; per-modal rules vary their padding, so height wins here
+		// and padding-block is dropped so the label stays centred. Input trailing buttons keep their own size.
+		.button-vue:not(.input-field__trailing-button) {
+			--button-size: 34px;
+			height: 34px !important;
+			min-height: 34px !important;
+			padding-block: 0 !important;
+		}
 		&.general-popup {
 			box-shadow: none;
 			border-radius: $rounded-12;
@@ -430,7 +438,8 @@
 
 					li {
 						a {
-							padding: 10px 12px;
+							// 7px + 20px line-height + 7px = 34px, matching the sidebar links
+							padding: 7px 12px;
 							margin: 0;
 							height: auto;
 							background-color: transparent;
@@ -714,8 +723,11 @@
 							#{css-module('ncFormBox')} {
 								gap: 8px;
 
+								// 34px tall: 1px border + 6px padding + 20px label + 6px padding + 1px border.
+								// Core's min-height (clickable area) would keep it at 44px.
 								#{css-module('radioGroupButton')} {
-									padding-block: 9px;
+									min-height: unset;
+									padding-block: 6px;
 									border: 1px solid $theme-divider;
 									gap: 6px;
 									border-radius: $rounded-8 !important;
@@ -724,28 +736,23 @@
 
 									#{css-module('radioGroupButton__icon')},
 									.icon-vue {
-										width: 16px;
-										height: 16px;
+										width: 14px;
+										height: 14px;
 										min-width: unset;
 										min-height: unset;
 
 										svg {
-											width: 16px;
-											height: 16px;
+											width: 14px;
+											height: 14px;
 											filter: $filter-forground;
 										}
 									}
 
 									#{css-module('radioGroupButton__label')} {
-										font-size: $text-heading-4;
-										line-height: $leading-24;
+										font-size: $text-heading-5;
+										line-height: $leading-20;
 										font-weight: $font-medium;
 										color: $colour-forground;
-
-										@media (max-width: $bp-640) {
-											font-size: $text-heading-5;
-											line-height: $leading-20;
-										}
 									}
 								}
 
@@ -794,6 +801,7 @@
 						}
 					}
 
+					/* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
 					.app-settings-section__content {
 						margin-top: 24px;
 
@@ -834,7 +842,7 @@
 									.material-design-icon,
 									svg {
 										path {
-											fill: $filter-primry-600;
+											fill: $colour-blue-600;
 										}
 									}
 								}
@@ -4261,7 +4269,7 @@
 				}
 				li {
 					a {
-						padding: 10px 12px;
+						padding: 7px 12px;
 						margin: 0;
 						height: auto;
 						background-color: transparent;

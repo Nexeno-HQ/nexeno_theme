@@ -5,6 +5,8 @@
 (function() {
 	'use strict'
 
+	// Images the browser shows as a preview in the widget lists. Narrower than the icon rule in
+	// nexeno-filetypes.js on purpose: a .psd or .eps has no preview unless the server makes one.
 	const IMAGE_EXTS = [
 		'jpg',
 		'jpeg',
@@ -20,24 +22,13 @@
 		'heif',
 		'avif',
 	]
-	const VIDEO_EXTS = [
-		'mp4',
-		'm4v',
-		'mkv',
-		'mov',
-		'avi',
-		'webm',
-		'wmv',
-		'flv',
-		'mpg',
-		'mpeg',
-		'ogv',
-	]
 	const FOLDER_ICON = 'filetypes/folder.svg'
 	const FOLDER_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
 		+ '<path fill="currentColor" d="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z" />'
 		+ '</svg>'
 	const FOLDER_ICON_CLASS = 'nexeno-folder-icon'
+	// Shared rule, from nexeno-filetypes.js (loaded first).
+	const classOfFile = window.nexenoFileType
 
 	const favPreview = {}
 
@@ -55,17 +46,6 @@
 	function isImageName(name) {
 		const ext = extensionOf(name)
 		return !!ext && IMAGE_EXTS.indexOf(ext) !== -1
-	}
-
-	function classOfFile(name) {
-		const ext = extensionOf(name)
-		if (IMAGE_EXTS.indexOf(ext) !== -1) {
-			return 'image'
-		}
-		if (VIDEO_EXTS.indexOf(ext) !== -1) {
-			return 'video'
-		}
-		return /^[a-z0-9][a-z0-9-]*$/.test(ext) ? ext : 'file'
 	}
 
 	function isFolderEntry(entry) {
@@ -225,9 +205,31 @@
 		if (!img.parentNode) {
 			return
 		}
+		// Parsed in a separate document, where nothing runs or loads, and cleaned before it joins the page:
+		// the icon comes from whichever app provides the widget.
+		const svg = new DOMParser().parseFromString(svgText, 'text/html').body.firstElementChild
+		if (!svg || svg.nodeName.toLowerCase() !== 'svg') {
+			return
+		}
+		// <style> inside inline SVG applies to the whole page, and the theme colours these icons itself.
+		svg.querySelectorAll('script, foreignObject, style').forEach(function(node) {
+			node.remove()
+		})
+		const elements = [svg].concat(Array.from(svg.querySelectorAll('*')))
+		elements.forEach(function(element) {
+			Array.from(element.attributes).forEach(function(attribute) {
+				// Browsers skip spaces and control characters inside a link scheme ("java\tscript:" still runs), so test without them.
+				const compact = Array.from(attribute.value).filter(function(c) {
+					return c > ' '
+				}).join('')
+				if (/^on/i.test(attribute.name) || /javascript:/i.test(compact)) {
+					element.removeAttribute(attribute.name)
+				}
+			})
+		})
 		const span = document.createElement('span')
 		span.className = ACTIVITY_ICON_CLASS
-		span.innerHTML = svgText
+		span.appendChild(document.importNode(svg, true))
 		img.parentNode.replaceChild(span, img)
 	}
 
@@ -303,9 +305,12 @@
 	const ACTION_INPUT_SELECTOR = '.action-input__container .input-field__input'
 
 	function syncActionInputValue(input) {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		const filled = (input.value || '').length > 0
 		input.classList.toggle('has-value', filled)
-		input.classList.toggle('has-no-value', !filled)
 	}
 
 	function markActionInputs() {
@@ -316,6 +321,10 @@
 	}
 
 	function markEntries() {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		markFileListEntries()
 		markRecommendationEntries()
 		inlineActivityIcons()
@@ -355,7 +364,17 @@
 		if (typeof MutationObserver === 'undefined') {
 			return
 		}
-		const observer = new MutationObserver(scheduleMark)
+		const observer = new MutationObserver(function(records) {
+			// Text changes matter only for the file names in widget lists (markFileListEntries); typing in
+			// Talk or Text elsewhere on the page must not re-run every check on each key press.
+			for (let i = 0; i < records.length; i++) {
+				const parent = records[i].type === 'characterData' ? records[i].target.parentElement : null
+				if (records[i].type !== 'characterData' || (parent && parent.closest('.item-list__entry'))) {
+					scheduleMark()
+					return
+				}
+			}
+		})
 		observer.observe(document.body, {
 			childList: true,
 			subtree: true,

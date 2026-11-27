@@ -807,7 +807,9 @@
                                 }
                             }
                         }
+                        /* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
                         .files-list__row-name{
+                            /* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
                             .files-list__row-icon{
                                 .files-list__row-icon-overlay{
                                     svg{
@@ -1396,6 +1398,7 @@
         position: static !important;
         @include batch-actions;
     }
+    /* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
     .files-list{
         .files-list__filters{
             height: auto;

@@ -67,9 +67,19 @@ $bp-511: 511px;
 		background: transparent;
 	}
 	&::-webkit-scrollbar-thumb {
-		background: $thumb-colour;
+		background: transparent;
 		border-radius: $rounded-full;
 		cursor: pointer;
+	}
+	// Thumb shows only while the area scrolls (nexeno-state.js sets data-nexeno-scrolling), as in Nexeno Project
+	&[data-nexeno-scrolling]::-webkit-scrollbar-thumb {
+		background-color: $thumb-colour;
+	}
+	@supports not selector(::-webkit-scrollbar) {
+		scrollbar-color: transparent transparent;
+		&[data-nexeno-scrolling] {
+			scrollbar-color: $thumb-colour transparent;
+		}
 	}
 }
 
@@ -84,11 +94,21 @@ $bp-511: 511px;
 		background: transparent;
 	}
 	&::-webkit-scrollbar-thumb {
-		background: $thumb-colour;
+		background: transparent;
 		background-clip: padding-box;
 		border-inline-end: 4px solid transparent;
 		border-radius: $rounded-full;
 		cursor: pointer;
+	}
+	// Thumb shows only while the area scrolls (nexeno-state.js sets data-nexeno-scrolling), as in Nexeno Project
+	&[data-nexeno-scrolling]::-webkit-scrollbar-thumb {
+		background-color: $thumb-colour;
+	}
+	@supports not selector(::-webkit-scrollbar) {
+		scrollbar-color: transparent transparent;
+		&[data-nexeno-scrolling] {
+			scrollbar-color: $thumb-colour transparent;
+		}
 	}
 	@media (max-width: $bp-640) {
 		scrollbar-width: thin;
@@ -252,7 +272,8 @@ $bp-511: 511px;
 		}
 	}
 	@if $dropdown {
-		@at-root body:has(.general-popup) .vs__dropdown-menu{
+		// :where() keeps the theme-on guard without changing specificity.
+		@at-root :where(:root[data-nexeno]) body:has(.general-popup) .vs__dropdown-menu{
 			border: 1px solid $theme-divider !important;
 			box-shadow: none !important;
 			box-sizing: border-box !important;

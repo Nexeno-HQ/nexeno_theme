@@ -109,7 +109,8 @@
 		}
 	}
 
-	@at-root body:has(.app-settings main.saml) .modal-container.general-popup{
+	// :where() keeps the theme-on guard without changing specificity.
+	@at-root :where(:root[data-nexeno]) body:has(.app-settings main.saml) .modal-container.general-popup{
 		.dialog__content{
 			padding: 16px;
 			display: flex;

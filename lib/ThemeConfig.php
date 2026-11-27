@@ -49,6 +49,24 @@ class ThemeConfig {
 	public const DEFAULT_LOGIN_STYLE = self::LOGIN_STYLE_ON;
 
 	/**
+	 * Site-wide switch (app config, "yes" or "no") for the "Nexeno Theme" entry in the app menu. Hiding it only
+	 * removes the entry; the theme and its settings under Personal settings → Appearance and accessibility stay.
+	 */
+	public const APP_CONFIG_KEY_APP_MENU = 'app_menu';
+	public const APP_MENU_SHOWN = 'yes';
+	public const APP_MENU_HIDDEN = 'no';
+	/** Shown by default, so existing installs keep the entry. */
+	public const DEFAULT_APP_MENU = self::APP_MENU_SHOWN;
+
+	/**
+	 * Site-wide switch (app config, "yes" or "no"): show the organisation's colour from Administration settings
+	 * → Theming in place of the Nexeno blue. Off by default, so existing installs stay blue. Only admins can change it.
+	 */
+	public const APP_CONFIG_KEY_ORGANISATION_COLOUR = 'organisation_colour';
+	public const ORGANISATION_COLOUR_ON = 'yes';
+	public const ORGANISATION_COLOUR_OFF = 'no';
+
+	/**
 	 * "Rate this app" popup. The instance install time (app config, Unix seconds) starts the clock;
 	 * each user then sees the popup once RATE_PROMPT_DELAY has passed, again RATE_PROMPT_DELAY after
 	 * closing it, and never after "Rate it" or "Do not show again".
@@ -57,14 +75,15 @@ class ThemeConfig {
 	public const CONFIG_KEY_RATE_PROMPT_SNOOZED_UNTIL = 'rate_prompt_snoozed_until';
 	public const CONFIG_KEY_RATE_PROMPT_DONE = 'rate_prompt_done';
 	public const RATE_PROMPT_DELAY = 7 * 24 * 60 * 60;
-	/**
-	 * Test mode for the rating popup: true shows it on every page load for every user, ignoring
-	 * the 7 days and any earlier answer. Set to false before a release.
-	 */
-	public const RATE_PROMPT_TEST_MODE = false;
 	/** Answers the popup sends: "later" (close button), "never" (do not show again), "rated" (rate it). */
 	public const RATE_PROMPT_ACTIONS = ['later', 'never', 'rated'];
 
 	/** Initial state with the user's own Nextcloud theme ids, so the browser can switch to "off" without waiting for the server. */
 	public const INITIAL_STATE_USER_THEMES = 'user-themes';
+
+	/**
+	 * Initial state, only while the theme is off: {styles: string[], scripts: string[]}, the addresses of the
+	 * theme's files, which nexeno-state.js adds to the page when the user turns the theme on.
+	 */
+	public const INITIAL_STATE_ASSETS = 'assets';
 }

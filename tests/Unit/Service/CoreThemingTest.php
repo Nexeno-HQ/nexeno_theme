@@ -39,7 +39,21 @@ final class CoreThemingTest extends TestCase {
 	}
 
 	public function testBodyThemesReplacesUserThemesWithVariant(): void {
-		self::assertSame(['light'], $this->withEnabledThemes('["dark-highcontrast"]')->bodyThemes('alice', 'light'));
+		self::assertSame(['light'], $this->withEnabledThemes('["dark","opendyslexic-off"]')->bodyThemes('alice', 'light'));
+	}
+
+	public function testBodyThemesPassesHighContrastOnAsAMarker(): void {
+		// The browser turns it into the one theme <body> gets: the chosen dark-highcontrast, which decides over Light.
+		self::assertSame(['light', 'dark-highcontrast'], $this->withEnabledThemes('["dark-highcontrast"]')->bodyThemes('alice', 'light'));
+	}
+
+	public function testChosenHighContrast(): void {
+		self::assertSame('dark-highcontrast', $this->withEnabledThemes('["dark-highcontrast"]')->chosenHighContrast('alice'));
+		self::assertSame('light-highcontrast', $this->withEnabledThemes('["light-highcontrast","opendyslexic"]')->chosenHighContrast('alice'));
+		self::assertNull($this->withEnabledThemes('["dark","opendyslexic"]')->chosenHighContrast('alice'));
+		self::assertNull($this->withEnabledThemes('')->chosenHighContrast('alice'));
+		// Stored by hand or by another app: not a list of strings.
+		self::assertNull($this->withEnabledThemes('[7,["dark-highcontrast"]]')->chosenHighContrast('alice'));
 	}
 
 	public function testBodyThemesKeepsOpenDyslexicFont(): void {
@@ -65,6 +79,26 @@ final class CoreThemingTest extends TestCase {
 		$config->expects(self::never())->method('deleteUserValue');
 
 		(new CoreTheming($userConfig, $config))->restoreBackup('alice');
+	}
+
+	public function testRestoreAllBackupsVisitsEveryUserWithABackup(): void {
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects(self::once())->method('getValuesByUsers')
+			->with(ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_BG_BACKED_UP)
+			// PHP turns the key '42' into an int; it must still reach restoreBackup() as a string.
+			->willReturn(['alice' => true, '42' => true]);
+		$coreTheming = $this->getMockBuilder(CoreTheming::class)
+			->setConstructorArgs([$userConfig, $this->createStub(IConfig::class)])
+			->onlyMethods(['restoreBackup'])
+			->getMock();
+		$restored = [];
+		$coreTheming->expects(self::exactly(2))->method('restoreBackup')
+			->willReturnCallback(static function (string $userId) use (&$restored): void {
+				$restored[] = $userId;
+			});
+
+		self::assertSame(2, $coreTheming->restoreAllBackups());
+		self::assertSame(['alice', '42'], $restored);
 	}
 
 	public function testRestoreBackupPutsBackOldValuesAndClearsBackup(): void {

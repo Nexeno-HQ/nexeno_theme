@@ -18,5 +18,9 @@ return [
 		['name' => 'theme_settings#answerRatePrompt', 'url' => '/rate-prompt', 'verb' => 'PUT'],
 		// Admin only: the Nexeno look on the login page, for the whole instance.
 		['name' => 'theme_settings#setLoginStyle', 'url' => '/login-style', 'verb' => 'PUT'],
+		// Admin only: the "Nexeno Theme" entry in the app menu, for the whole instance.
+		['name' => 'theme_settings#setAppMenu', 'url' => '/app-menu', 'verb' => 'PUT'],
+		// Admin only: the organisation's colour in place of the Nexeno blue, for the whole instance.
+		['name' => 'theme_settings#setOrganisationColour', 'url' => '/organisation-colour', 'verb' => 'PUT'],
 	],
 ];

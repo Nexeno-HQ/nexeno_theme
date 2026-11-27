@@ -202,6 +202,10 @@
 	]
 
 	function runTasks() {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		tasks.forEach((task) => {
 			try {
 				task()
@@ -233,6 +237,10 @@
 	}
 
 	function onFocusIn(e) {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		if (Date.now() > suppressFocusUntil) {
 			return
 		}

@@ -32,7 +32,7 @@ help:
 	@echo "make watch          Rebuild the CSS on every change"
 	@echo "make lint           ESLint, Stylelint, PHP syntax, code style and Psalm"
 	@echo "make cs-fix         Fix PHP code style"
-	@echo "make test           Run the PHP unit tests"
+	@echo "make test           Run the PHP unit tests and the browser-script tests"
 	@echo "make l10n           Update translationfiles/templates/$(app_name).pot"
 	@echo "make appstore       Build $(package)"
 	@echo "make sign           Sign the app files and print the App Store signature"
@@ -69,6 +69,7 @@ cs-fix:
 
 test:
 	composer run test:unit
+	npm test
 
 l10n:
 	npm run l10n:pot

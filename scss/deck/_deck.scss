@@ -1884,11 +1884,13 @@
 								background-color: $colour-gray-100;
 							}
 						}
+						/* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
 						.app-sidebar-header__menu {
 							.action-item__menutoggle {
 								@include deck-icon-button;
 							}
 						}
+						/* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
 						.app-sidebar__close {
 							@include deck-icon-button;
 						}

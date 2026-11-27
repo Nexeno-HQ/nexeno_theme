@@ -50,6 +50,7 @@
         "Explore and manage your Nextcloud apps from a cleaner, more consistent interface built to fit your workspace.": "Utforska och hantera dina Nextcloud-appar från ett tydligare, mer enhetligt gränssnitt byggt för din arbetsyta.",
         "The Nextcloud app store in the Nexeno theme": "Nextclouds appbutik i Nexeno-temat",
         "Could not save the theme setting.": "Det gick inte att spara temainställningen.",
+        "Could not load your theme settings. Reload the page to try again.": "Det gick inte att läsa in dina temainställningar. Ladda om sidan för att försöka igen.",
         "Calendar": "Kalender",
         "The Nexeno theme gives the standard Nextcloud apps a consistent, modern look.": "Nexeno-temat ger Nextclouds standardappar ett enhetligt, modernt utseende.",
         "Nexeno apps such as %s have their own built-in design, so this setting does not change their appearance.": "Nexeno-appar som %s har en egen inbyggd design, så den här inställningen ändrar inte deras utseende.",
@@ -121,7 +122,8 @@
         "Do we need a new server or account?": "Behöver vi en ny server eller ett nytt konto?",
         "No. Nexeno Project installs as an app in the Nextcloud you already run. People sign in with their existing Nextcloud accounts, including single sign-on.": "Nej. Nexeno Project installeras som en app i det Nextcloud du redan kör. Alla loggar in med sina befintliga Nextcloud-konton, även med enkel inloggning.",
         "How is Nexeno Project priced?": "Vad kostar Nexeno Project?",
-        "Per seat: you pay for the people who use it. The first 5 seats are free, so a small team can start at no cost. Clients you invite to a project don't take a seat.": "Per plats: du betalar för de personer som använder det. De första 5 platserna är gratis, så ett litet team kan börja utan kostnad. Kunder som du bjuder in till ett projekt tar ingen plats.",
+        "Per seat: you pay for the people who use it, and small teams can start for free. Clients you invite to a project don't take a seat.": "Per plats: du betalar för de personer som använder det, och små team kan börja gratis. Kunder som du bjuder in till ett projekt tar ingen plats.",
+        "Ask us about current plans and prices": "Fråga oss om aktuella abonnemang och priser",
         "Where is our data stored?": "Var lagras våra data?",
         "On your own Nextcloud server. Projects, tasks, comments, files and time entries never leave it. To check your licence, the app tells our licence service only your server's ID, how many seats are in use and which Nexeno apps are installed. It sends no project content and no personal data about your team.": "På din egen Nextcloud-server. Projekt, uppgifter, kommentarer, filer och tidsposter lämnar den aldrig. För att kontrollera din licens skickar appen bara serverns ID, hur många platser som används och vilka Nexeno-appar som är installerade till vår licenstjänst. Den skickar inget projektinnehåll och inga personuppgifter om ditt team.",
         "Which Nextcloud apps does it work with?": "Vilka Nextcloud-appar fungerar det med?",
@@ -142,7 +144,18 @@
         "Talk to us about your requirements, or get notified the moment Nexeno Project launches.": "Prata med oss om era behov, eller få ett meddelande så fort Nexeno Project lanseras.",
         "Talk to us about your requirements": "Prata med oss om era behov",
         "Notify me at launch": "Meddela mig vid lansering",
-        "No migration risk — it runs on the Nextcloud you already have.": "Ingen migreringsrisk – det körs på det Nextcloud du redan har."
+        "No migration risk — it runs on the Nextcloud you already have.": "Ingen migreringsrisk – det körs på det Nextcloud du redan har.",
+        "Shows the primary colour from Administration settings → Theming in place of the Nexeno blue, for everyone who uses the Nexeno theme. A colour someone picks for themselves still comes first.": "Visar primärfärgen från Administration → Teman i stället för Nexeno-blått för alla som använder Nexeno-temat. En färg som någon väljer själv går fortfarande före.",
+        "Use the organisation's colour": "Använd organisationens färg",
+        "The Nexeno theme now uses the organisation's colour. Reload the page to see it.": "Nexeno-temat använder nu organisationens färg. Ladda om sidan för att se den.",
+        "The Nexeno theme now uses the Nexeno blue. Reload the page to see it.": "Nexeno-temat använder nu Nexeno-blått. Ladda om sidan för att se det.",
+        "Could not save the organisation's colour setting.": "Inställningen för organisationens färg kunde inte sparas.",
+        "Shows the \"Nexeno Theme\" entry in the app menu for everyone. Turn it off to hide it; the theme settings stay here.": "Visar posten ”Nexeno Theme” i appmenyn för alla. Stäng av den för att dölja den; temainställningarna finns kvar här.",
+        "Show Nexeno Theme in the app menu": "Visa Nexeno Theme i appmenyn",
+        "Nexeno Theme is now shown in the app menu. Reload the page to see it.": "Nexeno Theme visas nu i appmenyn. Läs in sidan igen för att se det.",
+        "Nexeno Theme is now hidden from the app menu. Reload the page to see it.": "Nexeno Theme är nu dolt i appmenyn. Läs in sidan igen för att se det.",
+        "Could not save the app menu setting.": "Det gick inte att spara inställningen för appmenyn.",
+        "High contrast is on. Choose one of these options to turn it off and use the Nexeno theme instead.": "Hög kontrast är aktiverat. Välj ett av de här alternativen för att stänga av det och använda Nexeno-temat i stället."
     },
     "pluralForm": "nplurals=2; plural=(n != 1);"
 }

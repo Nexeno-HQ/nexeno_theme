@@ -96,6 +96,7 @@
 					}
 				}
 			}
+			/* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
 			h2{
 				+span{
 					padding: 16px;

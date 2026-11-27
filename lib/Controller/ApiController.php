@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\NexenoTheme\Controller;
 
+use OCA\NexenoTheme\Service\CoreTheming;
 use OCA\NexenoTheme\Service\RatePrompt;
 use OCA\NexenoTheme\ThemeConfig;
 use OCP\App\IAppManager;
@@ -16,7 +17,6 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Config\IUserConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
 
@@ -25,7 +25,7 @@ class ApiController extends Controller {
 		string $appName,
 		IRequest $request,
 		private IUserSession $userSession,
-		private IUserConfig $userConfig,
+		private CoreTheming $coreTheming,
 		private IAppManager $appManager,
 		private RatePrompt $ratePrompt,
 	) {
@@ -37,21 +37,13 @@ class ApiController extends Controller {
 	public function status(): JSONResponse {
 		$user = $this->userSession->getUser();
 		$payload = [
-			'themeVariant' => $user === null ? 'off' : $this->userConfig->getValueString(
-				$user->getUID(),
-				ThemeConfig::APP_ID,
-				ThemeConfig::CONFIG_KEY_VARIANT,
-				'off',
-			),
-			'themeLastVariant' => $user === null ? ThemeConfig::DEFAULT_LAST_VARIANT : $this->userConfig->getValueString(
-				$user->getUID(),
-				ThemeConfig::APP_ID,
-				ThemeConfig::CONFIG_KEY_LAST_VARIANT,
-				ThemeConfig::DEFAULT_LAST_VARIANT,
-			),
+			'themeVariant' => $user === null ? ThemeConfig::VARIANT_OFF : $this->coreTheming->variant($user->getUID()),
+			'themeLastVariant' => $user === null ? ThemeConfig::DEFAULT_LAST_VARIANT : $this->coreTheming->lastVariant($user->getUID()),
 			// The installed version from appinfo/info.xml, so the overview page never shows a stale build-time number.
 			'appVersion' => $this->appManager->getAppVersion(ThemeConfig::APP_ID),
 			'ratePromptVisible' => $user !== null && $this->ratePrompt->isVisible($user->getUID()),
+			// The high-contrast theme chosen in Nextcloud, or null; picking a Nexeno option on the overview turns it off.
+			'highContrastTheme' => $user === null ? null : $this->coreTheming->chosenHighContrast($user->getUID()),
 		];
 		return new JSONResponse($payload);
 	}

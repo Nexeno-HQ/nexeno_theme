@@ -3,14 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/** The app's page on the Nextcloud App Store, where users can rate and review it. */
+/** The app's page on the Nextcloud App Store, where users rate and review it ("Rate it" in the rating popup). */
 export const APP_STORE_URL = 'https://apps.nextcloud.com/apps/nexeno_theme'
-
-/**
- * Where "Rate it" in the rating popup sends the user.
- * TODO: replace with the URL the product owner provides; the App Store page is the placeholder.
- */
-export const RATE_URL = APP_STORE_URL
 
 /** "Notify me" in the Nexeno project bar: the newsletter sign-up on the Nexeno website. */
 export const SUBSCRIBE_URL = 'https://nexeno.io/#subscribe'

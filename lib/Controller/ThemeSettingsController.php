@@ -9,8 +9,10 @@ declare(strict_types=1);
 
 namespace OCA\NexenoTheme\Controller;
 
+use OCA\NexenoTheme\Service\AppMenuEntry;
 use OCA\NexenoTheme\Service\CoreTheming;
 use OCA\NexenoTheme\Service\LoginStyle;
+use OCA\NexenoTheme\Service\PrimaryColour;
 use OCA\NexenoTheme\Service\RatePrompt;
 use OCA\NexenoTheme\ThemeConfig;
 use OCP\AppFramework\Controller;
@@ -32,6 +34,8 @@ class ThemeSettingsController extends Controller {
 		private IL10N $l,
 		private LoginStyle $loginStyle,
 		private RatePrompt $ratePrompt,
+		private PrimaryColour $primaryColour,
+		private AppMenuEntry $appMenuEntry,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -46,7 +50,6 @@ class ThemeSettingsController extends Controller {
 			return new JSONResponse(['message' => $this->l->t('Invalid variant')], Http::STATUS_BAD_REQUEST);
 		}
 		$userId = $user->getUID();
-		$this->coreTheming->restoreBackup($userId);
 
 		if ($variant !== 'off') {
 			$this->userConfig->setValueString($userId, ThemeConfig::APP_ID, ThemeConfig::CONFIG_KEY_LAST_VARIANT, $variant);
@@ -62,6 +65,9 @@ class ThemeSettingsController extends Controller {
 		return new JSONResponse([
 			'variant' => $variant,
 			'enabledThemes' => $this->coreTheming->bodyThemes($userId, $variant),
+			// The user's own Nextcloud themes, so the overview page can tell nexeno-state.js after it turned
+			// Nextcloud's high contrast off.
+			'userThemes' => $this->coreTheming->enabledThemes($userId),
 		]);
 	}
 
@@ -87,6 +93,23 @@ class ThemeSettingsController extends Controller {
 	 */
 	public function setLoginStyle(bool $enabled): JSONResponse {
 		$this->loginStyle->setEnabled($enabled);
+		return new JSONResponse(['enabled' => $enabled]);
+	}
+
+	/**
+	 * Shows or hides the "Nexeno Theme" entry in the app menu for everyone. Admin only, like setLoginStyle().
+	 */
+	public function setAppMenu(bool $enabled): JSONResponse {
+		$this->appMenuEntry->setShown($enabled);
+		return new JSONResponse(['enabled' => $enabled]);
+	}
+
+	/**
+	 * Turns the organisation's colour (Administration settings → Theming) on or off for everyone using the theme.
+	 * Admin only, like setLoginStyle().
+	 */
+	public function setOrganisationColour(bool $enabled): JSONResponse {
+		$this->primaryColour->setOrganisationColourEnabled($enabled);
 		return new JSONResponse(['enabled' => $enabled]);
 	}
 }

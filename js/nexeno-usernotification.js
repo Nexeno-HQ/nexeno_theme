@@ -7,6 +7,10 @@
 	const WRAPPER_CLASS = 'activitysettings-table-wrapper'
 
 	function wrapTables() {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		const tables = document.querySelectorAll('table.activitysettings')
 		for (let i = 0; i < tables.length; i++) {
 			const table = tables[i]

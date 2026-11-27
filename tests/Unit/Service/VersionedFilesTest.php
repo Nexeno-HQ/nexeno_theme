@@ -9,8 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\NexenoTheme\Tests\Unit\Service;
 
-use OCA\NexenoTheme\Service\VersionedScripts;
-use OCA\NexenoTheme\Service\VersionedStyles;
+use OCA\NexenoTheme\Service\VersionedFiles;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -50,22 +49,27 @@ final class VersionedFilesTest extends TestCase {
 
 	#[DataProvider('versions')]
 	public function testStylesForVersion(int $major, array $expected): void {
-		self::assertSame($expected, VersionedStyles::forBase('nexeno-theme', $major, $this->dir));
+		self::assertSame($expected, VersionedFiles::forBase('nexeno-theme', 'css', $major, $this->dir));
 	}
 
 	#[DataProvider('versions')]
 	public function testScriptsForVersion(int $major, array $expected): void {
-		self::assertSame($expected, VersionedScripts::forBase('nexeno-theme', $major, $this->dir));
+		self::assertSame($expected, VersionedFiles::forBase('nexeno-theme', 'js', $major, $this->dir));
 	}
 
 	public function testOtherBaseNamesAreSeparate(): void {
-		self::assertSame(['nexeno-login-nc35'], VersionedStyles::forBase('nexeno-login', 35, $this->dir));
-		self::assertSame([], VersionedStyles::forBase('nexeno-missing', 35, $this->dir));
+		self::assertSame(['nexeno-login-nc35'], VersionedFiles::forBase('nexeno-login', 'css', 35, $this->dir));
+		self::assertSame([], VersionedFiles::forBase('nexeno-missing', 'css', 35, $this->dir));
+	}
+
+	public function testWithBaseLoadsTheBaseFileFirst(): void {
+		self::assertSame(['nexeno-login', 'nexeno-login-nc35'], VersionedFiles::withBase('nexeno-login', 'css', 35, $this->dir));
+		self::assertSame(['nexeno-missing'], VersionedFiles::withBase('nexeno-missing', 'css', 35, $this->dir));
 	}
 
 	public function testShippedScriptsAreFound(): void {
 		// js/ holds hand-written source, so the real folder can be checked too.
-		self::assertSame(['nexeno-albums-nc35'], VersionedScripts::forBase('nexeno-albums', 35));
-		self::assertSame([], VersionedScripts::forBase('nexeno-albums', 34));
+		self::assertSame(['nexeno-albums-nc35'], VersionedFiles::forBase('nexeno-albums', 'js', 35));
+		self::assertSame([], VersionedFiles::forBase('nexeno-albums', 'js', 34));
 	}
 }

@@ -50,6 +50,7 @@
         "Explore and manage your Nextcloud apps from a cleaner, more consistent interface built to fit your workspace.": "Explorez et gérez vos applications Nextcloud depuis une interface plus claire et plus cohérente, adaptée à votre espace de travail.",
         "The Nextcloud app store in the Nexeno theme": "Le magasin d'applications Nextcloud dans le thème Nexeno",
         "Could not save the theme setting.": "Impossible d'enregistrer le paramètre du thème.",
+        "Could not load your theme settings. Reload the page to try again.": "Impossible de charger vos paramètres du thème. Rechargez la page pour réessayer.",
         "Calendar": "Agenda",
         "The Nexeno theme gives the standard Nextcloud apps a consistent, modern look.": "Le thème Nexeno donne aux applications standard de Nextcloud une apparence moderne et cohérente.",
         "Nexeno apps such as %s have their own built-in design, so this setting does not change their appearance.": "Les applications Nexeno comme %s ont leur propre design intégré : ce paramètre ne modifie donc pas leur apparence.",
@@ -121,7 +122,8 @@
         "Do we need a new server or account?": "Faut-il un nouveau serveur ou un nouveau compte ?",
         "No. Nexeno Project installs as an app in the Nextcloud you already run. People sign in with their existing Nextcloud accounts, including single sign-on.": "Non. Nexeno Project s'installe comme une application dans le Nextcloud que vous utilisez déjà. Chacun se connecte avec son compte Nextcloud existant, y compris par authentification unique.",
         "How is Nexeno Project priced?": "Quel est le prix de Nexeno Project ?",
-        "Per seat: you pay for the people who use it. The first 5 seats are free, so a small team can start at no cost. Clients you invite to a project don't take a seat.": "Par siège : vous payez pour les personnes qui l'utilisent. Les 5 premiers sièges sont gratuits, donc une petite équipe peut commencer sans frais. Les clients que vous invitez à un projet n'occupent pas de siège.",
+        "Per seat: you pay for the people who use it, and small teams can start for free. Clients you invite to a project don't take a seat.": "Par siège : vous payez pour les personnes qui l'utilisent, et les petites équipes peuvent commencer gratuitement. Les clients que vous invitez à un projet n'occupent pas de siège.",
+        "Ask us about current plans and prices": "Renseignez-vous sur nos offres et tarifs actuels",
         "Where is our data stored?": "Où nos données sont-elles stockées ?",
         "On your own Nextcloud server. Projects, tasks, comments, files and time entries never leave it. To check your licence, the app tells our licence service only your server's ID, how many seats are in use and which Nexeno apps are installed. It sends no project content and no personal data about your team.": "Sur votre propre serveur Nextcloud. Les projets, tâches, commentaires, fichiers et saisies de temps ne le quittent jamais. Pour vérifier votre licence, l'application ne transmet à notre service de licences que l'identifiant de votre serveur, le nombre de sièges utilisés et les applications Nexeno installées. Elle n'envoie aucun contenu de projet ni aucune donnée personnelle sur votre équipe.",
         "Which Nextcloud apps does it work with?": "Avec quelles applications Nextcloud fonctionne-t-il ?",
@@ -142,7 +144,18 @@
         "Talk to us about your requirements, or get notified the moment Nexeno Project launches.": "Parlez-nous de vos besoins, ou soyez prévenu dès le lancement de Nexeno Project.",
         "Talk to us about your requirements": "Parlez-nous de vos besoins",
         "Notify me at launch": "Me prévenir au lancement",
-        "No migration risk — it runs on the Nextcloud you already have.": "Aucun risque de migration : il fonctionne sur le Nextcloud que vous avez déjà."
+        "No migration risk — it runs on the Nextcloud you already have.": "Aucun risque de migration : il fonctionne sur le Nextcloud que vous avez déjà.",
+        "Shows the primary colour from Administration settings → Theming in place of the Nexeno blue, for everyone who uses the Nexeno theme. A colour someone picks for themselves still comes first.": "Affiche la couleur principale de Paramètres d'administration → Personnaliser l'apparence à la place du bleu Nexeno, pour tous ceux qui utilisent le thème Nexeno. La couleur qu'une personne choisit elle-même reste prioritaire.",
+        "Use the organisation's colour": "Utiliser la couleur de l'organisation",
+        "The Nexeno theme now uses the organisation's colour. Reload the page to see it.": "Le thème Nexeno utilise désormais la couleur de l'organisation. Rechargez la page pour la voir.",
+        "The Nexeno theme now uses the Nexeno blue. Reload the page to see it.": "Le thème Nexeno utilise désormais le bleu Nexeno. Rechargez la page pour le voir.",
+        "Could not save the organisation's colour setting.": "Impossible d'enregistrer le paramètre de couleur de l'organisation.",
+        "Shows the \"Nexeno Theme\" entry in the app menu for everyone. Turn it off to hide it; the theme settings stay here.": "Affiche l'entrée « Nexeno Theme » dans le menu des applications pour tout le monde. Désactivez-la pour la masquer ; les paramètres du thème restent ici.",
+        "Show Nexeno Theme in the app menu": "Afficher Nexeno Theme dans le menu des applications",
+        "Nexeno Theme is now shown in the app menu. Reload the page to see it.": "Nexeno Theme est maintenant affiché dans le menu des applications. Rechargez la page pour le voir.",
+        "Nexeno Theme is now hidden from the app menu. Reload the page to see it.": "Nexeno Theme est maintenant masqué du menu des applications. Rechargez la page pour le voir.",
+        "Could not save the app menu setting.": "Impossible d'enregistrer le paramètre du menu des applications.",
+        "High contrast is on. Choose one of these options to turn it off and use the Nexeno theme instead.": "Le contraste élevé est activé. Choisissez l'une de ces options pour le désactiver et utiliser le thème Nexeno à la place."
     },
     "pluralForm": "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

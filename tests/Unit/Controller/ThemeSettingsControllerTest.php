@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace OCA\NexenoTheme\Tests\Unit\Controller;
 
 use OCA\NexenoTheme\Controller\ThemeSettingsController;
+use OCA\NexenoTheme\Service\AppMenuEntry;
 use OCA\NexenoTheme\Service\CoreTheming;
 use OCA\NexenoTheme\Service\LoginStyle;
+use OCA\NexenoTheme\Service\PrimaryColour;
 use OCA\NexenoTheme\Service\RatePrompt;
 use OCA\NexenoTheme\ThemeConfig;
 use OCP\AppFramework\Http;
@@ -36,7 +38,7 @@ final class ThemeSettingsControllerTest extends TestCase {
 		return $session;
 	}
 
-	private function controller(IUserConfig $userConfig, CoreTheming $coreTheming, IUserSession $session, ?LoginStyle $loginStyle = null, ?RatePrompt $ratePrompt = null): ThemeSettingsController {
+	private function controller(IUserConfig $userConfig, CoreTheming $coreTheming, IUserSession $session, ?LoginStyle $loginStyle = null, ?RatePrompt $ratePrompt = null, ?PrimaryColour $primaryColour = null, ?AppMenuEntry $appMenuEntry = null): ThemeSettingsController {
 		$l = $this->createStub(IL10N::class);
 		$l->method('t')->willReturnArgument(0);
 		return new ThemeSettingsController(
@@ -48,6 +50,8 @@ final class ThemeSettingsControllerTest extends TestCase {
 			$l,
 			$loginStyle ?? $this->createStub(LoginStyle::class),
 			$ratePrompt ?? $this->createStub(RatePrompt::class),
+			$primaryColour ?? $this->createStub(PrimaryColour::class),
+			$appMenuEntry ?? $this->createStub(AppMenuEntry::class),
 		);
 	}
 
@@ -83,8 +87,7 @@ final class ThemeSettingsControllerTest extends TestCase {
 	public function testRejectsUnknownVariant(string $variant): void {
 		$userConfig = $this->createMock(IUserConfig::class);
 		$userConfig->expects(self::never())->method('setValueString');
-		$coreTheming = $this->createMock(CoreTheming::class);
-		$coreTheming->expects(self::never())->method('restoreBackup');
+		$coreTheming = $this->createStub(CoreTheming::class);
 
 		$response = $this->controller($userConfig, $coreTheming, $this->session('alice'))->setVariant($variant);
 
@@ -99,14 +102,16 @@ final class ThemeSettingsControllerTest extends TestCase {
 	public function testSavesVariantAndRemembersIt(string $variant): void {
 		$saved = [];
 		$coreTheming = $this->createMock(CoreTheming::class);
-		$coreTheming->expects(self::once())->method('restoreBackup')->with('alice');
+		// Old backups are given back once by the RestoreOldBackups repair step, not on each save.
+		$coreTheming->expects(self::never())->method('restoreBackup');
 		$coreTheming->expects(self::once())->method('bodyThemes')->with('alice', $variant)->willReturn([$variant]);
+		$coreTheming->expects(self::once())->method('enabledThemes')->with('alice')->willReturn(['default', 'opendyslexic']);
 
 		$response = $this->controller($this->recordingConfig($saved), $coreTheming, $this->session('alice'))
 			->setVariant($variant);
 
 		self::assertSame(Http::STATUS_OK, $response->getStatus());
-		self::assertSame(['variant' => $variant, 'enabledThemes' => [$variant]], $response->getData());
+		self::assertSame(['variant' => $variant, 'enabledThemes' => [$variant], 'userThemes' => ['default', 'opendyslexic']], $response->getData());
 		self::assertSame([
 			'alice/nexeno_theme/' . ThemeConfig::CONFIG_KEY_LAST_VARIANT => $variant,
 			'alice/nexeno_theme/' . ThemeConfig::CONFIG_KEY_VARIANT => $variant,
@@ -117,12 +122,13 @@ final class ThemeSettingsControllerTest extends TestCase {
 		$saved = [];
 		$coreTheming = $this->createStub(CoreTheming::class);
 		$coreTheming->method('bodyThemes')->willReturn(['default']);
+		$coreTheming->method('enabledThemes')->willReturn(['default']);
 
 		$response = $this->controller($this->recordingConfig($saved), $coreTheming, $this->session('alice'))
 			->setVariant('off');
 
 		self::assertSame(Http::STATUS_OK, $response->getStatus());
-		self::assertSame(['variant' => 'off', 'enabledThemes' => ['default']], $response->getData());
+		self::assertSame(['variant' => 'off', 'enabledThemes' => ['default'], 'userThemes' => ['default']], $response->getData());
 		self::assertSame(['alice/nexeno_theme/' . ThemeConfig::CONFIG_KEY_VARIANT => 'off'], $saved);
 	}
 
@@ -147,6 +153,38 @@ final class ThemeSettingsControllerTest extends TestCase {
 	public function testLoginStyleIsAdminOnly(): void {
 		// Nextcloud only lets non-admins call methods marked #[NoAdminRequired]; setLoginStyle must not have it.
 		$method = new \ReflectionMethod(ThemeSettingsController::class, 'setLoginStyle');
+		self::assertSame([], $method->getAttributes(NoAdminRequired::class));
+	}
+
+	#[DataProvider('loginStyleValues')]
+	public function testSavesOrganisationColour(bool $enabled): void {
+		$primaryColour = $this->createMock(PrimaryColour::class);
+		$primaryColour->expects(self::once())->method('setOrganisationColourEnabled')->with($enabled);
+
+		$response = $this->controller($this->createStub(IUserConfig::class), $this->createStub(CoreTheming::class), $this->session('admin'), null, null, $primaryColour)
+			->setOrganisationColour($enabled);
+
+		self::assertSame(['enabled' => $enabled], $response->getData());
+	}
+
+	public function testOrganisationColourIsAdminOnly(): void {
+		$method = new \ReflectionMethod(ThemeSettingsController::class, 'setOrganisationColour');
+		self::assertSame([], $method->getAttributes(NoAdminRequired::class));
+	}
+
+	#[DataProvider('loginStyleValues')]
+	public function testSavesAppMenu(bool $enabled): void {
+		$appMenuEntry = $this->createMock(AppMenuEntry::class);
+		$appMenuEntry->expects(self::once())->method('setShown')->with($enabled);
+
+		$response = $this->controller($this->createStub(IUserConfig::class), $this->createStub(CoreTheming::class), $this->session('admin'), null, null, null, $appMenuEntry)
+			->setAppMenu($enabled);
+
+		self::assertSame(['enabled' => $enabled], $response->getData());
+	}
+
+	public function testAppMenuIsAdminOnly(): void {
+		$method = new \ReflectionMethod(ThemeSettingsController::class, 'setAppMenu');
 		self::assertSame([], $method->getAttributes(NoAdminRequired::class));
 	}
 

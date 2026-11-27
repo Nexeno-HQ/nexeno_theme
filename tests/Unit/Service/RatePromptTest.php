@@ -25,7 +25,7 @@ final class RatePromptTest extends TestCase {
 	private array $app = [];
 	private array $user = [];
 
-	private function prompt(int $now, bool $testMode = false): RatePrompt {
+	private function prompt(int $now): RatePrompt {
 		$appConfig = $this->createStub(IAppConfig::class);
 		$appConfig->method('getValueInt')->willReturnCallback(fn (string $app, string $key, int $default) => $this->app[$key] ?? $default);
 		$appConfig->method('setValueInt')->willReturnCallback(function (string $app, string $key, int $value): bool {
@@ -48,7 +48,7 @@ final class RatePromptTest extends TestCase {
 		$time = $this->createStub(ITimeFactory::class);
 		$time->method('getTime')->willReturn($now);
 
-		return new RatePrompt($appConfig, $userConfig, $time, $testMode);
+		return new RatePrompt($appConfig, $userConfig, $time);
 	}
 
 	public function testHiddenDuringTheFirstSevenDays(): void {
@@ -82,12 +82,5 @@ final class RatePromptTest extends TestCase {
 
 	public static function finalAnswers(): array {
 		return [['never'], ['rated']];
-	}
-
-	public function testTestModeAlwaysShowsIt(): void {
-		$this->app[ThemeConfig::APP_CONFIG_KEY_INSTALLED_AT] = self::INSTALLED;
-		$this->prompt(self::INSTALLED, true)->answer('alice', 'never');
-
-		self::assertTrue($this->prompt(self::INSTALLED, true)->isVisible('alice'));
 	}
 }

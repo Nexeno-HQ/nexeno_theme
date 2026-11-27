@@ -4,10 +4,24 @@
  */
 @use '../variables' as *;
 @use '../themes' as *;
+@use '../settings/mixins' as *;
 
 @mixin photos {
 	.content{
 		&.app-photos{
+			// Photos puts the tile menu top-left, on top of the selection checkbox
+			.photo-actions{
+				inset-inline: auto 10px;
+				inset-block-start: 10px;
+				button{
+					@include white-button;
+					width: 28px !important;
+					height: 28px;
+					min-width: unset;
+					min-height: unset;
+					padding: 0;
+				}
+			}
 			main{
 				@include module-scrollbar;
 				.photos-navigation{

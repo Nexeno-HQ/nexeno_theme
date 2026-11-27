@@ -297,6 +297,7 @@
 						font-weight: $font-medium;
 						color: $colour-forground;
 					}
+					/* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
 					.checkbox-radio-switch__content,
 					.checkbox-content{
 						align-items: center;

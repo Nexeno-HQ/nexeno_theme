@@ -15,7 +15,9 @@
 	const WRAPPER_CLASS = 'album-img-wrapper'
 
 	const PHOTOS_MAIN_SELECTOR = 'main#app-content-vue'
-	const TAG_ROOT_SELECTOR = '[roottitle="Tagged photos"]'
+	// The tag list's own address, not its title: the title is translated ("Fotos mit Tags" in German).
+	// A single tag (/tags/<name>) is not the list. Not anchored, so /index.php and sub-folders match too.
+	const TAG_LIST_PATH = /\/apps\/photos\/tags\/?$/
 	const TAG_VIEW_CLASS = 'tag-view'
 	const FOLDER_INNER_PATH = /^\/apps\/photos\/folders\/./
 	const FOLDER_INNER_CLASS = 'folder-inner-view'
@@ -26,12 +28,16 @@
 		if (!main) {
 			return
 		}
-		main.classList.toggle(TAG_VIEW_CLASS, !!main.querySelector(TAG_ROOT_SELECTOR))
+		main.classList.toggle(TAG_VIEW_CLASS, TAG_LIST_PATH.test(window.location.pathname))
 		main.classList.toggle(FOLDER_INNER_CLASS, FOLDER_INNER_PATH.test(window.location.pathname))
 		main.classList.toggle(SHARED_VIEW_CLASS, SHARED_VIEW_PATH.test(window.location.pathname))
 	}
 
 	function wrapAlbumCovers() {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		markTagView()
 
 		const covers = document.querySelectorAll(COVER_SELECTOR)

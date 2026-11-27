@@ -75,6 +75,9 @@
 					<div class="app-desc">
 						<p>{{ t('nexeno_theme', 'Nexeno Light and Dark colour themes for your Nextcloud.') }}</p>
 					</div>
+					<p v-if="highContrastOn" id="nexeno-high-contrast-hint" class="variant-hint">
+						{{ t('nexeno_theme', 'High contrast is on. Choose one of these options to turn it off and use the Nexeno theme instead.') }}
+					</p>
 					<div class="variant-grid" :class="{ 'variant-grid--disabled': !themeEnabled }">
 						<div
 							v-for="option in variantOptions"
@@ -96,6 +99,7 @@
 								:modelValue="selectedVariant"
 								:value="option.value"
 								:disabled="!themeEnabled || state.themeSaving"
+								:aria-describedby="highContrastOn ? 'nexeno-high-contrast-hint' : undefined"
 								name="nexeno_theme-overview-variant"
 								type="radio"
 								@update:modelValue="selectVariant">
@@ -247,9 +251,9 @@
 import { translate as t } from '@nextcloud/l10n'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import ProjectBanner from '../components/ProjectBanner.vue'
-import previewDark from '../assets/images/previews/preview-dark.svg'
-import previewLight from '../assets/images/previews/preview-light.svg'
-import previewSystem from '../assets/images/previews/preview-system.svg'
+import previewDark from '../../img/previews/nexeno-dark.jpg'
+import previewLight from '../../img/previews/nexeno-light.jpg'
+import previewSystem from '../../img/previews/nexeno-system.jpg'
 import appstoreShowcaseDark from '../assets/images/showcase/appstore-dark.png'
 import appstoreShowcase from '../assets/images/showcase/appstore.png'
 import dashboardShowcaseDark from '../assets/images/showcase/dashboard-dark.png'
@@ -301,11 +305,20 @@ export default {
 			return state.themeVariant !== 'off'
 		},
 
+		/** A high-contrast theme chosen in Nextcloud is applied instead of the Nexeno variant, as on the settings page. */
+		highContrastOn() {
+			return this.themeEnabled && state.highContrastTheme !== null
+		},
+
 		/**
 		 * The variant shown as chosen: the active one, or while the theme is off the one that comes back
 		 * when it is turned on again.
 		 */
 		selectedVariant() {
+			// None during high contrast: no Nexeno option is applied, and any one picked turns high contrast off.
+			if (this.highContrastOn) {
+				return null
+			}
 			return this.themeEnabled ? state.themeVariant : (state.themeLastVariant || 'system')
 		},
 
@@ -348,7 +361,8 @@ export default {
 
 		selectVariant(variant) {
 			// Variants can only be picked while the theme is on, as on the settings page.
-			if (!this.themeEnabled || state.themeSaving || variant === state.themeVariant) {
+			// The current variant again only turns high contrast off.
+			if (!this.themeEnabled || state.themeSaving || (variant === state.themeVariant && !this.highContrastOn)) {
 				return
 			}
 			setThemeVariant(variant)

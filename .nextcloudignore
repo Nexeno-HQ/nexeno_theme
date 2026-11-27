@@ -11,6 +11,8 @@
 /.nextcloudignore
 /krankerl.toml
 /Makefile
+# Local editor settings
+/.claude
 
 # Sources, compiled into css/ and js/page/ during the build
 /scss
@@ -31,6 +33,7 @@
 /.php-cs-fixer.dist.php
 /.php-cs-fixer.cache
 /tests
+/playwright.config.mjs
 
 # Licence metadata and translation sources
 /REUSE.toml
@@ -38,7 +41,6 @@
 
 # Build output and local files
 /build
-/css/v35
 .DS_Store
 *.map
 *.log

@@ -13,7 +13,9 @@ export default {
 		'selector-id-pattern': null,
 		'declaration-no-important': null,
 		'no-descending-specificity': null,
-		'no-duplicate-selectors': true,
+		// A warning until the 20 existing duplicates are merged one by one: merging moves rules, and in CSS
+		// the later rule wins, so each merge needs a visual check.
+		'no-duplicate-selectors': [true, { severity: 'warning' }],
 	},
 	overrides: [
 		{

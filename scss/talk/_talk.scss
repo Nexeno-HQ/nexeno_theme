@@ -203,17 +203,29 @@
 
 @mixin talk-top-bar {
 	.app-navigation {
+		// Line the group headers and conversations up with the Home/Threads block (16px in from both sides).
+		// Fixed 4px theme scroll bar + 12px end padding = 16px; the browser's default bar width varies by OS.
+		.scroller {
+			padding-inline: 16px 12px;
+			@include scrollbar;
+		}
+		// Talk adds its own 8px inside each Home/Threads/App settings button; drop it so the text
+		// lines up with the navigation links of the other apps.
+		.left-sidebar-button__content {
+			padding-inline-start: 0;
+		}
 		.list-item__wrapper.conversation {
 			padding: 2px 0;
 		}
 		.tag-header {
 			margin-block: 8px 4px;
 			.app-navigation-entry {
-				height: 40px;
-				min-height: 40px;
+				height: 34px;
+				min-height: 34px;
+				border-radius: $rounded-6;
 				.app-navigation-entry-link {
-					height: 40px;
-					min-height: 40px;
+					height: 34px;
+					min-height: 34px;
 					.app-navigation-entry-icon:empty {
 						display: none;
 					}
@@ -225,7 +237,7 @@
 					}
 				}
 				.app-navigation-entry__utils {
-					height: 40px;
+					height: 34px;
 				}
 			}
 		}
@@ -955,6 +967,7 @@
 				width: 100%;
 			}
 		}
+		/* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
 		.app-sidebar-header {
 			.content__header--row {
 				padding: 0;
@@ -1684,6 +1697,7 @@
 					}
 				}
 			}
+			/* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
 			.dialog__actions {
 				.button-vue--primary {
 					@include primary-button;

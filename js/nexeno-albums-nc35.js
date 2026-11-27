@@ -12,6 +12,10 @@
 	const SHARED_VIEW_PATH = /^\/apps\/photos\/shared(\/|$)/
 
 	function labelFileTiles() {
+		// The Nexeno styles only apply while the theme is on, so leave the page as Nextcloud made it otherwise.
+		if (!document.documentElement.hasAttribute('data-nexeno')) {
+			return
+		}
 		const shared = SHARED_VIEW_PATH.test(window.location.pathname)
 
 		document.querySelectorAll('.nodes-container li').forEach(function(tile) {

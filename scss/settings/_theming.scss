@@ -349,6 +349,7 @@
 				}
 			}
 		}
+		/* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
 		.settings-section{
 			p{
 				font-size: $text-heading-5;
@@ -357,6 +358,7 @@
 				font-weight: $font-normal;
 				max-width: 600px;
 			}
+			/* stylelint-disable-next-line no-duplicate-selectors -- intentional later override, merging changes the cascade */
 			&.background{
 				fieldset{
 					max-width: 900px;

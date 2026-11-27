@@ -10,10 +10,12 @@ declare(strict_types=1);
 namespace OCA\NexenoTheme\Tests\Unit\Controller;
 
 use OCA\NexenoTheme\Controller\ApiController;
+use OCA\NexenoTheme\Service\CoreTheming;
 use OCA\NexenoTheme\Service\RatePrompt;
 use OCA\NexenoTheme\ThemeConfig;
 use OCP\App\IAppManager;
 use OCP\Config\IUserConfig;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -40,17 +42,34 @@ final class ApiControllerTest extends TestCase {
 		$ratePrompt = $this->createStub(RatePrompt::class);
 		$ratePrompt->method('isVisible')->willReturn(true);
 
-		$controller = new ApiController(ThemeConfig::APP_ID, $this->createStub(IRequest::class), $session, $config, $this->appManager(), $ratePrompt);
+		// No Nextcloud themes chosen: the real IConfig returns the default ''.
+		$nextcloudConfig = $this->createStub(IConfig::class);
+		$nextcloudConfig->method('getUserValue')->willReturn('');
 
-		self::assertSame(['themeVariant' => 'dark', 'themeLastVariant' => 'dark', 'appVersion' => '1.1.0', 'ratePromptVisible' => true], $controller->status()->getData());
+		$controller = new ApiController(ThemeConfig::APP_ID, $this->createStub(IRequest::class), $session, new CoreTheming($config, $nextcloudConfig), $this->appManager(), $ratePrompt);
+
+		self::assertSame(['themeVariant' => 'dark', 'themeLastVariant' => 'dark', 'appVersion' => '1.1.0', 'ratePromptVisible' => true, 'highContrastTheme' => null], $controller->status()->getData());
+	}
+
+	public function testStatusReportsHighContrastChosenInNextcloud(): void {
+		$user = $this->createStub(IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$session = $this->createStub(IUserSession::class);
+		$session->method('getUser')->willReturn($user);
+		$config = $this->createStub(IConfig::class);
+		$config->method('getUserValue')->willReturnMap([['alice', 'theming', 'enabled-themes', '', '["dark-highcontrast"]']]);
+
+		$controller = new ApiController(ThemeConfig::APP_ID, $this->createStub(IRequest::class), $session, new CoreTheming($this->createStub(IUserConfig::class), $config), $this->appManager(), $this->createStub(RatePrompt::class));
+
+		self::assertSame('dark-highcontrast', $controller->status()->getData()['highContrastTheme']);
 	}
 
 	public function testStatusDefaultsWithoutUser(): void {
 		$session = $this->createStub(IUserSession::class);
 		$session->method('getUser')->willReturn(null);
 
-		$controller = new ApiController(ThemeConfig::APP_ID, $this->createStub(IRequest::class), $session, $this->createStub(IUserConfig::class), $this->appManager(), $this->createStub(RatePrompt::class));
+		$controller = new ApiController(ThemeConfig::APP_ID, $this->createStub(IRequest::class), $session, new CoreTheming($this->createStub(IUserConfig::class), $this->createStub(IConfig::class)), $this->appManager(), $this->createStub(RatePrompt::class));
 
-		self::assertSame(['themeVariant' => 'off', 'themeLastVariant' => 'system', 'appVersion' => '1.1.0', 'ratePromptVisible' => false], $controller->status()->getData());
+		self::assertSame(['themeVariant' => 'off', 'themeLastVariant' => 'system', 'appVersion' => '1.1.0', 'ratePromptVisible' => false, 'highContrastTheme' => null], $controller->status()->getData());
 	}
 }
